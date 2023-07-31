@@ -1,3 +1,5 @@
+import datetime
+
 import psycopg2
 import psycopg2.extras
 import time
@@ -11,9 +13,10 @@ db_password = "postgres"
 db_host = "localhost"
 db_port = "5432"
 
-conn = psycopg2.connect( dbname=db_name, user=db_user,  password=db_password, host=db_host, port=db_port)
+conn = psycopg2.connect(dbname=db_name, user=db_user,  password=db_password, host=db_host, port=db_port)
 
 cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+# cursor = conn.cursor()
 cursor.execute("""SELECT pst.payment_id, 
                          pst.our_companies_id,
                          ag.payment_agreed_status_name
@@ -88,8 +91,17 @@ cursor.execute(
 
 )
 response = cursor.fetchall()
+
 pprint(response)
+pprint(type(response))
 print(len(response))
+# # pprint(response.payment_at)
+# # for field in response[0].keys():
+# #     print(field)
+# for row in response:
+#     # create_at_str = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
+#     # row["payment_at"] = datetime.datetime.strptime(create_at_str, '%Y-%m-%d %H:%M:%S')
+#     # row["payment_at"] = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
 # pprint(response)
 
 

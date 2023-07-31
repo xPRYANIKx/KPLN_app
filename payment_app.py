@@ -1,6 +1,7 @@
 import psycopg2
 import psycopg2.extras
 import time
+import datetime
 from pprint import pprint
 from flask import Flask, g, request, render_template, redirect, flash, url_for, session, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -30,17 +31,7 @@ db_port = "5432"
 dbase = None
 
 # Меню страницы
-hlnk_menu = [
-    {"name": "Новый платеж", "url": "new_payment"},
-    {"name": "СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ - google Chart's", "url": "payment_approval"},
-    # {"name": "СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ - datatables", "url": "payment_approval_2"},
-    {"name": "СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ - без сторонних стилей",
-        "url": "payment_approval_3"},
-    # {"name": "Список объектов", "url": "contracts_list"},
-    {"name": "Авторизация", "url": "login"},
-    {"name": "Регистрация", "url": "register"},
-    {"name": "Выйти из профиля", "url": "logout"},
-]
+hlnk_menu = None
 
 # Меню профиля
 hlnk_profile = None
@@ -503,6 +494,13 @@ def get_unapproved_payments_3():
 
             )
             all_payments = cursor.fetchall()
+
+            # Изменяем формат даты с '%Y-%m-%d %H:%M:%S.%f%z' на '%Y-%m-%d %H:%M:%S'
+            for row in all_payments:
+                payment_at_date = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
+                row["payment_at"] = datetime.datetime.strptime(payment_at_date, '%Y-%m-%d %H:%M:%S')
+
+
             # cursor.execute("""SELECT *
             # FROM payments_summary_tab
             # WHERE payment_status = 'new'""")
@@ -758,17 +756,27 @@ def register():
 
 def func_hlnk_profile():
     try:
-        global hlnk_profile
+        global hlnk_profile, hlnk_menu
         if current_user.is_authenticated:
             # Меню профиля
             hlnk_profile = {
                 "name": [current_user.get_profile_name(), '(Выйти)'], "url": "logout"},
+            hlnk_menu = [
+                {"name": "Новый платеж", "url": "new_payment"},
+                {"name": "СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ", "url": "payment_approval_3"},
+                {"name": "Регистрация", "url": "register"},
+                {"name": "Выйти из профиля", "url": "logout"}
+            ]
         else:
             # Меню профиля
             hlnk_profile = {
                 "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"},
+            hlnk_menu = [
+                {"name": "Новый платеж", "url": "new_payment"},
+                {"name": "Авторизация", "url": "login"}
+            ]
 
-        return hlnk_profile
+        return
     except Exception as e:
         return f'func_hlnk_profile ❗❗❗ Ошибка \n---{e}'
 
