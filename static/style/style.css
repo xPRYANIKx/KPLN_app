@@ -1,0 +1,434 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+@font-face {
+  font-family: "Ample Soft Pro";
+  src: local("Ample Soft Pro"), local("Ample-Soft-Pro"), url("../font/AmpleSoftPro.woff2") format("woff2"), url("../font/AmpleSoftPro.woff") format("woff"), url("../font/AmpleSoftPro.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Oswald";
+  src: url("Oswald-Regular.eot");
+  src: local("Oswald"), local("Oswald-Regular"), url("../font/Oswald-Regular.eot?#iefix") format("embedded-opentype"), url("../font/Oswald-Regular.woff2") format("woff2"), url("../font/Oswald-Regular.woff") format("woff"), url("../font/Oswald-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Oswald";
+  src: url("Oswald-Bold.eot");
+  src: local("Oswald"), local("Oswald"), url("../font/Oswald-Bold.eot?#iefix") format("embedded-opentype"), url("../font/Oswald-Bold.woff2") format("woff2"), url("../font/Oswald-Bold.woff") format("woff"), url("../font/Oswald-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: bold;
+}
+body {
+  width: 100%;
+  background-color: #f6f3f3;
+  font-family: "Ample Soft Pro";
+  font-size: 16px;
+}
+body a {
+  color: #130042;
+}
+body a:hover {
+  color: #1680a3;
+}
+body h1 {
+  text-align: center;
+  margin: 18px 0;
+  font-size: 38px;
+  line-height: 99%;
+}
+body table {
+  border: solid 2px #000000;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+}
+body table thead {
+  background-color: #4e4f4f;
+  color: #ffffff;
+}
+body table thead th {
+  cursor: pointer;
+  text-align: center;
+}
+body table th,
+body table td {
+  border: solid 2px #000000;
+  text-align: left;
+  vertical-align: middle;
+  padding: 8px;
+}
+body table .tableAlignCentre {
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+
+header {
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+  height: 60px;
+  width: 100%;
+  background-color: #000000;
+}
+header img {
+  max-width: 140px;
+  padding: 14px 10px 13px 25px;
+}
+header #header_auth__label {
+  padding: 17px 35px 15px 10px;
+  font-size: 15px;
+  color: #ffffff;
+}
+header a {
+  color: #faebd7;
+}
+header a:hover {
+  color: #5ab1ce;
+}
+
+footer {
+  flex: 0 0 auto;
+  height: 55px;
+  width: 100%;
+  background-color: #000000;
+  color: #ffffff;
+}
+footer a {
+  color: #faebd7;
+}
+footer a:hover {
+  color: #5ab1ce;
+}
+footer .footer_company {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+footer .footer_company__href {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 5px;
+  font-size: 15px;
+}
+footer .footer_company__href_bitrix24 {
+  margin-right: 8px;
+}
+footer .footer_company__copyright {
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  flex: 1 0 auto;
+  width: 92%;
+  margin-top: 60px;
+  padding: 0 40px;
+  background-color: #ffffff;
+}
+main form div {
+  display: flex;
+  flex-direction: row;
+  max-width: 530px;
+  margin: 15px 0 5px 0;
+}
+main form .hidden_label {
+  margin-bottom: 10px;
+}
+main form textarea {
+  resize: none;
+  width: 100%;
+  margin-top: 5px;
+  padding: 6px 8px;
+  border-radius: 5px;
+  font-family: "Ample Soft Pro";
+  font-size: 14px;
+}
+main form label {
+  flex: 1;
+}
+main form select,
+main form input {
+  flex: 2;
+  max-width: 320px;
+  padding: 4px 7px;
+  border: solid 1px #696969;
+  border-radius: 5px;
+  font-family: "Ample Soft Pro";
+  font-size: 14px;
+}
+main form .main_content_description {
+  font-size: 12px;
+  color: #757575;
+}
+main form button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 25px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border-width: px;
+  font-family: "Ample Soft Pro";
+  font-size: 17px;
+}
+main form button:enabled {
+  background-color: #000000;
+  color: #ffffff;
+}
+main .logInfo {
+  margin-top: -10px;
+  padding: 10px 15px 10px 15px;
+}
+main .logInfo span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.auth_form {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  padding: 15px 25px;
+  border: solid 3px rgba(239, 239, 239, 0.0901960784);
+  border-radius: 8px;
+  background-color: rgba(203, 203, 203, 0.1882352941);
+}
+.auth_form__status {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.auth_form form {
+  display: flex;
+  flex-direction: column;
+  max-width: 530px;
+}
+.auth_form form .checkbox_auth {
+  justify-content: end;
+  margin: -8px 0 -4px 0;
+  font-size: 13.5px;
+}
+.auth_form form .checkbox_auth div input {
+  flex: 0;
+}
+.auth_form form .checkbox_auth .checkbox_auth__label {
+  margin-left: 4px;
+}
+.auth_form form .button_enter {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.wrapperError {
+  padding-bottom: 88px;
+  margin: auto;
+}
+.wrapperError img {
+  width: 590px;
+}
+.wrapperError__text {
+  margin-right: 35px;
+}
+.wrapperError p {
+  text-align: center;
+  font-size: 20px;
+  line-height: 95%;
+}
+.wrapperError p a {
+  color: #4013b1;
+}
+.wrapperError p a:hover {
+  color: #1680a3;
+}
+
+#paymentForm3 {
+  margin-top: -20px;
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+  body h1 {
+    margin: 25px 0 18px 0;
+    font-size: 33px;
+  }
+  header img {
+    padding: 16px 10px 10px 20px;
+    max-width: 120px;
+  }
+  header #header_auth__label {
+    padding: 20px 18px 0px 0px;
+    font-size: 13px;
+  }
+  main {
+    width: 100%;
+  }
+  main form div {
+    flex-direction: column;
+  }
+  main p textarea::-moz-placeholder {
+    font-size: 12px;
+  }
+  main p textarea::placeholder {
+    font-size: 12px;
+  }
+  footer {
+    height: 48px;
+  }
+  footer .footer_company__href {
+    font-size: 14px;
+  }
+  footer .footer_company__copyright {
+    font-size: 9px;
+  }
+  .auth_form form .checkbox_auth {
+    flex-direction: row;
+  }
+  .wrapperError__text {
+    margin-right: 0px;
+  }
+  .wrapperError p {
+    font-size: 18px;
+  }
+}
+@media (max-width: 390px) {
+  header img {
+    padding: 18px 10px 10px 12px;
+    max-width: 110px;
+  }
+  header #header_auth__label {
+    padding: 22px 18px 0px 0px;
+    font-size: 11px;
+  }
+  main form p textarea::-moz-placeholder {
+    font-size: 11px;
+  }
+  main form p textarea::placeholder {
+    font-size: 11px;
+  }
+  main .auth_form {
+    width: 310px;
+  }
+  main .auth_form .auth_form__status {
+    font-size: 10.5px;
+  }
+}
+@media (max-width: 340px) {
+  header img {
+    max-width: 90px;
+  }
+  main form p textarea::-moz-placeholder {
+    font-size: 10.5px;
+  }
+  main form p textarea::placeholder {
+    font-size: 10.5px;
+  }
+  .wrapperError p {
+    font-size: 16px;
+  }
+}
+@media (max-width: 320px) {
+  header img {
+    padding: 20px 1px 10px 10px;
+    max-width: 85px;
+  }
+  header #header_auth__label {
+    padding: 24px 15px 15px 1px;
+    font-size: 9px;
+  }
+  main form p textarea::-moz-placeholder {
+    font-size: 9.6px;
+  }
+  main form p textarea::placeholder {
+    font-size: 9.6px;
+  }
+  main .auth_form {
+    width: 270px;
+  }
+  main .auth_form .auth_form__status {
+    font-size: 9.2px;
+  }
+  .wrapperError p {
+    font-size: 13.9px;
+  }
+}/*# sourceMappingURL=style.css.map */
