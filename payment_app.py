@@ -120,8 +120,22 @@ def coon_cursor_close(cursor, conn):
         return f'coon_cursor_close ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/')
-@login_required
+@app.route('/', methods=["POST", "GET"])
+def index():
+    """Главная страница"""
+    try:
+
+
+        # Create profile name dict
+        func_hlnk_profile()
+        pprint('func_hlnk_profile')
+
+        return render_template('index.html', menu=hlnk_menu,
+                               menu_profile=hlnk_profile, title='Главная страница')
+    except Exception as e:
+        return f'❗❗❗ index \n---{e}'
+
+# Новый договор
 def new_contract():
     """Страница создания нового договора"""
     try:
@@ -166,11 +180,11 @@ def new_contract():
                                contract_purpose_name=contract_purpose_name, vat_name=vat_name, menu=hlnk_menu,
                                menu_profile=hlnk_profile, title='Новый договор 📝')
     except Exception as e:
-        return f'❗❗❗ Ошибка \n---{e}'
+        return f'❗❗❗ new_contract \n---{e}'
 
 
-@app.route('/', methods=['POST'])
-@login_required
+# @app.route('/', methods=['POST'])
+# @login_required
 def new_contract_save_data():
     """Сохранение нового договора в БД"""
     try:
@@ -411,11 +425,10 @@ def new_payment_save_data():
         return f'new_payment_save_data ❗❗❗ Ошибка \n---{e}'
 
 
-
 @app.route('/payment_approval_3')
 @login_required
 def get_unapproved_payments_3():
-    print(current_user.get_role())
+    print('current_user.get_role()', current_user.get_role())
     """Выгрузка из БД списка несогласованных платежей"""
     try:
         # Check if the user has access to the "List of contracts" page
@@ -555,6 +568,184 @@ def approved_payments_save_data_3():
 
     except Exception as e:
         return f'approved_payments_save_data_3 ❗❗❗ Ошибка \n---{e}'
+
+
+@app.route('/payment_pay')
+@login_required
+def get_unpaid_payments():
+    print(current_user.get_role())
+    """Выгрузка из БД списка несогласованных платежей"""
+    try:
+        # Check if the user has access to the "List of contracts" page
+        if current_user.get_role() != 1:
+            abort(403)
+        else:
+
+            # Connect to the database
+            conn, cursor = coon_cursor_init_dict()
+
+            # Список платежей со статусом "new"
+            cursor.execute(
+                """SELECT 
+                        t1.payment_id,
+                        t3.contractor_name, 
+                        t4.cost_item_name, 
+                        t1.payment_number, 
+                        t1.basis_of_payment, 
+                        t5.first_name,
+                        t5.last_name,
+                        t1.payment_description, 
+                        t1.object_id,
+                        t1.partner,
+                        t1.payment_sum,
+                        '',
+                        '',
+                        t1.payment_due_date,
+                        t2.status_id,
+                        t1.payment_at,
+                        t1.payment_full_agreed_status
+                FROM payments_summary_tab AS t1
+                INNER JOIN (
+                        SELECT DISTINCT ON (payment_id) 
+                            payment_id,
+                            status_id
+                        FROM payments_andrew_statuses
+                        ORDER BY payment_id, create_at DESC
+                ) AS t2 ON t1.payment_id = t2.payment_id
+                INNER JOIN (
+                    SELECT contractor_id,
+                        contractor_name
+                    FROM our_companies            
+                ) AS t3 ON t1.our_companies_id = t3.contractor_id
+                INNER JOIN (
+                    SELECT cost_item_id,
+                        cost_item_name
+                    FROM payment_cost_items            
+                ) AS t4 ON t1.cost_item_id = t4.cost_item_id
+                INNER JOIN (
+                        SELECT user_id,
+                            first_name,
+                            last_name
+                        FROM users
+                ) AS t5 ON t1.responsible = t5.user_id
+                WHERE t1.payment_status = 'new'"""
+
+            )
+            all_payments = cursor.fetchall()
+
+            # Изменяем формат даты с '%Y-%m-%d %H:%M:%S.%f%z' на '%Y-%m-%d %H:%M:%S'
+            for row in all_payments:
+                payment_at_date = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
+                row["payment_at"] = datetime.datetime.strptime(payment_at_date, '%Y-%m-%d %H:%M:%S')
+
+
+            # Список согласованных платежей
+            cursor.execute("SELECT * FROM payments_approval")
+            unapproved_payments = cursor.fetchall()
+
+            # Список статусов платежей Андрея
+            cursor.execute(
+                """SELECT payment_agreed_status_id,
+                          payment_agreed_status_name
+                FROM payment_agreed_statuses WHERE payment_agreed_status_category = 'Andrew'""")
+            approval_statuses = cursor.fetchall()
+
+
+            # Create profile name dict
+            func_hlnk_profile()
+
+            return render_template('payment_pay.html', menu=hlnk_menu, menu_profile=hlnk_profile,
+                                   applications=all_payments, approval_statuses=approval_statuses,
+                                   title='ОПЛАТА ПЛАТЕЖЕЙ')
+    except Exception as e:
+        return f'get_unpaid_payments ❗❗❗ Ошибка \n---{e}'
+
+
+@app.route('/payment_list')
+@login_required
+def get_payments_list():
+    print(current_user.get_role())
+    """Выгрузка из БД списка несогласованных платежей"""
+    try:
+
+        # Connect to the database
+        conn, cursor = coon_cursor_init_dict()
+
+        # Список платежей со статусом "new"
+        cursor.execute(
+            """SELECT 
+                    t1.payment_id,
+                    t3.contractor_name, 
+                    t4.cost_item_name, 
+                    t1.payment_number, 
+                    t1.basis_of_payment, 
+                    t5.first_name,
+                    t5.last_name,
+                    t1.payment_description, 
+                    t1.object_id,
+                    t1.partner,
+                    t1.payment_sum,
+                    '',
+                    '',
+                    t1.payment_due_date,
+                    t2.status_id,
+                    t1.payment_at,
+                    t1.payment_full_agreed_status
+            FROM payments_summary_tab AS t1
+            INNER JOIN (
+                    SELECT DISTINCT ON (payment_id) 
+                        payment_id,
+                        status_id
+                    FROM payments_andrew_statuses
+                    ORDER BY payment_id, create_at DESC
+            ) AS t2 ON t1.payment_id = t2.payment_id
+            INNER JOIN (
+                SELECT contractor_id,
+                    contractor_name
+                FROM our_companies            
+            ) AS t3 ON t1.our_companies_id = t3.contractor_id
+            INNER JOIN (
+                SELECT cost_item_id,
+                    cost_item_name
+                FROM payment_cost_items            
+            ) AS t4 ON t1.cost_item_id = t4.cost_item_id
+            INNER JOIN (
+                    SELECT user_id,
+                        first_name,
+                        last_name
+                    FROM users
+            ) AS t5 ON t1.responsible = t5.user_id
+            WHERE t1.payment_status = 'new'"""
+
+        )
+        all_payments = cursor.fetchall()
+
+        # Изменяем формат даты с '%Y-%m-%d %H:%M:%S.%f%z' на '%Y-%m-%d %H:%M:%S'
+        for row in all_payments:
+            payment_at_date = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
+            row["payment_at"] = datetime.datetime.strptime(payment_at_date, '%Y-%m-%d %H:%M:%S')
+
+
+        # Список согласованных платежей
+        cursor.execute("SELECT * FROM payments_approval")
+        unapproved_payments = cursor.fetchall()
+
+        # Список статусов платежей Андрея
+        cursor.execute(
+            """SELECT payment_agreed_status_id,
+                      payment_agreed_status_name
+            FROM payment_agreed_statuses WHERE payment_agreed_status_category = 'Andrew'""")
+        approval_statuses = cursor.fetchall()
+
+
+        # Create profile name dict
+        func_hlnk_profile()
+
+        return render_template('payment_list.html', menu=hlnk_menu, menu_profile=hlnk_profile,
+                               applications=all_payments, approval_statuses=approval_statuses,
+                               title='СПИСОК ПЛАТЕЖЕЙ ПОЛЬЗОВАТЕЛЯ')
+    except Exception as e:
+        return f'get_payments_list ❗❗❗ Ошибка \n---{e}'
 
 
 # Function to fetch data from the database
@@ -709,29 +900,30 @@ def login():
 @login_required
 def register():
     try:
-        # Create profile name dict
-        func_hlnk_profile()
+        if current_user.get_role() != 1:
+            abort(403)
+        else:
 
-        if request.method == 'POST':
-            try:
-                conn = coon_init()
-                dbase = FDataBase(conn)
-                form_data = request.form
-                res = dbase.add_user(form_data)
-                if res:
-                    # Close the database connection
-                    conn.close()
+            if request.method == 'POST':
+                try:
+                    conn = coon_init()
+                    dbase = FDataBase(conn)
+                    form_data = request.form
+                    res = dbase.add_user(form_data)
+                    if res:
+                        # Close the database connection
+                        conn.close()
+                        return redirect(url_for('register'))
+                    else:
+                        conn.rollback()
+                        conn.close()
+                        return redirect(url_for('register'))
+
+                except Exception as e:
+                    flash(f'❗❗❗ Ошибка \n---{e}', category='error')
                     return redirect(url_for('register'))
-                else:
-                    conn.rollback()
-                    conn.close()
-                    return redirect(url_for('register'))
 
-            except Exception as e:
-                flash(f'❗❗❗ Ошибка \n---{e}', category='error')
-                return redirect(url_for('register'))
-
-        return render_template("register.html", title="Регистрация", menu=hlnk_menu, menu_profile=hlnk_profile)
+            return render_template("register.html", title="Регистрация", menu=hlnk_menu, menu_profile=hlnk_profile)
     except Exception as e:
         return f'register ❗❗❗ Ошибка \n---{e}'
 
@@ -739,23 +931,51 @@ def register():
 def func_hlnk_profile():
     try:
         global hlnk_profile, hlnk_menu
+
         if current_user.is_authenticated:
             # Меню профиля
             hlnk_profile = {
                 "name": [current_user.get_profile_name(), '(Выйти)'], "url": "logout"},
-            hlnk_menu = [
-                {"name": "Новый платеж", "url": "new_payment"},
-                {"name": "Согласование платежей", "url": "payment_approval_3"},
-                # {"name": "Регистрация", "url": "register"},
-                # {"name": "Выйти из профиля", "url": "logout"}
-            ]
+
+            # Check user role.
+            # Role: Admin
+            if current_user.get_role() == 1:
+                print('user role', current_user.get_role())
+                hlnk_menu = [
+                    {"name": "Главная страница", "url": "/",
+                     "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
+                    {"name": "Новый платеж", "url": "new_payment",
+                     "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+                    {"name": "Согласование платежей", "url": "payment_approval_3",
+                     "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
+                    {"name": "Оплата платежей", "url": "payment_pay",
+                     "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
+                    {"name": "Список платежей", "url": "payment_list",
+                     "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"},
+                    {"name": "Регистрация", "url": "register",
+                     "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"},
+                ]
+            else:
+                print('user role else', current_user.get_role())
+                hlnk_menu = [
+                    {"name": "Главная страница", "url": "/",
+                     "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
+                    {"name": "Новый платеж", "url": "new_payment",
+                     "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+                    {"name": "Список платежей", "url": "payment_list",
+                     "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
+                ]
         else:
             # Меню профиля
             hlnk_profile = {
                 "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"},
             hlnk_menu = [
-                {"name": "Новый платеж", "url": "new_payment"},
-                {"name": "Авторизация", "url": "login"}
+                {"name": "Главная страница", "url": "/",
+                 "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
+                {"name": "Новый платеж", "url": "new_payment",
+                 "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+                {"name": "Авторизация", "url": "login",
+                 "img": "https://cdn-icons-png.flaticon.com/512/2574/2574003.png"},
             ]
 
         return
@@ -764,4 +984,4 @@ def func_hlnk_profile():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
