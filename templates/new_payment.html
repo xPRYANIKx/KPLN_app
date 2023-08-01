@@ -17,19 +17,13 @@
 <body>
     <div class="wrapper">
         <header>
-            <div class="header__logo"><a href="#">
+            <div class="header__logo"><a href="/">
                     <img src="static/img/logo.png" alt="kpln_logo"></a>
             </div>
             <div id="header_auth__label">{{menu_profile[0].name[0]}} <a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
         </header>
         <main>
             <h1>{{title}}</h1>
-
-            {% for p in menu %}
-            <li><a href="{{p.url}}">{{p.name}}</a></li>
-            {% endfor %}
-            <br>
-
             <form method="POST" action="/new_payment">
                 <p><label for="basis_of_payment">Наименование платежа *</label>
                     <textarea id="basis_of_payment" rows="1" name="basis_of_payment" required oninput="checkForm()"></textarea>
@@ -37,9 +31,6 @@
                     оплата
                     по акту по договору</p>
                 </p>
-
-
-
                 <div><label for="responsible">Ответственный</label>
                     <select class="selectSearch" id="responsible" name="responsible" required oninput="checkForm()">
                         <option value="" disabled selected hidden>Выберите ответственного</option>
