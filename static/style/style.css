@@ -328,6 +328,10 @@ main .logInfo span {
   font-size: 14.4px;
 }
 
+.select2-container--default {
+  max-width: 120%;
+}
+
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   line-height: 27px;
 }
@@ -384,6 +388,9 @@ main .logInfo span {
   }
   .wrapperError p {
     font-size: 18px;
+  }
+  .select2-container--default {
+    max-width: 100%;
   }
 }
 @media (max-width: 390px) {
