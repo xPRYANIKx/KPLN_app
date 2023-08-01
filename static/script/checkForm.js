@@ -1,6 +1,6 @@
 function checkForm() {
     var field1 = document.getElementById('basis_of_payment').value;
-    var field2 = document.getElementById('responsible').value;
+    var field2 = document.getElementById('responsible_name').value;
     var field3 = document.getElementById('cost_items').value;
     var field4 = document.getElementById('objects_name').value;
     var field5 = document.getElementById('payment_description').value;
@@ -27,6 +27,7 @@ function checkForm() {
     if (field1 !== '' && field2 !== '' && field3 !== '' && field4 !== '' && field5 !== '' && field6 !== '' &&
         field7 !== '' && field8 !== '') {
         document.getElementById('submitBtn').disabled = false;
+        console.log(document.getElementById('responsible_name').value)
     } else {
         document.getElementById('submitBtn').disabled = true;
     }

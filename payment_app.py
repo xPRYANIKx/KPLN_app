@@ -291,7 +291,7 @@ def new_payment_save_data():
 
             # Get the form data from the request
             basis_of_payment = request.form.get('basis_of_payment')
-            responsible = request.form.get('responsible')
+            responsible = request.form.get('responsible_name')
             cost_items = request.form.get('cost_items').split('-@@@-')[1]
             object_id = request.form.get('objects_name')
             payment_description = request.form.get('payment_description')
@@ -299,6 +299,13 @@ def new_payment_save_data():
             payment_due_date = request.form.get('payment_due_date')
             our_company = request.form.get('our_company')
             payment_sum = request.form.get('payment_sum')
+            payment_sum = payment_sum.replace(' руб.', '').replace(" ", "").replace(",", ".")
+
+
+            for key, value in request.form.items():
+                print(f"Форма: {key}, Значение: {value}")
+            print(our_company)
+            print(payment_sum)
 
             # Connect to the database
             conn, cursor = coon_cursor_init()
@@ -317,14 +324,13 @@ def new_payment_save_data():
             query_s_t = """
             INSERT INTO payments_summary_tab (
                 our_companies_id,
-                cost_items_id,
+                cost_item_id,
                 payment_number,
                 basis_of_payment,
                 payment_description,
                 object_id,
                 partner,
                 payment_sum,
-
                 payment_due_date,
                 payment_owner,
                 responsible
@@ -342,8 +348,18 @@ def new_payment_save_data():
                 %s,
                 %s
             )"""
-            values_s_t = (our_company, cost_items, payment_number, basis_of_payment, payment_description, object_id,
-                          partner, payment_sum, payment_due_date, current_user.get_id(), responsible)
+            values_s_t = (
+                our_company,
+                cost_items,
+                payment_number,
+                basis_of_payment,
+                payment_description,
+                object_id,
+                partner,
+                payment_sum,
+                payment_due_date,
+                current_user.get_id(),
+                responsible)
 
             # Prepare the SQL query to insert the data into the payments_andrew_statuses
             query_a_s = """
@@ -394,42 +410,6 @@ def new_payment_save_data():
     except Exception as e:
         return f'new_payment_save_data ❗❗❗ Ошибка \n---{e}'
 
-
-@app.route('/payment_approval')
-@login_required
-def get_unapproved_payments():
-    print(current_user.get_role())
-    """Выгрузка из БД списка несогласованных платежей"""
-    try:
-        # Check if the user has access to the "List of contracts" page
-        if current_user.get_role() != 1:
-            abort(403)
-        else:
-            contracts = get_contracts()
-
-            # Connect to the database
-            conn, cursor = coon_cursor_init()
-
-            # Список платежей со статусом "new"
-            cursor.execute(
-                "SELECT * FROM payments_summary_tab WHERE payment_status = 'new'")
-            all_payments = cursor.fetchall()
-
-            # Список согласованных платежей
-            cursor.execute("SELECT * FROM payments_approval")
-            unapproved_payments = cursor.fetchall()
-
-            pprint(all_payments)
-            pprint(unapproved_payments)
-
-            # Create profile name dict
-            func_hlnk_profile()
-
-            return render_template('payment_approval.html', menu=hlnk_menu, menu_profile=hlnk_profile,
-
-                                   title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
-    except Exception as e:
-        return f'get_unapproved_payments ❗❗❗ Ошибка \n---{e}'
 
 
 @app.route('/payment_approval_3')
@@ -657,6 +637,7 @@ def logout():
         #     flash(f'❌ Перед выходом из сети необходимо войти в сеть', category='error')
         #     return redirect(url_for('login'))
         logout_user()
+        func_hlnk_profile()
         flash(f'✔️ Вы вышли из аккаунта', category='success')
 
         # Меню профиля
@@ -677,6 +658,7 @@ def profile():
 
         # Create profile name dict
         func_hlnk_profile()
+
 
         return render_template("profile.html", title="Профиль", menu=hlnk_menu, menu_profile=hlnk_profile, name=name)
     except Exception as e:
@@ -763,9 +745,9 @@ def func_hlnk_profile():
                 "name": [current_user.get_profile_name(), '(Выйти)'], "url": "logout"},
             hlnk_menu = [
                 {"name": "Новый платеж", "url": "new_payment"},
-                {"name": "СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ", "url": "payment_approval_3"},
-                {"name": "Регистрация", "url": "register"},
-                {"name": "Выйти из профиля", "url": "logout"}
+                {"name": "Согласование платежей", "url": "payment_approval_3"},
+                # {"name": "Регистрация", "url": "register"},
+                # {"name": "Выйти из профиля", "url": "logout"}
             ]
         else:
             # Меню профиля
