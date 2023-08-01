@@ -6,25 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
     <script src="static/script/jquery.min.js"></script>
-    <script src="static/script/select2.min.js"></script>
-    <link rel="stylesheet" href="static/style/select2.min.css/"">
-    <link rel=" stylesheet" href="static/style/style.css">
+    <link rel="stylesheet" href="static/style/select2.min.css">
+    <link rel="stylesheet" href="static/style/style.css">
     <script src="static/script/checkForm.js"></script>
+    <script src="static/script/select2.min.js"></script>
+    <script src="static/script/selectSearch.js"></script>
     <script src="static/script/numberWithSpaces.js"></script>
-    <script src="static/script/searchSelect.js">
-    </script>
     <title>{{title}}</title>
+
 </head>
 <body>
     <div class="wrapper">
         <header>
-            <div class="header__logo">
-                <img src="static/img/logo.png" alt="kpln_logo">
+            <div class="header__logo"><a href="#">
+                    <img src="static/img/logo.png" alt="kpln_logo"></a>
             </div>
             <div id="header_auth__label">{{menu_profile[0].name[0]}} <a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
         </header>
         <main>
-
             <h1>{{title}}</h1>
 
             {% for p in menu %}
@@ -39,17 +38,23 @@
                     оплата
                     по акту по договору</p>
                 </p>
+
+
+
                 <div><label for="responsible">Ответственный</label>
-                    <select class="searchSelect" id="responsible" name="responsible" required oninput="checkForm()">
-                        <option value="" disabled selected hidden>Выберите ответственного...</option>
+                    <select class="selectSearch" id="responsible" name="responsible" required oninput="checkForm()">
+                        <option value="" disabled selected hidden>Выберите ответственного</option>
                         {% for r in responsible %}
                         <option value="{{ r[0] }}">{{ r[1] }} {{ r[2] }}</option>
                         {% endfor %}
                     </select>
                 </div>
+
+
+
                 <div><label for="cost_items">Тип заявки</label>
-                    <select id="cost_items" name="cost_items" required oninput="checkForm()">
-                        <option value="" disabled selected hidden>Выберите тип заявки...</option>
+                    <select class="selectSearch" id="cost_items" name="cost_items" required oninput="checkForm()">
+                        <option value="" disabled selected hidden>Выберите тип заявки</option>
                         {% for category, names in cost_items.items() %}
                         <optgroup label="{{ category }}">
                             {% for name in names %}
@@ -60,8 +65,8 @@
                     </select>
                 </div>
                 <div class="hidden_label"><label for="objects_name" id="objects_name_label" hidden>Наименование объекта</label>
-                    <select id="objects_name" name="objects_name" oninput="checkForm()" hidden>
-                        <option value="" disabled selected hidden>Выберите объект...</option>
+                    <select class="selectSearch" id="objects_name" name="objects_name" oninput="checkForm()" hidden>
+                        <option value="" disabled selected hidden>Выберите объект</option>
                         {% for object_name in objects_name %}
                         <option value="{{ object_name[0] }}">{{ object_name[1] }}</option>
                         {% endfor %}
@@ -85,16 +90,15 @@
                     <input type="date" onload="getDate()" name="payment_due_date" id="payment_due_date" value="{{ today }}" required oninput="checkForm()">
                 </div>
                 <div><label for="our_company" 1>Компания</label>
-                    <select id="our_company" name="our_company" required oninput="checkForm()">
-                        <option value="" disabled selected hidden>Выберите компанию...</option>
+                    <select class="selectSearch" id="our_company" name="our_company" required oninput="checkForm()">
+                        <option value="" disabled selected hidden>Выберите компанию</option>
                         {% for our_company in our_companies %}
                         <option value="{{ our_company[0] }}">{{ our_company[0] }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div><label for="payment_sum">Сумма оплаты</label>
-                    <input type="text" placeholder="&#8381;" id="payment_sum" placeholder="" onchange="numberWithSpaces(event, ' руб.')"
-                        oninput="checkForm()" />
+                    <input type="text" placeholder="руб." id="payment_sum" placeholder="" onchange="numberWithSpaces(event, ' руб.')" oninput="checkForm()" />
                 </div>
                 <button type=" submit" id="submitBtn" disabled>Сохранить</button>
             </form>

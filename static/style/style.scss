@@ -144,7 +144,7 @@ main {
             flex: 2;
             max-width: 320px;
             padding: 4px 7px;
-            border: solid 1px #696969;
+            border: solid 1px #aaa;
             border-radius: 5px;
             font-family: "Ample Soft Pro";
             font-size: 14px;
@@ -237,11 +237,29 @@ main {
         }
     }
 }
-
 #paymentForm3 {
     margin-top: -20px;
 }
-
+///
+///
+///
+///
+.select2-selection {
+    font-size: 14.4px;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 27px;
+}
+.select2-results {
+    font-size: 13px;
+    strong {
+        font-weight: bold;
+    }
+}
+///
+///
+///
+///
 @media (max-width: 600px) {
     body {
         font-size: 14px;
