@@ -5,23 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
-    <link rel="stylesheet" href="static/style/style.css">
+    <script src="static/script/jquery.min.js"></script>
+    <script src="static/script/select2.min.js"></script>
+    <link rel="stylesheet" href="static/style/select2.min.css/"">
+    <link rel=" stylesheet" href="static/style/style.css">
     <script src="static/script/checkForm.js"></script>
     <script src="static/script/numberWithSpaces.js"></script>
+    <script src="static/script/searchSelect.js">
+    </script>
     <title>{{title}}</title>
 </head>
-
 <body>
     <div class="wrapper">
-
-
         <header>
             <div class="header__logo">
                 <img src="static/img/logo.png" alt="kpln_logo">
             </div>
             <div id="header_auth__label">{{menu_profile[0].name[0]}} <a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
         </header>
-
         <main>
 
             <h1>{{title}}</h1>
@@ -39,7 +40,7 @@
                     по акту по договору</p>
                 </p>
                 <div><label for="responsible">Ответственный</label>
-                    <select id="responsible" name="responsible" required oninput="checkForm()">
+                    <select class="searchSelect" id="responsible" name="responsible" required oninput="checkForm()">
                         <option value="" disabled selected hidden>Выберите ответственного...</option>
                         {% for r in responsible %}
                         <option value="{{ r[0] }}">{{ r[1] }} {{ r[2] }}</option>
