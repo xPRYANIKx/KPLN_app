@@ -5,46 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
-    <link rel="stylesheet" href="static/style/style.css">
+    <script src="static/script/jquery.min.js"></script>
+    <script src="static/script/select2.min.js"></script>
+    <link rel="stylesheet" href="static/style/select2.min.css/"">
+    <link rel=" stylesheet" href="static/style/style.css">
     <script src="static/script/checkForm.js"></script>
     <script src="static/script/numberWithSpaces.js"></script>
-    <script src="static/script/responsibleValidateInput.js"></script>
-    <title>{{title}}</title>
-    <script>
-function Select1Changed(elem) {
-  let location = 'please select a valid option';
-  let dt = document.getElementById('responsible_name');
-  for (let i = 0; i < dt.childElementCount; i++) {
-    if (dt.children[i].attributes.value.value === elem.value) {
-      location = dt.children[i].attributes.location.value;
-    }
-  }
-  console.log(location)
-  document.getElementById('responsible_name').value = location
-  console.log(document.getElementById('responsible_name').value)
-}
+    <script src="static/script/searchSelect.js">
     </script>
-
-    <style>
-        option[data-value] {
-            color: transparent;
-        }
-    </style>
-
-
+    <title>{{title}}</title>
 </head>
-
 <body>
     <div class="wrapper">
-
-
         <header>
             <div class="header__logo">
                 <img src="static/img/logo.png" alt="kpln_logo">
             </div>
             <div id="header_auth__label">{{menu_profile[0].name[0]}} <a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
         </header>
-
         <main>
 
             <h1>{{title}}</h1>
@@ -62,18 +40,12 @@ function Select1Changed(elem) {
                     по акту по договору</p>
                 </p>
                 <div><label for="responsible">Ответственный</label>
-<!--                    <input type="text" id="responsible" name="responsible" list="responsible_name" oninput="validateInput(); checkForm()">-->
-<!--                    <input type="text" id="responsible" name="responsible" list="responsible_name" oninput="validateInput(); checkForm()">-->
-                    <input list="responsible_name" name="responsible" id="responsible" oninput="validateInput(); checkForm(); Select1Changed(this)">
-                    <datalist id="responsible_name" name="employee-list">
-                        <option data-value="1" >Doe</option>
-                        <option data-value="2" >Smith</option>
-                        <option data-value="3" >Johnson</option>
-<!--                        <option value="" disabled selected hidden>Выберите ответственного...</option>-->
-<!--                        {% for r in responsible %}-->
-<!--                            <option value="{{ r[1] }} {{ r[2][0] }}." location="{{ r[0] }}"></option>-->
-<!--                        {% endfor %}-->
-                    </datalist>
+                    <select class="searchSelect" id="responsible" name="responsible" required oninput="checkForm()">
+                        <option value="" disabled selected hidden>Выберите ответственного...</option>
+                        {% for r in responsible %}
+                        <option value="{{ r[0] }}">{{ r[1] }} {{ r[2] }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div><label for="cost_items">Тип заявки</label>
                     <select id="cost_items" name="cost_items" required oninput="checkForm()">
@@ -112,7 +84,7 @@ function Select1Changed(elem) {
                 <div><label for="payment_due_date">Срок оплаты</label>
                     <input type="date" onload="getDate()" name="payment_due_date" id="payment_due_date" value="{{ today }}" required oninput="checkForm()">
                 </div>
-                <div><label for="our_company">Компания</label>
+                <div><label for="our_company" 1>Компания</label>
                     <select id="our_company" name="our_company" required oninput="checkForm()">
                         <option value="" disabled selected hidden>Выберите компанию...</option>
                         {% for our_company in our_companies %}
@@ -121,7 +93,7 @@ function Select1Changed(elem) {
                     </select>
                 </div>
                 <div><label for="payment_sum">Сумма оплаты</label>
-                    <input type="text" placeholder="&#8381;" name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' руб.')"
+                    <input type="text" placeholder="&#8381;" id="payment_sum" placeholder="" onchange="numberWithSpaces(event, ' руб.')"
                         oninput="checkForm()" />
                 </div>
                 <button type=" submit" id="submitBtn" disabled>Сохранить</button>
