@@ -1,4 +1,4 @@
-![image](https://github.com/xPRYANIKx/KPLN_app/assets/97847992/84b29dbb-9963-4eb7-b84c-3c2b58ad2aa3)# KPLN_app
+# KPLN_app
 KPLN_app
 
 #######################################################################################################
