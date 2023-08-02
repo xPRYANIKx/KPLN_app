@@ -1,4 +1,12 @@
 $(document).ready(function () {
     $('.selectSearch').select2();
-    checkForm()
 });
+
+$(document).ready(function () {
+    checkForm();
+});
+
+////$( ".selectSearch" ).change(checkForm());
+//$( ".selectSearch" ).on( "change", function() {
+// console.log( "Handler for .change() called." );
+//});

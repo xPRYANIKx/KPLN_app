@@ -277,6 +277,12 @@ def new_payment():
         cursor.execute("SELECT contractor_name FROM our_companies")
         our_companies = cursor.fetchall()
 
+        cursor.execute(
+            "SELECT nextval(pg_get_serial_sequence('payments_summary_tab', 'payment_id'))")
+        # "SELECT payment_id FROM payments_summary_tab ORDER BY payment_id DESC LIMIT 1")
+        last_payment_id = cursor.fetchall()
+        print(last_payment_id[0][0])
+
         # Close the database connection
         coon_cursor_close(cursor, conn)
 
@@ -303,11 +309,17 @@ def new_payment_save_data():
             #     # session['submitted'] = False
             #     return redirect(url_for('new_payment'))
 
+
+
+
             # Get the form data from the request
             basis_of_payment = request.form.get('basis_of_payment')
-            responsible = request.form.get('responsible_name')
+            responsible = request.form.get('responsible')
             cost_items = request.form.get('cost_items').split('-@@@-')[1]
-            object_id = request.form.get('objects_name')
+            try:
+                object_id = request.form.get('objects_name')
+            except:
+                object_id = None
             payment_description = request.form.get('payment_description')
             partner = request.form.get('partners')
             payment_due_date = request.form.get('payment_due_date')
@@ -315,15 +327,29 @@ def new_payment_save_data():
             payment_sum = request.form.get('payment_sum')
             payment_sum = payment_sum.replace(' руб.', '').replace(" ", "").replace(",", ".")
 
-
             for key, value in request.form.items():
                 print(f"Форма: {key}, Значение: {value}")
-            print(our_company)
+
+            # Connect to the database
+            conn, cursor = coon_cursor_init()
+
+
+
+            # return redirect(url_for('new_payment'))
+            #
+            # print(our_company)
             print(payment_sum)
 
             # Connect to the database
             conn, cursor = coon_cursor_init()
 
+            cursor.execute(
+                "SELECT nextval(pg_get_serial_sequence('payments_summary_tab', 'payment_id'))")
+            # "SELECT payment_id FROM payments_summary_tab ORDER BY payment_id DESC LIMIT 1")
+            last_payment_id = cursor.fetchall()
+
+            # cursor.execute(
+            #     "SELECT payment_id FROM payments_summary_tab ORDER BY payment_id DESC LIMIT 1")
             cursor.execute(
                 "SELECT payment_id FROM payments_summary_tab ORDER BY payment_id DESC LIMIT 1")
             last_payment_id = cursor.fetchall()
@@ -374,6 +400,8 @@ def new_payment_save_data():
                 payment_due_date,
                 current_user.get_id(),
                 responsible)
+
+            pprint(values_s_t)
 
             # Prepare the SQL query to insert the data into the payments_andrew_statuses
             query_a_s = """
@@ -836,7 +864,9 @@ def logout():
             "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"}
 
         # return redirect(url_for('login'))
-        return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
+        # return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
+        return render_template('index.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
+        return index()
     except Exception as e:
         return f'logout ❗❗❗ Ошибка \n---{e}'
 
@@ -974,8 +1004,8 @@ def func_hlnk_profile():
                  "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
                 {"name": "Новый платеж", "url": "new_payment",
                  "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
-                {"name": "Авторизация", "url": "login",
-                 "img": "https://cdn-icons-png.flaticon.com/512/2574/2574003.png"},
+                # {"name": "Авторизация", "url": "login",
+                #  "img": "https://cdn-icons-png.flaticon.com/512/2574/2574003.png"},
             ]
 
         return
