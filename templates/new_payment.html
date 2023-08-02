@@ -19,7 +19,7 @@
 
 
     {% if get_flashed_messages(True) %}
-    <dialog id="logInfo" open>
+    <dialog class="window {{get_flashed_messages(True)[0][0]}}" id="logInfo" open>
         <span>Статус:</span>
         <!-- {% for cat, msg in get_flashed_messages(True) %}
             <div class="flash {{cat}}">{{msg}}</div>
@@ -47,15 +47,15 @@
             <div id="header_auth__label">{{menu_profile[0].name[0]}} <a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
         </header>
         <main>
-            <h1>{{title}}</h1>
             <form method="POST" action="/new_payment">
-                <p><label for="basis_of_payment">Наименование платежа *</label>
+                <h1>{{title}}</h1>
+                <p><label for="basis_of_payment">Наименование платежа*</label>
                     <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required oninput="checkForm()"></textarea>
                 <p class="main_content_description">* Аванс по договору №, такой-то с субподрядчиком (наименование субподрядчика в контрагенты) или
                     оплата
                     по акту по договору</p>
                 </p>
-                <div><label for="responsible">Ответственный *</label>
+                <div><label for="responsible">Ответственный*</label>
                     <select class="selectSearch" name="responsible" id="responsible" required onchange="checkForm()">
                         <option value="" disabled selected hidden>Выберите ответственного</option>
                         {% for r in responsible %}
@@ -63,28 +63,30 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div><label for="cost_items">Тип заявки *</label>
-                    <select class="selectSearch" name="cost_items" id="cost_items" required onchange="checkForm()">
-                        <option value="" disabled selected hidden>Выберите тип заявки</option>
-                        {% for category, names in cost_items.items() %}
-                        <optgroup label="{{ category }}">
-                            {% for name in names %}
-                            <option value="{{ category }}-@@@-{{ name[1] }}">{{ name[0] }}</option>
+                <div class="mainform">
+                    <div><label for="cost_items">Тип заявки*</label>
+                        <select class="selectSearch" name="cost_items" id="cost_items" required onchange="checkForm()">
+                            <option value="" disabled selected hidden>Выберите тип заявки</option>
+                            {% for category, names in cost_items.items() %}
+                            <optgroup label="{{ category }}">
+                                {% for name in names %}
+                                <option value="{{ category }}-@@@-{{ name[1] }}">{{ name[0] }}</option>
+                                {% endfor %}
+                            </optgroup>
+                            {% endfor %}div
+                        </select>
+                    </div>
+                    <div class="hidden_label" id="objects_name_div">
+                        <label for="objects_name" id="objects_name_label">Наименование объекта*</label>
+                        <select class="selectSearch" name="objects_name" id="objects_name" onchange="checkForm()">
+                            <option value="" disabled selected hidden>Выберите объект</option>
+                            {% for object_name in objects_name %}
+                            <option value="{{ object_name[0] }}">{{ object_name[1] }}</option>
                             {% endfor %}
-                        </optgroup>
-                        {% endfor %}div
-                    </select>
+                        </select>
+                    </div>
                 </div>
-                <div class="hidden_label" id="objects_name_div">
-                    <label for="objects_name" id="objects_name_label">Наименование объекта *</label>
-                    <select class="selectSearch" name="objects_name" id="objects_name" onchange="checkForm()">
-                        <option value="" disabled selected hidden>Выберите объект</option>
-                        {% for object_name in objects_name %}
-                        <option value="{{ object_name[0] }}">{{ object_name[1] }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <p><label for="payment_description">Описание *</label>
+                <p><label for="payment_description">Описание*</label>
                     <textarea name="payment_description" id="payment_description" rows="4"
                         placeholder="Укажите:&#10;- Наименование работ (ООС, техрегламент, ПОС и т.п.)&#10;- Статус, за что платим (работы выполнены, аванс, работы приняты заказчиком)"
                         required oninput="checkForm()"></textarea>
@@ -98,7 +100,7 @@
                         {% endfor %}
                     </datalist>
                 </div>
-                <div><label for="payment_due_date">Срок оплаты *</label>
+                <div><label for="payment_due_date">Срок оплаты*</label>
                     <input type="date" onload="getDate()" name="payment_due_date" id="payment_due_date" value="{{ today }}" required oninput="checkForm()">
                 </div>
                 <div><label for="our_company">Компания *</label>
@@ -109,28 +111,24 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div><label for="payment_sum">Сумма оплаты *</label>
+                <div><label for="payment_sum">Сумма оплаты*</label>
                     <input type="text" placeholder="руб." name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' руб.')"
                         oninput="checkForm()" />
                 </div>
-                <button type="submit" id="submitBtn" disabled onclick="window['logInfo'].myDialog.showModal();"">Сохранить</button>
+                <div class="help_p">* - поля обязательные для заполнения</div>
+                <button type="submit" id="submitBtn" onclick="window['logInfo'].showModal();" disabled>Сохранить</button>
             </form>
-
-
-
-
-
         </main>
 
         <footer>
             <div class=" footer_company">
-                    <div class="footer_company__href">
-                        <div class="footer_company__href_bitrix24"><a href="https://kpln.bitrix24.ru/">Битрикс24</a></div>
-                        <div class="footer_company__href_moodle"><a href="http://moodle/">Учебный центр</a></div>
-                    </div>
-                    <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbsp Проектное бюро "Крупный план"</div>
-    </div>
-    </footer>
+                <div class="footer_company__href">
+                    <div class="footer_company__href_bitrix24"><a href="https://kpln.bitrix24.ru/">Битрикс24</a></div>
+                    <div class="footer_company__href_moodle"><a href="http://moodle/">Учебный центр</a></div>
+                </div>
+                <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbsp Проектное бюро "Крупный план"</div>
+            </div>
+        </footer>
 
     </div>
     <script src="static/script/todayYear.js"></script>

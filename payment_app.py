@@ -417,7 +417,7 @@ def new_payment_save_data():
                 # Close the database connection
                 coon_cursor_close(cursor, conn)
 
-                flash(['Платёж НЕ сохранён', str(e)], category='error')
+                flash(['Платёж не сохранён', str(e)], category='error')
                 return redirect(url_for('new_payment'))
         return redirect(url_for('new_payment'))
 

@@ -14,7 +14,7 @@ body {
     }
     h1 {
         text-align: center;
-        margin: 18px 0;
+        margin: 25px 0;
         font-size: 38px;
         line-height: 99%;
     }
@@ -24,14 +24,24 @@ body {
         top: 50%;
         transform: translate(-50%, -50%);
         z-index: 2;
-        border: solid 1px #919191;
-        border-radius: 5px;
+        border: solid 1px #d5d5d547;
+        border-radius: 9px;
         span {
             font-size: 23px;
             font-weight: bold;
         }
+        div {
+            font-size: 14px;
+        }
         button {
-            margin-top: 10px;
+            margin-top: 8px;
+            width: 80px;
+            padding: 3px;
+            float: right;
+            border: solid 1px #b1b0b0;
+            border-radius: 5px;
+            font-family: "Ample Soft Pro";
+            font-size: 15px;
         }
     }
     table {
@@ -58,7 +68,22 @@ body {
             text-align: center;
         }
     }
+    .window.error {
+        background-color: #f1d9e1;
+    }
+    .window.success {
+        background-color: #f3fffc;
+    }
+    .help_p {
+        margin-top: 30px;
+        padding: 5px 0px 5px 8px;
+        width: 240px;
+        border-radius: 3px;
+        font-size: 13px;
+        background-color: #ffe7918a;
+    }
 }
+
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -73,6 +98,7 @@ header {
     height: 60px;
     width: 100%;
     background-color: #000000;
+    z-index: 2;
     img {
         max-width: 140px;
         padding: 14px 10px 13px 25px;
@@ -134,6 +160,11 @@ main {
     padding: 0 40px;
     background-color: #ffffff;
     form {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 520px;
         div {
             display: flex;
             flex-direction: row;
@@ -164,6 +195,18 @@ main {
             border-radius: 5px;
             font-family: "Ample Soft Pro";
             font-size: 14px;
+        }
+        .mainform {
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+            margin-bottom: 16px;
+            padding: 0px 15px 8px 15px;
+            background-color: #e7e7e796;
+            font-size: 14.5px;
+            select2-container {
+                width: 260px;
+            }
         }
         .main_content_description {
             font-size: 12px;
@@ -256,10 +299,6 @@ main {
 #paymentForm3 {
     margin-top: -20px;
 }
-///
-///
-///
-///
 .select2-selection {
     font-size: 14.4px;
 }
@@ -275,11 +314,8 @@ main {
         font-weight: bold;
     }
 }
-///
-///
-///
-///
-@media (max-width: 600px) {
+
+@media (max-width: 665px) {
     body {
         font-size: 14px;
         h1 {
@@ -300,8 +336,14 @@ main {
     main {
         width: 100%;
         form {
+            position: static;
+            transform: translate(-0%, -0%);
+            width: 100%;
             div {
                 flex-direction: column;
+            }
+            .mainform {
+                font-size: 14px;
             }
         }
         p {
@@ -416,6 +458,12 @@ main {
             .auth_form__status {
                 font-size: 9.2px;
             }
+        }
+        .help_p {
+            width: 200px;
+            border-radius: 3px;
+            font-size: 10.5px;
+            background-color: #ffe7918a;
         }
     }
     .wrapperError {
