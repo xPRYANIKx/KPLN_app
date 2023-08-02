@@ -18,6 +18,22 @@ body {
         font-size: 38px;
         line-height: 99%;
     }
+    #logInfo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        border: solid 1px #919191;
+        border-radius: 5px;
+        span {
+            font-size: 23px;
+            font-weight: bold;
+        }
+        button {
+            margin-top: 10px;
+        }
+    }
     table {
         border: solid 2px #000000;
         border-collapse: collapse;

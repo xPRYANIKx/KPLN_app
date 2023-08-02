@@ -103,6 +103,22 @@ body h1 {
   font-size: 38px;
   line-height: 99%;
 }
+body #logInfo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  border: solid 1px #919191;
+  border-radius: 5px;
+}
+body #logInfo span {
+  font-size: 23px;
+  font-weight: bold;
+}
+body #logInfo button {
+  margin-top: 10px;
+}
 body table {
   border: solid 2px #000000;
   border-collapse: collapse;
