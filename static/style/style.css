@@ -338,9 +338,15 @@ main .logInfo span {
   font-size: 14px;
 }
 .auth_form form {
+  position: static;
+  transform: translate(0%, 0%);
+  width: 100%;
   display: flex;
   flex-direction: column;
   max-width: 530px;
+}
+.auth_form form h1 {
+  margin: 0px 0px 10px 0px;
 }
 .auth_form form .checkbox_auth {
   justify-content: end;
@@ -450,6 +456,9 @@ main .logInfo span {
   }
   .auth_form form .checkbox_auth {
     flex-direction: row;
+  }
+  .auth_form form h1 {
+    margin: 0px 0px 0px 0px;
   }
   .wrapperError__text {
     margin-right: 0px;
