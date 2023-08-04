@@ -91,26 +91,56 @@ body {
   font-family: "Ample Soft Pro";
   font-size: 16px;
 }
-body a {
-  color: #130042;
-}
-body a:hover {
-  color: #1680a3;
-}
 body h1 {
   text-align: center;
   margin: 25px 0;
   font-size: 38px;
   line-height: 99%;
 }
+body a {
+  color: #130042;
+}
+body a:hover {
+  color: #1680a3;
+}
+body .help_p {
+  width: 240px;
+  margin-top: 30px;
+  padding: 5px 0px 5px 8px;
+  border-radius: 3px;
+  font-size: 13px;
+  background-color: rgba(255, 231, 145, 0.5411764706);
+}
+body table {
+  width: 100%;
+  border: solid 2px #000000;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+body table thead {
+  background-color: #4e4f4f;
+  color: #ffffff;
+}
+body table thead th {
+  text-align: center;
+  cursor: pointer;
+}
+body table th,
+body table td {
+  text-align: left;
+  vertical-align: middle;
+  padding: 8px;
+  border: solid 2px #000000;
+}
 body #logInfo {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  z-index: 6;
   border: solid 1px rgba(213, 213, 213, 0.2784313725);
   border-radius: 9px;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 body #logInfo span {
   font-size: 23px;
@@ -129,46 +159,13 @@ body #logInfo button {
   font-family: "Ample Soft Pro";
   font-size: 15px;
 }
-body table {
-  border: solid 2px #000000;
-  border-collapse: collapse;
-  width: 100%;
-  font-size: 14px;
-}
-body table thead {
-  background-color: #4e4f4f;
-  color: #ffffff;
-}
-body table thead th {
-  cursor: pointer;
-  text-align: center;
-}
-body table th,
-body table td {
-  border: solid 2px #000000;
-  text-align: left;
-  vertical-align: middle;
-  padding: 8px;
-}
-body table .tableAlignCentre {
-  text-align: center;
-}
 body .window.error {
   background-color: #f1d9e1;
 }
 body .window.success {
   background-color: #f3fffc;
 }
-body .help_p {
-  margin-top: 30px;
-  padding: 5px 0px 5px 8px;
-  width: 240px;
-  border-radius: 3px;
-  font-size: 13px;
-  background-color: rgba(255, 231, 145, 0.5411764706);
-}
-
-.wrapper {
+body .wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -178,18 +175,21 @@ body .help_p {
 header {
   display: flex;
   position: fixed;
-  justify-content: space-between;
-  height: 60px;
   width: 100%;
+  height: 55px;
+  z-index: 10;
+  flex-direction: row;
+  justify-content: space-between;
   background-color: #000000;
-  z-index: 2;
 }
 header img {
   max-width: 140px;
-  padding: 14px 10px 13px 25px;
+  padding: 10px;
 }
 header #header_auth__label {
-  padding: 17px 35px 15px 10px;
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
   font-size: 15px;
   color: #ffffff;
 }
@@ -200,10 +200,42 @@ header a:hover {
   color: #5ab1ce;
 }
 
+#menu {
+  display: none;
+  position: absolute;
+  width: 400px;
+  min-height: 300px;
+  z-index: 8;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.91);
+  color: #ffffff;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+#menu .menu_content {
+  display: flex;
+  position: absolute;
+  top: 36%;
+  align-items: center;
+  margin-right: 15px;
+  font-size: 16px;
+}
+#menu .menu_content a {
+  color: #ffffff;
+  text-decoration: none;
+}
+#menu .menu_content a:hover {
+  color: #e3d47f;
+}
+
+#menuImage {
+  cursor: pointer;
+}
+
 footer {
-  flex: 0 0 auto;
   height: 55px;
   width: 100%;
+  z-index: 4;
+  flex: 0 0 auto;
   background-color: #000000;
   color: #ffffff;
 }
@@ -237,32 +269,30 @@ footer .footer_company__copyright {
 main {
   display: flex;
   flex-direction: column;
-  align-self: center;
-  flex: 1 0 auto;
+  z-index: 4;
   width: 92%;
-  margin-top: 60px;
-  padding: 0 40px;
+  flex: 1 0 auto;
+  justify-content: center;
+  align-self: center;
+  padding: 60px 40px 0px 40px;
   background-color: #ffffff;
 }
 main form {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   width: 520px;
+  align-self: center;
 }
 main form div {
   display: flex;
-  flex-direction: row;
   max-width: 530px;
+  flex-direction: row;
   margin: 15px 0 5px 0;
 }
 main form .hidden_label {
   margin-bottom: 10px;
 }
 main form textarea {
-  resize: none;
   width: 100%;
+  resize: none;
   margin-top: 5px;
   padding: 6px 8px;
   border-radius: 5px;
@@ -274,15 +304,15 @@ main form label {
 }
 main form select,
 main form input {
-  flex: 2;
   max-width: 320px;
+  flex: 2;
   padding: 4px 7px;
   border: solid 1px #aaa;
   border-radius: 5px;
   font-family: "Ample Soft Pro";
   font-size: 14px;
 }
-main form .mainform {
+main form .unitedform {
   display: flex;
   flex-direction: column;
   border-radius: 5px;
@@ -291,10 +321,10 @@ main form .mainform {
   background-color: rgba(231, 231, 231, 0.5882352941);
   font-size: 14.5px;
 }
-main form .mainform select2-container {
+main form .unitedform select2-container {
   width: 260px;
 }
-main form .main_content_description {
+main form .form_description {
   font-size: 12px;
   color: #757575;
 }
@@ -305,7 +335,6 @@ main form button {
   margin-bottom: 25px;
   padding: 10px 20px;
   border-radius: 8px;
-  border-width: px;
   font-family: "Ample Soft Pro";
   font-size: 17px;
 }
@@ -313,12 +342,27 @@ main form button:enabled {
   background-color: #000000;
   color: #ffffff;
 }
-main .logInfo {
-  margin-top: -10px;
-  padding: 10px 15px 10px 15px;
+
+#paymentForm3 {
+  margin-top: -20px;
 }
-main .logInfo span {
-  font-size: 20px;
+
+.select2-selection {
+  font-size: 14.4px;
+}
+
+.select2-container--default {
+  max-width: 120%;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 27px;
+}
+
+.select2-results {
+  font-size: 13px;
+}
+.select2-results strong {
   font-weight: bold;
 }
 
@@ -338,7 +382,6 @@ main .logInfo span {
   font-size: 14px;
 }
 .auth_form form {
-  position: static;
   transform: translate(0%, 0%);
   width: 100%;
   display: flex;
@@ -386,63 +429,45 @@ main .logInfo span {
   color: #1680a3;
 }
 
-#paymentForm3 {
-  margin-top: -20px;
-}
-
-.select2-selection {
-  font-size: 14.4px;
-}
-
-.select2-container--default {
-  max-width: 120%;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-  line-height: 27px;
-}
-
-.select2-results {
-  font-size: 13px;
-}
-.select2-results strong {
-  font-weight: bold;
-}
-
 @media (max-width: 665px) {
   body {
     font-size: 14px;
   }
   body h1 {
-    margin: 25px 0 18px 0;
     font-size: 33px;
   }
+  header {
+    height: 50px;
+  }
   header img {
-    padding: 16px 10px 10px 20px;
     max-width: 120px;
   }
   header #header_auth__label {
-    padding: 20px 18px 0px 0px;
     font-size: 13px;
+  }
+  #menu {
+    width: 100vw;
+  }
+  #menu .menu_content {
+    top: 35%;
   }
   main {
     width: 100%;
+    padding: 60px 40px 10px 40px;
   }
   main form {
-    position: static;
-    transform: translate(0%, 0%);
     width: 100%;
   }
   main form div {
     flex-direction: column;
   }
-  main form .mainform {
+  main form .unitedform {
     font-size: 14px;
   }
-  main p textarea::-moz-placeholder {
+  main form textarea::-moz-placeholder {
     font-size: 12px;
   }
-  main p textarea::placeholder {
+  main form textarea::placeholder {
     font-size: 12px;
   }
   footer {
@@ -471,18 +496,22 @@ main .logInfo span {
   }
 }
 @media (max-width: 390px) {
+  header {
+    height: 45px;
+  }
   header img {
-    padding: 18px 10px 10px 12px;
     max-width: 110px;
   }
   header #header_auth__label {
-    padding: 22px 18px 0px 0px;
     font-size: 11px;
   }
-  main form p textarea::-moz-placeholder {
+  main {
+    padding: 45px 40px 10px 40px;
+  }
+  main form textarea::-moz-placeholder {
     font-size: 11px;
   }
-  main form p textarea::placeholder {
+  main form textarea::placeholder {
     font-size: 11px;
   }
   main .auth_form {
@@ -493,13 +522,16 @@ main .logInfo span {
   }
 }
 @media (max-width: 340px) {
+  header {
+    height: 40px;
+  }
   header img {
     max-width: 90px;
   }
-  main form p textarea::-moz-placeholder {
+  main form textarea::-moz-placeholder {
     font-size: 10.5px;
   }
-  main form p textarea::placeholder {
+  main form textarea::placeholder {
     font-size: 10.5px;
   }
   .wrapperError p {
@@ -508,30 +540,26 @@ main .logInfo span {
 }
 @media (max-width: 320px) {
   header img {
-    padding: 20px 1px 10px 10px;
     max-width: 85px;
   }
   header #header_auth__label {
-    padding: 24px 15px 15px 1px;
     font-size: 9px;
   }
-  main form p textarea::-moz-placeholder {
+  main form textarea::-moz-placeholder {
     font-size: 9.6px;
   }
-  main form p textarea::placeholder {
+  main form textarea::placeholder {
     font-size: 9.6px;
+  }
+  main form .help_p {
+    width: 200px;
+    font-size: 10.5px;
   }
   main .auth_form {
     width: 270px;
   }
   main .auth_form .auth_form__status {
     font-size: 9.2px;
-  }
-  main .help_p {
-    width: 200px;
-    border-radius: 3px;
-    font-size: 10.5px;
-    background-color: rgba(255, 231, 145, 0.5411764706);
   }
   .wrapperError p {
     font-size: 13.9px;

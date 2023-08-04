@@ -6,17 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
     <script src="static/script/jquery.min.js"></script>
+
     <link rel="stylesheet" href="static/style/select2.min.css">
     <link rel="stylesheet" href="static/style/style.css">
+
     <script src="static/script/checkForm.js"></script>
     <script src="static/script/select2.min.js"></script>
     <script src="static/script/selectSearch.js"></script>
     <script src="static/script/numberWithSpaces.js"></script>
+
     <title>{{title}}</title>
 </head>
+
 <body>
-
-
 
     {% if get_flashed_messages(True) %}
     <dialog class="window {{get_flashed_messages(True)[0][0]}}" id="logInfo" open>
@@ -35,23 +37,34 @@
     {% else %}
     {% endif %}
 
-
-
     <div class="wrapper">
+
         <header>
-            <div>
-                <div class="header__logo"><a href="/">
-                        <img src="static/img/logo.png" alt="kpln_logo"></a>
-                </div>
+            <div class="header__logo">
+                <img src="static/img/menu.png" alt="kpln_logo" id="menuImage">
             </div>
-            <div id="header_auth__label">{{menu_profile[0].name[0]}} <a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
+            <div id="header_auth__label">{{menu_profile[0].name[0]}} &nbsp;&nbsp;&nbsp;<a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
         </header>
+
+        <div id="menu">
+            <div class="menu_content">
+                <ul>
+                    <li><a href="/">Главное меню</a></li>
+                    <li>Пункт меню 1</li>
+                    <li>Пункт меню 2</li>
+                    <li>Пункт меню 3</li>
+                    <li>Пункт меню 4</li>
+                </ul>
+            </div>
+        </div>
+
         <main>
+
             <form method="POST" action="/new_payment">
                 <h1>{{title}}</h1>
                 <p><label for="basis_of_payment">Наименование платежа*</label>
                     <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required oninput="checkForm()"></textarea>
-                <p class="main_content_description">* Аванс по договору №, такой-то с субподрядчиком (наименование субподрядчика в контрагенты) или
+                <p class="form_description">* Аванс по договору №, такой-то с субподрядчиком (наименование субподрядчика в контрагенты) или
                     оплата
                     по акту по договору</p>
                 </p>
@@ -63,7 +76,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="mainform">
+                <div class="unitedform">
                     <div><label for="cost_items">Тип заявки*</label>
                         <select class="selectSearch" name="cost_items" id="cost_items" required onchange="checkForm()">
                             <option value="" disabled selected hidden>Выберите тип заявки</option>
@@ -118,6 +131,7 @@
                 <div class="help_p">* - поля обязательные для заполнения</div>
                 <button type="submit" id="submitBtn" onclick="window['logInfo'].showModal();" disabled>Сохранить</button>
             </form>
+
         </main>
 
         <footer>
@@ -131,7 +145,9 @@
         </footer>
 
     </div>
-    <script src="static/script/todayYear.js"></script>
-</body>
 
+    <script src="static/script/todayYear.js"></script>
+    <script src="static/script/menunav.js"></script>
+
+</body>
 </html>
