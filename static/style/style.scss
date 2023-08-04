@@ -350,7 +350,7 @@ main {
 ///____________///
 /////// Страницы 403 и 404 /////////
 .wrapperError {
-    padding-bottom: 88px;
+    padding-bottom: 100px;
     margin: auto;
     img {
         width: 590px;
@@ -363,9 +363,10 @@ main {
         font-size: 20px;
         line-height: 95%;
         a {
-            color: #4013b1;
+            color: #265af3;
+            font-weight: bold;
             &:hover {
-                color: #1680a3;
+                color: #587ef0;
             }
         }
     }
@@ -459,7 +460,7 @@ main {
 ///____________///
 .wrapperError {
     &__text {
-        margin-right: 0px;
+        margin-right: 5px;
     }
     p {
         font-size: 18px;

@@ -409,7 +409,7 @@ main form button:enabled {
 }
 
 .wrapperError {
-  padding-bottom: 88px;
+  padding-bottom: 100px;
   margin: auto;
 }
 .wrapperError img {
@@ -424,10 +424,11 @@ main form button:enabled {
   line-height: 95%;
 }
 .wrapperError p a {
-  color: #4013b1;
+  color: #265af3;
+  font-weight: bold;
 }
 .wrapperError p a:hover {
-  color: #1680a3;
+  color: #587ef0;
 }
 
 @media (max-width: 665px) {
@@ -495,7 +496,7 @@ main form button:enabled {
 }
 
 .wrapperError__text {
-  margin-right: 0px;
+  margin-right: 5px;
 }
 .wrapperError p {
   font-size: 18px;
