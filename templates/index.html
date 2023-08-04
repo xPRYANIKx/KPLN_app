@@ -27,6 +27,21 @@
     <script src="static/script/paymentApprovalSort.js"></script>
 </head>
 <body>
+
+    {% if get_flashed_messages(True) %}
+    <dialog class="window {{get_flashed_messages(True)[0][0]}}" id="logInfo" open>
+        <div class="flash {{get_flashed_messages(True)[0][0]}}">
+            {{get_flashed_messages(True)[0][1][0]}}<br>
+            {{get_flashed_messages(True)[0][1][1]}}
+        </div>
+    </dialog>
+    {% else %}
+    {% endif %}
+
+
+
+
+
     <div class="wrapper">
         <header>
             <div class="header__logo">
@@ -35,7 +50,6 @@
             <div id="header_auth__label">{{menu_profile[0].name[0]}} <a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
         </header>
         <main>
-            <h1>{{title}}</h1>
             {% for p in menu %}
             <a href="{{p.url}}">
                 <img src="{{p.img}}" width="50" height="50" alt="{{p.name}}" title="{{p.name}}">{{p.name}}

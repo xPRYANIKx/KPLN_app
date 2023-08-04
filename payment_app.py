@@ -433,7 +433,8 @@ def get_unapproved_payments_3():
     try:
         # Check if the user has access to the "List of contracts" page
         if current_user.get_role() != 1:
-            abort(403)
+            return permission_error(403)
+            
         else:
 
             # Connect to the database
@@ -836,7 +837,7 @@ def logout():
             "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"}
 
         # return redirect(url_for('login'))
-        return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
+        return index()
     except Exception as e:
         return f'logout ❗❗❗ Ошибка \n---{e}'
 
@@ -864,7 +865,7 @@ def login():
 
         print('login', current_user.is_authenticated)
         if current_user.is_authenticated:
-            return redirect(url_for('profile'))
+            return index()
 
         if request.method == 'POST':
             conn = coon_init()
