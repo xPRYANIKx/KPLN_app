@@ -376,6 +376,7 @@ main form button:enabled {
   border: solid 3px rgba(239, 239, 239, 0.0901960784);
   border-radius: 8px;
   background-color: rgba(203, 203, 203, 0.1882352941);
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 .auth_form__status {
   margin-bottom: 10px;
@@ -479,22 +480,27 @@ main form button:enabled {
   footer .footer_company__copyright {
     font-size: 9px;
   }
-  .auth_form form .checkbox_auth {
-    flex-direction: row;
-  }
-  .auth_form form h1 {
-    margin: 0px 0px 0px 0px;
-  }
-  .wrapperError__text {
-    margin-right: 0px;
-  }
-  .wrapperError p {
-    font-size: 18px;
-  }
   .select2-container--default {
     max-width: 100%;
   }
 }
+.auth_form {
+  width: 350px;
+}
+.auth_form form .checkbox_auth {
+  flex-direction: row;
+}
+.auth_form form h1 {
+  margin: 0px 0px 0px -5px;
+}
+
+.wrapperError__text {
+  margin-right: 0px;
+}
+.wrapperError p {
+  font-size: 18px;
+}
+
 @media (max-width: 390px) {
   header {
     height: 45px;
@@ -514,11 +520,11 @@ main form button:enabled {
   main form textarea::placeholder {
     font-size: 11px;
   }
-  main .auth_form {
+  .auth_form {
     width: 310px;
   }
-  main .auth_form .auth_form__status {
-    font-size: 10.5px;
+  .auth_form .auth_form__status {
+    font-size: 13px;
   }
 }
 @media (max-width: 340px) {
@@ -533,6 +539,9 @@ main form button:enabled {
   }
   main form textarea::placeholder {
     font-size: 10.5px;
+  }
+  .auth_form {
+    width: 300px;
   }
   .wrapperError p {
     font-size: 16px;
@@ -555,11 +564,11 @@ main form button:enabled {
     width: 200px;
     font-size: 10.5px;
   }
-  main .auth_form {
-    width: 270px;
+  .auth_form {
+    width: 260px;
   }
-  main .auth_form .auth_form__status {
-    font-size: 9.2px;
+  .auth_form .auth_form__status {
+    font-size: 12px;
   }
   .wrapperError p {
     font-size: 13.9px;

@@ -300,6 +300,8 @@ main {
 ///____________///
 ///____________///
 // Частные решения для контентных модулей
+///____________///
+/////// Страница авторизации /////////
 .auth_form {
     position: absolute;
     left: 50%;
@@ -310,6 +312,9 @@ main {
     border: solid 3px #efefef17;
     border-radius: 8px;
     background-color: #cbcbcb30;
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     &__status {
         margin-bottom: 10px;
         font-size: 14px;
@@ -342,6 +347,8 @@ main {
         }
     }
 }
+///____________///
+/////// Страницы 403 и 404 /////////
 .wrapperError {
     padding-bottom: 88px;
     margin: auto;
@@ -381,7 +388,7 @@ main {
 ///____________///
 ///____________///
 ///____________///
-// Медиазапросы
+/////////////////////////////////// Медиазапросы ///////////////////////////////////
 @media (max-width: 665px) {
     body {
         font-size: 14px;
@@ -430,30 +437,32 @@ main {
                 font-size: 9px;
             }
         }
-        ///____________///
-        ///____________///
     }
-    .auth_form {
-        form {
-            .checkbox_auth {
-                flex-direction: row;
-            }
-            h1 {
-                margin: 0px 0px 0px 0px;
-            }
-        }
-    }
-    .wrapperError {
-        &__text {
-            margin-right: 0px;
-        }
-        p {
-            font-size: 18px;
-        }
-    }
-
     .select2-container--default {
         max-width: 100%;
+    }
+}
+///____________///
+///____________///
+.auth_form {
+    width: 350px;
+    form {
+        .checkbox_auth {
+            flex-direction: row;
+        }
+        h1 {
+            margin: 0px 0px 0px -5px;
+        }
+    }
+}
+///____________///
+///____________///
+.wrapperError {
+    &__text {
+        margin-right: 0px;
+    }
+    p {
+        font-size: 18px;
     }
 }
 ///____________///
@@ -478,13 +487,13 @@ main {
                 font-size: 11px;
             }
         }
-        ///____________///
-        ///____________///
-        .auth_form {
-            width: 310px;
-            .auth_form__status {
-                font-size: 10.5px;
-            }
+    }
+    ///____________///
+    ///____________///
+    .auth_form {
+        width: 310px;
+        .auth_form__status {
+            font-size: 13px;
         }
     }
 }
@@ -506,6 +515,11 @@ main {
                 font-size: 10.5px;
             }
         }
+    }
+    ///____________///
+    ///____________///
+    .auth_form {
+        width: 300px;
     }
     ///____________///
     ///____________///
@@ -539,15 +553,17 @@ main {
                 font-size: 10.5px;
             }
         }
-        ///____________///
-        ///____________///
-        .auth_form {
-            width: 270px;
-            .auth_form__status {
-                font-size: 9.2px;
-            }
+    }
+    ///____________///
+    ///____________///
+    .auth_form {
+        width: 260px;
+        .auth_form__status {
+            font-size: 12px;
         }
     }
+    ///____________///
+    ///____________///
     .wrapperError {
         p {
             font-size: 13.9px;
