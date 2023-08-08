@@ -1,68 +1,122 @@
 @import "reset.scss";
 @import "fonts.scss";
-
+///____________///
+///____________///
+///____________///
+// Общий стиль
 body {
     width: 100%;
     background-color: #f6f3f3;
     font-family: "Ample Soft Pro";
     font-size: 16px;
+    h1 {
+        text-align: center;
+        margin: 25px 0;
+        font-size: 38px;
+        line-height: 99%;
+    }
     a {
         color: #130042;
         &:hover {
             color: #1680a3;
         }
     }
-    h1 {
-        text-align: center;
-        margin: 18px 0;
-        font-size: 38px;
-        line-height: 99%;
+    /// Плажка с условными обозначениями
+    .help_p {
+        width: 240px;
+        margin-top: 30px;
+        padding: 5px 0px 5px 8px;
+        border-radius: 3px;
+        font-size: 13px;
+        background-color: #ffe7918a;
     }
+    /// Стиль отображения таблиц (необходимо доделать!)
     table {
+        width: 100%;
         border: solid 2px #000000;
         border-collapse: collapse;
-        width: 100%;
         font-size: 14px;
         thead {
             background-color: #4e4f4f;
             color: #ffffff;
             th {
-                cursor: pointer;
                 text-align: center;
+                cursor: pointer;
             }
         }
         th,
         td {
-            border: solid 2px #000000;
             text-align: left;
             vertical-align: middle;
             padding: 8px;
-        }
-        .tableAlignCentre {
-            text-align: center;
+            border: solid 2px #000000;
         }
     }
+    // Диалоговвые окна о выполнении операций
+    #logInfo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 6;
+        border: solid 1px #d5d5d547;
+        border-radius: 9px;
+        -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        span {
+            font-size: 23px;
+            font-weight: bold;
+        }
+        div {
+            font-size: 14px;
+        }
+        button {
+            margin-top: 8px;
+            width: 80px;
+            padding: 3px;
+            float: right;
+            border: solid 1px #b1b0b0;
+            border-radius: 5px;
+            font-family: "Ample Soft Pro";
+            font-size: 15px;
+        }
+    }
+    .window.error {
+        background-color: #f1d9e1;
+    }
+    .window.success {
+        background-color: #f3fffc;
+    }
+    // Адаптивная обёртка
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100vh;
+    }
 }
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-}
-
+///____________///
+///____________///
+///____________///
+// Шапка сайта
 header {
     display: flex;
     position: fixed;
-    justify-content: space-between;
-    height: 60px;
     width: 100%;
+    height: 55px;
+    z-index: 10;
+    flex-direction: row;
+    justify-content: space-between;
     background-color: #000000;
     img {
         max-width: 140px;
-        padding: 14px 10px 13px 25px;
+        padding: 10px;
     }
     #header_auth__label {
-        padding: 17px 35px 15px 10px;
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
         font-size: 15px;
         color: #ffffff;
     }
@@ -73,11 +127,77 @@ header {
         }
     }
 }
-
+// Меню навигации
+#menu {
+    display: none;
+    position: absolute;
+    width: 400px;
+    min-height: 300px;
+    z-index: 8;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.91);
+    color: #ffffff;
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    .menu_content {
+        display: flex;
+        position: absolute;
+        top: 36%;
+        align-items: center;
+        margin-right: 15px;
+        font-size: 16px;
+        a {
+            color: #ffffff;
+            text-decoration: none;
+            &:hover {
+                color: #e3d47f;
+            }
+        }
+    }
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+    -webkit-animation-duration: 0.8s;
+    animation-duration: 0.8s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+@-webkit-keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+#menuImage {
+    cursor: pointer;
+}
+///____________///
+///____________///
+///____________///
+// Нижняя часть сайта сайта
 footer {
-    flex: 0 0 auto;
     height: 55px;
     width: 100%;
+    z-index: 4;
+    flex: 0 0 auto;
     background-color: #000000;
     color: #ffffff;
     a {
@@ -107,29 +227,35 @@ footer {
         }
     }
 }
-
+///____________///
+///____________///
+///____________///
+// Общая контентная часть
 main {
     display: flex;
     flex-direction: column;
-    align-self: center;
-    flex: 1 0 auto;
+    z-index: 4;
     width: 92%;
-    margin-top: 60px;
-    padding: 0 40px;
+    flex: 1 0 auto;
+    justify-content: center;
+    align-self: center;
+    padding: 60px 40px 0px 40px;
     background-color: #ffffff;
     form {
+        width: 520px;
+        align-self: center;
         div {
             display: flex;
-            flex-direction: row;
             max-width: 530px;
+            flex-direction: row;
             margin: 15px 0 5px 0;
         }
         .hidden_label {
             margin-bottom: 10px;
         }
         textarea {
-            resize: none;
             width: 100%;
+            resize: none;
             margin-top: 5px;
             padding: 6px 8px;
             border-radius: 5px;
@@ -141,15 +267,27 @@ main {
         }
         select,
         input {
-            flex: 2;
             max-width: 320px;
+            flex: 2;
             padding: 4px 7px;
             border: solid 1px #aaa;
             border-radius: 5px;
             font-family: "Ample Soft Pro";
             font-size: 14px;
         }
-        .main_content_description {
+        .unitedform {
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+            margin-bottom: 16px;
+            padding: 0px 15px 8px 15px;
+            background-color: #e7e7e796;
+            font-size: 14.5px;
+            select2-container {
+                width: 260px;
+            }
+        }
+        .form_description {
             font-size: 12px;
             color: #757575;
         }
@@ -160,7 +298,6 @@ main {
             margin-bottom: 25px;
             padding: 10px 20px;
             border-radius: 8px;
-            border-width: px;
             font-family: "Ample Soft Pro";
             font-size: 17px;
             &:enabled {
@@ -169,16 +306,32 @@ main {
             }
         }
     }
-    .logInfo {
-        margin-top: -10px;
-        padding: 10px 15px 10px 15px;
-        span {
-            font-size: 20px;
-            font-weight: bold;
-        }
+}
+/// Добавочный стиль для select2
+#paymentForm3 {
+    margin-top: -20px;
+}
+.select2-selection {
+    font-size: 14.4px;
+}
+.select2-container--default {
+    max-width: 120%;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 27px;
+}
+.select2-results {
+    font-size: 13px;
+    strong {
+        font-weight: bold;
     }
 }
-
+///____________///
+///____________///
+///____________///
+// Частные решения для контентных модулей
+///____________///
+/////// Страница авторизации /////////
 .auth_form {
     position: absolute;
     left: 50%;
@@ -189,14 +342,22 @@ main {
     border: solid 3px #efefef17;
     border-radius: 8px;
     background-color: #cbcbcb30;
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     &__status {
         margin-bottom: 10px;
         font-size: 14px;
     }
     form {
+        transform: translate(0%, 0%);
+        width: 100%;
         display: flex;
         flex-direction: column;
         max-width: 530px;
+        h1 {
+            margin: 0px 0px 10px 0px;
+        }
         .checkbox_auth {
             justify-content: end;
             margin: -8px 0 -4px 0;
@@ -216,8 +377,10 @@ main {
         }
     }
 }
+///____________///
+/////// Страницы 403 и 404 /////////
 .wrapperError {
-    padding-bottom: 88px;
+    padding-bottom: 100px;
     margin: auto;
     img {
         width: 590px;
@@ -230,65 +393,66 @@ main {
         font-size: 20px;
         line-height: 95%;
         a {
-            color: #4013b1;
+            color: #265af3;
+            font-weight: bold;
             &:hover {
-                color: #1680a3;
+                color: #587ef0;
             }
         }
     }
 }
-#paymentForm3 {
-    margin-top: -20px;
-}
-///
-///
-///
-///
-.select2-selection {
-    font-size: 14.4px;
-}
-.select2-container--default {
-    max-width: 120%;
-}
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 27px;
-}
-.select2-results {
-    font-size: 13px;
-    strong {
-        font-weight: bold;
-    }
-}
-///
-///
-///
-///
-@media (max-width: 600px) {
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+/////////////////////////////////// Медиазапросы ///////////////////////////////////
+@media (max-width: 665px) {
     body {
         font-size: 14px;
         h1 {
-            margin: 25px 0 18px 0;
             font-size: 33px;
         }
     }
     header {
+        height: 50px;
         img {
-            padding: 16px 10px 10px 20px;
             max-width: 120px;
         }
         #header_auth__label {
-            padding: 20px 18px 0px 0px;
             font-size: 13px;
+        }
+    }
+    #menu {
+        width: 100vw;
+        .menu_content {
+            top: 35%;
         }
     }
     main {
         width: 100%;
+        padding: 60px 40px 10px 40px;
         form {
+            width: 100%;
             div {
                 flex-direction: column;
             }
-        }
-        p {
+            .unitedform {
+                font-size: 14px;
+            }
             textarea::placeholder {
                 font-size: 12px;
             }
@@ -305,103 +469,132 @@ main {
             }
         }
     }
-    .auth_form {
-        form {
-            .checkbox_auth {
-                flex-direction: row;
-            }
-        }
-    }
-    .wrapperError {
-        &__text {
-            margin-right: 0px;
-        }
-        p {
-            font-size: 18px;
-        }
-    }
-
     .select2-container--default {
         max-width: 100%;
     }
 }
-
+///____________///
+///____________///
+.auth_form {
+    width: 350px;
+    form {
+        .checkbox_auth {
+            flex-direction: row;
+        }
+        h1 {
+            margin: 0px 0px 0px -5px;
+        }
+    }
+}
+///____________///
+///____________///
+.wrapperError {
+    &__text {
+        margin-right: 5px;
+    }
+    p {
+        font-size: 18px;
+    }
+}
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
 @media (max-width: 390px) {
     header {
+        height: 45px;
         img {
-            padding: 18px 10px 10px 12px;
             max-width: 110px;
         }
         #header_auth__label {
-            padding: 22px 18px 0px 0px;
             font-size: 11px;
         }
     }
     main {
+        padding: 45px 40px 10px 40px;
         form {
-            p {
-                textarea::placeholder {
-                    font-size: 11px;
-                }
-            }
-        }
-        .auth_form {
-            width: 310px;
-            .auth_form__status {
-                font-size: 10.5px;
+            textarea::placeholder {
+                font-size: 11px;
             }
         }
     }
+    ///____________///
+    ///____________///
+    .auth_form {
+        width: 310px;
+        .auth_form__status {
+            font-size: 13px;
+        }
+    }
 }
-
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
 @media (max-width: 340px) {
     header {
+        height: 40px;
         img {
             max-width: 90px;
         }
     }
     main {
         form {
-            p {
-                textarea::placeholder {
-                    font-size: 10.5px;
-                }
+            textarea::placeholder {
+                font-size: 10.5px;
             }
         }
     }
+    ///____________///
+    ///____________///
+    .auth_form {
+        width: 300px;
+    }
+    ///____________///
+    ///____________///
     .wrapperError {
         p {
             font-size: 16px;
         }
     }
 }
-
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
 @media (max-width: 320px) {
     header {
         img {
-            padding: 20px 1px 10px 10px;
             max-width: 85px;
         }
         #header_auth__label {
-            padding: 24px 15px 15px 1px;
             font-size: 9px;
         }
     }
     main {
         form {
-            p {
-                textarea::placeholder {
-                    font-size: 9.6px;
-                }
+            textarea::placeholder {
+                font-size: 9.6px;
             }
-        }
-        .auth_form {
-            width: 270px;
-            .auth_form__status {
-                font-size: 9.2px;
+            .help_p {
+                width: 200px;
+                font-size: 10.5px;
             }
         }
     }
+    ///____________///
+    ///____________///
+    .auth_form {
+        width: 260px;
+        .auth_form__status {
+            font-size: 12px;
+        }
+    }
+    ///____________///
+    ///____________///
     .wrapperError {
         p {
             font-size: 13.9px;
