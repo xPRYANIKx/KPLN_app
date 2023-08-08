@@ -2,6 +2,7 @@ import psycopg2
 import psycopg2.extras
 import time
 import datetime
+import itertools
 from pprint import pprint
 from flask import Flask, g, request, render_template, redirect, flash, url_for, session, abort, get_flashed_messages
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -548,9 +549,6 @@ def approved_payments_save_data_3():
     try:
         if request.method == 'POST':
             # Список выделенных столбцов
-
-            # for key, value а: {key}, Значение: {value}")
-
             selected_rows = request.form.getlist('selectedRows')  # Выбранные столбцы
             payment_number = request.form.getlist('payment_number')  # Номера платежей (передаётся id)
             status_id = request.form.getlist('status_id')  # Статус заявки (передаётся строковое название)
@@ -573,36 +571,17 @@ def approved_payments_save_data_3():
             pa_id_list = []  # Список id
             pa_sum = []  # Список согласованных стоимость
             pa_confirm_id = []  # Список id записей из таблицы payments_approval_history
-            values_p_a = []
+            values_p_a = []  # Данные для записи в БД
 
             values_a_h = []  # Список согласованных заявок для записи на БД
             pay_id_list_raw = []  # Список согласованных id заявок без обработки ошибок
             approval_id_list = []  # Список согласованных id заявок, без аннулир. и неправильные суммы согласования
             error_list = []  # Список id неправильно внесенных данных
 
-            print('##' * 35)
-            print(selected_rows, payment_full_agreed_status)
-            print('--' * 35)
-            print(payment_number)
-            print('**' * 35)
-            print(status_id)
-            print('_ ' * 35)
-            print(payment_approval_sum)
-            print('==' * 35)
-
-
             user_id = current_user.get_id()
-
-
 
             for i in range(len(selected_rows)):
                 row = int(selected_rows[i]) - 1
-                print(f"строка: {selected_rows[i]}")
-                print(f"№ ПЛАТЕЖА: {payment_number[row]}, СОГЛАСОВАННАЯ СУММА *: {payment_approval_sum[row]}")
-
-                # # Если заявку согласовали, добавляем id в список согласованных заявок
-                # if status_id[row] == 'Реком.' or status_id[row] == 'Черновик':
-                #     pay_id_list_raw.append(int(payment_number[row]))
 
                 pay_id_list_raw.append(int(payment_number[row]))
 
@@ -613,9 +592,6 @@ def approved_payments_save_data_3():
                     payment_approval_sum[row]
                     ])
 
-            print('%%' * 35)
-            pprint(values_a_h)
-            print('-*' * 35)
             conn, cursor = coon_cursor_init_dict()
             """
             Ищем сумму остатка согласования.
@@ -664,16 +640,8 @@ def approved_payments_save_data_3():
                 """
             )
             approval_statuses = cursor.fetchall()
-            print('TYPE', type(total_approval_sum))
 
-            print(total_approval_sum)
-            print('_-=' * 35)
-            print("total_approval_sum[0]['payment_id']", type(total_approval_sum[0]['payment_id']), total_approval_sum[0]['payment_id'])
-            print("total_approval_sum[0]['payment_id']", total_approval_sum[0]['payment_id'])
-            print('pay_id_list_raw', len(pay_id_list_raw), '_-=-_', pay_id_list_raw)
-            print('payment_full_agreed_status', payment_full_agreed_status)
-
-            # Добавляем недостающие данные и пл. Подготавливаем данные для внесения в БД
+            # Добавляем недостающие данные и др. Подготавливаем данные для внесения в БД
             for i in range(len(total_approval_sum)):
 
                 for j in range(len(pay_id_list_raw)):
@@ -725,12 +693,6 @@ def approved_payments_save_data_3():
                     ])
                     total_approval_sum[i]['payment_id'] = None
 
-
-
-
-            print('total_approval_sum\n', total_approval_sum)
-            print('-\\' * 35)
-
             # Создаём списки с данными для записи в БД
             for i in range(len(total_approval_sum)):
                 print(total_approval_sum[i]['payment_id'], '-', total_approval_sum[i]['status_id'])
@@ -760,176 +722,95 @@ def approved_payments_save_data_3():
 
                 """для db payments_approva"""
                 if total_approval_sum[i]['payment_id']:
-                    # Список id
-                    pa_id_list.append(total_approval_sum[i]['payment_id'])
-                    # Согласованная сумма
-                    pa_sum.append(total_approval_sum[i]['status_id'])
+                    values_p_a.append([
+                        total_approval_sum[i]['payment_id'],
+                        total_approval_sum[i]['payment_approval_sum'],
+                        ''
+                    ])
+                    # # Список id
+                    # pa_id_list.append(total_approval_sum[i]['payment_id'])
+                    # # Согласованная сумма
+                    # pa_sum.append(total_approval_sum[i]['status_id'])
 
-            pprint([[pst_id_list], [pst_change_full_agreed], [pst_close_status]])
-            pprint([[pah_id_list], [pah_status_id], [pah_approval_sum]])
-            pprint([[pa_id_list], [pa_sum]])
+            print('pst    ', [pst_id_list], [pst_change_full_agreed], [pst_close_status])
+            print('pah    ', [values_p_a_h])
+            print('pa    ', [values_p_a])
 
+            try:
+                # Перезапись в payments_summary_tab
+                query_s_t = """
+                    UPDATE payments_summary_tab
+                    SET payment_full_agreed_status = %s, payment_close_status = %s
+                    WHERE payment_id = %s;
+                """
+                for i in range(len(pst_id_list)):
+                    cursor.execute(query_s_t, [pst_change_full_agreed[i], pst_close_status[i], pst_id_list[i]])
+                conn.commit()
 
-            # Перезапись в payments_summary_tab
-            query_s_t = """
-                UPDATE payments_summary_tab
-                SET payment_full_agreed_status = %s, payment_close_status = %s
-                WHERE payment_id = %s;
-            """
-            for i in range(len(pst_id_list)):
-                cursor.execute(query_s_t, [pst_change_full_agreed[i], pst_close_status[i], pst_id_list[i]])
-            conn.commit()
+                # Запись в payments_approval_history
+                # query_a_h = """
+                #     INSERT INTO payments_approval_history (
+                #         payment_id,
+                #         status_id,
+                #         user_id,
+                #         approval_sum
+                #     )
+                #     VALUES (
+                #         %s,
+                #         %s,
+                #         %s,
+                #         %s
+                #     )
+                #     RETURNING payment_id, confirm_id;"""
+                # for i in range(len(values_p_a_h)):
+                #     cursor.execute(query_a_h,
+                #                    [values_p_a_h[i][0], values_p_a_h[i][1], values_p_a_h[i][2], values_p_a_h[i][3]])
+                #     results = cursor.fetchall()
+                #     a_h_id.append(results)
+                # conn.commit()
+                query_a_h = """
+                    INSERT INTO payments_approval_history (
+                        payment_id,
+                        status_id,
+                        user_id,
+                        approval_sum
+                    )
+                    VALUES """
+                result = ','.join(['(' + ', '.join(map(str, item)) + ')' for item in values_p_a_h])
+                query_a_h = query_a_h + result + " RETURNING payment_id, confirm_id;"
+                cursor.execute(query_a_h)
+                a_h_id = cursor.fetchall()
+                conn.commit()
 
-            # Запись в payments_approval_history
-            query_a_h = """
-                INSERT INTO payments_approval_history (
-                    payment_id,
-                    status_id,
-                    user_id,
-                    approval_sum
-                )
-                VALUES (
-                    %s,
-                    %s,
-                    %s,
-                    %s
-                )
-                RETURNING payment_id, confirm_id;"""
-            for i in range(len(values_p_a_h)):
-                cursor.execute(query_a_h,
-                               [values_p_a_h[i][0], values_p_a_h[i][1], values_p_a_h[i][2], values_p_a_h[i][3]])
-                results = cursor.fetchall()
-                tmp.append(results)
-            conn.commit()
-            cursor.execute(query_a_h, values_p_a_h)
-            a_h_id = cursor.fetchall()
-            conn.commit()
+                # Запись в payments_approval
+                query_a = """
+                    INSERT INTO payments_approval (
+                      payment_id,
+                      approval_sum,
+                      confirm_id
+                    )
+                    VALUES (
+                      %s,
+                      %s,
+                      %s
+                    )"""
 
+                for i in values_p_a:
+                    for j in a_h_id:
+                        if i[0] == j[0]:
+                            i[2] = j[1]
 
-
-
-
-
-
-            query_a_h = """
-                INSERT INTO payments_approval_history (
-                  payment_id,
-                  status_id,
-                  user_id,
-                  approval_sum 
-                )
-                VALUES (
-                  %s,
-                  %s,
-                  %s,
-                  %s
-                )"""
-
-
-            cursor.execute(query_a_h, values_a_h)
-            conn.commit()
-
-            query2 = """
-              INSERT INTO payments_approval (
-                  payment_id,
-                  status_id,
-                  user_id
-              )
-              VALUES (
-                  %s,
-                  %s,
-                  %s
-              )"""
-
-
-            # Close the database connection
-            coon_cursor_close(cursor, conn)
+                    cursor.execute(query_a,
+                                   [values_p_a[i][0], values_p_a[i][1], values_p_a[i][2]])
+                conn.commit()
 
 
-
-            query = """
-            SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type
-            FROM   pg_index i
-            JOIN   pg_attribute a ON a.attrelid = i.indrelid
-                                 AND a.attnum = ANY(i.indkey)
-            WHERE  i.indrelid = 'payments_approval_history'::regclass
-            AND    i.indisprimary;
-            """
-
-            # Список согласованных платежей
-            # conn, cursor = coon_cursor_init()
-            # cursor.execute(query)
-            # request_tmp = cursor.fetchall()
-            # print('------------request_tmp', request_tmp)
-
-            # Конструктор Номера платежа (payment_number). ИЗ БД берем id последнего платежа
-            # cursor.execute(
-            #     "SELECT nextval(pg_get_serial_sequence('payments_approval_history', 'confirm_id'))")
-            # last_confirm_id = cursor.fetchall()
-            # cursor.execute(
-            #     "SELECT currval(pg_get_serial_sequence('payments_approval_history', 'confirm_id'))")
-            # last_confirm_id = cursor.fetchall()
-            # if not last_confirm_id:
-            #     last_confirm_id = 1
-            # # else:
-            # #     last_confirm_id = last_confirm_id[0][0] + 1
-            coon_cursor_close(cursor, conn)
-            # print('last_confirm_id', last_confirm_id)
-
-
-
-            # # Connect to the database
-            # conn, cursor = coon_cursor_init()
-            #
-            # # Конструктор Номера платежа (payment_number). ИЗ БД берем id последнего платежа
-            # cursor.execute(
-            #     "SELECT nextval(pg_get_serial_sequence('payments_summary_tab', 'payment_id'))")
-            # last_payment_id = cursor.fetchall()
-            # if not last_payment_id:
-            #     last_payment_id = 1
-            # else:
-            #     last_payment_id = last_payment_id[0][0] + 1
-            # payment_number = f'PAY-{round(time.time())}-{last_payment_id}-{our_company}'
-
-
-
-            # values_s_t = (
-            #     our_company,
-            #     cost_items,
-            #     payment_number,
-            #     basis_of_payment,
-            #     payment_description,
-            #     object_id,
-            #     partner,
-            #     payment_sum,
-            #     payment_due_date,
-            #     current_user.get_id(),
-            #     responsible)
-
-            # # Prepare the SQL query to insert the data into the payments_approval_history
-            # query_a_s = """
-            #   INSERT INTO payments_approval_history (
-            #       payment_id,
-            #       status_id,
-            #       user_id
-            #   )
-            #   VALUES (
-            #       %s,
-            #       %s,
-            #       %s
-            #   )"""
-            #
-            # status_id_a_s = 1  # id статуса "Черновик" из payments_approval_history
-            # user_id_a_s = current_user.get_id() if current_user.get_id() else responsible
-            # values_a_s = (last_payment_id, status_id_a_s, user_id_a_s)
-            #
-            # try:
-            #     """Запись в payments_summary_tab"""
-            #     # Execute the SQL query
-            #     cursor.execute(query_s_t, values_s_t)
-            #     conn.commit()
-            # time.sleep(10)
-            # return flash(f'✔️ Заявки согласованы', category='success')
+                # Close the database connection
+                coon_cursor_close(cursor, conn)
+                flash(message='✔️ Заявки согласованы', category='success')
+                return redirect(url_for('get_unapproved_payments_3'))
+            except Exception as e:
+                return f'отправка approved_payments_save_data_3 ❗❗❗ Ошибка \n---{e}'
             return redirect(url_for('get_unapproved_payments_3'))
             # return get_unapproved_payments_3()
 

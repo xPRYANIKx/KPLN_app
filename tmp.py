@@ -1,9 +1,11 @@
-l = [0, 10, 20, 30, 40, 50]
-xxx = 6
-for i in range(len(l)):
-    if l[i] == 20 and l[i] in [0, 20, 30]:
-        print(i, id(i), '-', len(l), '-', l)
-    print(i, id(i))
+import itertools
 
-print(l)
-print('TYPE', type(l))
+values_p_a_h = [(26, 2, 2, 2), (27, 2, 2, 3), (80, 2, 2, 4)]
+
+values_1d = list(itertools.chain(*values_p_a_h))
+
+print(values_p_a_h)
+
+print(values_1d)
+print(type(values_1d))
+print(type(values_1d[0]))
