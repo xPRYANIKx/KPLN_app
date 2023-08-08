@@ -2,6 +2,7 @@ import datetime
 
 import psycopg2
 import psycopg2.extras
+from psycopg2.extras import execute_batch
 import time
 from pprint import pprint
 
@@ -15,119 +16,49 @@ db_port = "5432"
 
 conn = psycopg2.connect(dbname=db_name, user=db_user,  password=db_password, host=db_host, port=db_port)
 
-cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+cursor = conn.cursor()
 # cursor = conn.cursor()
-cursor.execute("""SELECT pst.payment_id, 
-                         pst.our_companies_id,
-                         ag.payment_agreed_status_name
-                  FROM payments_summary_tab AS pst
-                  INNER JOIN payments_andrew_statuses AS ans ON pst.payment_id = ans.payment_id
-                  INNER JOIN payment_agreed_statuses AS ag ON ans.status_id = ag.payment_agreed_status_id;
-                  """)
-response = cursor.fetchall()
-pprint(response)
+# values_p_a_h = []
 
-cursor.execute("""SELECT DISTINCT ON (payment_id) 
-                        payment_id,
-                        status_id
-                  FROM payments_andrew_statuses
-                  ORDER BY payment_id, create_at DESC;
-                  """)
-response = cursor.fetchall()
-pprint(response)
+query_a_h = """
+    INSERT INTO payments_approval_history (
+        payment_id,
+        status_id,
+        user_id,
+        approval_sum
+    )
+    VALUES (%s, %s, %s, %s)
+    RETURNING payment_id, confirm_id;"""
 
-cursor.execute("""SELECT pst.payment_id, 
-                         ag.payment_agreed_status_name
-                  FROM payments_summary_tab AS pst
-                  INNER JOIN (
-                      SELECT DISTINCT ON (payment_id) 
-                            payment_id,
-                            status_id
-                      FROM payments_andrew_statuses
-                      ORDER BY payment_id, create_at DESC
-                  ) AS ans ON pst.payment_id = ans.payment_id
-                  INNER JOIN payment_agreed_statuses AS ag ON ans.status_id = ag.payment_agreed_status_id;
-                  """)
-response = cursor.fetchall()
-pprint(response)
+# for i in range(2):
+#     values_p_a_h.append(
+#         (26, 2, 2, 2)
+#     )
+values_p_a_h = [
+    (26, 2, 2, 2),
+    (27, 2, 2, 3),
+    (80, 2, 2, 4)
+]
+# Execute the SQL query
+# cursor.executemany(query_a_h, values_p_a_h)
+# execute_batch(cursor, query_a_h, values_p_a_h)
+tmp = []
+for i in range(len(values_p_a_h)):
+    cursor.execute(query_a_h, [values_p_a_h[i][0], values_p_a_h[i][1], values_p_a_h[i][2], values_p_a_h[i][3]])
+    results = cursor.fetchall()
+    tmp.append(results)
+conn.commit()
+# Fetch the results
+# results = cursor.fetchall()
+pprint(tmp)
 
-cursor.execute(
-    """SELECT 
-            t1.payment_id,
-            t3.contractor_name, 
-            t4.cost_item_name, 
-            t1.payment_number, 
-            t1.basis_of_payment, 
-            t1.responsible,
-            t1.payment_description, 
-            t1.object_id,
-            t1.partner,
-            t1.payment_sum,
-            '',
-            '',
-            t1.payment_due_date,
-            t2.status_id,
-            t1.payment_at,
-            t1.payment_full_agreed_status
-    FROM payments_summary_tab AS t1
-    INNER JOIN (
-            SELECT DISTINCT ON (payment_id) 
-                payment_id,
-                status_id
-            FROM payments_andrew_statuses
-            ORDER BY payment_id, create_at DESC
-    ) AS t2 ON t1.payment_id = t2.payment_id
-    INNER JOIN (
-        SELECT contractor_id,
-            contractor_name
-        FROM our_companies            
-    ) AS t3 ON t1.our_companies_id = t3.contractor_id
-    INNER JOIN (
-        SELECT cost_item_id,
-            cost_item_name
-        FROM payment_cost_items            
-    ) AS t4 ON t1.cost_item_id = t4.cost_item_id
-    WHERE t1.payment_status = 'new'"""
-
-)
-response = cursor.fetchall()
-
-pprint(response)
-pprint(type(response))
-print(len(response))
-# # pprint(response.payment_at)
-# # for field in response[0].keys():
-# #     print(field)
-# for row in response:
-#     # create_at_str = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
-#     # row["payment_at"] = datetime.datetime.strptime(create_at_str, '%Y-%m-%d %H:%M:%S')
-#     # row["payment_at"] = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
-# pprint(response)
+# # Fetch the results
+# num_rows = cursor.rowcount
+# print(f"Inserted {num_rows} rows.")
 
 
+# pprint(values_p_a_h)
 
-cursor.execute("""
-                    SELECT DISTINCT ON (payment_id) 
-                payment_id,
-                status_id
-            FROM payments_andrew_statuses
-            ORDER BY payment_id, create_at DESC
-                    """
-               )
-response = cursor.fetchall()
-pprint(response)
-
-
-
-# """Список столбцов и описаний таблицы payments_summary_tab.
-# Если вдруг будем делать конструктор таблицы для пользователя"""
-# cursor.execute(
-#     "SELECT column_name, "
-#     "col_description('public.payments_summary_tab'::regclass, ordinal_position) AS comment "
-#     "FROM information_schema.columns "
-#     "WHERE table_name = 'payments_summary_tab'")
-# col_description = cursor.fetchall()
-# pprint(col_description)
-
+conn.commit()
 cursor.close()
 conn.close()

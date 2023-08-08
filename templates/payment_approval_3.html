@@ -51,55 +51,62 @@
 
             <form id="paymentForm3" action="/payment_approval_3" method="POST">
                 <button type="submit">Submit</button>
-                <table id="payment-table" class="display">
+                <table id="payment-table" name="payment_table" class="display">
                     <thead>
                         <tr>
+                            <th onclick="sortTable(0, 'num')">№ *</th>
                             <th>ВЫБОР *</th>
-                            <th onclick="sortTable(1)">СИП/КПЛН *</th>
-                            <th onclick="sortTable(2)">СТАТЬЯ ЗАТРАТ</th>
-                            <th onclick="sortTable(3)">№ ПЛАТЕЖА</th>
-                            <th onclick="sortTable(4)">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
-                            <th onclick="sortTable(5)">ОПИСАНИЕ</th>
-                            <th onclick="sortTable(6)">ОБЪЕКТ</th>
-                            <th onclick="sortTable(7)">ОТВЕТСТВЕННЫЙ</th>
-                            <th onclick="sortTable(8)">КОНТРАГЕНТ</th>
-                            <th onclick="sortTable(9)">ОБЩАЯ СУММА *</th>
-                            <th onclick="sortTable(10)">ОСТАТОК К ОПЛАТЕ *</th>
-                            <th onclick="sortTable(11)">СОГЛАСОВАННАЯ СУММА *</th>
-                            <th onclick="sortTable(12)">СРОК ОПЛАТЫ</th>
-                            <th onclick="sortTable(13)">СТАТУС</th>
-                            <th onclick="sortTable(14)">ДАТА СОЗДАНИЯ</th>
-                            <th onclick="sortTable(15)">СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ *</th>
+                            <th onclick="sortTable(2, 'str')">СИП/КПЛН *</th>
+                            <th onclick="sortTable(3, 'str')">СТАТЬЯ ЗАТРАТ</th>
+                            <th onclick="sortTable(4, 'str')">№ ПЛАТЕЖА</th>
+                            <th onclick="sortTable(5, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
+                            <th onclick="sortTable(6, 'str')">ОПИСАНИЕ</th>
+                            <th onclick="sortTable(7, 'str')">ОБЪЕКТ</th>
+                            <th onclick="sortTable(8, 'str')">ОТВЕТСТВЕННЫЙ</th>
+                            <th onclick="sortTable(9, 'str')">КОНТРАГЕНТ</th>
+                            <th onclick="sortTable(10, 'num')">ОБЩАЯ СУММА *</th>
+                            <th onclick="sortTable(11, 'num')">ОСТАТОК К ОПЛАТЕ *</th>
+                            <th onclick="sortTable(12, 'num')">СОГЛАСОВАННАЯ СУММА *</th>
+                            <th onclick="sortTable(13, 'str')">СРОК ОПЛАТЫ</th>
+                            <th onclick="sortTable(14, 'str')">СТАТУС</th>
+                            <th onclick="sortTable(15, 'str')">ДАТА СОЗДАНИЯ</th>
+                            <th onclick="sortTable(16, 'str')">СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ *</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for application in applications %}
                         <tr>
-                            <td><input type="checkbox" id="selectedRows" name="selectedRows" value="{{loop.index}}'-***-'{{ application.payment_id }}"></td>
+                            <td>{{loop.index}}</td>
+<!--                            <td><input type="checkbox" id="selectedRows" name="selectedRows" value="{{loop.index}}'-***-'{{ application.payment_id }}"></td>-->
+                            <td><input type="checkbox" id="selectedRows" name="selectedRows" value="{{loop.index}}"></td>
                             <td>{{ application.contractor_name }}</td>
                             <td>{{ application.cost_item_name }}</td>
-                            <td>{{ application.payment_number }}</td>
+<!--                            <td>{{ application.payment_number }}</td>-->
+                            <td><input id="payment_number" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{application.payment_number}}</td>
                             <td>{{ application.basis_of_payment }}</td>
                             <td>{{ application.payment_description }}</td>
-                            <td>{{ application.object_id }}</td>
+                            <td>{{ application.object_name }}</td>
                             <td>{{ application.last_name }} {{ application.first_name[0] }}.</td>
                             <td>{{ application.partner }}</td>
 
 
                             <td>{{ application.payment_sum }}</td>
-                            <td></td>
-                            <td><input type="number" id="amount" name="amount"></td>
+                            <td>{{ application.approval_sum}}</td>
+                            <td><input type="number" id="amount" name="amount" step="0.01">{{ application.amount }}</td>
+<!--                                       value="{{ application.amount }}"></td>-->
                             <td>{{ application.payment_due_date }}</td>
 <!--                            <td>{{ application.payment_agreed_status_name }}</td>-->
                             <td>
-                                <select>
+                                <select id="status_id" name="status_id" >
                                     {% for s in approval_statuses %}
                                     <option {% if application.status_id == s.payment_agreed_status_id %} selected {% endif %}>{{ s.payment_agreed_status_name }}</option>
                                     {% endfor %}
                                 </select>
                             </td>
                             <td>{{ application.payment_at }}</td>
-                            <td><input type="checkbox" id="payment_full_agreed_status" name="selectedRows" checked=""></td>
+                            <td><input type="checkbox" id="payment_full_agreed_status" name="payment_full_agreed_status"
+                                       value="{{loop.index}}"
+                                       {% if application.payment_full_agreed_status %}checked{% endif %}></td>
 
                         </tr>
                         {% endfor %}
