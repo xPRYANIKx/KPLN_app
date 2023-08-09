@@ -3,6 +3,7 @@ import psycopg2.extras
 import time
 import datetime
 import itertools
+from psycopg2.extras import execute_values
 from pprint import pprint
 from flask import Flask, g, request, render_template, redirect, flash, url_for, session, abort, get_flashed_messages
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -222,7 +223,7 @@ def new_contract_save_data():
                 # Close the database connection
                 coon_cursor_close(cursor, conn)
 
-                flash('✔️ Договор сохранён', category='success')
+                flash(message=['✔️ Договор сохранён', ''], category='success')
                 return redirect(url_for(''))
                 # return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
             except Exception as e:
@@ -230,7 +231,7 @@ def new_contract_save_data():
                 # Close the database connection
                 coon_cursor_close(cursor, conn)
 
-                flash(f'❌ Договор НЕ сохранён \n---{e}', category='error')
+                flash(message=['❌ Договор НЕ сохранён', str(e)], category='error')
                 return redirect(url_for(''))
                 # return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
 
@@ -297,7 +298,7 @@ def new_payment():
 
 @app.route('/new_payment', methods=['POST'])
 # @login_required
-def new_payment_save_data():
+def set_new_payment():
     """Сохранение новой заявки на оплату в БД"""
     try:
         if request.method == 'POST':
@@ -415,7 +416,7 @@ def new_payment_save_data():
                 # Close the database connection
                 coon_cursor_close(cursor, conn)
 
-                flash(message=f'✔️ Платёж сохранён. ID: {payment_number}', category='success')
+                flash(message=['✔️ Платёж сохранён', f'№: {payment_number}'], category='success')
                 session['submitted'] = True
                 return redirect(url_for('new_payment'))
             except Exception as e:
@@ -426,7 +427,7 @@ def new_payment_save_data():
         return redirect(url_for('new_payment'))
 
     except Exception as e:
-        return f'new_payment_save_data ❗❗❗ Ошибка \n---{e}'
+        return f'set_new_payment ❗❗❗ Ошибка \n---{e}'
 
 
 @app.route('/payment_approval_3')
@@ -543,7 +544,7 @@ def get_unapproved_payments_3():
 
 @app.route('/payment_approval_3', methods=['POST'])
 @login_required
-def approved_payments_save_data_3():
+def set_approved_payments_3():
     print(current_user.get_role())
     """Сохранение согласованные платежи на оплату в БД"""
     try:
@@ -555,23 +556,9 @@ def approved_payments_save_data_3():
             payment_approval_sum = request.form.getlist('amount')  # Согласованная стоимость
             payment_full_agreed_status = request.form.getlist('payment_full_agreed_status')  # Сохранить до полной опл.
 
-            # Список изменений для таблицы payments_summary_tab
-            pst_id_list = []  # Список id
-            pst_change_full_agreed = []  # Статус "Сохранить до полной опл"
-            pst_close_status = []  # Статус закрытия заявки
-
-            # Список изменения для таблицы payments_approval_history
-            pah_id_list = []  # Список id
-            pah_status_id = []  # id статуса заявки
-            pah_approval_sum = []  # Сумма согласования
-            values_p_a_h = []  # Данные для записи в БД
-            a_h_id = []  # Список id созданных записей
-
-            # Список для внесения в таблицу payments_approval
-            pa_id_list = []  # Список id
-            pa_sum = []  # Список согласованных стоимость
-            pa_confirm_id = []  # Список id записей из таблицы payments_approval_history
-            values_p_a = []  # Данные для записи в БД
+            values_p_s_t = []  # Данные для записи в таблицу payments_summary_tab
+            values_p_a_h = []  # Данные для записи в таблицу payments_approval_history
+            values_p_a = []  # Данные для записи в таблицу payments_approval_history
 
             values_a_h = []  # Список согласованных заявок для записи на БД
             pay_id_list_raw = []  # Список согласованных id заявок без обработки ошибок
@@ -689,7 +676,9 @@ def approved_payments_save_data_3():
                     error_list.append([
                         total_approval_sum[i]['payment_id'],
                         total_approval_sum[i]['payment_sum'],
-                        total_approval_sum[i]['total_approval']
+                        total_approval_sum[i]['total_approval'],
+                        'Сумма согласования больше остатка'
+
                     ])
                     total_approval_sum[i]['payment_id'] = None
 
@@ -698,12 +687,11 @@ def approved_payments_save_data_3():
                 print(total_approval_sum[i]['payment_id'], '-', total_approval_sum[i]['status_id'])
                 """для db payments_summary_tab"""
                 if total_approval_sum[i]['payment_id']:
-                    # Список id
-                    pst_id_list.append(total_approval_sum[i]['payment_id'])
-                    # Статус "Сохранить до полной опл"
-                    pst_change_full_agreed.append(total_approval_sum[i]['payment_full_agreed_status'])
-                    # Статус закрытия заявки
-                    pst_close_status.append(total_approval_sum[i]['close_status'])
+                    values_p_s_t.append([
+                        total_approval_sum[i]['payment_id'],
+                        total_approval_sum[i]['payment_full_agreed_status'],
+                        total_approval_sum[i]['close_status']
+                    ])
 
                 """для db payments_approval_history"""
                 if total_approval_sum[i]['payment_id'] and total_approval_sum[i]['status_id'] in [2, 3, 4, 5]:
@@ -713,12 +701,6 @@ def approved_payments_save_data_3():
                         user_id,
                         total_approval_sum[i]['payment_approval_sum']
                     ])
-                    # # Список id
-                    # pah_id_list.append(total_approval_sum[i]['payment_id'])
-                    # # Статус Андрея
-                    # pah_status_id.append(total_approval_sum[i]['status_id'])
-                    # # Согласованная сумма
-                    # pah_approval_sum.append(total_approval_sum[i]['payment_approval_sum'])
 
                 """для db payments_approva"""
                 if total_approval_sum[i]['payment_id']:
@@ -727,95 +709,77 @@ def approved_payments_save_data_3():
                         total_approval_sum[i]['payment_approval_sum'],
                         ''
                     ])
-                    # # Список id
-                    # pa_id_list.append(total_approval_sum[i]['payment_id'])
-                    # # Согласованная сумма
-                    # pa_sum.append(total_approval_sum[i]['status_id'])
 
-            print('pst    ', [pst_id_list], [pst_change_full_agreed], [pst_close_status])
-            print('pah    ', [values_p_a_h])
-            print('pa    ', [values_p_a])
+            print('pst    ', values_p_s_t)
+            print('pah    ', values_p_a_h)
+            print('pa    ', values_p_a)
+            print('ERRORS    ', error_list)
+            for i in total_approval_sum:
+                print(i)
+            return get_unapproved_payments_3()
 
-            try:
-                # Перезапись в payments_summary_tab
-                query_s_t = """
-                    UPDATE payments_summary_tab
-                    SET payment_full_agreed_status = %s, payment_close_status = %s
-                    WHERE payment_id = %s;
-                """
-                for i in range(len(pst_id_list)):
-                    cursor.execute(query_s_t, [pst_change_full_agreed[i], pst_close_status[i], pst_id_list[i]])
-                conn.commit()
-
-                # Запись в payments_approval_history
-                # query_a_h = """
-                #     INSERT INTO payments_approval_history (
-                #         payment_id,
-                #         status_id,
-                #         user_id,
-                #         approval_sum
-                #     )
-                #     VALUES (
-                #         %s,
-                #         %s,
-                #         %s,
-                #         %s
-                #     )
-                #     RETURNING payment_id, confirm_id;"""
-                # for i in range(len(values_p_a_h)):
-                #     cursor.execute(query_a_h,
-                #                    [values_p_a_h[i][0], values_p_a_h[i][1], values_p_a_h[i][2], values_p_a_h[i][3]])
-                #     results = cursor.fetchall()
-                #     a_h_id.append(results)
-                # conn.commit()
-                query_a_h = """
-                    INSERT INTO payments_approval_history (
-                        payment_id,
-                        status_id,
-                        user_id,
-                        approval_sum
-                    )
-                    VALUES """
-                result = ','.join(['(' + ', '.join(map(str, item)) + ')' for item in values_p_a_h])
-                query_a_h = query_a_h + result + " RETURNING payment_id, confirm_id;"
-                cursor.execute(query_a_h)
-                a_h_id = cursor.fetchall()
-                conn.commit()
-
-                # Запись в payments_approval
-                query_a = """
-                    INSERT INTO payments_approval (
-                      payment_id,
-                      approval_sum,
-                      confirm_id
-                    )
-                    VALUES (
-                      %s,
-                      %s,
-                      %s
-                    )"""
-
-                for i in values_p_a:
-                    for j in a_h_id:
-                        if i[0] == j[0]:
-                            i[2] = j[1]
-
-                    cursor.execute(query_a,
-                                   [values_p_a[i][0], values_p_a[i][1], values_p_a[i][2]])
-                conn.commit()
-
-
-                # Close the database connection
-                coon_cursor_close(cursor, conn)
-                flash(message='✔️ Заявки согласованы', category='success')
-                return redirect(url_for('get_unapproved_payments_3'))
-            except Exception as e:
-                return f'отправка approved_payments_save_data_3 ❗❗❗ Ошибка \n---{e}'
-            return redirect(url_for('get_unapproved_payments_3'))
-            # return get_unapproved_payments_3()
+            # try:
+            #     # Перезапись в payments_summary_tab
+            #     columns_p_s_t = ("payment_id", "payment_full_agreed_status", "payment_close_status")
+            #     query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+            #     execute_values(cursor, query_p_s_t, values_p_s_t)
+            #     conn.commit()
+            #
+            #     # Запись в payments_approval_history
+            #     action_p_a_h = 'INSERT INTO'
+            #     table_p_a_h = 'payments_approval_history'
+            #     columns_p_a_h = ('payment_id', 'status_id', 'user_id', 'approval_sum')
+            #     subquery = " RETURNING payment_id, confirm_id;"
+            #     query_a_h = get_db_dml_query(action_p_a_h, table_p_a_h, columns_p_a_h, subquery)
+            #     a_h_id = execute_values(cursor, query_a_h, values_p_a_h, fetch=True)
+            #     conn.commit()
+            #
+            #     # Запись в payments_approval
+            #     # добавляем id согласования
+            #     for i in values_p_a:
+            #         for j in a_h_id:
+            #             if i[0] == j[0]:
+            #                 i[2] = j[1]
+            #     action_p_a = 'INSERT INTO'
+            #     table_p_a = 'payments_approval'
+            #     columns_p_a = ('payment_id', 'approval_sum', 'confirm_id')
+            #     query_p_a = get_db_dml_query(action_p_a, table_p_a, columns_p_a)
+            #     execute_values(cursor, query_p_a, values_p_a)
+            #     conn.commit()
+            #
+            #     # Close the database connection
+            #     coon_cursor_close(cursor, conn)
+            #     flash(message=['✔️ Заявки согласованы',''], category='success')
+            #     return redirect(url_for('get_unapproved_payments_3'))
+            # except Exception as e:
+            #     return f'отправка set_approved_payments_3 ❗❗❗ Ошибка \n---{e}'
+            # return redirect(url_for('get_unapproved_payments_3'))
+            # # return get_unapproved_payments_3()
 
     except Exception as e:
-        return f'approved_payments_save_data_3 ❗❗❗ Ошибка \n---{e}'
+        return f'set_approved_payments_3 ❗❗❗ Ошибка \n---{e}'
+
+
+# Создание запроса в БД для множественного внесения данных
+def get_db_dml_query(action, table, columns, subquery=";"):
+    query = None
+    if action == 'UPDATE':
+        # Список столбцов в SET
+        expr_set = ', '.join([f"{col} = c.{col}" for col in columns[1:]])
+        # Список столбцов для таблицы "с"
+        expr_s_tab = str(columns).replace('\'', '').replace('"', '')
+        # Выражение для WHERE
+        expr_where = result = f"c.{columns[0]} = t.{columns[0]}"
+        # Конструктор запроса
+        query = f"{action} {table} AS t SET {expr_set} FROM (VALUES %s) AS c {expr_s_tab} WHERE {expr_where} {subquery}"
+
+    elif action == 'INSERT INTO':
+        # Кортеж колонок переводим в строки и удаляем кавычки
+        expr_cols = str(columns).replace('\'', '').replace('"', '')
+        # Конструктор запроса
+        query = f"{action} {table} {expr_cols} VALUES  %s {subquery}"
+
+    return query
 
 
 @app.route('/payment_pay')
@@ -1077,7 +1041,7 @@ def logout():
         #     return redirect(url_for('login'))
         logout_user()
         func_hlnk_profile()
-        flash(f'✔️ Вы вышли из аккаунта', category='success')
+        flash(message=['✔️ Вы вышли из аккаунта', ''], category='success')
 
         # Меню профиля
         hlnk_profile = {
@@ -1085,7 +1049,7 @@ def logout():
 
         # return redirect(url_for('login'))
         # return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
-        return render_template('index.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
+        # return render_template('index.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
         return index()
     except Exception as e:
         return f'logout ❗❗❗ Ошибка \n---{e}'
@@ -1131,10 +1095,10 @@ def login():
                 userlogin = UserLogin().create(user)
                 login_user(userlogin, remember=remain)
                 conn.close()
-                flash('✔️ Вы вошли в систему', category='success')
+                flash(message=['✔️ Вы вошли в систему', ''], category='success')
                 return redirect(request.args.get("next") or url_for("profile"))
 
-            flash(f'❌ Логин или пароль указан неверно', category='error')
+            flash(message=['❌ Логин или пароль указан неверно', ''], category='error')
             conn.close()
             print('ERROR')
             # return redirect(url_for('login'))
@@ -1170,7 +1134,7 @@ def register():
                         return redirect(url_for('register'))
 
                 except Exception as e:
-                    flash(f'❗❗❗ Ошибка \n---{e}', category='error')
+                    flash(message=['register ❗❗❗ Ошибка', str(e)], category='error')
                     return redirect(url_for('register'))
 
             return render_template("register.html", title="Регистрация", menu=hlnk_menu, menu_profile=hlnk_profile)

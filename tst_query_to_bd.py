@@ -2,7 +2,7 @@ import datetime
 import itertools
 import psycopg2
 import psycopg2.extras
-from psycopg2.extras import execute_batch
+from psycopg2.extras import execute_batch, execute_values
 import time
 from pprint import pprint
 
@@ -21,16 +21,14 @@ cursor = conn.cursor()
 # values_p_a_h = []
 
 
-def get_db_query(table, columns, values, subquery=";"):
-    # Добавляем кортежи (%s, %s...), (%s, %s...)...
-    val_list = ','.join(['(' + ('%s,'*len(value))[:-1] + ')' for value in values])
+def get_db_dml_query(action, table, columns, subquery=";"):
     # Кортеж колонок переводим в строки и удаляем кавычки
     columns = str(columns).replace('\'', '').replace('"', '')
+
     # Конструктор запроса
-    query = f"INSERT INTO {table} {columns} VALUES " + val_list + subquery
+    query = f"{action} {table} {columns} VALUES  %s {subquery}"
     # Переводим двумерный список данных в одномерный
-    values = list(itertools.chain(*values))
-    return query, values
+    return query
 
 
 query_a_h1 = """
@@ -46,62 +44,24 @@ values_p_a_h = [
     (27, 2, 2, 3),
     (80, 2, 2, 4)
 ]
+
+
+
 columns = ('payment_id', 'status_id', 'user_id', 'approval_sum')
 table = 'payments_approval_history'
 subquery = " RETURNING payment_id, confirm_id;"
-xxx = get_db_query(table, columns, values_p_a_h)
+query_a_h = get_db_dml_query('INSERT INTO', table, columns, subquery)
 
-pprint(xxx)
-cursor.execute(xxx[0], xxx[1])
-result3 = ','.join(['(' + ('%s,'*len(item))[:-1] + ')' for item in values_p_a_h])
-query_a_h1 += result3 + " RETURNING payment_id, confirm_id;"
+pprint(query_a_h)
+results = execute_values(cursor, query_a_h, values_p_a_h, fetch=True)
 
-
-
-
-values_p_a_h = [
-    (26, 2, 2, 2),
-    (27, 2, 2, 3),
-    (80, 2, 2, 4)
-]
-
-
-# cursor.execute(query_a_h1, list(itertools.chain(*values_p_a_h)))
-
-# query_a_h = f"""
-#     INSERT INTO payments_approval_history (
-#         payment_id,
-#         status_id,
-#         user_id,
-#         approval_sum
-#     )
-#     VALUES ({','.join('%s' for col in columns)})
-#     RETURNING payment_id, confirm_id;"""
-#
-# query_string = f"INSERT INTO `{}` {} VALUES ({})".format(table, columns, placeholders)
-
-columns = (
-        'payment_id',
-        'status_id',
-        'user_id',
-        'approval_su'
-)
-placeholders = ','.join('%s' for col in columns)
-query_string = "INSERT INTO payments_approval_history {} VALUES ({})".format(columns, placeholders)
-# cursor.execute(query_string, values_p_a_h)
-
-
-
-
-# print(x)
-# cursor.execute(query_a_h)
-# results = cursor.fetchall()
-# print(query_a_h)
+# cursor.fetchall()
+print(results)
 # print('\n')
 # print(values_p_a_h)
 # print('\n')
 # print(results)
-# conn.commit()
+conn.commit()
 # cursor.execute(x)
 # results = cursor.fetchall()
 # print(results)
