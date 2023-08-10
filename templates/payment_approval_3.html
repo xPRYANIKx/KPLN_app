@@ -26,22 +26,47 @@
         }
     </style>
     <script src="static/script/paymentApprovalSort.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="static/script/saveChanges.js"></script>
 
+
+    <script>
+        $(document).ready(function() {
+            $('#status_id').on('change', function() {
+                var data = $(this).val();  // Get the value of the input field
+                console.log(data)
+
+                // Send an AJAX request to the server
+                $.ajax({
+                    url: '/run_function',
+                    type: 'POST',
+                    data: {data: data},
+                    success: function(response) {
+                        var updatedData = response.updated_data;
+                        // Update the UI with the updated data
+                        // ...
+                    }
+                });
+            });
+        });
+    </script>
 
 </head>
 <body>
 
     {% if get_flashed_messages(True) %}
-    <dialog class="window {{get_flashed_messages(True)[0][0]}}" id="logInfo" open>
-        <span>Статус:</span>
-        <div class="flash {{get_flashed_messages(True)[0][0]}}">
-            {{get_flashed_messages(True)[0][1][0]}}<br>
-            {{get_flashed_messages(True)[0][1][1]}}
-        </div>
-        <button type="button" onclick="window.logInfo.close();">
-            Закрыть
-        </button>
-    </dialog>
+        {% for r in get_flashed_messages(True) %}
+            <dialog class="window {{r[0]}}" id="logInfo" open>
+                <span>Статус {{loop.index}}:</span>
+                <div class="flash {{r[0]}}">
+                    {{r[1][0]}}<br>
+                    {{r[1][1]}}
+                </div>
+                <button type="button" onclick="window.logInfo.close();">
+                    Закрыть
+                </button>
+            </dialog>
+        {% endfor %}
     {% else %}
     {% endif %}
 
@@ -114,7 +139,8 @@
                             <td>{{ application.payment_due_date }}</td>
 <!--                            <td>{{ application.payment_agreed_status_name }}</td>-->
                             <td>
-                                <select id="status_id" name="status_id" >
+<!--                                <select id="status_id" name="status_id" onchange="getValue(this)">-->
+                                <select id="status_id" name="status_id">
                                     {% for s in approval_statuses %}
                                     <option {% if application.status_id == s.payment_agreed_status_id %} selected {% endif %}>{{ s.payment_agreed_status_name }}</option>
                                     {% endfor %}
