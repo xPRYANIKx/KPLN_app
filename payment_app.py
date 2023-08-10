@@ -19,7 +19,7 @@ app.config['SECRET_KEY'] = 'yyazaxkoaxb4w8vgj7a7p1lxfb7gee6n5hx'
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-login_manager.login_message = "❗  Авторизуйтесь для доступа к закрытым страницам"
+login_manager.login_message = "❗  Не достаточно прав для доступа"
 login_manager.login_message_category = "success"
 
 # PostgreSQL database configuration
