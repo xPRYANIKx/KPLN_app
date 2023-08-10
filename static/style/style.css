@@ -134,9 +134,9 @@ body table td {
 }
 body #logInfo {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 40%;
+  min-width: 260px;
+  max-width: 275px;
   z-index: 6;
   border: solid 1px rgba(213, 213, 213, 0.2784313725);
   border-radius: 9px;
@@ -206,18 +206,16 @@ header a:hover {
   width: 400px;
   min-height: 300px;
   z-index: 8;
+  top: 55px;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.91);
   color: #ffffff;
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-  animation-name: fadeInDown;
-  animation-duration: 0.8s;
-  animation-fill-mode: both;
 }
 #menu .menu_content {
   display: flex;
   position: absolute;
-  top: 36%;
+  top: 25%;
   align-items: center;
   margin-right: 15px;
   font-size: 16px;
@@ -229,16 +227,7 @@ header a:hover {
 #menu .menu_content a:hover {
   color: #e3d47f;
 }
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: none;
-  }
-}
+
 #menuImage {
   cursor: pointer;
 }
@@ -461,9 +450,7 @@ main form button:enabled {
   }
   #menu {
     width: 100vw;
-  }
-  #menu .menu_content {
-    top: 35%;
+    top: 50px;
   }
   main {
     width: 100%;
@@ -523,6 +510,9 @@ main form button:enabled {
   }
   header #header_auth__label {
     font-size: 11px;
+  }
+  #menu {
+    top: 40px;
   }
   main {
     padding: 45px 40px 10px 40px;
