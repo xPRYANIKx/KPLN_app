@@ -1210,7 +1210,7 @@ def func_hlnk_profile():
                      "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
                     {"name": "Список платежей", "url": "payment_list",
                      "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"},
-                    {"name": "Регистрация", "url": "register",
+                    {"name": "Регистрация пользователей", "url": "register",
                      "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"},
                 ]
             else:
