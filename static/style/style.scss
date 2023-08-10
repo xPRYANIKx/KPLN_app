@@ -55,9 +55,9 @@ body {
     // Диалоговвые окна о выполнении операций
     #logInfo {
         position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+        top: 40%;
+        min-width: 260px;
+        max-width: 275px;
         z-index: 6;
         border: solid 1px #d5d5d547;
         border-radius: 9px;
@@ -134,6 +134,7 @@ header {
     width: 400px;
     min-height: 300px;
     z-index: 8;
+    top: 55px;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.91);
     color: #ffffff;
@@ -143,7 +144,7 @@ header {
     .menu_content {
         display: flex;
         position: absolute;
-        top: 36%;
+        top: 25%;
         align-items: center;
         margin-right: 15px;
         font-size: 16px;
@@ -154,36 +155,6 @@ header {
                 color: #e3d47f;
             }
         }
-    }
-    -webkit-animation-name: fadeInDown;
-    animation-name: fadeInDown;
-    -webkit-animation-duration: 0.8s;
-    animation-duration: 0.8s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-@-webkit-keyframes fadeInDown {
-    0% {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-    }
-    100% {
-        opacity: 1;
-        -webkit-transform: none;
-        transform: none;
-    }
-}
-@keyframes fadeInDown {
-    0% {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-    }
-    100% {
-        opacity: 1;
-        -webkit-transform: none;
-        transform: none;
     }
 }
 #menuImage {
@@ -438,9 +409,7 @@ main {
     }
     #menu {
         width: 100vw;
-        .menu_content {
-            top: 35%;
-        }
+        top: 50px;
     }
     main {
         width: 100%;
@@ -510,6 +479,9 @@ main {
         #header_auth__label {
             font-size: 11px;
         }
+    }
+    #menu {
+        top: 40px;
     }
     main {
         padding: 45px 40px 10px 40px;
