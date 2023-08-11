@@ -1298,7 +1298,7 @@ def logout():
         #     return redirect(url_for('login'))
         logout_user()
         func_hlnk_profile()
-        flash(message=['Вы вышли из аккаунта', ''], category='success')
+        # flash(message=['Вы вышли из аккаунта', ''], category='success')
 
         # Меню профиля
         hlnk_profile = {
@@ -1353,7 +1353,7 @@ def login():
                 userlogin = UserLogin().create(user)
                 login_user(userlogin, remember=remain)
                 conn.close()
-                flash(message=['Вы вошли в систему', ''], category='success')
+                # flash(message=['Вы вошли в систему', ''], category='success')
                 return redirect(request.args.get("next") or url_for("profile"))
 
             flash(message=['Логин или пароль указан неверно', ''], category='error')
@@ -1415,6 +1415,41 @@ def func_hlnk_profile():
             # Role: Admin
             if current_user.get_role() == 1:
                 print('user role', current_user.get_role())
+
+
+            # НОВЫЙ СПИСОК МЕНЮ - СПИСОК СЛОВАРЕЙ со словарями
+            #     hlnk_menu = [
+            #         {"menu_item": "Платежи", "sub_item":
+            #             [{"name": "Добавить поступления", "url": "cash_inflow",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
+            #              {"name": "Новый платеж", "url": "new_payment",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+            #              {"name": "Согласование платежей", "url": "payment_approval_3",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
+            #              {"name": "Оплата платежей", "url": "payment_pay",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
+            #              {"name": "Список платежей", "url": "payment_list",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"}, ]
+            #          },
+            #         {"menu_item": "Admin", "sub_item":
+            #             [{"name": "Регистрация пользователей", "url": "register",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"}, ]
+            #          },
+            #     ]
+            # else:
+            #     print('user role else', current_user.get_role())
+            #     hlnk_menu = [
+            #         {"menu_item": "Платежи", "sub_item":
+            #             [{"name": "Новый платеж", "url": "new_payment",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+            #              {"name": "Список платежей", "url": "payment_list",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"}, ]
+            #          },
+            #     ]
+            #
+
+
+
                 hlnk_menu = [
                     {"name": "Главная страница", "url": "/",
                      "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
