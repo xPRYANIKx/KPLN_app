@@ -55,6 +55,7 @@
 
 
 
+
         <header>
             <div class="header__logo">
                 <img src="static/img/menu.png" alt="kpln_logo" id="menuImage">
@@ -63,6 +64,7 @@
             <div id="menu">
                 <div class="menu_content">
                     <ul>
+                        <li class="mainmenu_h"><a href="/">Главная страница</a></li>
                         {% for p in menu %}
                         <li><a href="{{p.url}}">{{p.name}}</a></li>
                         {% endfor %}
