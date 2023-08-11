@@ -20,29 +20,23 @@
             <div class="header__logo">
                 <img src="static/img/menu.png" alt="kpln_logo" id="menuImage">
             </div>
-            <div id="header_auth__label">{{menu_profile[0].name[0]}}</div>
-        </header>
-
-        <div id="menu">
-            <div class="menu_content">
-                <ul>
-                    <li><a href="/">Главное меню</a></li>
-                    <li>Пункт меню 1</li>
-                    <li>Пункт меню 2</li>
-                    <li>Пункт меню 3</li>
-                    <li>Пункт меню 4</li>
-                </ul>
+            <div id="header_auth__label">Авторизация</div>
+            <div id="menu">
+                <div class="menu_content">
+                    <ul>
+                        {% for p in menu %}
+                        <li><a href="{{p.url}}">{{p.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        </div>
+        </header>
 
         <main>
             <div class="auth_form">
                 <div class="auth_form__status">
                     {% if error_msg %}
                     <div class="flash error">{{error_msg}}</div>
-<!--                    {% for cat, msg in get_flashed_messages(True) %}-->
-<!--                    <div class="flash {{cat}}">{{msg}}</div>-->
-<!--                    {% endfor %}-->
                     {% else %}
                     {% endif %}
                 </div>

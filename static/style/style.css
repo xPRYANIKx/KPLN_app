@@ -204,27 +204,43 @@ header a:hover {
   display: none;
   position: absolute;
   width: 400px;
-  min-height: 300px;
   z-index: 8;
   top: 55px;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.91);
   color: #ffffff;
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  animation-name: slideInLeft;
+  animation-duration: 0.6s;
+  animation-fill-mode: both;
+}
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+    visibility: visible;
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 #menu .menu_content {
   display: flex;
-  position: absolute;
-  top: 25%;
-  align-items: center;
-  margin-right: 15px;
-  font-size: 16px;
+  font-size: 19px;
 }
-#menu .menu_content a {
-  color: #ffffff;
+#menu .menu_content ul {
+  padding: 20px 15px 30px 0px;
+}
+#menu .menu_content ul li {
+  margin: 5px 0px;
+  border-bottom: solid 2px #8f8f8f;
+  border-left: dashed 2px #8f8f8f;
+  padding-left: 5px;
+}
+#menu .menu_content ul li a {
+  color: #fafdff;
   text-decoration: none;
 }
-#menu .menu_content a:hover {
+#menu .menu_content ul li a:hover {
   color: #e3d47f;
 }
 

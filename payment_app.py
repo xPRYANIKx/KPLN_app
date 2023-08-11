@@ -19,7 +19,7 @@ app.config['SECRET_KEY'] = 'yyazaxkoaxb4w8vgj7a7p1lxfb7gee6n5hx'
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-login_manager.login_message = "❗  Авторизуйтесь для доступа к закрытым страницам"
+login_manager.login_message = "❗  Не достаточно прав для доступа"
 login_manager.login_message_category = "success"
 
 # PostgreSQL database configuration
@@ -1428,7 +1428,7 @@ def func_hlnk_profile():
                      "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
                     {"name": "Список платежей", "url": "payment_list",
                      "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"},
-                    {"name": "Регистрация", "url": "register",
+                    {"name": "Регистрация пользователей", "url": "register",
                      "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"},
                 ]
             else:

@@ -44,11 +44,9 @@
             <div id="menu">
                 <div class="menu_content">
                     <ul>
-                        <li><a href="/">Главное меню</a></li>
-                        <li>Пункт меню 1</li>
-                        <li>Пункт меню 2</li>
-                        <li>Пункт меню 3</li>
-                        <li>Пункт меню 4</li>
+                        {% for p in menu %}
+                        <li><a href="{{p.url}}">{{p.name}}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>

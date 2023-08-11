@@ -25,6 +25,7 @@
             cursor: pointer;
         }
     </style>
+
     <script src="static/script/paymentApprovalSort.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="static/script/paymentApprovalSaveChanges.js"></script>
@@ -33,18 +34,18 @@
 <body>
 
     {% if get_flashed_messages(True) %}
-        {% for r in get_flashed_messages(True) %}
-            <dialog class="window {{r[0]}}" id="logInfo" open>
-                <span>Статус {{loop.index}}:</span>
-                <div class="flash {{r[0]}}">
-                    {{r[1][0]}}<br>
-                    {{r[1][1]}}
-                </div>
-                <button type="button" onclick="window.logInfo.close();">
-                    Закрыть
-                </button>
-            </dialog>
-        {% endfor %}
+    {% for r in get_flashed_messages(True) %}
+    <dialog class="window {{r[0]}}" id="logInfo" open>
+        <span>Статус {{loop.index}}:</span>
+        <div class="flash {{r[0]}}">
+            {{r[1][0]}}<br>
+            {{r[1][1]}}
+        </div>
+        <button type="button" onclick="window.logInfo.close();">
+            Закрыть
+        </button>
+    </dialog>
+    {% endfor %}
     {% else %}
     {% endif %}
 
@@ -113,7 +114,8 @@
                             <td>
                                 <select id="status_id-{{ loop.index }}" name="status_id" onchange="saveData({{ loop.index }})">
                                     {% for s in approval_statuses %}
-                                    <option {% if application.status_id == s.payment_agreed_status_id %} selected {% endif %}>{{ s.payment_agreed_status_name }}</option>
+                                    <option {% if application.status_id==s.payment_agreed_status_id %} selected {% endif %}>{{ s.payment_agreed_status_name }}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </td>
