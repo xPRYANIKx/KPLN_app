@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const menuButtonClick = event.target == image
         if (!menuClick && !menuButtonClick) {
             menu.style.display = "none";
-            image.src = 'static/img/menu.png'
+            image.src = '/static/img/menu.png'
         }
     });
 
@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
         var isMenuVisible = menu.style.display === "flex";
         if (isMenuVisible) {
             menu.style.display = "none";
-            image.src = 'static/img/menu.png'
+            image.src = '/static/img/menu.png'
         } else {
             menu.style.display = "flex";
-            image.src = 'static/img/menu_end.png'
+            image.src = '/static/img/menu_end.png'
         }
     });
 });

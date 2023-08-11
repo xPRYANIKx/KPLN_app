@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
+    <link rel="stylesheet" href="static/style/style.css">
+    <title>{{title}}</title>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <header>
+            <div class="header__logo">
+                <img src="static/img/menu.png" alt="kpln_logo" id="menuImage">
+            </div>
+            <div id="header_auth__label">Авторизация</div>
+            <div id="menu">
+                <div class="menu_content">
+                    <ul>
+                        {% for p in menu %}
+                        <li><a href="{{p.url}}">{{p.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!--Тут сам код-->
+            <!--Тут сам код-->
+            <!--Тут сам код-->
+            <!--Тут сам код-->
+            <!--Тут сам код-->
+            <!--Тут сам код-->
+            <!--Тут сам код-->
+        </main>
+
+        <footer>
+            <div class=" footer_company">
+                <div class="footer_company__href">
+                    <div class="footer_company__href_bitrix24"><a href="https://kpln.bitrix24.ru/">Битрикс24</a></div>
+                    <div class="footer_company__href_moodle"><a href="http://moodle/">Учебный центр</a></div>
+                </div>
+                <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbsp Проектное бюро "Крупный план"</div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="static/script/todayYear.js"></script>
+    <script src="static/script/menunav.js"></script>
+
+</body>
+</html>
