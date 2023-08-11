@@ -229,9 +229,9 @@ def new_contract_save_data():
         return f'new_contract_save_data ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/new_payment')
+@app.route('/new-payment')
 # @login_required
-def new_payment():
+def get_new_payment():
     """Страница создания новой заявки на оплату"""
     try:
         # Connect to the database
@@ -277,7 +277,7 @@ def new_payment():
         # Create profile name dict
         func_hlnk_profile()
 
-        return render_template('new_payment.html', responsible=responsible, cost_items=cost_items,
+        return render_template('new-payment.html', responsible=responsible, cost_items=cost_items,
                                objects_name=objects_name, partners=partners, today=today,
                                our_companies=our_companies, menu=hlnk_menu, menu_profile=hlnk_profile,
                                title='Новая заявка на оплату')
@@ -285,7 +285,7 @@ def new_payment():
         return f'❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/new_payment', methods=['POST'])
+@app.route('/new-payment', methods=['POST'])
 # @login_required
 def set_new_payment():
     """Сохранение новой заявки на оплату в БД"""
@@ -407,19 +407,20 @@ def set_new_payment():
 
                 flash(message=['Платёж сохранён', f'№: {payment_number}'], category='success')
                 session['submitted'] = True
-                return redirect(url_for('new_payment'))
+                return redirect(url_for('get_new_payment'))
             except Exception as e:
                 conn.rollback()
                 # Close the database connection
                 coon_cursor_close(cursor, conn)
-                flash(message=['Платёж не сохранён', str(e)], category='error')
-        return redirect(url_for('new_payment'))
+                return flash(message=['Платёж не сохранён', str(e)], category='error')
+                return redirect(request.referrer)
+        return redirect(url_for('get_new_payment'))
 
     except Exception as e:
         return f'set_new_payment ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/payment_approval_3')
+@app.route('/payment-approval-3')
 @login_required
 def get_unapproved_payments_3():
     """Выгрузка из БД списка несогласованных платежей"""
@@ -538,7 +539,7 @@ def get_unapproved_payments_3():
         return f'get_unapproved_payments_3 ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/payment_approval_3', methods=['POST'])
+@app.route('/payment-approval-3', methods=['POST'])
 @login_required
 def set_approved_payments_3():
     print(current_user.get_role())
@@ -1422,7 +1423,7 @@ def func_hlnk_profile():
             #         {"menu_item": "Платежи", "sub_item":
             #             [{"name": "Добавить поступления", "url": "cash_inflow",
             #               "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
-            #              {"name": "Новый платеж", "url": "new_payment",
+            #              {"name": "Новый платеж", "url": "new-payment",
             #               "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
             #              {"name": "Согласование платежей", "url": "payment_approval_3",
             #               "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
@@ -1440,7 +1441,7 @@ def func_hlnk_profile():
             #     print('user role else', current_user.get_role())
             #     hlnk_menu = [
             #         {"menu_item": "Платежи", "sub_item":
-            #             [{"name": "Новый платеж", "url": "new_payment",
+            #             [{"name": "Новый платеж", "url": "new-payment",
             #               "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
             #              {"name": "Список платежей", "url": "payment_list",
             #               "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"}, ]
@@ -1455,7 +1456,7 @@ def func_hlnk_profile():
                      "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
                     {"name": "Добавить поступления", "url": "cash_inflow",
                      "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
-                    {"name": "Новый платеж", "url": "new_payment",
+                    {"name": "Новый платеж", "url": "new-payment",
                      "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
                     {"name": "Согласование платежей", "url": "payment_approval_3",
                      "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
@@ -1471,7 +1472,7 @@ def func_hlnk_profile():
                 hlnk_menu = [
                     {"name": "Главная страница", "url": "/",
                      "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-                    {"name": "Новый платеж", "url": "new_payment",
+                    {"name": "Новый платеж", "url": "new-payment",
                      "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
                     {"name": "Список платежей", "url": "payment_list",
                      "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
@@ -1483,7 +1484,7 @@ def func_hlnk_profile():
             hlnk_menu = [
                 {"name": "Главная страница", "url": "/",
                  "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-                {"name": "Новый платеж", "url": "new_payment",
+                {"name": "Новый платеж", "url": "new-payment",
                  "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
                 # {"name": "Авторизация", "url": "login",
                 #  "img": "https://cdn-icons-png.flaticon.com/512/2574/2574003.png"},
