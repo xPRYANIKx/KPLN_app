@@ -3,7 +3,6 @@ function saveData(rowId) {
     var amount = document.getElementById('amount-' + rowId).value;
     var statusId = document.getElementById('status_id-' + rowId).value;
     var paymentFullAgreedStatus = document.getElementById('payment_full_agreed_status-' + rowId).checked;
-
     // Send a POST request to the server
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/save_quick_changes_approved_payments', true);

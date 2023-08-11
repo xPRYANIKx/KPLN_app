@@ -412,7 +412,7 @@ def set_new_payment():
                 conn.rollback()
                 # Close the database connection
                 coon_cursor_close(cursor, conn)
-                return flash(message=['Платёж не сохранён', str(e)], category='error')
+                flash(message=['Платёж не сохранён', str(e)], category='error')
                 return redirect(request.referrer)
         return redirect(url_for('get_new_payment'))
 
@@ -422,7 +422,7 @@ def set_new_payment():
 
 @app.route('/payment-approval')
 @login_required
-def get_unapproved_payments_3():
+def get_unapproved_payments():
     """Выгрузка из БД списка несогласованных платежей"""
     try:
         # Check if the user has access to the "List of contracts" page
@@ -508,6 +508,8 @@ def get_unapproved_payments_3():
                 # Изменяем объект None на пустоту
                 if not row["object_name"]:
                     row["object_name"] = ''
+                if not row["amount"]:
+                    row["amount"] = ''
                 # Изменяем Остаток к оплате None на пустоту
                 if not row["approval_sum"]:
                     row["approval_sum"] = row["payment_sum"]
@@ -536,12 +538,12 @@ def get_unapproved_payments_3():
                                    applications=all_payments, approval_statuses=approval_statuses,
                                    title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
     except Exception as e:
-        return f'get_unapproved_payments_3 ❗❗❗ Ошибка \n---{e}'
+        return f'get_unapproved_payments ❗❗❗ Ошибка \n---{e}'
 
 
 @app.route('/payment-approval', methods=['POST'])
 @login_required
-def set_approved_payments_3():
+def set_approved_payments():
     print(current_user.get_role())
     """Сохранение согласованные платежи на оплату в БД"""
     try:
@@ -577,11 +579,11 @@ def set_approved_payments_3():
 
                 if not payment_approval_sum[row] and (status_id[row] == 'Черновик' or status_id[row] == 'Реком.'):
                     flash(message=['Не указана сумма согласования', ''], category='error')
-                    return redirect(url_for('get_unapproved_payments_3'))
+                    return redirect(url_for('get_unapproved_payments'))
 
                 if status_id[row] == 'К рассмотрению':
                     flash(message=['Функция не работает', ''], category='error')
-                    return redirect(url_for('get_unapproved_payments_3'))
+                    return redirect(url_for('get_unapproved_payments'))
 
                 values_a_h.append([
                     payment_number[row],
@@ -593,7 +595,7 @@ def set_approved_payments_3():
             print('values_a_h  ', len(values_a_h), not values_a_h, [values_a_h])
             if not values_a_h:
                 flash(message=['Ничего не выбрано', ''], category='error')
-                return redirect(url_for('get_unapproved_payments_3'))
+                return redirect(url_for('get_unapproved_payments'))
 
             conn, cursor = coon_cursor_init_dict()
             """
@@ -791,17 +793,17 @@ def set_approved_payments_3():
 
                 coon_cursor_close(cursor, conn)
 
-                return redirect(url_for('get_unapproved_payments_3'))
+                return redirect(url_for('get_unapproved_payments'))
             except Exception as e:
                 conn.rollback()
                 coon_cursor_close(cursor, conn)
-                return f'отправка set_approved_payments_3 ❗❗❗ Ошибка \n---{e}'
+                return f'отправка set_approved_payments ❗❗❗ Ошибка \n---{e}'
 
-        return redirect(url_for('get_unapproved_payments_3'))
-        # return get_unapproved_payments_3()
+        return redirect(url_for('get_unapproved_payments'))
+        # return get_unapproved_payments()
 
     except Exception as e:
-        return f'set_approved_payments_3 ❗❗❗ Ошибка \n---{e}'
+        return f'set_approved_payments ❗❗❗ Ошибка \n---{e}'
 
 
 @app.route('/run_function', methods=['POST'])
@@ -814,6 +816,7 @@ def run_function():
 
 @app.route('/save_quick_changes_approved_payments', methods=['POST'])
 def save_quick_changes_approved_payments():
+    print('save_quick_changes_approved_payments')
     # Сохраняем изменения в полях (согл сумма, статус, сохр до полн оплаты) заявки без нажатия кнопки "Отправить"
     try:
         payment_id = int(request.form['payment_number'])
