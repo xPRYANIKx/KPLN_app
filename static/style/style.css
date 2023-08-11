@@ -243,6 +243,13 @@ header a:hover {
 #menu .menu_content ul li a:hover {
   color: #e3d47f;
 }
+#menu .menu_content ul .mainmenu_h {
+  border-bottom: 0px;
+  border-left: 0px;
+  padding-left: 0px;
+  font-size: 28px;
+  font-weight: bold;
+}
 
 #menuImage {
   cursor: pointer;

@@ -1357,13 +1357,13 @@ def login():
                 # flash(message=['Вы вошли в систему', ''], category='success')
                 return redirect(request.args.get("next") or url_for("profile"))
 
-            flash(message=['Логин или пароль указан неверно', ''], category='error')
+            flash(message=['❌ Логин или пароль указан неверно', ''], category='error')
             conn.close()
             print('ERROR')
             # return redirect(url_for('login'))
             return render_template(
                 "login.html", title="Авторизация", menu=hlnk_menu, menu_profile=hlnk_profile,
-                error_msg='Логин или пароль указан неверно')
+                error_msg='❌ Логин или пароль указан неверно')
 
         # return redirect(url_for('login'))
         return render_template("login.html", title="Авторизация", menu=hlnk_menu, menu_profile=hlnk_profile)

@@ -44,6 +44,7 @@
             <div id="menu">
                 <div class="menu_content">
                     <ul>
+                        <li class="mainmenu_h"><a href="/">Главная страница</a></li>
                         {% for p in menu %}
                         <li><a href="{{p.url}}">{{p.name}}</a></li>
                         {% endfor %}
@@ -110,7 +111,8 @@
                     </datalist>
                 </div>
                 <div><label for="payment_due_date">Срок оплаты*</label>
-                    <input type="date" onload="getDate()" name="payment_due_date" id="payment_due_date" value="{{ today }}" required oninput="checkFormNewPayment()">
+                    <input type="date" onload="getDate()" name="payment_due_date" id="payment_due_date" value="{{ today }}" required
+                        oninput="checkFormNewPayment()">
                 </div>
                 <div><label for="our_company">Компания *</label>
                     <select class="selectSearch" name="our_company" id="our_company" required onchange="checkFormNewPayment()">
