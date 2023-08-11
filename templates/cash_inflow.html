@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
+    <script src="static/script/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="static/style/select2.min.css">
+    <link rel="stylesheet" href="static/style/style.css">
+
+    <script src="static/script/checkFormCashInflow.js"></script>
+    <script src="static/script/select2.min.js"></script>
+    <script src="static/script/selectSearch.js"></script>
+    <script src="static/script/numberWithSpaces.js"></script>
+
+    <title>{{title}}</title>
+</head>
+
+<body>
+
+    {% if get_flashed_messages(True) %}
+    <dialog class="window {{get_flashed_messages(True)[0][0]}}" id="logInfo" open>
+        <span>Статус:</span>
+        <div class="flash {{get_flashed_messages(True)[0][0]}}">
+            {{get_flashed_messages(True)[0][1][0]}}<br>
+            {{get_flashed_messages(True)[0][1][1]}}
+        </div>
+        <button type="button" onclick="window.logInfo.close();">
+            Закрыть
+        </button>
+    </dialog>
+    {% else %}
+    {% endif %}
+
+    <div class="wrapper">
+
+        <header>
+            <div class="header__logo">
+                <img src="static/img/menu.png" alt="kpln_logo" id="menuImage">
+            </div>
+            <div id="header_auth__label">{{menu_profile[0].name[0]}} &nbsp;&nbsp;&nbsp;<a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
+            <div id="menu">
+                <div class="menu_content">
+                    <ul>
+                        <li><a href="/">Главное меню</a></li>
+                        <li>Пункт меню 1</li>
+                        <li>Пункт меню 2</li>
+                        <li>Пункт меню 3</li>
+                        <li>Пункт меню 4</li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+
+
+        <main>
+
+            <form method="POST" action="/cash_inflow">
+                <h1>{{title}}</h1>
+                <div><label for="our_company">Компания</label>
+                    <select class="selectSearch" name="our_company" id="our_company" required onchange="checkFormCashInflow()">
+                        <option value="" disabled selected hidden>Выберите компанию</option>
+                        {% for our_company in our_companies %}
+                        <option value="{{ our_company[0] }}">{{ our_company[0] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div><label for="income_type">Тип поступления</label>
+                    <select class="selectSearch" name="income_type" id="income_type" required onchange="checkFormCashInflow()">
+                        {% for income_type in income_types %}
+                        <option value="{{ income_type[0] }}">{{ income_type[0] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div><label for="income_amount">Сумма поступления</label>
+                    <input type="text" placeholder="руб." name="income_amount" id="income_amount" onchange="numberWithSpaces(event, ' руб.')"
+                        oninput="checkFormCashInflow()" />
+                </div>
+                <p><label for="income_description">Комментарий</label>
+                    <textarea name="income_description" id="income_description" rows="4"
+                        placeholder="Описание поступления"
+                        required oninput="checkFormCashInflow()"></textarea>
+                </p>
+
+
+                <button type="submit" id="submitBtn" onclick="window['logInfo'].showModal();" disabled>Сохранить</button>
+            </form>
+
+        </main>
+
+        <footer>
+            <div class=" footer_company">
+                <div class="footer_company__href">
+                    <div class="footer_company__href_bitrix24"><a href="https://kpln.bitrix24.ru/">Битрикс24</a></div>
+                    <div class="footer_company__href_moodle"><a href="http://moodle/">Учебный центр</a></div>
+                </div>
+                <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbsp Проектное бюро "Крупный план"</div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="static/script/todayYear.js"></script>
+    <script src="static/script/menunav.js"></script>
+
+</body>
+</html>

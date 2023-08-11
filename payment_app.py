@@ -39,18 +39,6 @@ hlnk_menu = None
 # Меню профиля
 hlnk_profile = None
 
-# Как добавляется внешний ключ
-insert_expression = '''INSERT
-INTO
-Table1(col1, col2, your_desired_value_from_select_clause, col3)
-VALUES(
-    'col1_value',
-    'col2_value',
-    (SELECT col_Table2 FROM Table2 WHERE IdTable2 = 'your_satisfied_value_for_col_Table2_selected'),
-    'col3_value'
-);'''
-
-
 # Конект к БД
 def coon_init():
     try:
@@ -438,9 +426,9 @@ def get_unapproved_payments_3():
     try:
         # Check if the user has access to the "List of contracts" page
         if current_user.get_role() != 1:
-            abort(403)
+            return permission_error(403)
         else:
-
+            user_id = current_user.get_id()
             # Connect to the database
             conn, cursor = coon_cursor_init_dict()
 
@@ -459,7 +447,7 @@ def get_unapproved_payments_3():
                         t1.partner,
                         t1.payment_sum,
                         t1.payment_sum - t7.approval_sum AS approval_sum,
-                        '' AS amount,
+                        t8.amount,
                         t1.payment_due_date,
                         t2.status_id,
                         t1.payment_at,
@@ -499,10 +487,18 @@ def get_unapproved_payments_3():
                         FROM payments_approval_history
                         GROUP BY payment_id
                 ) AS t7 ON t1.payment_id = t7.payment_id
+                LEFT JOIN (
+                        SELECT DISTINCT ON (payment_id) 
+                            parent_id::int AS payment_id,
+                            parameter_value::float AS amount
+                        FROM draft_payment
+                        WHERE page_name = %s AND parameter_name = %s AND user_id = %s
+                        ORDER BY payment_id, create_at DESC
+                ) AS t8 ON t1.payment_id = t8.payment_id
                 WHERE not t1.payment_close_status
                 ORDER BY t1.payment_number;
-                """
-
+                """,
+                ['payment_approval', 'amount', user_id]
             )
             all_payments = cursor.fetchall()
 
@@ -555,6 +551,12 @@ def set_approved_payments_3():
             status_id = request.form.getlist('status_id')  # Статус заявки (передаётся строковое название)
             payment_approval_sum = request.form.getlist('amount')  # Согласованная стоимость
             payment_full_agreed_status = request.form.getlist('payment_full_agreed_status')  # Сохранить до полной опл.
+
+            print('-- selected_rows', selected_rows)
+            print('-- payment_number', payment_number)
+            print('-- status_id', status_id)
+            print('-- payment_approval_sum', payment_approval_sum)
+            print('-- payment_full_agreed_status', payment_full_agreed_status)
 
             values_p_s_t = []  # Данные для записи в таблицу payments_summary_tab
             values_p_a_h = []  # Данные для записи в таблицу payments_approval_history
@@ -773,7 +775,7 @@ def set_approved_payments_3():
                         conn.commit()
 
                     # Close the database connection
-                    coon_cursor_close(cursor, conn)
+
                     flash(message=['Заявки согласованы', ''], category='success')
 
                     # else:
@@ -786,8 +788,12 @@ def set_approved_payments_3():
                 if error_list:
                     flash(message=[error_list, ''], category='error')
 
+                coon_cursor_close(cursor, conn)
+
                 return redirect(url_for('get_unapproved_payments_3'))
             except Exception as e:
+                conn.rollback()
+                coon_cursor_close(cursor, conn)
                 return f'отправка set_approved_payments_3 ❗❗❗ Ошибка \n---{e}'
 
         return redirect(url_for('get_unapproved_payments_3'))
@@ -803,6 +809,185 @@ def run_function():
     print('-'*10, '\n', '-'*10, '\n', '-'*10)
     print(status_id)
     return jsonify(updated_data='11111111')
+
+
+@app.route('/save_quick_changes_approved_payments', methods=['POST'])
+def save_quick_changes_approved_payments():
+    # Сохраняем изменения в полях (согл сумма, статус, сохр до полн оплаты) заявки без нажатия кнопки "Отправить"
+    try:
+        payment_id = int(request.form['payment_number'])
+        row_id = request.form['row_id']
+        amount = request.form['amount']
+        status_id = request.form['status_id']
+        status_id2 = request.form.getlist('status_id')
+        agreed_status = request.form['payment_full_agreed_status']
+        # Преобразовываем в нужный тип данных
+        if agreed_status == 'false':
+            agreed_status = False
+        else:
+            agreed_status = True
+        if amount:
+            amount = float(amount)
+
+
+        user_id = current_user.get_id()
+
+        print('row_id -', row_id, '\n', 'payment_id -', payment_id, '\n', 'amount -', amount, '\n',
+              'status_id -', status_id, '\n', 'agreed_status -', agreed_status)
+
+        # Execute the SQL query
+        conn, cursor = coon_cursor_init()
+
+        # Статусы Андрея
+        query_approval_statuses = """
+            SELECT payment_agreed_status_id AS id
+            FROM payment_agreed_statuses 
+            WHERE payment_agreed_status_name = %s
+        """
+        cursor.execute(query_approval_statuses, (status_id,))
+        approval_statuses = cursor.fetchone()[0]
+
+        # СТАТУС ПЛАТЕЖА
+        # Последний статус платежа
+        query_last_status = """
+            SELECT DISTINCT ON (payment_id) 
+                     status_id
+            FROM payments_approval_history
+            WHERE payment_id = %s
+            ORDER BY payment_id, create_at DESC
+        """
+        cursor.execute(query_last_status, (payment_id,))
+        last_status_id = cursor.fetchone()[0]
+        # Если статус New (id 1), приравниваем его к id 4 - Черновик
+        if last_status_id == 1:
+            last_status_id = 4
+        # Если статусы не совпадают, создаём новую запись
+        if last_status_id != approval_statuses:
+            # Запись в payments_approval_history
+            action_p_a_h = 'INSERT INTO'
+            table_p_a_h = 'payments_approval_history'
+            columns_p_a_h = ('payment_id', 'status_id', 'user_id')
+            values_p_a_h = [[payment_id, approval_statuses, user_id]]
+            query_a_h = get_db_dml_query(action_p_a_h, table_p_a_h, columns_p_a_h)
+            execute_values(cursor, query_a_h, values_p_a_h)
+
+        # СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ
+        # Последний статус сохранения до полной оплаты
+        query_last_f_a_status = """
+            SELECT payment_full_agreed_status
+            FROM payments_summary_tab
+            WHERE payment_id = %s
+        """
+        cursor.execute(query_last_f_a_status, (payment_id,))
+        last_f_a_status = cursor.fetchone()[0]
+        # Если статусы не совпадают, обновляем запись
+        if last_f_a_status != agreed_status:
+            columns_p_s_t = ("payment_id", "payment_full_agreed_status")
+            values_p_s_t = [[payment_id, agreed_status]]
+            query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+            execute_values(cursor, query_p_s_t, values_p_s_t)
+
+        # СОГЛАСОВАННАЯ СУММА
+        # Неотправленная согласованная сумма
+        query_last_amount = """
+        SELECT DISTINCT ON (payment_id) 
+            parent_id::int AS payment_id,
+            parameter_value::float AS amount
+        FROM draft_payment
+        WHERE page_name = %s AND parent_id::int = %s AND parameter_name = %s AND user_id = %s
+        ORDER BY payment_id, create_at DESC;
+        """
+        page_name = 'payment_approval'
+        parameter_name = 'amount'
+        value_last_amount = [page_name, payment_id, parameter_name, user_id]
+        cursor.execute(query_last_amount, value_last_amount)
+        last_amount = cursor.fetchone()
+        if last_amount:
+            last_amount = last_amount[1]
+        print('amount  ', type(amount), '   last_amount    ', type(last_amount), last_amount)
+        print(amount == last_amount)
+        # Если суммы не совпадают, добавляем запись
+        if amount != last_amount:
+            # Если неотправленна сумма была, то удаляем её и вносим новую (удаляем, а не перезаписываем т.к.
+            # возможно в таблице может быть несколько записей)
+            if last_amount:
+                # Удаление всех неотправленных сумм
+                cursor.execute("""
+                DELETE FROM draft_payment 
+                WHERE page_name = %s AND parent_id::int = %s AND parameter_name = %s AND user_id = %s
+                """, value_last_amount)
+            # Если указали сумму согласования, то вносим в таблицу временных значений, иначе не вносим
+            if amount:
+                action_d_p = 'INSERT INTO'
+                table_d_p = 'draft_payment'
+                columns_d_p = ('page_name', 'parent_id', 'parameter_name', 'parameter_value', 'user_id')
+                values_d_p = [[page_name, payment_id, parameter_name, amount, user_id]]
+                query_d_p = get_db_dml_query(action_d_p, table_d_p, columns_d_p)
+                execute_values(cursor, query_d_p, values_d_p)
+
+
+
+
+
+
+
+
+
+
+
+
+        # # Запись в payments_approval_history
+        # action_p_a_h = 'INSERT INTO'
+        # table_p_a_h = 'payments_approval_history'
+        # columns_p_a_h = ('payment_id', 'status_id', 'user_id')
+        # values_p_a_h = [[payment_id, status_id, user_id]]
+        # query_a_h = get_db_dml_query(action_p_a_h, table_p_a_h, columns_p_a_h)
+        # execute_values(cursor, query_a_h, values_p_a_h)
+        # print(query_a_h)
+        # cursor.execute(query_a_h, (payment_id, status_id, user_id))
+        #
+        # # Перезапись в payments_summary_tab
+        # columns_p_s_t = ("payment_id", "payment_full_agreed_status")
+        # values_p_s_t = [[payment_id, agreed_status]]
+        # query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+        # execute_values(cursor, query_p_s_t, values_p_s_t)
+
+
+
+        conn.commit()
+
+
+        coon_cursor_close(cursor, conn)
+
+        # """
+        # UPDATE payments_approval_history
+        # SET payment_id = %s, status_id = %s, user_id = %s
+        #
+        # SELECT DISTINCT ON (payment_id)
+        #                         payment_id,
+        #                         status_id
+        #                     FROM payments_approval_history
+        #                     ORDER BY payment_id, create_at DESC
+        #
+        # """
+        # value = [payment_number, last_payment_id]
+        # cursor.execute(query, value)
+        # """Обновляем номер платежа в payments_summary_tab"""
+        # # payment_number = f'PAY-{round(time.time())}-{last_payment_id}-{our_company}'
+        # query = """
+        #                     UPDATE payments_summary_tab
+        #                     SET payment_number = %s
+        #                     WHERE payment_id = %s;
+        #                 """
+        #
+        #
+        #
+        #
+        # # Update the data in the database using psycopg2
+
+        return 'Data saved successfully'
+    except Exception as e:
+        return f'save_quick_changes_approved_payments ❗❗❗ Ошибка \n---{e}'
 
 # Создание запроса в БД для множественного внесения данных
 def get_db_dml_query(action, table, columns, subquery=";"):
@@ -824,6 +1009,34 @@ def get_db_dml_query(action, table, columns, subquery=";"):
         query = f"{action} {table} {expr_cols} VALUES  %s {subquery}"
 
     return query
+
+
+@app.route('/cash_inflow')
+@login_required
+def get_cash_inflow():
+    """Страница для добавления платежа"""
+    try:
+        # Check if the user has access to the "List of contracts" page
+        if current_user.get_role() != 1:
+            return permission_error(403)
+        else:
+            return index()
+    except Exception as e:
+        return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
+
+
+@app.route('/cash_inflow', methods=['POST'])
+@login_required
+def set_cash_inflow():
+    """Сохранение платежа"""
+    try:
+        # Check if the user has access to the "List of contracts" page
+        if current_user.get_role() != 1:
+            return permission_error(403)
+        else:
+            return index()
+    except Exception as e:
+        return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
 
 
 @app.route('/payment_pay')
@@ -1094,7 +1307,8 @@ def logout():
         # return redirect(url_for('login'))
         # return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
         # return render_template('index.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
-        return index()
+        # return index()
+        return redirect(request.referrer)
     except Exception as e:
         return f'logout ❗❗❗ Ошибка \n---{e}'
 
@@ -1146,7 +1360,9 @@ def login():
             conn.close()
             print('ERROR')
             # return redirect(url_for('login'))
-            return render_template("login.html", title="Авторизация", menu=hlnk_menu, menu_profile=hlnk_profile)
+            return render_template(
+                "login.html", title="Авторизация", menu=hlnk_menu, menu_profile=hlnk_profile,
+                error_msg='Логин или пароль указан неверно')
 
         # return redirect(url_for('login'))
         return render_template("login.html", title="Авторизация", menu=hlnk_menu, menu_profile=hlnk_profile)
@@ -1159,7 +1375,7 @@ def login():
 def register():
     try:
         if current_user.get_role() != 1:
-            abort(403)
+            return permission_error(403)
         else:
 
             if request.method == 'POST':
@@ -1202,6 +1418,8 @@ def func_hlnk_profile():
                 hlnk_menu = [
                     {"name": "Главная страница", "url": "/",
                      "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
+                    {"name": "Добавить поступления", "url": "cash_inflow",
+                     "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
                     {"name": "Новый платеж", "url": "new_payment",
                      "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
                     {"name": "Согласование платежей", "url": "payment_approval_3",

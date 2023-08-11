@@ -5,15 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
-    <script src="static/script/jquery.min.js"></script>
 
     <link rel="stylesheet" href="static/style/select2.min.css">
     <link rel="stylesheet" href="static/style/style.css">
 
-    <script src="static/script/checkForm.js"></script>
-    <script src="static/script/select2.min.js"></script>
-    <script src="static/script/selectSearch.js"></script>
-    <script src="static/script/numberWithSpaces.js"></script>
 
     <title>{{title}}</title>
 </head>
@@ -43,9 +38,13 @@
         <main>
             <div class="auth_form">
                 <div class="auth_form__status">
-                    {% for cat, msg in get_flashed_messages(True) %}
-                    <div class="flash {{cat}}">{{msg}}</div>
-                    {% endfor %}
+                    {% if error_msg %}
+                    <div class="flash error">{{error_msg}}</div>
+<!--                    {% for cat, msg in get_flashed_messages(True) %}-->
+<!--                    <div class="flash {{cat}}">{{msg}}</div>-->
+<!--                    {% endfor %}-->
+                    {% else %}
+                    {% endif %}
                 </div>
                 <form class="auth_form__status__form" action="" method="post" class="form-contact">
                     <h1>{{title}}</h1>

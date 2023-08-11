@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="static/style/select2.min.css">
     <link rel="stylesheet" href="static/style/style.css">
 
-    <script src="static/script/checkForm.js"></script>
+    <script src="static/script/checkFormNewPayment.js"></script>
     <script src="static/script/select2.min.js"></script>
     <script src="static/script/selectSearch.js"></script>
     <script src="static/script/numberWithSpaces.js"></script>
@@ -61,13 +61,13 @@
             <form method="POST" action="/new_payment">
                 <h1>{{title}}</h1>
                 <p><label for="basis_of_payment">Наименование платежа*</label>
-                    <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required oninput="checkForm()"></textarea>
+                    <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required oninput="checkFormNewPayment()"></textarea>
                 <p class="form_description">* Аванс по договору №, такой-то с субподрядчиком (наименование субподрядчика в контрагенты) или
                     оплата
                     по акту по договору</p>
                 </p>
                 <div><label for="responsible">Ответственный*</label>
-                    <select class="selectSearch" name="responsible" id="responsible" required onchange="checkForm()">
+                    <select class="selectSearch" name="responsible" id="responsible" required onchange="checkFormNewPayment()">
                         <option value="" disabled selected hidden>Выберите ответственного</option>
                         {% for r in responsible %}
                         <option value="{{ r[0] }}">{{ r[1] }} {{ r[2] }}</option>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="unitedform">
                     <div><label for="cost_items">Тип заявки*</label>
-                        <select class="selectSearch" name="cost_items" id="cost_items" required onchange="checkForm()">
+                        <select class="selectSearch" name="cost_items" id="cost_items" required onchange="checkFormNewPayment()">
                             <option value="" disabled selected hidden>Выберите тип заявки</option>
                             {% for category, names in cost_items.items() %}
                             <optgroup label="{{ category }}">
@@ -89,7 +89,7 @@
                     </div>
                     <div class="hidden_label" id="objects_name_div">
                         <label for="objects_name" id="objects_name_label">Наименование объекта*</label>
-                        <select class="selectSearch" name="objects_name" id="objects_name" onchange="checkForm()">
+                        <select class="selectSearch" name="objects_name" id="objects_name" onchange="checkFormNewPayment()">
                             <option value="" disabled selected hidden>Выберите объект</option>
                             {% for object_name in objects_name %}
                             <option value="{{ object_name[0] }}">{{ object_name[1] }}</option>
@@ -100,7 +100,7 @@
                 <p><label for="payment_description">Описание*</label>
                     <textarea name="payment_description" id="payment_description" rows="4"
                         placeholder="Укажите:&#10;- Наименование работ (ООС, техрегламент, ПОС и т.п.)&#10;- Статус, за что платим (работы выполнены, аванс, работы приняты заказчиком)"
-                        required oninput="checkForm()"></textarea>
+                        required oninput="checkFormNewPayment()"></textarea>
                 </p>
                 <div><label for="partners">Контрагент</label>
                     <input type="text" name="partners" id="partners" list="partners_name">
@@ -112,10 +112,10 @@
                     </datalist>
                 </div>
                 <div><label for="payment_due_date">Срок оплаты*</label>
-                    <input type="date" onload="getDate()" name="payment_due_date" id="payment_due_date" value="{{ today }}" required oninput="checkForm()">
+                    <input type="date" onload="getDate()" name="payment_due_date" id="payment_due_date" value="{{ today }}" required oninput="checkFormNewPayment()">
                 </div>
                 <div><label for="our_company">Компания *</label>
-                    <select class="selectSearch" name="our_company" id="our_company" required onchange="checkForm()">
+                    <select class="selectSearch" name="our_company" id="our_company" required onchange="checkFormNewPayment()">
                         <option value="" disabled selected hidden>Выберите компанию</option>
                         {% for our_company in our_companies %}
                         <option value="{{ our_company[0] }}">{{ our_company[0] }}</option>
@@ -124,7 +124,7 @@
                 </div>
                 <div><label for="payment_sum">Сумма оплаты*</label>
                     <input type="text" placeholder="руб." name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' руб.')"
-                        oninput="checkForm()" />
+                        oninput="checkFormNewPayment()" />
                 </div>
                 <div class="help_p">* - поля обязательные для заполнения</div>
                 <button type="submit" id="submitBtn" onclick="window['logInfo'].showModal();" disabled>Сохранить</button>

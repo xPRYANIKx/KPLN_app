@@ -17,77 +17,59 @@ db_port = "5432"
 conn = psycopg2.connect(dbname=db_name, user=db_user,  password=db_password, host=db_host, port=db_port)
 
 cursor = conn.cursor()
-# cursor = conn.cursor()
-# values_p_a_h = []
-
+status_id = 'Черновик'
 
 def get_db_dml_query(action, table, columns, subquery=";"):
-    # Кортеж колонок переводим в строки и удаляем кавычки
-    columns = str(columns).replace('\'', '').replace('"', '')
+    query = None
+    if action == 'UPDATE':
+        # Список столбцов в SET
+        expr_set = ', '.join([f"{col} = c.{col}" for col in columns[1:]])
+        # Список столбцов для таблицы "с"
+        expr_s_tab = str(columns).replace('\'', '').replace('"', '')
+        # Выражение для WHERE
+        expr_where = result = f"c.{columns[0]} = t.{columns[0]}"
+        # Конструктор запроса
+        query = f"{action} {table} AS t SET {expr_set} FROM (VALUES %s) AS c {expr_s_tab} WHERE {expr_where} {subquery}"
 
-    # Конструктор запроса
-    query = f"{action} {table} {columns} VALUES  %s {subquery}"
-    # Переводим двумерный список данных в одномерный
+    elif action == 'INSERT INTO':
+        # Кортеж колонок переводим в строки и удаляем кавычки
+        expr_cols = str(columns).replace('\'', '').replace('"', '')
+        # Конструктор запроса
+        query = f"{action} {table} {expr_cols} VALUES  %s {subquery}"
+
     return query
 
 
-query_a_h1 = """
-    INSERT INTO payments_approval_history (
-        payment_id,
-        status_id,
-        user_id,
-        approval_sum
-    )
-    VALUES """
-values_p_a_h = [
-    (26, 2, 2, 2),
-    (27, 2, 2, 3),
-    (80, 2, 2, 4)
-]
+# Запись в payments_approval_history
+# print('Запись в payment_full_agreed_status')
+columns_p_s_t = ("payment_id", "payment_full_agreed_status")
+payment_id = '26'
+agreed_status = False
+# print('agreed_status', type(agreed_status), agreed_status)
+values_p_s_t = [[payment_id, agreed_status]]
+query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+# execute_values(cursor, query_p_s_t, values_p_s_t)
+
+values = ['payment_approval', 'amount', 2]
+cursor.execute("""
+DELETE FROM draft_payment WHERE page_name = %s AND parent_id::int = %s AND parameter_name = %s AND user_id = %s""",
+               ['payment_approval', 26, 'amount', 2])
+# cursor.execute("""
+# SELECT
+#     parent_id::int AS payment_id,
+#     parameter_value::float AS amount
+# FROM draft_payment
+# WHERE page_name = 'payment_approval' AND parameter_name = 'amount' AND user_id = 2
+# ORDER BY create_at DESC
+# """)
+# all_payments = cursor.fetchall()
+# print(all_payments)
+# print('approval_statuses', approval_statuses)
 
 
-
-columns = ('payment_id', 'status_id', 'user_id', 'approval_sum')
-table = 'payments_approval_history'
-subquery = " RETURNING payment_id, confirm_id;"
-query_a_h = get_db_dml_query('INSERT INTO', table, columns, subquery)
-
-pprint(query_a_h)
-results = execute_values(cursor, query_a_h, values_p_a_h, fetch=True)
-
-# cursor.fetchall()
-print(results)
-# print('\n')
-# print(values_p_a_h)
-# print('\n')
-# print(results)
-conn.commit()
-# cursor.execute(x)
-# results = cursor.fetchall()
-# print(results)
-conn.rollback()
-
-# Execute the SQL query
-# cursor.executemany(query_a_h, values_p_a_h)
-# execute_batch(cursor, query_a_h, values_p_a_h)
-# tmp = []
-# for i in range(len(values_p_a_h)):
-#     cursor.execute(query_a_h, [values_p_a_h[i][0], values_p_a_h[i][1], values_p_a_h[i][2], values_p_a_h[i][3]])
-#     results = cursor.fetchall()
-#     tmp.append(results)
 # conn.commit()
-# # Fetch the results
-# # results = cursor.fetchall()
-# print(tmp)
-# for i in tmp:
-#     print(i, type(i), '    ', i[0], type(i[0]), '    ', i[0][0], type(i[0][0]))
+# conn.rollback()
 
-# # Fetch the results
-# num_rows = cursor.rowcount
-# print(f"Inserted {num_rows} rows.")
-
-
-# pprint(values_p_a_h)
 
 conn.commit()
 cursor.close()

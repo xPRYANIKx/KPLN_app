@@ -27,29 +27,7 @@
     </style>
     <script src="static/script/paymentApprovalSort.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="static/script/saveChanges.js"></script>
-
-
-    <script>
-        $(document).ready(function() {
-            $('#status_id').on('change', function() {
-                var data = $(this).val();  // Get the value of the input field
-                console.log(data)
-
-                // Send an AJAX request to the server
-                $.ajax({
-                    url: '/run_function',
-                    type: 'POST',
-                    data: {data: data},
-                    success: function(response) {
-                        var updatedData = response.updated_data;
-                        // Update the UI with the updated data
-                        // ...
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="static/script/paymentApprovalSaveChanges.js"></script>
 
 </head>
 <body>
@@ -119,42 +97,35 @@
                         {% for application in applications %}
                         <tr>
                             <td>{{loop.index}}</td>
-<!--                            <td><input type="checkbox" id="selectedRows" name="selectedRows" value="{{loop.index}}'-***-'{{ application.payment_id }}"></td>-->
                             <td><input type="checkbox" id="selectedRows" name="selectedRows" value="{{loop.index}}"></td>
                             <td>{{ application.contractor_name }}</td>
                             <td>{{ application.cost_item_name }}</td>
-<!--                            <td>{{ application.payment_number }}</td>-->
-                            <td><input id="payment_number" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{application.payment_number}}</td>
+                            <td><input id="payment_number-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{application.payment_number}}</td>
                             <td>{{ application.basis_of_payment }}</td>
                             <td>{{ application.payment_description }}</td>
                             <td>{{ application.object_name }}</td>
                             <td>{{ application.last_name }} {{ application.first_name[0] }}.</td>
                             <td>{{ application.partner }}</td>
-
-
                             <td>{{ application.payment_sum }}</td>
                             <td>{{ application.approval_sum}}</td>
-                            <td><input type="number" id="amount" name="amount" step="0.01">{{ application.amount }}</td>
-<!--                                       value="{{ application.amount }}"></td>-->
+                            <td><input type="number" id="amount-{{ loop.index }}" name="amount" step="0.01" value="{{ application.amount }}" onchange="saveData({{ loop.index }})"></td>
                             <td>{{ application.payment_due_date }}</td>
-<!--                            <td>{{ application.payment_agreed_status_name }}</td>-->
                             <td>
-<!--                                <select id="status_id" name="status_id" onchange="getValue(this)">-->
-                                <select id="status_id" name="status_id">
+                                <select id="status_id-{{ loop.index }}" name="status_id" onchange="saveData({{ loop.index }})">
                                     {% for s in approval_statuses %}
                                     <option {% if application.status_id == s.payment_agreed_status_id %} selected {% endif %}>{{ s.payment_agreed_status_name }}</option>
                                     {% endfor %}
                                 </select>
                             </td>
                             <td>{{ application.payment_at }}</td>
-                            <td><input type="checkbox" id="payment_full_agreed_status" name="payment_full_agreed_status"
+                            <td>
+                                <input type="checkbox" id="payment_full_agreed_status-{{ loop.index }}" name="payment_full_agreed_status"
                                        value="{{loop.index}}"
-                                       {% if application.payment_full_agreed_status %}checked{% endif %}></td>
-
+                                       {% if application.payment_full_agreed_status %}checked{% endif %}
+                                       onchange="saveData({{ loop.index }})">
+                            </td>
                         </tr>
                         {% endfor %}
-
-                        <!-- Add more rows as needed -->
                     </tbody>
                 </table>
             </form>

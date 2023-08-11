@@ -3,7 +3,7 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    checkForm();
+    checkFormNewPayment();
 });
 
 ////$( ".selectSearch" ).change(checkForm());
