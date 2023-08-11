@@ -420,7 +420,7 @@ def set_new_payment():
         return f'set_new_payment ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/payment-approval-3')
+@app.route('/payment-approval')
 @login_required
 def get_unapproved_payments_3():
     """Выгрузка из БД списка несогласованных платежей"""
@@ -532,14 +532,14 @@ def get_unapproved_payments_3():
 
 
 
-            return render_template('payment_approval_3.html', menu=hlnk_menu, menu_profile=hlnk_profile,
+            return render_template('payment-approval.html', menu=hlnk_menu, menu_profile=hlnk_profile,
                                    applications=all_payments, approval_statuses=approval_statuses,
                                    title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
     except Exception as e:
         return f'get_unapproved_payments_3 ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/payment-approval-3', methods=['POST'])
+@app.route('/payment-approval', methods=['POST'])
 @login_required
 def set_approved_payments_3():
     print(current_user.get_role())
@@ -1012,7 +1012,7 @@ def get_db_dml_query(action, table, columns, subquery=";"):
     return query
 
 
-@app.route('/cash_inflow')
+@app.route('/cash-inflow')
 @login_required
 def get_cash_inflow():
     """Страница для добавления платежа"""
@@ -1026,7 +1026,7 @@ def get_cash_inflow():
         return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/cash_inflow', methods=['POST'])
+@app.route('/cash-inflow', methods=['POST'])
 @login_required
 def set_cash_inflow():
     """Сохранение платежа"""
@@ -1040,7 +1040,7 @@ def set_cash_inflow():
         return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/payment_pay')
+@app.route('/payment-pay')
 @login_required
 def get_unpaid_payments():
     print(current_user.get_role())
@@ -1124,14 +1124,14 @@ def get_unpaid_payments():
             # Create profile name dict
             func_hlnk_profile()
 
-            return render_template('payment_pay.html', menu=hlnk_menu, menu_profile=hlnk_profile,
+            return render_template('payment-pay.html', menu=hlnk_menu, menu_profile=hlnk_profile,
                                    applications=all_payments, approval_statuses=approval_statuses,
                                    title='ОПЛАТА ПЛАТЕЖЕЙ')
     except Exception as e:
         return f'get_unpaid_payments ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/payment_list')
+@app.route('/payment-list')
 @login_required
 def get_payments_list():
     print(current_user.get_role())
@@ -1211,64 +1211,11 @@ def get_payments_list():
         # Create profile name dict
         func_hlnk_profile()
 
-        return render_template('payment_list.html', menu=hlnk_menu, menu_profile=hlnk_profile,
+        return render_template('payment-list.html', menu=hlnk_menu, menu_profile=hlnk_profile,
                                applications=all_payments, approval_statuses=approval_statuses,
                                title='СПИСОК ПЛАТЕЖЕЙ ПОЛЬЗОВАТЕЛЯ')
     except Exception as e:
         return f'get_payments_list ❗❗❗ Ошибка \n---{e}'
-
-
-# Function to fetch data from the database
-def get_contracts(filter_by=None, sort_by=None):
-    """Выгрузка из БД списка договоров"""
-    try:
-        conn, cursor = coon_cursor_init()
-
-        # Filter data if filter_by parameter is provided
-        if filter_by is not None:
-            query = f"SELECT * FROM new_objects WHERE contract_status = '{filter_by}'"
-        else:
-            query = "SELECT * FROM new_objects"
-
-        # Sort data if sort_by parameter is provided
-        if sort_by is not None:
-            query += f" ORDER BY {sort_by}"
-
-        cursor.execute(query)
-        contracts = cursor.fetchall()
-
-        # Close the database connection
-        coon_cursor_close(cursor, conn)
-
-        return contracts
-    except Exception as e:
-        return f'get_contracts ❗❗❗ Ошибка \n---{e}'
-
-
-@app.route('/contracts_list')
-@login_required
-def contracts_list():
-    try:
-        contracts = get_contracts()
-
-        # Connect to the database
-        conn, cursor = coon_cursor_init()
-
-        # Список название НДС из таблицы vat
-        cursor.execute("""SELECT column_name
-        FROM information_schema.columns
-        WHERE table_name = 'new_objects'
-        ORDER BY ordinal_position;""")
-        sort_list = cursor.fetchall()
-
-        # Create profile name dict
-        func_hlnk_profile()
-
-        return render_template('contracts_list.html', menu=hlnk_menu, menu_profile=hlnk_profile, contracts=contracts,
-                               sort_list=sort_list,
-                               title='Список договоров')
-    except Exception as e:
-        return f'index2 ❗❗❗ Ошибка \n---{e}'
 
 
 # Обработчик ошибки 404
@@ -1337,7 +1284,7 @@ def login():
 
         print('login', current_user.is_authenticated)
         if current_user.is_authenticated:
-            return redirect(url_for('profile'))
+            return redirect(url_for('index'))
 
         if request.method == 'POST':
             conn = coon_init()
@@ -1355,7 +1302,7 @@ def login():
                 login_user(userlogin, remember=remain)
                 conn.close()
                 # flash(message=['Вы вошли в систему', ''], category='success')
-                return redirect(request.args.get("next") or url_for("profile"))
+                return redirect(request.args.get("next") or url_for("index"))
 
             flash(message=['❌ Логин или пароль указан неверно', ''], category='error')
             conn.close()
@@ -1458,7 +1405,7 @@ def func_hlnk_profile():
                      "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
                     {"name": "Новый платеж", "url": "new-payment",
                      "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
-                    {"name": "Согласование платежей", "url": "payment_approval_3",
+                    {"name": "Согласование платежей", "url": "payment-approval",
                      "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
                     {"name": "Оплата платежей", "url": "payment_pay",
                      "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
