@@ -5,22 +5,16 @@ import datetime
 import itertools
 from psycopg2.extras import execute_values
 from pprint import pprint
-from flask import Flask, g, request, render_template, redirect, flash, url_for, session, abort, get_flashed_messages, \
-    jsonify
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask import request, render_template, redirect, flash, url_for, session, abort, get_flashed_messages, \
+    jsonify, Blueprint
+from flask_login import current_user
 from datetime import date
-from werkzeug.security import generate_password_hash, check_password_hash
-from user_login import UserLogin
-from forms import LoginForm, RegisterForm
 from FDataBase import FDataBase
+from flask_login import login_required
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'yyazaxkoaxb4w8vgj7a7p1lxfb7gee6n5hx'
 
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-login_manager.login_message = "❗  Не достаточно прав для доступа"
-login_manager.login_message_category = "success"
+payment_app_bp = Blueprint('payment_app', __name__)
+# app = Flask(__name__)
 
 # PostgreSQL database configuration
 db_name = "kpln_db"
@@ -53,27 +47,8 @@ def coon_init():
     except Exception as e:
         return f'coon_init ❗❗❗ Ошибка \n---{e}'
 
-    # if not hasattr(g, 'link_db'):
-    #     g.link_db = conn = psycopg2.connect(
-    #         dbname=db_name,
-    #         user=db_user,
-    #         password=db_password,
-    #         host=db_host,
-    #         port=db_port
-    #     )
-    # return g.link_db
 
-
-@login_manager.user_loader
-def load_user(user_id):
-    try:
-        print("load_user")
-        return UserLogin().from_db(user_id, dbase)
-    except Exception as e:
-        return f'load_user ❗❗❗ Ошибка \n---{e}'
-
-
-@app.before_request
+@payment_app_bp.before_request
 def before_request():
     try:
         # Установление соединения с БД перед выполнением запроса
@@ -114,20 +89,6 @@ def coon_cursor_close(cursor, conn):
         return f'coon_cursor_close ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/', methods=["POST", "GET"])
-def index():
-    """Главная страница"""
-    try:
-
-
-        # Create profile name dict
-        func_hlnk_profile()
-        pprint('func_hlnk_profile')
-
-        return render_template('index.html', menu=hlnk_menu,
-                               menu_profile=hlnk_profile, title='Главная страница')
-    except Exception as e:
-        return f'❗❗❗ index \n---{e}'
 
 # Новый договор
 def new_contract():
@@ -177,59 +138,7 @@ def new_contract():
         return f'❗❗❗ new_contract \n---{e}'
 
 
-# @app.route('/', methods=['POST'])
-# @login_required
-def new_contract_save_data():
-    """Сохранение нового договора в БД"""
-    try:
-        if request.method == 'POST':
-            # Get the form data from the request
-            object_name = request.form.get('object')
-            contract_type = request.form.get('contract_type')
-            date_row = request.form.get('date')
-            contract_number = request.form.get('contract_number')
-            customer = request.form.get('customer')
-            contractor = request.form.get('contractor')
-            contract_comment = request.form.get('contract_comment')
-            contract_status = request.form.get('contract_status')
-            contract_purpose = request.form.get('contract_purpose')
-            vat = request.form.get('vat')
-
-            # Connect to the database
-            conn, cursor = coon_cursor_init()
-
-            # Prepare the SQL query to insert the data into the table
-            query = """INSERT INTO new_objects (object_name, contract_type, date_row, contract_number, customer, contractor,
-             contract_comment, contract_status, contract_purpose, vat, vat_value) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, (SELECT vat_value FROM vat WHERE vat_name = %s))"""
-            values = (object_name, contract_type, date_row, contract_number, customer, contractor, contract_comment,
-                      contract_status, contract_purpose, vat, vat)
-
-            try:
-                # Execute the SQL query
-                cursor.execute(query, values)
-                conn.commit()
-                # Close the database connection
-                coon_cursor_close(cursor, conn)
-
-                flash(message=['Договор сохранён', ''], category='success')
-                return redirect(url_for(''))
-                # return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
-            except Exception as e:
-                conn.rollback()
-                # Close the database connection
-                coon_cursor_close(cursor, conn)
-
-                flash(message=['Договор НЕ сохранён', str(e)], category='error')
-                return redirect(url_for(''))
-                # return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
-
-        return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
-    except Exception as e:
-        return f'new_contract_save_data ❗❗❗ Ошибка \n---{e}'
-
-
-@app.route('/new-payment')
+@payment_app_bp.route('/new-payment')
 # @login_required
 def get_new_payment():
     """Страница создания новой заявки на оплату"""
@@ -282,152 +191,146 @@ def get_new_payment():
                                our_companies=our_companies, menu=hlnk_menu, menu_profile=hlnk_profile,
                                title='Новая заявка на оплату')
     except Exception as e:
-        return f'❗❗❗ Ошибка \n---{e}'
+        return f'payment ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/new-payment', methods=['POST'])
+@payment_app_bp.route('/new-payment', methods=['POST'])
 # @login_required
 def set_new_payment():
     """Сохранение новой заявки на оплату в БД"""
-    try:
-        if request.method == 'POST':
-            # # Check if the form is resubmitted
-            # if session.get('submitted'):
-            #     flash('❗ Платёж был сохранен ранее. Повторная отправка отменена', category='success')
-            #     # session['submitted'] = False
-            #     return redirect(url_for('new_payment'))
+    # try:
+    if request.method == 'POST':
+        # Get the form data from the request
+        basis_of_payment = request.form.get('basis_of_payment')  # Наименование платежа
+        responsible = request.form.get('responsible')  # Ответственный
+        cost_items = request.form.get('cost_items').split('-@@@-')[1]  # Тип заявки
+        try:
+            object_id = request.form.get('objects_name')  # id объекта
+        except:
+            object_id = None
+        payment_description = request.form.get('payment_description')  # Описание
+        partner = request.form.get('partners')  # Контрагент
+        payment_due_date = request.form.get('payment_due_date')  # Срок оплаты
+        our_company = request.form.get('our_company')  # Компания
+        payment_sum = request.form.get('payment_sum')  # Сумма оплаты
+        # Превращаем строковое значение "payment_sum" с пропусками и руб. в число
+        payment_sum = (payment_sum.replace(' руб.', '').
+                       replace(" ", "").replace(",", "."))
+        payment_number = f'PAY-{round(time.time())}-___-{our_company}'  # Номера платежа
 
+        # Connect to the database
+        conn, cursor = coon_cursor_init()
 
-            # Get the form data from the request
-            basis_of_payment = request.form.get('basis_of_payment')  # Наименование платежа
-            responsible = request.form.get('responsible')  # Ответственный
-            cost_items = request.form.get('cost_items').split('-@@@-')[1]  # Тип заявки
-            try:
-                object_id = request.form.get('objects_name')  # id объекта
-            except:
-                object_id = None
-            payment_description = request.form.get('payment_description')  # Описание
-            partner = request.form.get('partners')  # Контрагент
-            payment_due_date = request.form.get('payment_due_date')  # Срок оплаты
-            our_company = request.form.get('our_company')  # Компания
-            payment_sum = request.form.get('payment_sum')  # Сумма оплаты
-            # Превращаем строковое значение "payment_sum" с пропусками и руб. в число
-            payment_sum = (payment_sum.replace(' руб.', '').
-                           replace(" ", "").replace(",", "."))
-            payment_number = f'PAY-{round(time.time())}-___-{our_company}'  # Номера платежа
+        # Prepare the SQL query to insert the data into the payments_summary_tab
+        query_s_t = """
+        INSERT INTO payments_summary_tab (
+            our_companies_id,
+            cost_item_id,
+            payment_number,
+            basis_of_payment,
+            payment_description,
+            object_id,
+            partner,
+            payment_sum,
+            payment_due_date,
+            payment_owner,
+            responsible
+        )
+        VALUES (
+            (SELECT contractor_id FROM our_companies WHERE contractor_name = %s LIMIT 1),
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s
+        )
+        RETURNING payment_id;"""
+        values_s_t = (
+            our_company,
+            cost_items,
+            payment_number,
+            basis_of_payment,
+            payment_description,
+            object_id,
+            partner,
+            payment_sum,
+            payment_due_date,
+            current_user.get_id(),
+            responsible)
 
-            # Connect to the database
+        # Prepare the SQL query to insert the data into the payments_approval_history
+        query_a_s = """
+        INSERT INTO payments_approval_history (
+            payment_id,
+            status_id,
+            user_id
+        )
+        VALUES (
+            %s,
+            %s,
+            %s
+        )"""
+
+        try:
+            """Запись в payments_summary_tab"""
+            # Записываем новый платёж в БД и получаем обратно id записи для генерации номера платежа
+            cursor.execute(query_s_t, values_s_t)
+            last_payment_id = cursor.fetchone()[0]
+            conn.commit()
+            # Close the database connection
+            coon_cursor_close(cursor, conn)
+
+            # Execute the SQL query
             conn, cursor = coon_cursor_init()
+            """Обновляем номер платежа в payments_summary_tab"""
+            payment_number = f'PAY-{round(time.time())}-{last_payment_id}-{our_company}'
+            query = """
+                UPDATE payments_summary_tab
+                SET payment_number = %s
+                WHERE payment_id = %s;
+            """
+            value = [payment_number, last_payment_id]
+            cursor.execute(query, value)
 
-            # Prepare the SQL query to insert the data into the payments_summary_tab
-            query_s_t = """
-            INSERT INTO payments_summary_tab (
-                our_companies_id,
-                cost_item_id,
-                payment_number,
-                basis_of_payment,
-                payment_description,
-                object_id,
-                partner,
-                payment_sum,
-                payment_due_date,
-                payment_owner,
-                responsible
-            )
-            VALUES (
-                (SELECT contractor_id FROM our_companies WHERE contractor_name = %s LIMIT 1),
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s
-            )
-            RETURNING payment_id;"""
-            values_s_t = (
-                our_company,
-                cost_items,
-                payment_number,
-                basis_of_payment,
-                payment_description,
-                object_id,
-                partner,
-                payment_sum,
-                payment_due_date,
-                current_user.get_id(),
-                responsible)
+            """Запись в payments_approval_history"""
+            status_id_a_s = 1  # id статуса "Черновик" из payments_approval_history
+            user_id_a_s = current_user.get_id() if current_user.get_id() else responsible
+            values_a_s = (last_payment_id, status_id_a_s, user_id_a_s)
+            cursor.execute(query_a_s, values_a_s)
+            conn.commit()
 
-            # Prepare the SQL query to insert the data into the payments_approval_history
-            query_a_s = """
-            INSERT INTO payments_approval_history (
-                payment_id,
-                status_id,
-                user_id
-            )
-            VALUES (
-                %s,
-                %s,
-                %s
-            )"""
+            # Close the database connection
+            coon_cursor_close(cursor, conn)
 
-            try:
-                """Запись в payments_summary_tab"""
-                # Записываем новый платёж в БД и получаем обратно id записи для генерации номера платежа
-                cursor.execute(query_s_t, values_s_t)
-                last_payment_id = cursor.fetchone()[0]
-                conn.commit()
-                # Close the database connection
-                coon_cursor_close(cursor, conn)
+            flash(message=['Платёж сохранён', f'№: {payment_number}'], category='success')
+            # session['submitted'] = True
+            return redirect(url_for('.get_new_payment'))
+        except Exception as e:
+            conn.rollback()
+            # Close the database connection
+            coon_cursor_close(cursor, conn)
+            flash(message=['Платёж не сохранён', str(e)], category='error')
+            return redirect(request.referrer or url_for("login_app.index"))
+    return redirect(url_for('.get_new_payment'))
 
-                # Execute the SQL query
-                conn, cursor = coon_cursor_init()
-                """Обновляем номер платежа в payments_summary_tab"""
-                payment_number = f'PAY-{round(time.time())}-{last_payment_id}-{our_company}'
-                query = """
-                    UPDATE payments_summary_tab
-                    SET payment_number = %s
-                    WHERE payment_id = %s;
-                """
-                value = [payment_number, last_payment_id]
-                cursor.execute(query, value)
-
-                """Запись в payments_approval_history"""
-                status_id_a_s = 1  # id статуса "Черновик" из payments_approval_history
-                user_id_a_s = current_user.get_id() if current_user.get_id() else responsible
-                values_a_s = (last_payment_id, status_id_a_s, user_id_a_s)
-                cursor.execute(query_a_s, values_a_s)
-                conn.commit()
-
-                # Close the database connection
-                coon_cursor_close(cursor, conn)
-
-                flash(message=['Платёж сохранён', f'№: {payment_number}'], category='success')
-                session['submitted'] = True
-                return redirect(url_for('get_new_payment'))
-            except Exception as e:
-                conn.rollback()
-                # Close the database connection
-                coon_cursor_close(cursor, conn)
-                flash(message=['Платёж не сохранён', str(e)], category='error')
-                return redirect(request.referrer)
-        return redirect(url_for('get_new_payment'))
-
-    except Exception as e:
-        return f'set_new_payment ❗❗❗ Ошибка \n---{e}'
+    # except Exception as e:
+    #     return f'set_new_payment ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/payment-approval')
+@payment_app_bp.route('/payment-approval')
 @login_required
 def get_unapproved_payments():
     """Выгрузка из БД списка несогласованных платежей"""
     try:
         # Check if the user has access to the "List of contracts" page
         if current_user.get_role() != 1:
-            return permission_error(403)
+            print(111111111111111111111)
+            return abort(403)
         else:
             user_id = current_user.get_id()
             # Connect to the database
@@ -492,7 +395,7 @@ def get_unapproved_payments():
                         SELECT DISTINCT ON (payment_id) 
                             parent_id::int AS payment_id,
                             parameter_value::float AS amount
-                        FROM draft_payment
+                        FROM payment_draft
                         WHERE page_name = %s AND parameter_name = %s AND user_id = %s
                         ORDER BY payment_id, create_at DESC
                 ) AS t8 ON t1.payment_id = t8.payment_id
@@ -532,8 +435,6 @@ def get_unapproved_payments():
             # Create profile name dict
             func_hlnk_profile()
 
-
-
             return render_template('payment-approval.html', menu=hlnk_menu, menu_profile=hlnk_profile,
                                    applications=all_payments, approval_statuses=approval_statuses,
                                    title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
@@ -541,7 +442,7 @@ def get_unapproved_payments():
         return f'get_unapproved_payments ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/payment-approval', methods=['POST'])
+@payment_app_bp.route('/payment-approval', methods=['POST'])
 @login_required
 def set_approved_payments():
     print(current_user.get_role())
@@ -554,12 +455,6 @@ def set_approved_payments():
             status_id = request.form.getlist('status_id')  # Статус заявки (передаётся строковое название)
             payment_approval_sum = request.form.getlist('amount')  # Согласованная стоимость
             payment_full_agreed_status = request.form.getlist('payment_full_agreed_status')  # Сохранить до полной опл.
-
-            print('-- selected_rows', selected_rows)
-            print('-- payment_number', payment_number)
-            print('-- status_id', status_id)
-            print('-- payment_approval_sum', payment_approval_sum)
-            print('-- payment_full_agreed_status', payment_full_agreed_status)
 
             values_p_s_t = []  # Данные для записи в таблицу payments_summary_tab
             values_p_a_h = []  # Данные для записи в таблицу payments_approval_history
@@ -579,11 +474,11 @@ def set_approved_payments():
 
                 if not payment_approval_sum[row] and (status_id[row] == 'Черновик' or status_id[row] == 'Реком.'):
                     flash(message=['Не указана сумма согласования', ''], category='error')
-                    return redirect(url_for('get_unapproved_payments'))
+                    return redirect(url_for('.get_unapproved_payments'))
 
                 if status_id[row] == 'К рассмотрению':
                     flash(message=['Функция не работает', ''], category='error')
-                    return redirect(url_for('get_unapproved_payments'))
+                    return redirect(url_for('.get_unapproved_payments'))
 
                 values_a_h.append([
                     payment_number[row],
@@ -592,10 +487,9 @@ def set_approved_payments():
                     payment_approval_sum[row]
                     ])
 
-            print('values_a_h  ', len(values_a_h), not values_a_h, [values_a_h])
             if not values_a_h:
                 flash(message=['Ничего не выбрано', ''], category='error')
-                return redirect(url_for('get_unapproved_payments'))
+                return redirect(url_for('.get_unapproved_payments'))
 
             conn, cursor = coon_cursor_init_dict()
             """
@@ -645,11 +539,9 @@ def set_approved_payments():
                 """
             )
             approval_statuses = cursor.fetchall()
-            print(total_approval_sum)
 
             # Добавляем недостающие данные и др. Подготавливаем данные для внесения в БД
             for i in range(len(total_approval_sum)):
-
                 for j in range(len(pay_id_list_raw)):
                     payment_approval_sum[j] = payment_approval_sum[j] if payment_approval_sum[j] else 0
                     if total_approval_sum[i]['payment_id'] == pay_id_list_raw[j]:
@@ -708,7 +600,6 @@ def set_approved_payments():
 
             # Создаём списки с данными для записи в БД
             for i in range(len(total_approval_sum)):
-                print(total_approval_sum[i]['payment_id'], '-', total_approval_sum[i]['status_id'])
                 """для db payments_summary_tab"""
                 if total_approval_sum[i]['payment_id']:
                     values_p_s_t.append([
@@ -734,13 +625,6 @@ def set_approved_payments():
                         total_approval_sum[i]['payment_approval_sum'],
                         ''
                     ])
-
-            print('pst    ', values_p_s_t)
-            print('pah    ', values_p_a_h)
-            print('pa    ', values_p_a)
-            print('ERRORS    ', error_list)
-            for i in total_approval_sum:
-                print(i)
 
             try:
                 # Если есть что записывать в Базу данных
@@ -777,14 +661,8 @@ def set_approved_payments():
                         execute_values(cursor, query_p_a, values_p_a)
                         conn.commit()
 
-                    # Close the database connection
-
                     flash(message=['Заявки согласованы', ''], category='success')
 
-                    # else:
-                    #     # Close the database connection
-                    #     coon_cursor_close(cursor, conn)
-                    #     flash(message=['Заявки согласованы', ''], category='success')
                 else:
                     flash(message=['Нет данных для сохранения', ''], category='error')
                 # Если есть ошибки
@@ -793,28 +671,20 @@ def set_approved_payments():
 
                 coon_cursor_close(cursor, conn)
 
-                return redirect(url_for('get_unapproved_payments'))
+                return redirect(url_for('.get_unapproved_payments'))
             except Exception as e:
                 conn.rollback()
                 coon_cursor_close(cursor, conn)
                 return f'отправка set_approved_payments ❗❗❗ Ошибка \n---{e}'
 
-        return redirect(url_for('get_unapproved_payments'))
+        return redirect(url_for('.get_unapproved_payments'))
         # return get_unapproved_payments()
 
     except Exception as e:
         return f'set_approved_payments ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/run_function', methods=['POST'])
-def run_function():
-    status_id = request.form.getlist('status_id')
-    print('-'*10, '\n', '-'*10, '\n', '-'*10)
-    print(status_id)
-    return jsonify(updated_data='11111111')
-
-
-@app.route('/save_quick_changes_approved_payments', methods=['POST'])
+@payment_app_bp.route('/save_quick_changes_approved_payments', methods=['POST'])
 def save_quick_changes_approved_payments():
     print('save_quick_changes_approved_payments')
     # Сохраняем изменения в полях (согл сумма, статус, сохр до полн оплаты) заявки без нажатия кнопки "Отправить"
@@ -832,7 +702,6 @@ def save_quick_changes_approved_payments():
             agreed_status = True
         if amount:
             amount = float(amount)
-
 
         user_id = current_user.get_id()
 
@@ -897,7 +766,7 @@ def save_quick_changes_approved_payments():
         SELECT DISTINCT ON (payment_id) 
             parent_id::int AS payment_id,
             parameter_value::float AS amount
-        FROM draft_payment
+        FROM payment_draft
         WHERE page_name = %s AND parent_id::int = %s AND parameter_name = %s AND user_id = %s
         ORDER BY payment_id, create_at DESC;
         """
@@ -917,77 +786,21 @@ def save_quick_changes_approved_payments():
             if last_amount:
                 # Удаление всех неотправленных сумм
                 cursor.execute("""
-                DELETE FROM draft_payment 
+                DELETE FROM payment_draft 
                 WHERE page_name = %s AND parent_id::int = %s AND parameter_name = %s AND user_id = %s
                 """, value_last_amount)
             # Если указали сумму согласования, то вносим в таблицу временных значений, иначе не вносим
             if amount:
                 action_d_p = 'INSERT INTO'
-                table_d_p = 'draft_payment'
+                table_d_p = 'payment_draft'
                 columns_d_p = ('page_name', 'parent_id', 'parameter_name', 'parameter_value', 'user_id')
                 values_d_p = [[page_name, payment_id, parameter_name, amount, user_id]]
                 query_d_p = get_db_dml_query(action_d_p, table_d_p, columns_d_p)
                 execute_values(cursor, query_d_p, values_d_p)
 
-
-
-
-
-
-
-
-
-
-
-
-        # # Запись в payments_approval_history
-        # action_p_a_h = 'INSERT INTO'
-        # table_p_a_h = 'payments_approval_history'
-        # columns_p_a_h = ('payment_id', 'status_id', 'user_id')
-        # values_p_a_h = [[payment_id, status_id, user_id]]
-        # query_a_h = get_db_dml_query(action_p_a_h, table_p_a_h, columns_p_a_h)
-        # execute_values(cursor, query_a_h, values_p_a_h)
-        # print(query_a_h)
-        # cursor.execute(query_a_h, (payment_id, status_id, user_id))
-        #
-        # # Перезапись в payments_summary_tab
-        # columns_p_s_t = ("payment_id", "payment_full_agreed_status")
-        # values_p_s_t = [[payment_id, agreed_status]]
-        # query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
-        # execute_values(cursor, query_p_s_t, values_p_s_t)
-
-
-
         conn.commit()
 
-
         coon_cursor_close(cursor, conn)
-
-        # """
-        # UPDATE payments_approval_history
-        # SET payment_id = %s, status_id = %s, user_id = %s
-        #
-        # SELECT DISTINCT ON (payment_id)
-        #                         payment_id,
-        #                         status_id
-        #                     FROM payments_approval_history
-        #                     ORDER BY payment_id, create_at DESC
-        #
-        # """
-        # value = [payment_number, last_payment_id]
-        # cursor.execute(query, value)
-        # """Обновляем номер платежа в payments_summary_tab"""
-        # # payment_number = f'PAY-{round(time.time())}-{last_payment_id}-{our_company}'
-        # query = """
-        #                     UPDATE payments_summary_tab
-        #                     SET payment_number = %s
-        #                     WHERE payment_id = %s;
-        #                 """
-        #
-        #
-        #
-        #
-        # # Update the data in the database using psycopg2
 
         return 'Data saved successfully'
     except Exception as e:
@@ -1015,342 +828,126 @@ def get_db_dml_query(action, table, columns, subquery=";"):
     return query
 
 
-@app.route('/cash-inflow')
+@payment_app_bp.route('/cash-inflow')
 @login_required
 def get_cash_inflow():
     """Страница для добавления платежа"""
-    try:
-        # Check if the user has access to the "List of contracts" page
-        if current_user.get_role() != 1:
-            return permission_error(403)
-        else:
-            return index()
-    except Exception as e:
-        return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
+    # try:
+    # Check if the user has access to the "List of contracts" page
+    if current_user.get_role() != 1:
+        return abort(403)
+    else:
+
+        user_id = current_user.get_id()
+        # Connect to the database
+        conn, cursor = coon_cursor_init_dict()
+
+        # Список наших компаний из таблицы contractors
+        cursor.execute("SELECT contractor_name FROM our_companies WHERE inflow_active is true")
+        our_companies = cursor.fetchall()
+
+        # Список типов поступлений из таблицы payment_inflow_type
+        cursor.execute("SELECT * FROM payment_inflow_type")
+        inflow_types = cursor.fetchall()
+
+        # Последние 5 поступлений из таблицы payment_inflow_type
+        cursor.execute("""
+        SELECT 
+            t1.inflow_at,
+            t1.inflow_sum,
+            t2.contractor_name,
+            t1.inflow_description            
+        FROM payments_inflow_history AS t1
+        LEFT JOIN (
+                    SELECT  
+                        contractor_id,
+                        contractor_name
+                    FROM our_companies
+            ) AS t2 ON t1.inflow_company_id = t2.contractor_id
+        ORDER BY inflow_at DESC LIMIT (5)""")
+        historical_data = cursor.fetchall()
+
+        # Create profile name dict
+        func_hlnk_profile()
+
+        print('hlnk_menu')
+        pprint(hlnk_menu)
+
+        print('hlnk_profile')
+        pprint(hlnk_profile)
+
+        return render_template(
+            template_name_or_list='cash-inflow.html', menu=hlnk_menu, menu_profile=hlnk_profile,
+            our_companies=our_companies, inflow_types=inflow_types, historical_data=historical_data,
+                               title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
+    # except Exception as e:
+    #     return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/cash-inflow', methods=['POST'])
+@payment_app_bp.route('/cash-inflow', methods=['POST'])
 @login_required
 def set_cash_inflow():
     """Сохранение платежа"""
     try:
         # Check if the user has access to the "List of contracts" page
         if current_user.get_role() != 1:
-            return permission_error(403)
+            return abort(403)
         else:
-            return index()
+            return redirect(url_for('login_app.index'))
     except Exception as e:
         return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/payment-pay')
+@payment_app_bp.route('/payment-pay')
 @login_required
 def get_unpaid_payments():
     print(current_user.get_role())
     """Выгрузка из БД списка несогласованных платежей"""
     try:
-        # Check if the user has access to the "List of contracts" page
-        if current_user.get_role() != 1:
-            return permission_error(403)
-        else:
-
-            # Connect to the database
-            conn, cursor = coon_cursor_init_dict()
-
-            # Список платежей со статусом "new"
-            cursor.execute(
-                """SELECT 
-                        t1.payment_id,
-                        t3.contractor_name, 
-                        t4.cost_item_name, 
-                        t1.payment_number, 
-                        t1.basis_of_payment, 
-                        t5.first_name,
-                        t5.last_name,
-                        t1.payment_description, 
-                        t1.object_id,
-                        t1.partner,
-                        t1.payment_sum,
-                        '',
-                        '',
-                        t1.payment_due_date,
-                        t2.status_id,
-                        t1.payment_at,
-                        t1.payment_full_agreed_status
-                FROM payments_summary_tab AS t1
-                INNER JOIN (
-                        SELECT DISTINCT ON (payment_id) 
-                            payment_id,
-                            status_id
-                        FROM payments_approval_history
-                        ORDER BY payment_id, create_at DESC
-                ) AS t2 ON t1.payment_id = t2.payment_id
-                INNER JOIN (
-                    SELECT contractor_id,
-                        contractor_name
-                    FROM our_companies            
-                ) AS t3 ON t1.our_companies_id = t3.contractor_id
-                INNER JOIN (
-                    SELECT cost_item_id,
-                        cost_item_name
-                    FROM payment_cost_items            
-                ) AS t4 ON t1.cost_item_id = t4.cost_item_id
-                INNER JOIN (
-                        SELECT user_id,
-                            first_name,
-                            last_name
-                        FROM users
-                ) AS t5 ON t1.responsible = t5.user_id
-                WHERE t1.payment_status = 'new'"""
-
-            )
-            all_payments = cursor.fetchall()
-
-            # Изменяем формат даты с '%Y-%m-%d %H:%M:%S.%f%z' на '%Y-%m-%d %H:%M:%S'
-            for row in all_payments:
-                payment_at_date = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
-                row["payment_at"] = datetime.datetime.strptime(payment_at_date, '%Y-%m-%d %H:%M:%S')
-
-
-            # Список согласованных платежей
-            cursor.execute("SELECT * FROM payments_approval")
-            unapproved_payments = cursor.fetchall()
-
-            # Список статусов платежей Андрея
-            cursor.execute(
-                """SELECT payment_agreed_status_id,
-                          payment_agreed_status_name
-                FROM payment_agreed_statuses WHERE payment_agreed_status_category = 'Andrew'""")
-            approval_statuses = cursor.fetchall()
-
 
             # Create profile name dict
             func_hlnk_profile()
 
             return render_template('payment-pay.html', menu=hlnk_menu, menu_profile=hlnk_profile,
-                                   applications=all_payments, approval_statuses=approval_statuses,
+                                   applications='all_payments', approval_statuses='approval_statuses',
                                    title='ОПЛАТА ПЛАТЕЖЕЙ')
     except Exception as e:
         return f'get_unpaid_payments ❗❗❗ Ошибка \n---{e}'
 
 
-@app.route('/payment-list')
+@payment_app_bp.route('/payment-list')
 @login_required
 def get_payments_list():
     print(current_user.get_role())
     """Выгрузка из БД списка несогласованных платежей"""
     try:
 
-        # Connect to the database
-        conn, cursor = coon_cursor_init_dict()
-
-        # Список платежей со статусом "new"
-        cursor.execute(
-            """SELECT 
-                    t1.payment_id,
-                    t3.contractor_name, 
-                    t4.cost_item_name, 
-                    t1.payment_number, 
-                    t1.basis_of_payment, 
-                    t5.first_name,
-                    t5.last_name,
-                    t1.payment_description, 
-                    t1.object_id,
-                    t1.partner,
-                    t1.payment_sum,
-                    '',
-                    '',
-                    t1.payment_due_date,
-                    t2.status_id,
-                    t1.payment_at,
-                    t1.payment_full_agreed_status
-            FROM payments_summary_tab AS t1
-            INNER JOIN (
-                    SELECT DISTINCT ON (payment_id) 
-                        payment_id,
-                        status_id
-                    FROM payments_approval_history
-                    ORDER BY payment_id, create_at DESC
-            ) AS t2 ON t1.payment_id = t2.payment_id
-            INNER JOIN (
-                SELECT contractor_id,
-                    contractor_name
-                FROM our_companies            
-            ) AS t3 ON t1.our_companies_id = t3.contractor_id
-            INNER JOIN (
-                SELECT cost_item_id,
-                    cost_item_name
-                FROM payment_cost_items            
-            ) AS t4 ON t1.cost_item_id = t4.cost_item_id
-            INNER JOIN (
-                    SELECT user_id,
-                        first_name,
-                        last_name
-                    FROM users
-            ) AS t5 ON t1.responsible = t5.user_id
-            WHERE t1.payment_status = 'new'"""
-
-        )
-        all_payments = cursor.fetchall()
-
-        # Изменяем формат даты с '%Y-%m-%d %H:%M:%S.%f%z' на '%Y-%m-%d %H:%M:%S'
-        for row in all_payments:
-            payment_at_date = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
-            row["payment_at"] = datetime.datetime.strptime(payment_at_date, '%Y-%m-%d %H:%M:%S')
-
-
-        # Список согласованных платежей
-        cursor.execute("SELECT * FROM payments_approval")
-        unapproved_payments = cursor.fetchall()
-
-        # Список статусов платежей Андрея
-        cursor.execute(
-            """SELECT payment_agreed_status_id,
-                      payment_agreed_status_name
-            FROM payment_agreed_statuses WHERE payment_agreed_status_category = 'Andrew'""")
-        approval_statuses = cursor.fetchall()
-
-
         # Create profile name dict
         func_hlnk_profile()
 
         return render_template('payment-list.html', menu=hlnk_menu, menu_profile=hlnk_profile,
-                               applications=all_payments, approval_statuses=approval_statuses,
+                               applications='all_payments', approval_statuses='approval_statuses',
                                title='СПИСОК ПЛАТЕЖЕЙ ПОЛЬЗОВАТЕЛЯ')
     except Exception as e:
         return f'get_payments_list ❗❗❗ Ошибка \n---{e}'
 
 
-# Обработчик ошибки 404
-@app.errorhandler(404)
-def page_not_fount(error):
-    try:
-        return render_template('page404.html', title="Страница не найдена"), 404
-    except Exception as e:
-        return f'page_not_fount ❗❗❗ Ошибка \n---{e}'
-
-
-# Обработчик ошибки 403
-@app.errorhandler(403)
-def permission_error(error):
-    try:
-        return render_template('page403.html', title="Нет доступа"), 403
-    except Exception as e:
-        return f'permission_error ❗❗❗ Ошибка \n---{e}'
-
-
-@app.route('/logout')
-@login_required
-def logout():
-    try:
-        global hlnk_profile
-        # if not current_user.is_authenticated:
-        #     flash(f'❌ Перед выходом из сети необходимо войти в сеть', category='error')
-        #     return redirect(url_for('login'))
-        logout_user()
-        func_hlnk_profile()
-        # flash(message=['Вы вышли из аккаунта', ''], category='success')
-
-        # Меню профиля
-        hlnk_profile = {
-            "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"}
-
-        # return redirect(url_for('login'))
-        # return render_template('new_contr.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
-        # return render_template('index.html', menu=hlnk_menu, menu_profile=hlnk_profile, title='Новый договор 📝')
-        # return index()
-        return redirect(request.referrer)
-    except Exception as e:
-        return f'logout ❗❗❗ Ошибка \n---{e}'
-
-
-@app.route('/profile')
-@login_required
-def profile():
-    try:
-        name = current_user.get_name()
-
-        # Create profile name dict
-        func_hlnk_profile()
-
-
-        return render_template("profile.html", title="Профиль", menu=hlnk_menu, menu_profile=hlnk_profile, name=name)
-    except Exception as e:
-        return f'profile ❗❗❗ Ошибка \n---{e}'
-
-
-@app.route("/login", methods=["POST", "GET"])
-def login():
-    try:
-        # Create profile name dict
-        func_hlnk_profile()
-
-        print('login', current_user.is_authenticated)
-        if current_user.is_authenticated:
-            return redirect(url_for('index'))
-
-        if request.method == 'POST':
-            conn = coon_init()
-            dbase = FDataBase(conn)
-            form_data = request.form
-
-            email = request.form.get('email')
-            password = request.form.get('password')
-            remain = request.form.get('remainme')
-
-            user = dbase.get_user_by_email(email)
-
-            if user and check_password_hash(user['password'], password):
-                userlogin = UserLogin().create(user)
-                login_user(userlogin, remember=remain)
-                conn.close()
-                # flash(message=['Вы вошли в систему', ''], category='success')
-                return redirect(request.args.get("next") or url_for("index"))
-
-            flash(message=['❌ Логин или пароль указан неверно', ''], category='error')
-            conn.close()
-            print('ERROR')
-            # return redirect(url_for('login'))
-            return render_template(
-                "login.html", title="Авторизация", menu=hlnk_menu, menu_profile=hlnk_profile,
-                error_msg='❌ Логин или пароль указан неверно')
-
-        # return redirect(url_for('login'))
-        return render_template("login.html", title="Авторизация", menu=hlnk_menu, menu_profile=hlnk_profile)
-    except Exception as e:
-        return f'login ❗❗❗ Ошибка \n---{e}'
-
-
-@app.route("/register", methods=["POST", "GET"])
-@login_required
-def register():
-    try:
-        if current_user.get_role() != 1:
-            return permission_error(403)
-        else:
-
-            if request.method == 'POST':
-                try:
-                    conn = coon_init()
-                    dbase = FDataBase(conn)
-                    form_data = request.form
-                    res = dbase.add_user(form_data)
-                    if res:
-                        # Close the database connection
-                        conn.close()
-                        return redirect(url_for('register'))
-                    else:
-                        conn.rollback()
-                        conn.close()
-                        return redirect(url_for('register'))
-
-                except Exception as e:
-                    flash(message=['register ❗❗❗ Ошибка', str(e)], category='error')
-                    return redirect(url_for('register'))
-
-            return render_template("register.html", title="Регистрация", menu=hlnk_menu, menu_profile=hlnk_profile)
-    except Exception as e:
-        return f'register ❗❗❗ Ошибка \n---{e}'
+# # Обработчик ошибки 404
+# @payment_app_bp.errorhandler(404)
+# def page_not_fount(error):
+#     try:
+#         return render_template('page404.html', title="Страница не найдена"), 404
+#     except Exception as e:
+#         return f'page_not_fount ❗❗❗ Ошибка \n---{e}'
+#
+#
+# # Обработчик ошибки 403
+# @payment_app_bp.errorhandler(403)
+# def permission_error(error):
+#     try:
+#         return render_template('page403.html', title="Нет доступа"), 403
+#     except Exception as e:
+#         return f'permission_error ❗❗❗ Ошибка \n---{e}'
 
 
 def func_hlnk_profile():
@@ -1404,7 +1001,7 @@ def func_hlnk_profile():
                 hlnk_menu = [
                     {"name": "Главная страница", "url": "/",
                      "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-                    {"name": "Добавить поступления", "url": "cash_inflow",
+                    {"name": "Добавить поступления", "url": "cash-inflow",
                      "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
                     {"name": "Новый платеж", "url": "new-payment",
                      "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
@@ -1443,7 +1040,3 @@ def func_hlnk_profile():
         return
     except Exception as e:
         return f'func_hlnk_profile ❗❗❗ Ошибка \n---{e}'
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
