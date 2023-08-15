@@ -11,15 +11,13 @@ from flask_login import current_user
 from datetime import date
 from FDataBase import FDataBase
 from flask_login import login_required
+import error_handlers
 
 
 payment_app_bp = Blueprint('payment_app', __name__)
-# app = Flask(__name__)
 
 # PostgreSQL database configuration
 db_name = "kpln_db"
-# db_user = "kpln_user"
-# db_password = "123"
 db_user = "postgres"
 db_password = "postgres"
 db_host = "localhost"
@@ -326,120 +324,121 @@ def set_new_payment():
 @login_required
 def get_unapproved_payments():
     """Выгрузка из БД списка несогласованных платежей"""
-    try:
+    # try:
         # Check if the user has access to the "List of contracts" page
-        if current_user.get_role() != 1:
-            print(111111111111111111111)
-            return abort(403)
-        else:
-            user_id = current_user.get_id()
-            # Connect to the database
-            conn, cursor = coon_cursor_init_dict()
+    if current_user.get_role() != 1:
+        print(111111111111111111111)
+        error_handlers.permission_error(403)
+        return abort(403)
+    else:
+        user_id = current_user.get_id()
+        # Connect to the database
+        conn, cursor = coon_cursor_init_dict()
 
-            # Список платежей со статусом "new"
-            cursor.execute(
-                """SELECT 
-                        t1.payment_id,
-                        t3.contractor_name, 
-                        t4.cost_item_name, 
-                        t1.payment_number, 
-                        t1.basis_of_payment, 
-                        t5.first_name,
-                        t5.last_name,
-                        t1.payment_description, 
-                        t6.object_name,
-                        t1.partner,
-                        t1.payment_sum,
-                        t1.payment_sum - t7.approval_sum AS approval_sum,
-                        t8.amount,
-                        t1.payment_due_date,
-                        t2.status_id,
-                        t1.payment_at,
-                        t1.payment_full_agreed_status
-                FROM payments_summary_tab AS t1
-                LEFT JOIN (
-                        SELECT DISTINCT ON (payment_id) 
-                            payment_id,
-                            status_id
-                        FROM payments_approval_history
-                        ORDER BY payment_id, create_at DESC
-                ) AS t2 ON t1.payment_id = t2.payment_id
-                LEFT JOIN (
-                    SELECT contractor_id,
-                        contractor_name
-                    FROM our_companies            
-                ) AS t3 ON t1.our_companies_id = t3.contractor_id
-                LEFT JOIN (
-                    SELECT cost_item_id,
-                        cost_item_name
-                    FROM payment_cost_items            
-                ) AS t4 ON t1.cost_item_id = t4.cost_item_id
-                LEFT JOIN (
-                        SELECT user_id,
-                            first_name,
-                            last_name
-                        FROM users
-                ) AS t5 ON t1.responsible = t5.user_id
-                LEFT JOIN (
-                        SELECT object_id,
-                            object_name
-                        FROM objects
-                ) AS t6 ON t1.object_id = t6.object_id
-                LEFT JOIN (
-                        SELECT payment_id,
-                            sum (approval_sum) AS approval_sum
-                        FROM payments_approval_history
-                        GROUP BY payment_id
-                ) AS t7 ON t1.payment_id = t7.payment_id
-                LEFT JOIN (
-                        SELECT DISTINCT ON (payment_id) 
-                            parent_id::int AS payment_id,
-                            parameter_value::float AS amount
-                        FROM payment_draft
-                        WHERE page_name = %s AND parameter_name = %s AND user_id = %s
-                        ORDER BY payment_id, create_at DESC
-                ) AS t8 ON t1.payment_id = t8.payment_id
-                WHERE not t1.payment_close_status
-                ORDER BY t1.payment_number;
-                """,
-                ['payment_approval', 'amount', user_id]
-            )
-            all_payments = cursor.fetchall()
+        # Список платежей со статусом "new"
+        cursor.execute(
+            """SELECT 
+                    t1.payment_id,
+                    t3.contractor_name, 
+                    t4.cost_item_name, 
+                    t1.payment_number, 
+                    t1.basis_of_payment, 
+                    t5.first_name,
+                    t5.last_name,
+                    t1.payment_description, 
+                    t6.object_name,
+                    t1.partner,
+                    t1.payment_sum,
+                    t1.payment_sum - t7.approval_sum AS approval_sum,
+                    t8.amount,
+                    t1.payment_due_date,
+                    t2.status_id,
+                    t1.payment_at,
+                    t1.payment_full_agreed_status
+            FROM payments_summary_tab AS t1
+            LEFT JOIN (
+                    SELECT DISTINCT ON (payment_id) 
+                        payment_id,
+                        status_id
+                    FROM payments_approval_history
+                    ORDER BY payment_id, create_at DESC
+            ) AS t2 ON t1.payment_id = t2.payment_id
+            LEFT JOIN (
+                SELECT contractor_id,
+                    contractor_name
+                FROM our_companies            
+            ) AS t3 ON t1.our_companies_id = t3.contractor_id
+            LEFT JOIN (
+                SELECT cost_item_id,
+                    cost_item_name
+                FROM payment_cost_items            
+            ) AS t4 ON t1.cost_item_id = t4.cost_item_id
+            LEFT JOIN (
+                    SELECT user_id,
+                        first_name,
+                        last_name
+                    FROM users
+            ) AS t5 ON t1.responsible = t5.user_id
+            LEFT JOIN (
+                    SELECT object_id,
+                        object_name
+                    FROM objects
+            ) AS t6 ON t1.object_id = t6.object_id
+            LEFT JOIN (
+                    SELECT payment_id,
+                        sum (approval_sum) AS approval_sum
+                    FROM payments_approval_history
+                    GROUP BY payment_id
+            ) AS t7 ON t1.payment_id = t7.payment_id
+            LEFT JOIN (
+                    SELECT DISTINCT ON (payment_id) 
+                        parent_id::int AS payment_id,
+                        parameter_value::float AS amount
+                    FROM payment_draft
+                    WHERE page_name = %s AND parameter_name = %s AND user_id = %s
+                    ORDER BY payment_id, create_at DESC
+            ) AS t8 ON t1.payment_id = t8.payment_id
+            WHERE not t1.payment_close_status
+            ORDER BY t1.payment_number;
+            """,
+            ['payment_approval', 'amount', user_id]
+        )
+        all_payments = cursor.fetchall()
 
-            # Обработка полученных данных
-            for row in all_payments:
-                # Изменяем объект None на пустоту
-                if not row["object_name"]:
-                    row["object_name"] = ''
-                if not row["amount"]:
-                    row["amount"] = ''
-                # Изменяем Остаток к оплате None на пустоту
-                if not row["approval_sum"]:
-                    row["approval_sum"] = row["payment_sum"]
+        # Обработка полученных данных
+        for row in all_payments:
+            # Изменяем объект None на пустоту
+            if not row["object_name"]:
+                row["object_name"] = ''
+            if not row["amount"]:
+                row["amount"] = ''
+            # Изменяем Остаток к оплате None на пустоту
+            if not row["approval_sum"]:
+                row["approval_sum"] = row["payment_sum"]
 
-                # Изменяем формат даты с '%Y-%m-%d %H:%M:%S.%f%z' на '%Y-%m-%d %H:%M:%S'
-                payment_at_date = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
-                row["payment_at"] = datetime.datetime.strptime(payment_at_date, '%Y-%m-%d %H:%M:%S')
+            # Изменяем формат даты с '%Y-%m-%d %H:%M:%S.%f%z' на '%Y-%m-%d %H:%M:%S'
+            payment_at_date = row["payment_at"].strftime('%Y-%m-%d %H:%M:%S')
+            row["payment_at"] = datetime.datetime.strptime(payment_at_date, '%Y-%m-%d %H:%M:%S')
 
-            # Список согласованных платежей
-            cursor.execute("SELECT * FROM payments_approval")
-            unapproved_payments = cursor.fetchall()
+        # Список согласованных платежей
+        cursor.execute("SELECT * FROM payments_approval")
+        unapproved_payments = cursor.fetchall()
 
-            # Список статусов платежей Андрея
-            cursor.execute(
-                """SELECT payment_agreed_status_id,
-                          payment_agreed_status_name
-                FROM payment_agreed_statuses WHERE payment_agreed_status_category = 'Andrew'""")
-            approval_statuses = cursor.fetchall()
+        # Список статусов платежей Андрея
+        cursor.execute(
+            """SELECT payment_agreed_status_id,
+                      payment_agreed_status_name
+            FROM payment_agreed_statuses WHERE payment_agreed_status_category = 'Andrew'""")
+        approval_statuses = cursor.fetchall()
 
-            # Create profile name dict
-            func_hlnk_profile()
+        # Create profile name dict
+        func_hlnk_profile()
 
-            return render_template('payment-approval.html', menu=hlnk_menu, menu_profile=hlnk_profile,
-                                   applications=all_payments, approval_statuses=approval_statuses,
-                                   title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
-    except Exception as e:
-        return f'get_unapproved_payments ❗❗❗ Ошибка \n---{e}'
+        return render_template('payment-approval.html', menu=hlnk_menu, menu_profile=hlnk_profile,
+                               applications=all_payments, approval_statuses=approval_statuses,
+                               title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
+    # except Exception as e:
+    #     return f'get_unapproved_payments ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/payment-approval', methods=['POST'])

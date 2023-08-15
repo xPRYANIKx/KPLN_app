@@ -1,62 +1,15 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <<<<<<< HEAD <link rel="shortcut icon" href="/static/img/fav.png" type="image/x-icon">
-    =======
-    <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
-    >>>>>>> 58204c72bbe4327a2ac5b3db71a5c2924bb0eacc
-    <link rel="stylesheet" href="/static/style/style.css">
-
-    <<<<<<< HEAD=======>>>>>>> 58204c72bbe4327a2ac5b3db71a5c2924bb0eacc
-
-      <title>{{title}}</title>
-</head>
-
-<body>
-  <div class="wrapper">
-
-    <header>
-      <div class="header__logo">
-        <img src="/static/img/menu.png" alt="kpln_logo" id="menuImage">
-      </div>
-      <div id="header_auth__label">Вернитесь на главную страницу</div>
-      <div id="menu">
-        <div class="menu_content">
-          <ul>
-            <li class="mainmenu_h"><a href="/">Главное меню</a></li>
-          </ul>
-        </div>
-      </div>
-    </header>
-    <main>
-      <div class="wrapperError">
-        <div><a href="/">
-            <img src="/static/img/404.gif" alt="Ошибка 404"></a>
-        </div>
-        <div class="wrapperError__text">
-          <p>Страница не найдена.</p>
-          <p>Вернуться на <a href="/">главную</a> страницу.</p>
-        </div>
-      </div>
-    </main>
-
-    <footer>
-      <div class=" footer_company">
-        <div class="footer_company__href">
-          <div class="footer_company__href_bitrix24"><a href="https://kpln.bitrix24.ru/">Битрикс24</a></div>
-          <div class="footer_company__href_moodle"><a href="http://moodle/">Учебный центр</a></div>
-        </div>
-        <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbsp Проектное бюро "Крупный план"</div>
-      </div>
-    </footer>
-
+{% extends "layout-error.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="wrapperError">
+  <div><a href="/">
+      <img src="/static/img/404.gif" alt="Ошибка 404"></a>
   </div>
-
-  <script src="/static/script/todayYear.js"></script>
-  <script src="/static/script/menunav.js"></script>
-
-</body>
-</html>
+  <div class="wrapperError__text">
+    <p>Страница не найдена.</p>
+    <p>Вернуться на <a href="/">главную</a> страницу.</p>
+  </div>
+</div>
+{% endblock %}

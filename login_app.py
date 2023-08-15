@@ -25,8 +25,6 @@ def on_load(state):
 
 # PostgreSQL database configuration
 db_name = "kpln_db"
-# db_user = "kpln_user"
-# db_password = "123"
 db_user = "postgres"
 db_password = "postgres"
 db_host = "localhost"

@@ -1,65 +1,15 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
-  <script src="static/script/jquery.min.js"></script>
-
-  <link rel="stylesheet" href="static/style/select2.min.css">
-  <link rel="stylesheet" href="static/style/style.css">
-
-  <script src="static/script/select2.min.js"></script>
-  <script src="static/script/selectSearchNewPayment.js"></script>
-  <script src="static/script/numberWithSpaces.js"></script>
-
-  <title>{{title}}</title>
-</head>
-
-<body>
-  <div class="wrapper">
-
-    <header>
-      <div class="header__logo">
-        <img src="static/img/menu.png" alt="kpln_logo" id="menuImage">
-      </div>
-      <div id="header_auth__label">Вернитесь на главную страницу</div>
-      <div id="menu">
-        <div class="menu_content">
-          <ul>
-            <li class="mainmenu_h"><a href="/">Главное меню</a></li>
-          </ul>
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <div class="wrapperError">
-        <div>
-          <img src="static/img/403.gif" alt="Ошибка 403">
-        </div>
-        <div class="wrapperError__text">
-          <p>Доступ ограничен.</p>
-          <p>Вернуться на <a href="/">главную</a> страницу.</p>
-        </div>
-      </div>
-    </main>
-
-    <footer>
-      <div class=" footer_company">
-        <div class="footer_company__href">
-          <div class="footer_company__href_bitrix24"><a href="https://kpln.bitrix24.ru/">Битрикс24</a></div>
-          <div class="footer_company__href_moodle"><a href="http://moodle/">Учебный центр</a></div>
-        </div>
-        <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbsp Проектное бюро "Крупный план"</div>
-      </div>
-    </footer>
-
+{% extends "layout-error.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+  <div class="wrapperError">
+    <div>
+      <img src="static/img/403.gif" alt="Ошибка 403">
+    </div>
+    <div class="wrapperError__text">
+      <p>Доступ ограничен.</p>
+      <p>Вернуться на <a href="/">главную</a> страницу.</p>
+    </div>
   </div>
-
-  <script src="static/script/todayYear.js"></script>
-  <script src="static/script/menunav.js"></script>
-
-</body>
-</html>
+{% endblock %}
