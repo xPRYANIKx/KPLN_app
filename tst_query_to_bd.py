@@ -20,11 +20,32 @@ cursor = conn.cursor()
 
 # execute_values(cursor, query_p_s_t, values_p_s_t)
 
-values = ['payment_approval', 'amount', 2]
-cursor.execute("SELECT contractor_name FROM our_companies WHERE inflow_active is true"
-               )
-historical_data = cursor.fetchall()
-print(historical_data)
+query = """INSERT INTO payments_balance AS t1 (balance_sum, company_id)
+VALUES %s
+ON CONFLICT (company_id) DO UPDATE SET
+balance_sum = t1.balance_sum + EXCLUDED.balance_sum; """
+
+def get_db_dml_query(action, table, columns, subquery=";"):
+    query = None
+    if action == 'INSERT CONFLICT UPDATE':
+        # Кортеж колонок переводим в строки и удаляем кавычки
+        expr_cols = str(columns).replace('\'', '').replace('"', '')
+        # Список столбцов в SET
+        expr_set = ', '.join([f"{col} = EXCLUDED.{col}" for col in columns[:-1]])
+        # Конструктор запроса
+        query = f"INSERT INTO {table} {expr_cols} VALUES %s ON CONFLICT ({columns[-1]}) DO UPDATE SET {expr_set};"
+
+    return query
+
+columns = ('balance_sum', 'company_id')
+query_p_s_t = get_db_dml_query(action='INSERT CONFLICT UPDATE', table='payments_balance', columns=columns)
+print(query_p_s_t)
+
+
+# values = [[30, 2], [20, 1], [1200, 3]]
+# execute_values(cursor, query_p_s_t, values)
+values = [[30, 2]]
+execute_values(cursor, query, values)
 
 
 

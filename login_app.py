@@ -1,7 +1,7 @@
 import psycopg2
 import psycopg2.extras
 from pprint import pprint
-from flask import abort, request, render_template, redirect, flash, url_for, get_flashed_messages, Blueprint
+from flask import g, abort, request, render_template, redirect, flash, url_for, get_flashed_messages, Blueprint
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash
 from user_login import UserLogin
@@ -10,7 +10,7 @@ from FDataBase import FDataBase
 login_bp = Blueprint('login_app', __name__)
 
 login_manager = LoginManager()
-login_manager.login_view = 'login'
+login_manager.login_view = 'login_app.login'
 login_manager.login_message = ["❗  Не достаточно прав для доступа", '']
 login_manager.login_message_category = "success"
 
@@ -40,18 +40,27 @@ hlnk_profile = None
 
 
 # Конект к БД
-def coon_init():
+def conn_init():
     try:
-        conn = psycopg2.connect(
+        g.conn = psycopg2.connect(
             dbname=db_name,
             user=db_user,
             password=db_password,
             host=db_host,
             port=db_port
         )
-        return conn
+        return g.conn
     except Exception as e:
-        return f'coon_init ❗❗❗ Ошибка \n---{e}'
+        return f'conn_init ❗❗❗ Ошибка \n---{e}'
+
+
+# Закрытие соединения
+def conn_cursor_close(cursor, conn):
+    try:
+        g.cursor.close()
+        g.conn.close()
+    except Exception as e:
+        return f'conn_cursor_close ❗❗❗ Ошибка \n---{e}'
 
 
 @login_manager.user_loader
@@ -59,7 +68,7 @@ def load_user(user_id):
     try:
         return UserLogin().from_db(user_id, dbase)
     except Exception as e:
-        return f'load_user ❗❗❗ Ошибка \n---{e}'
+        return None
 
 
 @login_bp.before_request
@@ -67,7 +76,7 @@ def before_request():
     try:
         # Установление соединения с БД перед выполнением запроса
         global dbase
-        conn = coon_init()
+        conn = conn_init()
         dbase = FDataBase(conn)
 
         # Clear the flashed messages list
@@ -76,31 +85,39 @@ def before_request():
         return f'before_request ❗❗❗ Ошибка \n---{e}'
 
 
-def coon_cursor_init_dict():
-    try:
-        conn = coon_init()
-        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        return conn, cursor
-    except Exception as e:
-        return f'coon_cursor_init ❗❗❗ Ошибка \n---{e}'
+@login_bp.teardown_app_request
+def close_db(error):
+    '''Закрываем соединение с БД, если оно было установлено'''
+    if hasattr(g, 'conn'):
+        g.conn.close()
 
 
-def coon_cursor_init():
+def conn_cursor_init_dict():
     try:
-        conn = coon_init()
-        cursor = conn.cursor()
-        return conn, cursor
+        conn = conn_init()
+        g.cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        return conn, g.cursor
     except Exception as e:
-        return f'coon_cursor_init ❗❗❗ Ошибка \n---{e}'
+        return f'conn_cursor_init ❗❗❗ Ошибка \n---{e}'
+
+
+def conn_cursor_init():
+    try:
+        conn = conn_init()
+        g.cursor = conn.cursor()
+        return conn, g.cursor
+    except Exception as e:
+        return f'conn_cursor_init ❗❗❗ Ошибка \n---{e}'
 
 
 @login_bp.route('/', methods=["POST", "GET"])
 def index():
     """Главная страница"""
     try:
+        global hlnk_menu, hlnk_profile
+
         # Create profile name dict
-        func_hlnk_profile()
-        pprint('func_hlnk_profile')
+        hlnk_menu, hlnk_profile = func_hlnk_profile()
 
         return render_template('index.html', menu=hlnk_menu,
                                menu_profile=hlnk_profile, title='Главная страница')
@@ -111,15 +128,15 @@ def index():
 @login_bp.route("/login", methods=["POST", "GET"])
 def login():
     try:
-        # Create profile name dict
-        func_hlnk_profile()
+        global hlnk_menu, hlnk_profile
 
-        print('login', current_user.is_authenticated)
+        # Create profile name dict
+        hlnk_menu, hlnk_profile = func_hlnk_profile()
         if current_user.is_authenticated:
             return redirect(url_for('login_app.index'))
 
         if request.method == 'POST':
-            conn = coon_init()
+            conn = conn_init()
             dbase = FDataBase(conn)
             form_data = request.form
 
@@ -138,7 +155,6 @@ def login():
 
             flash(message=['❌ Логин или пароль указан неверно', ''], category='error')
             conn.close()
-            print('ERROR')
             # return redirect(url_for('login'))
             return render_template(
                 "login.html", title="Авторизация", menu=hlnk_menu, menu_profile=hlnk_profile,
@@ -154,39 +170,27 @@ def login():
 @login_bp.route('/logout')
 @login_required
 def logout():
-    # try:
-    global hlnk_profile
+    try:
+        global hlnk_menu, hlnk_profile
 
-    logout_user()
-    func_hlnk_profile()
-    # flash(message=['Вы вышли из аккаунта', ''], category='success')
+        logout_user()
+        hlnk_menu, hlnk_profile = func_hlnk_profile()
+        # flash(message=['Вы вышли из аккаунта', ''], category='success')
 
-    # Меню профиля
-    hlnk_profile = {
-        "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"}
-
-    print('request.referrer:', request.referrer)
-    return redirect(redirect_url())
-    # return redirect(request.referrer)
-    # except Exception as e:
-    #     return f'logout ❗❗❗ Ошибка \n---{e}'
-
-
-def redirect_url(default='login_app.index'):
-    print( "redirect_url(default='index')", f"{request.args.get('next')}")
-    return request.args.get('next') or \
-           request.referrer or \
-           url_for(default)
+        return redirect(request.args.get('next') or request.referrer)
+    except Exception as e:
+        return f'logout ❗❗❗ Ошибка \n---{e}'
 
 
 @login_bp.route('/profile')
 @login_required
 def profile():
     try:
+        global hlnk_menu, hlnk_profile
         name = current_user.get_name()
 
         # Create profile name dict
-        func_hlnk_profile()
+        hlnk_menu, hlnk_profile = func_hlnk_profile()
 
         return render_template("profile.html", title="Профиль", menu=hlnk_menu,
                                menu_profile=hlnk_profile, name=name)
@@ -204,7 +208,7 @@ def register():
 
             if request.method == 'POST':
                 try:
-                    conn = coon_init()
+                    conn = conn_init()
                     dbase = FDataBase(conn)
                     form_data = request.form
                     res = dbase.add_user(form_data)
@@ -226,6 +230,7 @@ def register():
     except Exception as e:
         return f'register ❗❗❗ Ошибка \n---{e}'
 
+
 #
 # # Обработчик ошибки 403
 # @login_bp.errorhandler(403)
@@ -246,90 +251,89 @@ def register():
 
 
 def func_hlnk_profile():
-    try:
-        global hlnk_profile, hlnk_menu
+    # try:
+    global hlnk_menu, hlnk_profile
 
-        if current_user.is_authenticated:
-            # Меню профиля
-            hlnk_profile = {
-                "name": [current_user.get_profile_name(), '(Выйти)'], "url": "logout"},
+    if current_user.is_authenticated:
+        # Меню профиля
+        hlnk_profile = {
+            "name": [current_user.get_profile_name(), '(Выйти)'], "url": "logout"},
 
-            # Check user role.
-            # Role: Admin
-            if current_user.get_role() == 1:
-                print('user role', current_user.get_role())
+        # Check user role.
+        # Role: Admin
+        if current_user.get_role() == 1:
+            print('user role', current_user.get_role())
 
-                # НОВЫЙ СПИСОК МЕНЮ - СПИСОК СЛОВАРЕЙ со словарями
-                #     hlnk_menu = [
-                #         {"menu_item": "Платежи", "sub_item":
-                #             [{"name": "Добавить поступления", "url": "cash_inflow",
-                #               "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
-                #              {"name": "Новый платеж", "url": "new-payment",
-                #               "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
-                #              {"name": "Согласование платежей", "url": "payment_approval_3",
-                #               "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
-                #              {"name": "Оплата платежей", "url": "payment_pay",
-                #               "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
-                #              {"name": "Список платежей", "url": "payment_list",
-                #               "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"}, ]
-                #          },
-                #         {"menu_item": "Admin", "sub_item":
-                #             [{"name": "Регистрация пользователей", "url": "register",
-                #               "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"}, ]
-                #          },
-                #     ]
-                # else:
-                #     print('user role else', current_user.get_role())
-                #     hlnk_menu = [
-                #         {"menu_item": "Платежи", "sub_item":
-                #             [{"name": "Новый платеж", "url": "new-payment",
-                #               "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
-                #              {"name": "Список платежей", "url": "payment_list",
-                #               "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"}, ]
-                #          },
-                #     ]
-                #
+            # НОВЫЙ СПИСОК МЕНЮ - СПИСОК СЛОВАРЕЙ со словарями
+            #     hlnk_menu = [
+            #         {"menu_item": "Платежи", "sub_item":
+            #             [{"name": "Добавить поступления", "url": "cash_inflow",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
+            #              {"name": "Новый платеж", "url": "new-payment",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+            #              {"name": "Согласование платежей", "url": "payment_approval_3",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
+            #              {"name": "Оплата платежей", "url": "payment_pay",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
+            #              {"name": "Список платежей", "url": "payment_list",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"}, ]
+            #          },
+            #         {"menu_item": "Admin", "sub_item":
+            #             [{"name": "Регистрация пользователей", "url": "register",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"}, ]
+            #          },
+            #     ]
+            # else:
+            #     print('user role else', current_user.get_role())
+            #     hlnk_menu = [
+            #         {"menu_item": "Платежи", "sub_item":
+            #             [{"name": "Новый платеж", "url": "new-payment",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+            #              {"name": "Список платежей", "url": "payment_list",
+            #               "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"}, ]
+            #          },
+            #     ]
+            #
 
-                hlnk_menu = [
-                    {"name": "Главная страница", "url": "/",
-                     "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-                    {"name": "Добавить поступления", "url": "cash-inflow",
-                     "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
-                    {"name": "Новый платеж", "url": "new-payment",
-                     "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
-                    {"name": "Согласование платежей", "url": "payment-approval",
-                     "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
-                    {"name": "Оплата платежей", "url": "payment_pay",
-                     "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
-                    {"name": "Список платежей", "url": "payment_list",
-                     "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"},
-                    {"name": "Регистрация пользователей", "url": "register",
-                     "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"},
-                ]
-            else:
-                print('user role else', current_user.get_role())
-                hlnk_menu = [
-                    {"name": "Главная страница", "url": "/",
-                     "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-                    {"name": "Новый платеж", "url": "new-payment",
-                     "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
-                    {"name": "Список платежей", "url": "payment_list",
-                     "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
-                ]
+            hlnk_menu = [
+                {"name": "Главная страница", "url": "/",
+                 "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
+                {"name": "Добавить поступления", "url": "cash-inflow",
+                 "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
+                {"name": "Новый платеж", "url": "new-payment",
+                 "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+                {"name": "Согласование платежей", "url": "payment-approval",
+                 "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
+                {"name": "Оплата платежей", "url": "payment_pay",
+                 "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
+                {"name": "Список платежей", "url": "payment_list",
+                 "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"},
+                {"name": "Регистрация пользователей", "url": "register",
+                 "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"},
+            ]
         else:
-            # Меню профиля
-            hlnk_profile = {
-                "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"},
+            print('user role else', current_user.get_role())
             hlnk_menu = [
                 {"name": "Главная страница", "url": "/",
                  "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
                 {"name": "Новый платеж", "url": "new-payment",
                  "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
-                # {"name": "Авторизация", "url": "login",
-                #  "img": "https://cdn-icons-png.flaticon.com/512/2574/2574003.png"},
+                {"name": "Список платежей", "url": "payment_list",
+                 "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
             ]
+    else:
+        # Меню профиля
+        hlnk_profile = {
+            "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"},
+        hlnk_menu = [
+            {"name": "Главная страница", "url": "/",
+             "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
+            {"name": "Новый платеж", "url": "new-payment",
+             "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+            # {"name": "Авторизация", "url": "login",
+            #  "img": "https://cdn-icons-png.flaticon.com/512/2574/2574003.png"},
+        ]
 
-        return
-    except Exception as e:
-        return f'func_hlnk_profile ❗❗❗ Ошибка \n---{e}'
-
+    return hlnk_menu, hlnk_profile
+    # except Exception as e:
+    #     return f'func_hlnk_profile ❗❗❗ Ошибка \n---{e}'

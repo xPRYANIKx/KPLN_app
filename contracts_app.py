@@ -28,7 +28,7 @@ dbase = None
 hlnk = [{"name": "Список объектов", "url": "contracts_list"},]
 
 
-def coon_init():
+def conn_init():
     conn = psycopg2.connect(dbname=db_name, user=db_user, password=db_password, host=db_host, port=db_port)
     return conn
 
@@ -41,17 +41,17 @@ def load_user(user_id):
 @app.before_request
 def before_request():
     global dbase
-    conn = coon_init()
+    conn = conn_init()
     dbase = FDataBase(conn)
 
 
-def coon_cursor_init():
-    conn = coon_init()
+def conn_cursor_init():
+    conn = conn_init()
     cursor = conn.cursor()
     return conn, cursor
 
 
-def coon_cursor_close(cursor, conn):
+def conn_cursor_close(cursor, conn):
     cursor.close()
     conn.close()
 
@@ -59,7 +59,7 @@ def coon_cursor_close(cursor, conn):
 @app.route('/')
 def index():
     try:
-        conn, cursor = coon_cursor_init()
+        conn, cursor = conn_cursor_init()
         cursor.execute("SELECT object_name FROM objects")
         objects = cursor.fetchall()
         cursor.execute("SELECT contract_type_name FROM contract_types")
@@ -73,7 +73,7 @@ def index():
         contract_purpose_name = cursor.fetchall()
         cursor.execute("SELECT vat_name FROM vat")
         vat_name = cursor.fetchall()
-        coon_cursor_close(cursor, conn)
+        conn_cursor_close(cursor, conn)
 
         return render_template('new_contr.html', objects=objects, contract_types=contract_types, today=today, contractor_name=contractor_name, contract_status_name=contract_status_name, contract_purpose_name=contract_purpose_name, vat_name=vat_name, menu=hlnk, title='Новый договор 📝')
     except Exception as e:
@@ -93,19 +93,19 @@ def save_data():
         contract_status = request.form.get('contract_status')
         contract_purpose = request.form.get('contract_purpose')
         vat = request.form.get('vat')
-        conn, cursor = coon_cursor_init()
+        conn, cursor = conn_cursor_init()
         query = "INSERT INTO new_objects (object_name, contract_type, date_row, contract_number, customer, contractor, contract_comment, contract_status, contract_purpose, vat, vat_value) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, (SELECT vat_value FROM vat WHERE vat_name = %s))"
         values = (object, contract_type, date_row, contract_number, customer, contractor, contract_comment,contract_status, contract_purpose, vat, vat)
 
         try:
             cursor.execute(query, values)
             conn.commit()
-            coon_cursor_close(cursor, conn)
+            conn_cursor_close(cursor, conn)
             flash('✔️ Договор сохранён', category='success')
             return render_template('new_contr.html', menu=hlnk, title='Новый договор 📝')
         except Exception as e:
             conn.rollback()
-            coon_cursor_close(cursor, conn)
+            conn_cursor_close(cursor, conn)
             flash(f'❌ Договор НЕ сохранён \n---{e}', category='error')
             return render_template('new_contr.html', menu=hlnk, title='Новый договор 📝')
     return render_template('new_contr.html')
@@ -113,7 +113,7 @@ def save_data():
 
 def get_contracts(filter_by=None, sort_by=None):
     try:
-        conn, cursor = coon_cursor_init()
+        conn, cursor = conn_cursor_init()
         if filter_by is not None:
             query = f"SELECT * FROM new_objects WHERE contract_status = '{filter_by}'"
         else:
@@ -122,7 +122,7 @@ def get_contracts(filter_by=None, sort_by=None):
             query += f" ORDER BY {sort_by}"
         cursor.execute(query)
         contracts = cursor.fetchall()
-        coon_cursor_close(cursor, conn)
+        conn_cursor_close(cursor, conn)
         return contracts
     except:
         return 'error'
@@ -141,7 +141,7 @@ def login():
         return redirect(url_for('profile'))
 
     if request.method == 'POST':
-        conn = coon_init()
+        conn = conn_init()
         dbase = FDataBase(conn)
         form_data = request.form
 
