@@ -273,8 +273,15 @@ def set_new_payment():
                 login_app.conn_cursor_close(cursor, conn)
                 session['n_s_v_new_payment'] = {
                     'b_o_p': basis_of_payment,
-                    'resp': [responsible, request.form.get('responsible').split('-@@@-')[-1]],
-                    'c_i': [cost_items, request.form.get('cost_items').split('-@@@-')[-1]],
+                    'resp': [
+                        responsible,
+                        request.form.get('responsible').split('-@@@-')[-1]
+                    ],
+                    'c_i': [
+                        request.form.get('cost_items').split('-@@@-')[0],
+                        cost_items,
+                        request.form.get('cost_items').split('-@@@-')[-1]
+                    ],
                     'p_d': payment_description,
                     'part': partner,
                     'p_d_d': payment_due_date,
@@ -319,11 +326,11 @@ def get_unapproved_payments():
                         t5.first_name,
                         t5.last_name,
                         t1.payment_description, 
-                        t6.object_name,
+                        COALESCE(t6.object_name, '') AS object_name,
                         t1.partner,
                         t1.payment_sum,
-                        t1.payment_sum - t7.approval_sum AS approval_sum,
-                        t8.amount,
+                        COALESCE(t1.payment_sum - t7.approval_sum, t1.payment_sum) AS approval_sum,
+                        COALESCE(t8.amount, null) AS amount,
                         t1.payment_due_date,
                         t2.status_id,
                         date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp) AS payment_at,
@@ -378,17 +385,6 @@ def get_unapproved_payments():
             )
             all_payments = cursor.fetchall()
 
-            # Обработка полученных данных
-            for row in all_payments:
-                # Изменяем объект None на пустоту
-                if not row["object_name"]:
-                    row["object_name"] = ''
-                if not row["amount"]:
-                    row["amount"] = ''
-                # Изменяем Остаток к оплате None на пустоту
-                if not row["approval_sum"]:
-                    row["approval_sum"] = row["payment_sum"]
-
             # Список согласованных платежей
             cursor.execute("SELECT * FROM payments_approval")
             unapproved_payments = cursor.fetchall()
@@ -400,12 +396,33 @@ def get_unapproved_payments():
                 FROM payment_agreed_statuses WHERE payment_agreed_status_category = 'Andrew'""")
             approval_statuses = cursor.fetchall()
 
+            # ДС на счету
+            cursor.execute(
+                """SELECT
+                    sum(balance_sum) AS account_money
+                FROM payments_balance
+                """
+            )
+            account_money = cursor.fetchone()
+            account_money = account_money[0] if account_money[0] else 0
+
+            # Сумма ранее согласованных платежей
+            cursor.execute(
+                """SELECT
+                    sum(approval_sum) AS approval_sum
+                FROM payments_approval
+                """
+            )
+            available_money = cursor.fetchone()
+            available_money = account_money - available_money[0] if available_money[0] else account_money
+
             # Create profile name dict
             hlnk_menu, hlnk_profile = login_app.func_hlnk_profile()
 
-            return render_template('payment-approval.html', menu=hlnk_menu, menu_profile=hlnk_profile,
-                                   applications=all_payments, approval_statuses=approval_statuses,
-                                   title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
+            return render_template(
+                'payment-approval.html', menu=hlnk_menu, menu_profile=hlnk_profile,
+                applications=all_payments, approval_statuses=approval_statuses, account_money=account_money,
+                available_money=available_money, title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
     except Exception as e:
         return f'get_unapproved_payments ❗❗❗ Ошибка \n---{e}'
 
@@ -659,118 +676,126 @@ def set_approved_payments():
 def save_quick_changes_approved_payments():
     print('save_quick_changes_approved_payments')
     # Сохраняем изменения в полях (согл сумма, статус, сохр до полн оплаты) заявки без нажатия кнопки "Отправить"
-    try:
-        payment_id = int(request.form['payment_number'])
-        row_id = request.form['row_id']
-        amount = request.form['amount']
-        status_id = request.form['status_id']
-        status_id2 = request.form.getlist('status_id')
-        agreed_status = request.form['payment_full_agreed_status']
-        # Преобразовываем в нужный тип данных
-        if agreed_status == 'false':
-            agreed_status = False
-        else:
-            agreed_status = True
-        if amount:
-            amount = float(amount)
+    # try:
+    payment_id = int(request.form['payment_number'])
+    row_id = request.form['row_id']
+    amount = request.form['amount']
+    status_id = request.form['status_id']
+    status_id2 = request.form.getlist('status_id')
+    agreed_status = request.form['payment_full_agreed_status']
+    # Преобразовываем в нужный тип данных
+    if agreed_status == 'false':
+        agreed_status = False
+    else:
+        agreed_status = True
+    if amount:
+        amount = float(amount)
 
-        user_id = login_app.current_user.get_id()
+    print(f"""payment_id {payment_id}
+row_id {row_id}
+amount {amount}
+status_id {status_id}
+status_id2 {status_id2}
+agreed_status {agreed_status}
+""")
 
-        # Execute the SQL query
-        conn, cursor = login_app.conn_cursor_init()
+    user_id = login_app.current_user.get_id()
 
-        # Статусы Андрея
-        query_approval_statuses = """
-            SELECT payment_agreed_status_id AS id
-            FROM payment_agreed_statuses 
-            WHERE payment_agreed_status_name = %s
-        """
-        cursor.execute(query_approval_statuses, (status_id,))
-        approval_statuses = cursor.fetchone()[0]
+    # Execute the SQL query
+    conn, cursor = login_app.conn_cursor_init()
 
-        # СТАТУС ПЛАТЕЖА
-        # Последний статус платежа
-        query_last_status = """
-            SELECT DISTINCT ON (payment_id) 
-                     status_id
-            FROM payments_approval_history
-            WHERE payment_id = %s
-            ORDER BY payment_id, create_at DESC
-        """
-        cursor.execute(query_last_status, (payment_id,))
-        last_status_id = cursor.fetchone()[0]
-        # Если статус New (id 1), приравниваем его к id 4 - Черновик
-        if last_status_id == 1:
-            last_status_id = 4
-        # Если статусы не совпадают, создаём новую запись
-        if last_status_id != approval_statuses:
-            # Запись в payments_approval_history
-            action_p_a_h = 'INSERT INTO'
-            table_p_a_h = 'payments_approval_history'
-            columns_p_a_h = ('payment_id', 'status_id', 'user_id')
-            values_p_a_h = [[payment_id, approval_statuses, user_id]]
-            query_a_h = get_db_dml_query(action=action_p_a_h, table=table_p_a_h, columns=columns_p_a_h)
-            execute_values(cursor, query_a_h, values_p_a_h)
+    # Статусы Андрея
+    query_approval_statuses = """
+        SELECT payment_agreed_status_id AS id
+        FROM payment_agreed_statuses 
+        WHERE payment_agreed_status_name = %s
+    """
+    cursor.execute(query_approval_statuses, (status_id,))
+    approval_statuses = cursor.fetchone()[0]
 
-        # СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ
-        # Последний статус сохранения до полной оплаты
-        query_last_f_a_status = """
-            SELECT payment_full_agreed_status
-            FROM payments_summary_tab
-            WHERE payment_id = %s
-        """
-        cursor.execute(query_last_f_a_status, (payment_id,))
-        last_f_a_status = cursor.fetchone()[0]
-        # Если статусы не совпадают, обновляем запись
-        if last_f_a_status != agreed_status:
-            columns_p_s_t = ("payment_id", "payment_full_agreed_status")
-            values_p_s_t = [[payment_id, agreed_status]]
-            query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
-            execute_values(cursor, query_p_s_t, values_p_s_t)
-
-        # СОГЛАСОВАННАЯ СУММА
-        # Неотправленная согласованная сумма
-        query_last_amount = """
+    # СТАТУС ПЛАТЕЖА
+    # Последний статус платежа
+    query_last_status = """
         SELECT DISTINCT ON (payment_id) 
-            parent_id::int AS payment_id,
-            parameter_value::float AS amount
-        FROM payment_draft
-        WHERE page_name = %s AND parent_id::int = %s AND parameter_name = %s AND user_id = %s
-        ORDER BY payment_id, create_at DESC;
-        """
-        page_name = 'payment_approval'
-        parameter_name = 'amount'
-        value_last_amount = [page_name, payment_id, parameter_name, user_id]
-        cursor.execute(query_last_amount, value_last_amount)
-        last_amount = cursor.fetchone()
+                 status_id
+        FROM payments_approval_history
+        WHERE payment_id = %s
+        ORDER BY payment_id, create_at DESC
+    """
+    cursor.execute(query_last_status, (payment_id,))
+    last_status_id = cursor.fetchone()[0]
+    # Если статус New (id 1), приравниваем его к id 4 - Черновик
+    if last_status_id == 1:
+        last_status_id = 4
+    # Если статусы не совпадают, создаём новую запись
+    if last_status_id != approval_statuses:
+        # Запись в payments_approval_history
+        action_p_a_h = 'INSERT INTO'
+        table_p_a_h = 'payments_approval_history'
+        columns_p_a_h = ('payment_id', 'status_id', 'user_id')
+        values_p_a_h = [[payment_id, approval_statuses, user_id]]
+        query_a_h = get_db_dml_query(action=action_p_a_h, table=table_p_a_h, columns=columns_p_a_h)
+        execute_values(cursor, query_a_h, values_p_a_h)
+
+    # СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ
+    # Последний статус сохранения до полной оплаты
+    query_last_f_a_status = """
+        SELECT payment_full_agreed_status
+        FROM payments_summary_tab
+        WHERE payment_id = %s
+    """
+    cursor.execute(query_last_f_a_status, (payment_id,))
+    last_f_a_status = cursor.fetchone()[0]
+    # Если статусы не совпадают, обновляем запись
+    if last_f_a_status != agreed_status:
+        columns_p_s_t = ("payment_id", "payment_full_agreed_status")
+        values_p_s_t = [[payment_id, agreed_status]]
+        query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+        execute_values(cursor, query_p_s_t, values_p_s_t)
+
+    # СОГЛАСОВАННАЯ СУММА
+    # Неотправленная согласованная сумма
+    query_last_amount = """
+    SELECT DISTINCT ON (payment_id) 
+        parent_id::int AS payment_id,
+        parameter_value::float AS amount
+    FROM payment_draft
+    WHERE page_name = %s AND parent_id::int = %s AND parameter_name = %s AND user_id = %s
+    ORDER BY payment_id, create_at DESC;
+    """
+    page_name = 'payment_approval'
+    parameter_name = 'amount'
+    value_last_amount = [page_name, payment_id, parameter_name, user_id]
+    cursor.execute(query_last_amount, value_last_amount)
+    last_amount = cursor.fetchone()
+    if last_amount:
+        last_amount = last_amount[1]
+    # Если суммы не совпадают, добавляем запись
+    if amount != last_amount:
+        # Если неотправленна сумма была, то удаляем её и вносим новую (удаляем, а не перезаписываем т.к.
+        # возможно в таблице может быть несколько записей)
         if last_amount:
-            last_amount = last_amount[1]
-        # Если суммы не совпадают, добавляем запись
-        if amount != last_amount:
-            # Если неотправленна сумма была, то удаляем её и вносим новую (удаляем, а не перезаписываем т.к.
-            # возможно в таблице может быть несколько записей)
-            if last_amount:
-                # Удаление всех неотправленных сумм
-                cursor.execute("""
-                DELETE FROM payment_draft 
-                WHERE page_name = %s AND parent_id::int = %s AND parameter_name = %s AND user_id = %s
-                """, value_last_amount)
-            # Если указали сумму согласования, то вносим в таблицу временных значений, иначе не вносим
-            if amount:
-                action_d_p = 'INSERT INTO'
-                table_d_p = 'payment_draft'
-                columns_d_p = ('page_name', 'parent_id', 'parameter_name', 'parameter_value', 'user_id')
-                values_d_p = [[page_name, payment_id, parameter_name, amount, user_id]]
-                query_d_p = get_db_dml_query(action=action_d_p, table=table_d_p, columns=columns_d_p)
-                execute_values(cursor, query_d_p, values_d_p)
+            # Удаление всех неотправленных сумм
+            cursor.execute("""
+            DELETE FROM payment_draft 
+            WHERE page_name = %s AND parent_id::int = %s AND parameter_name = %s AND user_id = %s
+            """, value_last_amount)
+        # Если указали сумму согласования, то вносим в таблицу временных значений, иначе не вносим
+        if amount:
+            action_d_p = 'INSERT INTO'
+            table_d_p = 'payment_draft'
+            columns_d_p = ('page_name', 'parent_id', 'parameter_name', 'parameter_value', 'user_id')
+            values_d_p = [[page_name, payment_id, parameter_name, amount, user_id]]
+            query_d_p = get_db_dml_query(action=action_d_p, table=table_d_p, columns=columns_d_p)
+            execute_values(cursor, query_d_p, values_d_p)
 
-        conn.commit()
+    conn.commit()
 
-        login_app.conn_cursor_close(cursor, conn)
+    login_app.conn_cursor_close(cursor, conn)
 
-        return 'Data saved successfully'
-    except Exception as e:
-        return f'save_quick_changes_approved_payments ❗❗❗ Ошибка \n---{e}'
+    return 'Data saved successfully'
+    # except Exception as e:
+    #     return f'save_quick_changes_approved_payments ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/cash-inflow')
@@ -778,162 +803,207 @@ def save_quick_changes_approved_payments():
 def get_cash_inflow():
     print('get_cash_inflow')
     """Страница для добавления платежа"""
-    try:
-        global hlnk_menu, hlnk_profile
+    # try:
+    global hlnk_menu, hlnk_profile
 
-        # Check if the user has access to the "List of contracts" page
-        if login_app.current_user.get_role() != 1:
-            return error_handlers.handle403(403)
-        else:
+    # Check if the user has access to the "List of contracts" page
+    if login_app.current_user.get_role() != 1:
+        return error_handlers.handle403(403)
+    else:
 
-            user_id = login_app.current_user.get_id()
-            # Connect to the database
-            conn, cursor = login_app.conn_cursor_init_dict()
+        user_id = login_app.current_user.get_id()
+        # Connect to the database
+        conn, cursor = login_app.conn_cursor_init_dict()
 
-            # Список наших компаний из таблицы contractors
-            cursor.execute("SELECT contractor_id, contractor_name FROM our_companies WHERE inflow_active is true")
-            our_companies = cursor.fetchall()
+        # Список наших компаний из таблицы contractors
+        cursor.execute("SELECT contractor_id, contractor_name FROM our_companies WHERE inflow_active is true")
+        our_companies = cursor.fetchall()
 
-            # Список типов поступлений из таблицы payment_inflow_type
-            cursor.execute("SELECT * FROM payment_inflow_type")
-            inflow_types = cursor.fetchall()
+        # Список типов поступлений из таблицы payment_inflow_type
+        cursor.execute("SELECT * FROM payment_inflow_type")
+        inflow_types = cursor.fetchall()
 
-            # Последние 5 поступлений из таблицы payment_inflow_type
-            cursor.execute("""
-            SELECT 
-                date_trunc('second', timezone('UTC-3', t1.inflow_at)::timestamp) AS inflow_at,
-                t1.inflow_sum,
-                t2.contractor_name,
-                t1.inflow_description            
-            FROM payments_inflow_history AS t1
-            LEFT JOIN (
-                        SELECT  
-                            contractor_id,
-                            contractor_name
-                        FROM our_companies
-                ) AS t2 ON t1.inflow_company_id = t2.contractor_id
-            ORDER BY inflow_at DESC LIMIT (5)""")
-            historical_data = cursor.fetchall()
+        # Последние 5 поступлений из таблицы payment_inflow_type
+        cursor.execute("""
+        SELECT 
+            date_trunc('second', timezone('UTC-3', t1.inflow_at)::timestamp) AS inflow_at,
+            t1.inflow_sum,
+            t2.contractor_name,
+            t1.inflow_description            
+        FROM payments_inflow_history AS t1
+        LEFT JOIN (
+                    SELECT  
+                        contractor_id,
+                        contractor_name
+                    FROM our_companies
+            ) AS t2 ON t1.inflow_company_id = t2.contractor_id
+        ORDER BY inflow_at DESC LIMIT (5)""")
+        historical_data = cursor.fetchall()
 
-            # Create profile name dict
-            hlnk_menu, hlnk_profile = login_app.func_hlnk_profile()
-            not_save_val = session['n_s_v_cash_inflow'] if session.get('n_s_v_cash_inflow') else {}
+        # Список балансов компаний
+        cursor.execute("""
+        SELECT 
+            t1.contractor_name,
+            COALESCE(t2.balance_sum, 0) AS balance_sum           
+        FROM our_companies AS t1
+        LEFT JOIN (
+                    SELECT  
+                        company_id,
+                        balance_sum
+                    FROM payments_balance
+            ) AS t2 ON t1.contractor_id = t2.company_id
+        """)
+        companies_balances = cursor.fetchall()
 
-            return render_template(
-                template_name_or_list='cash-inflow.html', menu=hlnk_menu, menu_profile=hlnk_profile,
-                our_companies=our_companies, inflow_types=inflow_types, historical_data=historical_data,
-                not_save_val=not_save_val, title='ПОСТУПЛЕНИЯ ДС')
-    except Exception as e:
-        return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
+        # Create profile name dict
+        hlnk_menu, hlnk_profile = login_app.func_hlnk_profile()
+        not_save_val = session['n_s_v_cash_inflow'] if session.get('n_s_v_cash_inflow') else {}
+
+        return render_template(template_name_or_list='cash-inflow.html', menu=hlnk_menu, menu_profile=hlnk_profile, our_companies=our_companies, inflow_types=inflow_types, historical_data=historical_data, not_save_val=not_save_val, companies_balances=companies_balances, title='ПОСТУПЛЕНИЯ ДС')
+    # except Exception as e:
+    #     return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/cash-inflow', methods=['POST'])
 @login_required
 def set_cash_inflow():
     """Сохранение согласованные платежи на оплату в БД"""
-    try:
-        if request.method == 'POST':
-            # Список выделенных столбцов
-            inflow_company_id = int(request.form.get('our_company').split('-@@@-')[0])  # id компании
-            inflow_company = request.form.get('our_company').split('-@@@-')[1]  # Название компания
-            inflow_type_id = int(request.form.get('inflow_type').split('-@@@-')[0])  # id типа поступления
-            inflow_type = request.form.get('inflow_type').split('-@@@-')[1]  # Название типа поступления
-            inflow_sum = convert_amount(request.form['cash_inflow_sum'])  # Сумма поступления
-            try:
-                taker_company_id = int(request.form.get('taker_company').split('-@@@-')[0])  # id компании
-                taker_company = request.form.get('taker_company').split('-@@@-')[1]  # Название компания
-            except:
-                taker_company_id = None
-                taker_company = None
-            try:
-                inflow_description = request.form['cash_inflow_description']  # Комментарий
-            except:
-                inflow_description = None
+    # try:
+    if request.method == 'POST':
+        # Список выделенных столбцов
+        inflow_company_id = int(request.form.get('our_company').split('-@@@-')[0])  # id компании
+        inflow_company = request.form.get('our_company').split('-@@@-')[1]  # Название компания
+        inflow_type_id = int(request.form.get('inflow_type').split('-@@@-')[0])  # id типа поступления
+        inflow_type = request.form.get('inflow_type').split('-@@@-')[1]  # Название типа поступления
+        inflow_sum = convert_amount(request.form['cash_inflow_sum'])  # Сумма поступления
+        try:
+            taker_company_id = int(request.form.get('taker_company').split('-@@@-')[0])  # id компании
+            taker_company = request.form.get('taker_company').split('-@@@-')[1]  # Название компания
+        except:
+            taker_company_id = None
+            taker_company = None
+        try:
+            inflow_description = request.form['cash_inflow_description']  # Комментарий
+        except:
+            inflow_description = None
 
-            user_id = login_app.current_user.get_id()
+        user_id = login_app.current_user.get_id()
 
-            print('inflow_company_id =', type(inflow_company_id), inflow_company_id, '\ninflow_type_id =', inflow_type_id,
-                  '\ninflow_sum =', inflow_sum, '\ninflow_description =', inflow_description)
+        print('inflow_company_id =', type(inflow_company_id), inflow_company_id, '\ninflow_type_id =', inflow_type_id,
+              '\ninflow_sum =', inflow_sum, '\ninflow_description =', inflow_description)
 
 
-            action_i_h = 'INSERT INTO'
-            table_i_h = 'payments_inflow_history'
-            columns_i_h = ('inflow_company_id', 'inflow_description', 'inflow_type_id', 'inflow_sum', 'inflow_owner')
-            query_i_h = get_db_dml_query(action=action_i_h, table=table_i_h, columns=columns_i_h)
-            values_i_h = [[inflow_company_id, inflow_description, inflow_type_id, inflow_sum, user_id]]
+        action_i_h = 'INSERT INTO'
+        table_i_h = 'payments_inflow_history'
+        columns_i_h = ('inflow_company_id', 'inflow_description', 'inflow_type_id', 'inflow_sum', 'inflow_owner')
+        query_i_h = get_db_dml_query(action=action_i_h, table=table_i_h, columns=columns_i_h)
+        values_i_h = [[inflow_company_id, inflow_description, inflow_type_id, inflow_sum, user_id]]
 
-            action_b = 'INSERT CONFLICT UPDATE'
-            table_b = 'payments_balance'
-            columns_b = ('balance_sum', 'company_id')
+        action_b = 'INSERT CONFLICT UPDATE'
+        table_b = 'payments_balance'
+        columns_b = ('balance_sum', 'company_id')
 
-            conn, cursor = login_app.conn_cursor_init()
+        conn, cursor = login_app.conn_cursor_init()
 
-            try:
-                # Если Тип поступления "Поступление ДС",
-                # то добавляем данные в таблицы payments_inflow_history и payments_balance
-                if inflow_type_id == 1:
-                    # Запись в таблицу payments_inflow_history
-                    execute_values(cursor, query_i_h, values_i_h)
+        try:
+            # Если Тип поступления "Поступление ДС",
+            # то добавляем данные в таблицы payments_inflow_history и payments_balance
+            if inflow_type_id == 1:
+                # Запись в таблицу payments_inflow_history
+                execute_values(cursor, query_i_h, values_i_h)
 
-                    # Запись в таблицу payments_balance
-                    # Генерируем выражение: к текущему значению всех колонок добавляем новое
-                    expr_set = ', '.join([f"{col} = t1.{col} + EXCLUDED.{col}" for col in columns_b[:-1]])
+                # Запись в таблицу payments_balance
+                # Генерируем выражение: к текущему значению всех колонок добавляем новое
+                expr_set = ', '.join([f"{col} = t1.{col} + EXCLUDED.{col}" for col in columns_b[:-1]])
 
-                    query_b = get_db_dml_query(action=action_b, table=table_b, columns=columns_b, expr_set=expr_set)
-                    values_b = [[inflow_sum, inflow_company_id]]
-                    print('# Если Тип поступления "Поступление ДС",')
-                    execute_values(cursor, query_b, values_b)
-                    print('# Если Тип поступления "Поступление ДС",')
+                query_b = get_db_dml_query(action=action_b, table=table_b, columns=columns_b, expr_set=expr_set)
+                values_b = [[inflow_sum, inflow_company_id]]
+                execute_values(cursor, query_b, values_b)
+                flash(message=['Поступление добавлено', ''], category='success')
 
-                # Если Тип поступления "П.О.", то пока ничего не делаем
-                elif inflow_type_id == 2:
-                    flash(message=['Тип поступления П.О. не работает. Действие отменено', ''], category='error')
+            # Если Тип поступления "П.О.", то пока ничего не делаем
+            elif inflow_type_id == 2:
+                flash(message=['Действие отменено', 'Тип поступления П.О. не работает'], category='error')
+                return redirect(url_for('.get_cash_inflow'))
+
+            # Если Тип поступления "Корректирующий платеж",
+            # то перемещаем средства между компания в таблице payments_balance
+            elif inflow_type_id == 3:
+                flash(message=['Действие отменено', 'Тип поступления \"Корректирующий платеж\" не работает'], category='error')
+                return redirect(url_for('.get_cash_inflow'))
+
+            # Если Тип поступления "Внутренний платеж",
+            # то перемещаем средства между компания в таблице payments_balance
+            elif inflow_type_id == 4:
+                # Проверяем, хватает ли средств у inflow_company
+                query = """
+                SELECT 
+                    balance_sum 
+                FROM payments_balance 
+                WHERE company_id::int = %s
+                """
+                execute_values(cursor, query, [[inflow_company_id]])
+                balance_sum = cursor.fetchone()
+                balance_sum = 0 if not balance_sum else balance_sum[0]
+                if balance_sum < inflow_sum:
+                    print('balance_sum < inflow_sum')
+                    flash(message=['Действие отменено',
+                                   f'На счету компании: {inflow_company} недостаточно средств ({balance_sum} ₽) '
+                                   f'для перевода.\nНе хватает:  {inflow_sum - float(balance_sum)} ₽\n\nОтмена операции'],
+                          category='error')
                     return redirect(url_for('.get_cash_inflow'))
 
-                # Если Тип поступления "Корректирующий платеж",
-                # то перемещаем средства между компания в таблице payments_balance
-                elif inflow_type_id == 3:
-                    flash(message=['Тип поступления П.О. не работает. Действие отменено', ''], category='error')
+                # Запись в таблицу payments_inflow_history
+                inflow_description = f"из {inflow_company}: {inflow_sum} ₽"
+                query_i_h = get_db_dml_query(action=action_i_h, table=table_i_h, columns=columns_i_h)
+                values_i_h = [[taker_company_id, inflow_description, inflow_type_id, inflow_sum, user_id]]
+                execute_values(cursor, query_i_h, values_i_h)
 
-                # Если Тип поступления "Внутренний платеж",
-                # то перемещаем средства между компания в таблице payments_balance
-                elif inflow_type_id == 4:
-                    flash(message=['Тип поступления П.О. не работает. Действие отменено', ''], category='error')
+                # Запись в таблицу payments_balance
+                # Генерируем выражение: к текущему значению всех колонок добавляем новое. Прибавляем у taker_comp
+                expr_set = ', '.join([f"{col} = t1.{col} + EXCLUDED.{col}" for col in columns_b[:-1]])
+                query_b = get_db_dml_query(action=action_b, table=table_b, columns=columns_b, expr_set=expr_set)
+                values_b = [[inflow_sum, taker_company_id]]
+                execute_values(cursor, query_b, values_b)
+                # Генерируем выражение: из тек. знач. вычитаем (прибалвяем отрицательную inflow_sum. Вычитание у inflow_company
+                expr_set = ', '.join([f"{col} = t1.{col} + EXCLUDED.{col}" for col in columns_b[:-1]])
+                query_b = get_db_dml_query(action=action_b, table=table_b, columns=columns_b, expr_set=expr_set)
+                # inflow_sum = -inflow_sum
+                values_b = [[-inflow_sum, inflow_company_id]]
+                execute_values(cursor, query_b, values_b)
 
-                conn.commit()
-                print('# Если Тип поступления "Поступление ДС",')
+                flash(message=['Внутренний платеж осуществлён', ''], category='success')
 
-                login_app.conn_cursor_close(cursor, conn)
-                print('# Если Тип поступления "Поступление ДС",')
-                session.pop('n_s_v_cash_inflow', default=None)
-                print('# Если Тип поступления "Поступление ДС",')
-                flash(message=['Платёж внесён', ''], category='success')
+            conn.commit()
 
-                return redirect(url_for('.get_cash_inflow'))
+            login_app.conn_cursor_close(cursor, conn)
+            session.pop('n_s_v_cash_inflow', default=None)
 
-            except Exception as e:
-                conn.rollback()
-                login_app.conn_cursor_close(cursor, conn)
+            return redirect(url_for('.get_cash_inflow'))
 
-                session['n_s_v_cash_inflow'] = {
-                    'o_c': [inflow_company_id, inflow_company],
-                    'i_t': [inflow_type_id, inflow_type],
-                    'c_i_s': request.form.get('cash_inflow_sum'),
-                }
-                if taker_company_id:
-                    session['n_s_v_cash_inflow']['t_c'] = [taker_company_id, taker_company]
-                if inflow_description:
-                    session['n_s_v_cash_inflow']['i_d'] = inflow_description
+        except Exception as e:
+            conn.rollback()
+            login_app.conn_cursor_close(cursor, conn)
 
-                print(f'отправка set_cash_inflow ❗❗❗ Ошибка \n---{e}')
-                flash(message=['Ошибка. Данные не сохранены', str(e)], category='error')
-                return redirect(url_for('.get_cash_inflow'))
+            session['n_s_v_cash_inflow'] = {
+                'o_c': [inflow_company_id, inflow_company],
+                'i_t': [inflow_type_id, inflow_type],
+                'c_i_s': request.form.get('cash_inflow_sum'),
+            }
+            if taker_company_id:
+                session['n_s_v_cash_inflow']['t_c'] = [taker_company_id, taker_company]
+            if inflow_description:
+                session['n_s_v_cash_inflow']['i_d'] = inflow_description
+
+            print(f'отправка set_cash_inflow ❗❗❗ Ошибка \n---{e}')
+            flash(message=['Ошибка. Данные не сохранены', str(e)], category='error')
+            return redirect(url_for('.get_cash_inflow'))
 
 
 
 
-    except Exception as e:
-        return f'set_cash_inflow ❗❗❗ Ошибка \n---{e}'
+    # except Exception as e:
+    #     return f'set_cash_inflow ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/payment-pay')
@@ -1006,5 +1076,5 @@ def get_db_dml_query(action, table, columns, expr_set=None, subquery=";"):
 
 # Превращаем строковое значение стоимости с пропусками и руб. в число
 def convert_amount(amount):
-    amount = amount.replace(' руб.', '').replace(" ", "").replace(",", ".")
+    amount = float(amount.replace(' руб.', '').replace(" ", "").replace(",", "."))
     return amount
