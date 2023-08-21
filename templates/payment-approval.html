@@ -5,16 +5,54 @@
     <script src="static/script/numberWithSpaces.js"></script>
     <script src="static/script/paymentApprovalSort.js"></script>
     <script src="static/script/paymentApprovalSaveChanges.js"></script>
+    <script src="static/script/paymentApprovalRecalcCards.js"></script>
+    <script src="static/script/checkFormPaymentApproval.js"></script>
+    <style>
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+        }
+        .card-title {
+            color: black;
+            font-weight: bold;
+            font-size: 250%;
+        }
+        .card-cost {
+            color: grey;
+            font-size: 60%;
+        }
+    </style>
     {% endblock %}
 {% endblock %}
 {% block content %}
 
+<div class="cards-container">
+    <div class="card" id="card_selected_for_approval">
+        <h2 class="card-title" id="card_selected_for_approval_value">&nbsp;</h2>
+        <p class="card-cost">Выбрано для одобрения</p>
+    </div>
+    <div class="card" id="card_available_money">
+        <h2 class="card-title" id="card_available_money_value" data-value="{{ available_money }}">{{ available_money }} ₽</h2>
+        <p class="card-cost">ДС доступные к распределению</p>
+    </div>
+    <div class="card" id="card_account_money">
+        <h2 class="card-title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
+        <p class="card-cost">ДС на счету</p>
+    </div>
+
+</div>
+
+
+
 <h1>{{title}}</h1>
 
-{% for p in menu %}
-<li><a href="{{p.url}}">{{p.name}}</a></li>
-{% endfor %}
-<br>
 
 <form id="paymentForm3" action="/payment-approval" method="POST" style="align-self: flex-start">
     <button type="submit">Submit</button>
@@ -42,23 +80,25 @@
         </thead>
         <tbody>
             {% for application in applications %}
-            <tr>
+            <tr id="row-{{ loop.index }}">
                 <td>{{loop.index}}</td>
-                <td><input type="checkbox" id="selectedRows" name="selectedRows" value="{{loop.index}}"></td>
+                <td><input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}" onchange="paymentApprovalRecalcCards(), selectedApprovalSum({{ loop.index }})"></td>
                 <td>{{ application.contractor_name }}</td>
                 <td>{{ application.cost_item_name }}</td>
-                <td><input id="payment_number-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{application.payment_number}}</td>
+                <td><input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{application.payment_number}}</td>
                 <td>{{ application.basis_of_payment }}</td>
                 <td>{{ application.payment_description }}</td>
                 <td>{{ application.object_name }}</td>
                 <td>{{ application.last_name }} {{ application.first_name[0] }}.</td>
                 <td>{{ application.partner }}</td>
                 <td>{{ application.payment_sum }}</td>
-                <td>{{ application.approval_sum}}</td>
+                <td><input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>{{ application.approval_sum}}</td>
                 <td><input type="number" id="amount-{{ loop.index }}" name="amount" step="0.01" value="{{ application.amount }}" onchange="saveData({{ loop.index }})"></td>
                 <td>{{ application.payment_due_date }}</td>
                 <td>
-                    <select id="status_id-{{ loop.index }}" name="status_id" onchange="saveData({{ loop.index }})">
+                    <select id="status_id-{{ loop.index }}" name="status_id"
+                            data-amount="{{ 444 if application.status_id==4 else 33333}}"
+                            onchange="paymentApprovalRecalcCards(), saveData({{ loop.index }})">
                         {% for s in approval_statuses %}
                         <option {% if application.status_id==s.payment_agreed_status_id %} selected {% endif %}>{{ s.payment_agreed_status_name }}
                         </option>
@@ -67,7 +107,7 @@
                 </td>
                 <td>{{ application.payment_at }}</td>
                 <td>
-                    <input type="checkbox" id="payment_full_agreed_status-{{ loop.index }}" name="payment_full_agreed_status"
+                    <input type="checkbox" id="paymentFullAgreedStatus-{{ loop.index }}" name="payment_full_agreed_status"
                            value="{{loop.index}}"
                            {% if application.payment_full_agreed_status %}checked{% endif %}
                            onchange="saveData({{ loop.index }})">

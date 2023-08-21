@@ -6,12 +6,46 @@
     <script src="static/script/select2.min.js"></script>
     <script src="static/script/selectSearchCashInflow.js"></script>
     <script src="static/script/numberWithSpaces.js"></script>
+    <style>
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+        }
+        .card-title {
+            font-weight: bold;
+            font-size: 250%;
+        }
+        .card-cost {
+            color: green;
+        }
+    </style>
     {% endblock %}
 {% endblock %}
 {% block content %}
+{% if companies_balances %}
+<div class="cards-container">
+    {% for c, b in companies_balances %}
+        <div class="card">
+            <h2 class="card-title">{{ c }}</h2>
+            <p class="card-cost">{{ b }}  ₽</p>
+        </div>
+    {% endfor %}
+</div>
+{% else %}
+{% endif %}
+
+<body>
+
+
 <form method="POST" action="/cash-inflow">
     <h1>{{title}}</h1>
-
 
     <div><label for="our_company" id="our_company_label">Компания</label>
         <select class="selectSearch" name="our_company" id="our_company" required onchange="checkFormCashInflow()">

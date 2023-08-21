@@ -33,7 +33,7 @@
         <div><label for="cost_items">Тип заявки *</label>
             <select class="selectSearch" name="cost_items" id="cost_items" required onchange="checkFormNewPayment()">
                 {% if not_save_val.get('c_i') %}
-                <option value="{{ not_save_val.get('c_i')[0] }}-@@@-{{ not_save_val.get('c_i')[1] }}">{{ not_save_val.get('c_i')[1] }}</option>
+                <option value="{{ not_save_val.get('c_i')[0] }}-@@@-{{ not_save_val.get('c_i')[1] }}-@@@-{{ not_save_val.get('c_i')[2] }}">{{ not_save_val.get('c_i')[2] }}</option>
                 {% else %}
                 <option value="" disabled selected hidden>Выберите тип заявки</option>
                 {% endif %}

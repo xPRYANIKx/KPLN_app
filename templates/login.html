@@ -1,85 +1,26 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout-login.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
-
-    <link rel="stylesheet" href="static/style/select2.min.css">
-    <link rel="stylesheet" href="static/style/style.css">
-
-
-    <title>{{title}}</title>
-</head>
-
-<body>
-
-    <div class="wrapper">
-
-        <header>
-            <div class="header__pic">
-                <div class="header__pic__menu">
-                    <img src="static/img/menu.png" alt="kpln_menu" id="menuImage">
-                </div>
-            </div>
-            <div id="header_auth__label">Авторизация</div>
-            <div id="menu">
-                <div class="menu_content">
-                    <ul>
-                        {% for p in menu %}
-                        <li><a href="{{p.url}}">{{p.name}}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        </header>
-
-        <main>
-            <div class="auth_form">
-
-
-
-
-                <div class="auth_form__status">
-                    {% if error_msg %}
-                    <div class="flash error">{{error_msg}}</div>
-                    {% else %}
-                    {% endif %}
-                </div>
-
-
-
-
-                <form class="auth_form__status__form" action="" method="post" class="form-contact">
-                    <h1>{{title}}</h1>
-                    <div><label>E-mail:</label> <input type="text" name="email" value="" required /></div>
-                    <div><label>Пароль:</label> <input type="password" name="password" value="" required /></div>
-                    <div class="checkbox_auth">
-                        <div class="checkbox_auth__input"><input type="checkbox" name="remainme" /></div>
-                        <div class="checkbox_auth__label"><label>Запомнить меня</label></div>
-                    </div>
-                    <div><input class="button_enter" type="submit" value="Войти" /></div>
-                </form>
-            </div>
-
-
-        </main>
-
-        <footer>
-            <div class=" footer_company">
-                <div class="footer_company__href">
-                    <div class="footer_company__href_bitrix24"><a href="https://kpln.bitrix24.ru/">Битрикс24</a></div>
-                    <div class="footer_company__href_moodle"><a href="http://moodle/">Учебный центр</a></div>
-                </div>
-                <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbsp Проектное бюро "Крупный план"</div>
-            </div>
-        </footer>
-
+<div class="auth_form">
+    <div class="auth_form__status">
+        {% if error_msg %}
+        <div class="flash error">{{error_msg}}</div>
+        {% else %}
+        {% endif %}
     </div>
+    <form class="auth_form__status__form" action="" method="post" class="form-contact">
+        <h1>{{title}}</h1>
+        <div><label>E-mail:</label> <input type="text" name="email" value="" required /></div>
+        <div><label>Пароль:</label> <input type="password" name="password" value="" required /></div>
+        <div class="checkbox_auth">
+            <div class="checkbox_auth__input"><input type="checkbox" name="remainme" /></div>
+            <div class="checkbox_auth__label"><label>Запомнить меня</label></div>
+        </div>
+        <div><input class="button_enter" type="submit" value="Войти" /></div>
+    </form>
+</div>
 
-    <script src="static/script/todayYear.js"></script>
-    <script src="static/script/menunav.js"></script>
-
-</body>
-</html>
+{% endblock %}
