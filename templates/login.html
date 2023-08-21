@@ -1,26 +1,26 @@
 {% extends "layout-login.html" %}
 {% block head %}
-    {{ super() }}
+{{ super() }}
 {% endblock %}
 {% block content %}
 
-            <div class="auth_form">
-                <div class="auth_form__status">
-                    {% if error_msg %}
-                    <div class="flash error">{{error_msg}}</div>
-                    {% else %}
-                    {% endif %}
-                </div>
-                <form class="auth_form__status__form" action="" method="post" class="form-contact">
-                    <h1>{{title}}</h1>
-                    <div><label>E-mail:</label> <input type="text" name="email" value="" required /></div>
-                    <div><label>Пароль:</label> <input type="password" name="password" value="" required /></div>
-                    <div class="checkbox_auth">
-                        <div class="checkbox_auth__input"><input type="checkbox" name="remainme" /></div>
-                        <div class="checkbox_auth__label"><label>Запомнить меня</label></div>
-                    </div>
-                    <div><input class="button_enter" type="submit" value="Войти" /></div>
-                </form>
-            </div>
+<div class="auth_form">
+    <div class="auth_form__status">
+        {% if error_msg %}
+        <div class="flash error">{{error_msg}}</div>
+        {% else %}
+        {% endif %}
+    </div>
+    <form class="auth_form__status__form" action="" method="post" class="form-contact">
+        <h1>{{title}}</h1>
+        <div><label>E-mail:</label> <input type="text" name="email" value="" required /></div>
+        <div><label>Пароль:</label> <input type="password" name="password" value="" required /></div>
+        <div class="checkbox_auth">
+            <div class="checkbox_auth__input"><input type="checkbox" name="remainme" /></div>
+            <div class="checkbox_auth__label"><label>Запомнить меня</label></div>
+        </div>
+        <div><input class="button_enter" type="submit" value="Войти" /></div>
+    </form>
+</div>
 
 {% endblock %}

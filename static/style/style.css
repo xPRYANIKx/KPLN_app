@@ -66,36 +66,38 @@ table {
 }
 
 @font-face {
-  font-family: "Ample Soft Pro";
-  src: local("Ample Soft Pro"), local("Ample-Soft-Pro"), url("../font/AmpleSoftPro.woff2") format("woff2"), url("../font/AmpleSoftPro.woff") format("woff"), url("../font/AmpleSoftPro.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Oswald";
-  src: url("Oswald-Regular.eot");
-  src: local("Oswald"), local("Oswald-Regular"), url("../font/Oswald-Regular.eot?#iefix") format("embedded-opentype"), url("../font/Oswald-Regular.woff2") format("woff2"), url("../font/Oswald-Regular.woff") format("woff"), url("../font/Oswald-Regular.ttf") format("truetype");
+  font-family: "Montserrat";
+  src: url("../font/Montserrat-Regular.eot");
+  src: url("../font/Montserrat-Regular.eot?#iefix") format("embedded-opentype"), url("../font/Montserrat-Regular.woff") format("woff"), url("../font/Montserrat-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: "Oswald";
-  src: url("Oswald-Bold.eot");
-  src: local("Oswald"), local("Oswald"), url("../font/Oswald-Bold.eot?#iefix") format("embedded-opentype"), url("../font/Oswald-Bold.woff2") format("woff2"), url("../font/Oswald-Bold.woff") format("woff"), url("../font/Oswald-Bold.ttf") format("truetype");
+  font-family: "Montserrat";
+  src: url("../font/Montserrat-ExtraBold.eot");
+  src: url("../font/Montserrat-ExtraBold.eot?#iefix") format("embedded-opentype"), url("../font/Montserrat-ExtraBold.woff") format("woff"), url("../font/Montserrat-ExtraBold.ttf") format("truetype");
   font-weight: bold;
-  font-style: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "FS Elliot";
+  src: local("FS Elliot Regular"), local("FS-Elliot-Regular"), url("../font/FSElliotPro.woff2") format("woff2"), url("../font/FSElliotPro.woff") format("woff"), url("../font/FSElliotPro.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
 }
 body {
   width: 100%;
   background-color: #f6f3f3;
-  font-family: "Ample Soft Pro";
+  font-family: "Montserrat";
   font-size: 16px;
 }
 body h1 {
-  text-align: center;
   margin: 25px 0;
+  border-left: solid 3px #16a2c1;
+  padding-left: 10px;
   font-size: 38px;
   line-height: 99%;
+  font-weight: bold;
 }
 body a {
   color: #130042;
@@ -104,12 +106,16 @@ body a:hover {
   color: #1680a3;
 }
 body .help_p {
-  width: 240px;
+  max-width: 280px;
   margin-top: 30px;
-  padding: 5px 0px 5px 8px;
+  padding: 5px 8px 5px 8px;
   border-radius: 3px;
   font-size: 13px;
   background-color: rgba(255, 231, 145, 0.5411764706);
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+body #payment_sum {
+  padding: 5px 2px 5px 8px;
 }
 body table {
   width: 100%;
@@ -134,13 +140,14 @@ body table td {
 }
 body #logInfo {
   position: absolute;
-  top: 40%;
+  top: 39%;
   min-width: 260px;
   max-width: 275px;
   z-index: 6;
   border: solid 1px rgba(213, 213, 213, 0.2784313725);
   border-radius: 9px;
-  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.29);
+  font-family: "FS Elliot";
 }
 body #logInfo span {
   font-size: 23px;
@@ -154,16 +161,19 @@ body #logInfo button {
   width: 80px;
   padding: 3px;
   float: right;
-  border: solid 1px #b1b0b0;
+  border: none;
   border-radius: 5px;
-  font-family: "Ample Soft Pro";
+  font-family: "Montserrat";
   font-size: 15px;
+  color: #f3f3f3;
+  background-color: #393939;
+  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
 }
 body .window.error {
   background-color: #f1d9e1;
 }
 body .window.success {
-  background-color: #f3fffc;
+  background-color: #cdf1cd;
 }
 body .wrapper {
   display: flex;
@@ -182,9 +192,12 @@ header {
   justify-content: space-between;
   background-color: #000000;
 }
-header img {
-  max-width: 140px;
-  padding: 10px;
+header .header__pic {
+  display: flex;
+}
+header .header__pic .header__pic__menu img {
+  width: 40px;
+  margin: 14.5px 0px 5px 25px;
 }
 header #header_auth__label {
   display: flex;
@@ -302,8 +315,13 @@ main {
   background-color: #ffffff;
 }
 main form {
-  width: 520px;
+  width: 550px;
+  margin: 20px 0px;
+  padding: 0px 20px;
+  border-radius: 12px;
+  background-color: #ededed;
   align-self: center;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 main form div {
   display: flex;
@@ -316,15 +334,21 @@ main form .hidden_label {
 }
 main form textarea {
   width: 100%;
+  height: 100px;
   resize: none;
   margin-top: 5px;
   padding: 6px 8px;
   border-radius: 5px;
-  font-family: "Ample Soft Pro";
-  font-size: 14px;
+  border-color: rgba(0, 0, 0, 0.3607843137);
+  font-family: "Montserrat";
+  font-size: 13px;
+}
+main form #basis_of_payment {
+  height: 50px;
 }
 main form label {
   flex: 1;
+  font-weight: bold;
 }
 main form select,
 main form input {
@@ -333,54 +357,46 @@ main form input {
   padding: 4px 7px;
   border: solid 1px #aaa;
   border-radius: 5px;
-  font-family: "Ample Soft Pro";
-  font-size: 14px;
+  font-family: "Montserrat";
+  font-size: 13px;
 }
 main form .unitedform {
   display: flex;
   flex-direction: column;
-  border-radius: 5px;
   margin-bottom: 16px;
+  margin-left: 15px;
   padding: 0px 15px 8px 15px;
-  background-color: rgba(231, 231, 231, 0.5882352941);
+  border-left: solid 2px rgba(128, 128, 128, 0.2705882353);
   font-size: 14.5px;
 }
-main form .unitedform select2-container {
-  width: 260px;
-}
 main form .form_description {
+  margin-bottom: 20px;
   font-size: 12px;
   color: #757575;
 }
 main form button {
-  display: block;
-  margin: 0 auto;
-  margin-top: 30px;
-  margin-bottom: 25px;
+  float: right;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  width: 160px;
   padding: 10px 20px;
+  border: none;
   border-radius: 8px;
-  font-family: "Ample Soft Pro";
-  font-size: 17px;
+  font-family: "Montserrat";
+  font-size: 19px;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 main form button:enabled {
   background-color: #000000;
   color: #ffffff;
 }
 
-#paymentForm3 {
-  margin-top: -20px;
-}
-
-.select2-selection {
-  font-size: 14.4px;
-}
-
-.select2-container--default {
-  max-width: 120%;
-}
-
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   line-height: 27px;
+}
+
+.select2-selection__rendered {
+  font-size: 13px;
 }
 
 .select2-results {
@@ -388,6 +404,20 @@ main form button:enabled {
 }
 .select2-results strong {
   font-weight: bold;
+}
+.select2-results__option--disabled {
+  display: none;
+}
+.select2-results__group {
+  font-size: 16px;
+  -webkit-text-decoration: underline 1.5px #b9b9b9;
+          text-decoration: underline 1.5px #b9b9b9;
+  padding: 6px 6px 6px 12px;
+}
+
+#new_payment .select2-container--default {
+  max-width: 100% !important;
+  width: 320px !important;
 }
 
 .auth_form {
@@ -413,9 +443,6 @@ main form button:enabled {
   flex-direction: column;
   max-width: 530px;
 }
-.auth_form form h1 {
-  margin: 0px 0px 10px 0px;
-}
 .auth_form form .checkbox_auth {
   justify-content: end;
   margin: -8px 0 -4px 0;
@@ -430,6 +457,21 @@ main form button:enabled {
 .auth_form form .button_enter {
   background-color: #000000;
   color: #ffffff;
+}
+.auth_form .auth_form__status__form {
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: none;
+}
+.auth_form .auth_form__status__form h1 {
+  margin: 0px 0px 15px -15px;
+}
+.auth_form .auth_form__status__form .button_enter {
+  max-width: 100%;
+  height: 30px;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+.auth_form .auth_form__status__form input {
+  max-width: 170px;
 }
 
 .wrapperError {
@@ -465,8 +507,8 @@ main form button:enabled {
   header {
     height: 50px;
   }
-  header img {
-    max-width: 120px;
+  header .header__pic .header__pic__menu img {
+    margin: 12.5px 0px 5px 20px;
   }
   header #header_auth__label {
     font-size: 13px;
@@ -494,6 +536,11 @@ main form button:enabled {
   main form textarea::placeholder {
     font-size: 12px;
   }
+  main form .help_p {
+    max-width: 242px;
+    margin-bottom: 20px;
+    font-size: 11px;
+  }
   footer {
     height: 48px;
   }
@@ -502,9 +549,6 @@ main form button:enabled {
   }
   footer .footer_company__copyright {
     font-size: 9px;
-  }
-  .select2-container--default {
-    max-width: 100%;
   }
 }
 .auth_form {
@@ -528,8 +572,9 @@ main form button:enabled {
   header {
     height: 45px;
   }
-  header img {
-    max-width: 110px;
+  header .header__pic .header__pic__menu img {
+    width: 35px;
+    margin: 12px 0px 5px 10px;
   }
   header #header_auth__label {
     font-size: 11px;
@@ -552,19 +597,29 @@ main form button:enabled {
   .auth_form .auth_form__status {
     font-size: 13px;
   }
+  .select2-results {
+    font-size: 11.5px;
+  }
+  .select2-results__group {
+    font-size: 13.5px;
+  }
 }
 @media (max-width: 340px) {
   header {
     height: 40px;
   }
-  header img {
-    max-width: 90px;
+  header .header__pic .header__pic__menu img {
+    width: 30px;
+    margin: 10px 0px 5px 10px;
   }
   main form textarea::-moz-placeholder {
     font-size: 10.5px;
   }
   main form textarea::placeholder {
     font-size: 10.5px;
+  }
+  main form .help_p {
+    width: 100%;
   }
   .auth_form {
     width: 300px;
@@ -587,7 +642,6 @@ main form button:enabled {
     font-size: 9.6px;
   }
   main form .help_p {
-    width: 200px;
     font-size: 10.5px;
   }
   .auth_form {
@@ -598,5 +652,11 @@ main form button:enabled {
   }
   .wrapperError p {
     font-size: 13.9px;
+  }
+  .select2-results {
+    font-size: 9px;
+  }
+  .select2-results__group {
+    font-size: 9.5px;
   }
 }/*# sourceMappingURL=style.css.map */
