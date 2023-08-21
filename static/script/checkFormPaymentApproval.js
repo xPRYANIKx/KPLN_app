@@ -1,41 +1,46 @@
 function selectedApprovalSum(rowId) {
+    paymentApprovalRecalcCards();
     var paymentSelectedRows = document.getElementById('selectedRows-' + rowId).checked;
-    var paymentApproval_sum = document.getElementById('approvalSum-' + rowId).value;
-    var paymentAmount = document.getElementById('amount-' + rowId).value;
-    var s_f_a_p = document.getElementById('card_selected_for_approval_value').innerHTML;
+    var status_id = document.getElementById('status_id-' + rowId).value;
+    var paymentFullAgreedStatus = document.getElementById('paymentFullAgreedStatus-' + rowId).checked;
     var a_m_v = document.getElementById('card_available_money_value').innerHTML;
 
-    s_f_a_p = parseFloat(s_f_a_p.replace(',', '.'));
     a_m_v = parseFloat(a_m_v.replace(',', '.'));
 
-    parseFloat(s_f_a_p)? s_f_a_p = parseFloat(s_f_a_p): s_f_a_p=0;
     parseFloat(a_m_v)? a_m_v = parseFloat(a_m_v): a_m_v=0;
 
-    paymentAmount? paymentAmount = parseFloat(paymentAmount): paymentAmount = parseFloat(paymentApproval_sum);
-
-    if (paymentSelectedRows) {
-        s_f_a_p = (s_f_a_p + paymentAmount).toFixed(2);
-        a_m_v = (a_m_v - paymentAmount).toFixed(2);
+    if (!paymentSelectedRows) {
+        document.getElementById('row-' + rowId).style.background="white";
     }
     else {
-        s_f_a_p = (s_f_a_p - paymentAmount).toFixed(2);
-        a_m_v = (a_m_v + paymentAmount).toFixed(2);
+        if (a_m_v < 0) {
+            document.getElementById('card_selected_for_approval_value').style.color="red";
+            document.getElementById('card_available_money_value').style.color="red";
+             if (paymentSelectedRows) {
+                if (status_id != 'Реком.' && status_id != 'Черновик') {
+                    document.getElementById('row-' + rowId).style.background="grey";
+                }
+                else if (status_id == 'Реком.' || status_id == 'Черновик') {
+                    document.getElementById('row-' + rowId).style.background="red";
+                }
+             }
+        }
+        else {
+            document.getElementById('card_selected_for_approval_value').style.color="#34a853";
+            document.getElementById('card_available_money_value').style.color="black";
+            if (paymentSelectedRows) {
+                if (status_id == 'Реком.' || status_id == 'Черновик') {
+                    if (paymentFullAgreedStatus) {
+                        document.getElementById('row-' + rowId).style.background="#61e283";
+                    }
+                    else if (!paymentFullAgreedStatus){
+                        document.getElementById('row-' + rowId).style.background="#34a853";
+                    }
+                }
+                else {
+                    document.getElementById('row-' + rowId).style.background="grey";
+                }
+            }
+        }
     }
-
-    if (s_f_a_p == 0) {
-        s_f_a_p = '&nbsp;'
-    }
-    else {
-        s_f_a_p += ' ₽'
-    }
-    if (a_m_v == 0) {
-        a_m_v = '&nbsp;'
-    }
-    else {
-        a_m_v += ' ₽'
-    }
-
-    document.getElementById('card_selected_for_approval_value').innerHTML = s_f_a_p
-    document.getElementById('card_available_money_value').innerHTML = a_m_v
-
 }

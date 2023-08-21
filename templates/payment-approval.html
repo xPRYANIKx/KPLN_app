@@ -5,6 +5,7 @@
     <script src="static/script/numberWithSpaces.js"></script>
     <script src="static/script/paymentApprovalSort.js"></script>
     <script src="static/script/paymentApprovalSaveChanges.js"></script>
+    <script src="static/script/paymentApprovalRecalcCards.js"></script>
     <script src="static/script/checkFormPaymentApproval.js"></script>
     <style>
         .cards-container {
@@ -19,6 +20,7 @@
             width: 300px;
         }
         .card-title {
+            color: black;
             font-weight: bold;
             font-size: 250%;
         }
@@ -37,11 +39,11 @@
         <p class="card-cost">Выбрано для одобрения</p>
     </div>
     <div class="card" id="card_available_money">
-        <h2 class="card-title" id="card_available_money_value">{{ available_money }} ₽</h2>
+        <h2 class="card-title" id="card_available_money_value" data-value="{{ available_money }}">{{ available_money }} ₽</h2>
         <p class="card-cost">ДС доступные к распределению</p>
     </div>
     <div class="card" id="card_account_money">
-        <h2 class="card-title" id="card_account_money_value">{{ account_money }} ₽</h2>
+        <h2 class="card-title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
         <p class="card-cost">ДС на счету</p>
     </div>
 
@@ -78,9 +80,9 @@
         </thead>
         <tbody>
             {% for application in applications %}
-            <tr>
+            <tr id="row-{{ loop.index }}">
                 <td>{{loop.index}}</td>
-                <td><input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}" onchange="selectedApprovalSum({{ loop.index }})"></td>
+                <td><input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}" onchange="paymentApprovalRecalcCards(), selectedApprovalSum({{ loop.index }})"></td>
                 <td>{{ application.contractor_name }}</td>
                 <td>{{ application.cost_item_name }}</td>
                 <td><input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{application.payment_number}}</td>
@@ -94,7 +96,9 @@
                 <td><input type="number" id="amount-{{ loop.index }}" name="amount" step="0.01" value="{{ application.amount }}" onchange="saveData({{ loop.index }})"></td>
                 <td>{{ application.payment_due_date }}</td>
                 <td>
-                    <select id="status_id-{{ loop.index }}" name="status_id" onchange="saveData({{ loop.index }})">
+                    <select id="status_id-{{ loop.index }}" name="status_id"
+                            data-amount="{{ 444 if application.status_id==4 else 33333}}"
+                            onchange="paymentApprovalRecalcCards(), saveData({{ loop.index }})">
                         {% for s in approval_statuses %}
                         <option {% if application.status_id==s.payment_agreed_status_id %} selected {% endif %}>{{ s.payment_agreed_status_name }}
                         </option>
