@@ -231,25 +231,6 @@ def register():
         return f'register ❗❗❗ Ошибка \n---{e}'
 
 
-#
-# # Обработчик ошибки 403
-# @login_bp.errorhandler(403)
-# def permission_error(error):
-#     try:
-#         return render_template('page403.html', title="Нет доступа"), 403
-#     except Exception as e:
-#         return f'permission_error ❗❗❗ Ошибка \n---{e}'
-#
-#
-# # Обработчик ошибки 404
-# @login_bp.errorhandler(404)
-# def page_not_fount(error):
-#     try:
-#         return render_template('page404.html', title="Страница не найдена"), 404
-#     except Exception as e:
-#         return f'page_not_fount ❗❗❗ Ошибка \n---{e}'
-
-
 def func_hlnk_profile():
     # try:
     global hlnk_menu, hlnk_profile
@@ -262,16 +243,9 @@ def func_hlnk_profile():
         # Check user role.
         # Role: Admin
         if current_user.get_role() == 1:
-            # print('user role', current_user.get_role())
 
             # НОВЫЙ СПИСОК МЕНЮ - СПИСОК СЛОВАРЕЙ со словарями
             hlnk_menu = [
-                {"menu_item": "Главная страница", "sub_item":
-                    [
-                        {"name": "Главная страница", "url": "/",
-                         "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-                    ]
-                 },
                 {"menu_item": "Платежи", "sub_item":
                     [
                         {"name": "Добавить поступления", "url": "cash-inflow",
@@ -292,14 +266,7 @@ def func_hlnk_profile():
                  },
             ]
         else:
-            # print('user role else', current_user.get_role())
             hlnk_menu = [
-                {"menu_item": "Главная страница", "sub_item":
-                    [
-                        {"name": "Главная страница", "url": "/",
-                         "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-                    ]
-                 },
                 {"menu_item": "Платежи", "sub_item":
                     [{"name": "Новый платеж", "url": "new-payment",
                       "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
@@ -308,46 +275,12 @@ def func_hlnk_profile():
                  },
             ]
 
-
-            # hlnk_menu = [
-            #     {"name": "Главная страница", "url": "/",
-            #      "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-            #     {"name": "Добавить поступления", "url": "cash-inflow",
-            #      "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
-            #     {"name": "Новый платеж", "url": "new-payment",
-            #      "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
-            #     {"name": "Согласование платежей", "url": "payment-approval",
-            #      "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
-            #     {"name": "Оплата платежей", "url": "payment_pay",
-            #      "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
-            #     {"name": "Список платежей", "url": "payment_list",
-            #      "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"},
-            #     {"name": "Регистрация пользователей", "url": "register",
-            #      "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"},
-            # ]
-        # else:
-        #     print('user role else', current_user.get_role())
-        #     hlnk_menu = [
-        #         {"name": "Главная страница", "url": "/",
-        #          "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-        #         {"name": "Новый платеж", "url": "new-payment",
-        #          "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
-        #         {"name": "Список платежей", "url": "payment_list",
-        #          "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
-        #     ]
     else:
         # Меню профиля
         hlnk_profile = {
             "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"},
 
-
         hlnk_menu = [
-            {"menu_item": "Главная страница", "sub_item":
-                [
-                    {"name": "Главная страница", "url": "/",
-                     "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-                ]
-             },
             {"menu_item": "Платежи", "sub_item":
                 [
                     {"name": "Новый платеж", "url": "new-payment",
@@ -356,17 +289,6 @@ def func_hlnk_profile():
              },
         ]
 
-
-
-
-        # hlnk_menu = [
-        #     {"name": "Главная страница", "url": "/",
-        #      "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
-        #     {"name": "Новый платеж", "url": "new-payment",
-        #      "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
-        #     # {"name": "Авторизация", "url": "login",
-        #     #  "img": "https://cdn-icons-png.flaticon.com/512/2574/2574003.png"},
-        # ]
 
     return hlnk_menu, hlnk_profile
     # except Exception as e:
