@@ -296,8 +296,6 @@ def func_hlnk_profile():
             #
 
             hlnk_menu = [
-                {"name": "Главная страница", "url": "/",
-                 "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
                 {"name": "Добавить поступления", "url": "cash-inflow",
                  "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
                 {"name": "Новый платеж", "url": "new-payment",
@@ -314,8 +312,6 @@ def func_hlnk_profile():
         else:
             print('user role else', current_user.get_role())
             hlnk_menu = [
-                {"name": "Главная страница", "url": "/",
-                 "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
                 {"name": "Новый платеж", "url": "new-payment",
                  "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
                 {"name": "Список платежей", "url": "payment_list",
@@ -326,8 +322,6 @@ def func_hlnk_profile():
         hlnk_profile = {
             "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"},
         hlnk_menu = [
-            {"name": "Главная страница", "url": "/",
-             "img": "https://cdn-icons-png.flaticon.com/512/6489/6489329.png"},
             {"name": "Новый платеж", "url": "new-payment",
              "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
             # {"name": "Авторизация", "url": "login",

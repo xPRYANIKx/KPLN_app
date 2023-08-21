@@ -14,11 +14,14 @@
 </head>
 
 <body>
+
     <div class="wrapper">
 
         <header>
-            <div class="header__logo">
-                <img src="static/img/menu.png" alt="kpln_logo" id="menuImage">
+            <div class="header__pic">
+                <div class="header__pic__menu">
+                    <img src="static/img/menu.png" alt="kpln_menu" id="menuImage">
+                </div>
             </div>
             <div id="header_auth__label">Авторизация</div>
             <div id="menu">
@@ -34,12 +37,20 @@
 
         <main>
             <div class="auth_form">
+
+
+
+
                 <div class="auth_form__status">
                     {% if error_msg %}
                     <div class="flash error">{{error_msg}}</div>
                     {% else %}
                     {% endif %}
                 </div>
+
+
+
+
                 <form class="auth_form__status__form" action="" method="post" class="form-contact">
                     <h1>{{title}}</h1>
                     <div><label>E-mail:</label> <input type="text" name="email" value="" required /></div>

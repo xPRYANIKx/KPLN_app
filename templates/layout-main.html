@@ -3,15 +3,15 @@
 
 <head>
     {% block head %}
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
-        <script src="static/script/jquery.min.js"></script>
-        <link rel="stylesheet" href="static/style/select2.min.css">
-        <link rel="stylesheet" href="static/style/style.css">
-        {% block scripts %}{% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
+    <script src="static/script/jquery.min.js"></script>
+    <link rel="stylesheet" href="static/style/select2.min.css">
+    <link rel="stylesheet" href="static/style/style.css">
+    {% block scripts %}{% endblock %}
 
-        <title>{{title}}</title>
+    <title>{{title}}</title>
     {% endblock %}
 </head>
 
@@ -20,10 +20,12 @@
     <div class="wrapper">
 
         <header>
-            <div class="header__logo">
-                <img src="static/img/menu.png" alt="kpln_logo" id="menuImage">
+            <div class="header__pic">
+                <div class="header__pic__menu">
+                    <img src="static/img/menu.png" alt="kpln_menu" id="menuImage">
+                </div>
             </div>
-            <div id="header_auth__label">{{menu_profile[0].name[0]}} &nbsp;&nbsp;&nbsp;<a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
+            <div id="header_auth__label">{{menu_profile[0].name[0]}}&nbsp;<a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
             <div id="menu">
                 <div class="menu_content">
                     <ul>
@@ -36,8 +38,8 @@
             </div>
         </header>
         <main>
-        {% block content %}
-        {% endblock %}
+            {% block content %}
+            {% endblock %}
         </main>
 
         <footer>

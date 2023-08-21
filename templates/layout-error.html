@@ -3,13 +3,13 @@
 
 <head>
     {% block head %}
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
-        <link rel="stylesheet" href="static/style/style.css">
-        {% block scripts %}{% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
+    <link rel="stylesheet" href="static/style/style.css">
+    {% block scripts %}{% endblock %}
 
-        <title>{{title}}</title>
+    <title>{{title}}</title>
     {% endblock %}
 </head>
 
@@ -18,8 +18,10 @@
     <div class="wrapper">
 
         <header>
-            <div class="header__logo">
-                <img src="static/img/menu.png" alt="kpln_logo" id="menuImage">
+            <div class="header__pic">
+                <div class="header__pic__menu">
+                    <img src="static/img/menu.png" alt="kpln_menu" id="menuImage">
+                </div>
             </div>
             <div id="header_auth__label">Вернитесь на главную страницу</div>
             <div id="menu">
@@ -34,8 +36,8 @@
             </div>
         </header>
         <main>
-        {% block content %}
-        {% endblock %}
+            {% block content %}
+            {% endblock %}
         </main>
 
         <footer>
