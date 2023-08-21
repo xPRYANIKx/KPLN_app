@@ -395,7 +395,7 @@ main form button:enabled {
   line-height: 27px;
 }
 
-.select2-selection {
+.select2-selection__rendered {
   font-size: 13px;
 }
 
@@ -597,6 +597,12 @@ main form button:enabled {
   .auth_form .auth_form__status {
     font-size: 13px;
   }
+  .select2-results {
+    font-size: 11.5px;
+  }
+  .select2-results__group {
+    font-size: 13.5px;
+  }
 }
 @media (max-width: 340px) {
   header {
@@ -646,5 +652,11 @@ main form button:enabled {
   }
   .wrapperError p {
     font-size: 13.9px;
+  }
+  .select2-results {
+    font-size: 9px;
+  }
+  .select2-results__group {
+    font-size: 9.5px;
   }
 }/*# sourceMappingURL=style.css.map */
