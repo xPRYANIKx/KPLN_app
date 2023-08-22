@@ -5,12 +5,6 @@
 {% block content %}
 
 <div class="auth_form">
-    <div class="auth_form__status">
-        {% if error_msg %}
-        <div class="flash error">{{error_msg}}</div>
-        {% else %}
-        {% endif %}
-    </div>
     <form class="auth_form__status__form" action="" method="post" class="form-contact">
         <h1>{{title}}</h1>
         <div><label>E-mail:</label> <input type="text" name="email" value="" required /></div>

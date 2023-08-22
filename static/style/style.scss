@@ -23,7 +23,6 @@ body {
             color: #1680a3;
         }
     }
-    /// Плажка с условными обозначениями
     .help_p {
         max-width: 280px;
         margin-top: 30px;
@@ -35,11 +34,10 @@ body {
         -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
         box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     }
-    /// Денежная форма input
     #payment_sum {
         padding: 5px 2px 5px 8px;
     }
-    /// Стиль отображения таблиц (необходимо доделать!)
+    /// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     table {
         width: 100%;
         border: solid 2px #000000;
@@ -61,10 +59,9 @@ body {
             border: solid 2px #000000;
         }
     }
-    // Диалоговвые окна о выполнении операций
     #logInfo {
         position: absolute;
-        top: 39%;
+        top: 40%;
         min-width: 260px;
         max-width: 275px;
         z-index: 6;
@@ -114,7 +111,6 @@ body {
 ///____________///
 ///____________///
 ///____________///
-// Шапка сайта
 header {
     display: flex;
     position: fixed;
@@ -134,7 +130,6 @@ header {
             }
         }
     }
-    // Авторизация в шапке сайта
     #header_auth__label {
         display: flex;
         align-items: center;
@@ -149,7 +144,6 @@ header {
         }
     }
 }
-// Меню навигации
 #menu {
     display: none;
     position: absolute;
@@ -190,7 +184,6 @@ header {
             transform: translateX(0);
         }
     }
-    // Содержание меню навигации
     .menu_content {
         display: flex;
         font-size: 19px;
@@ -225,7 +218,6 @@ header {
 ///____________///
 ///____________///
 ///____________///
-// Нижняя часть сайта сайта
 footer {
     height: 55px;
     width: 100%;
@@ -263,7 +255,6 @@ footer {
 ///____________///
 ///____________///
 ///____________///
-// Общая контентная часть
 main {
     display: flex;
     flex-direction: column;
@@ -355,7 +346,8 @@ main {
         }
     }
 }
-/// Добавочный стиль для select2
+///
+///
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 27px;
 }
@@ -376,7 +368,6 @@ main {
         padding: 6px 6px 6px 12px;
     }
 }
-// select2. Новая заявка на оплату
 #new_payment {
     .select2-container--default {
         max-width: 100% !important;
@@ -386,19 +377,17 @@ main {
 ///____________///
 ///____________///
 ///____________///
-// Частные решения для контентных модулей
 ///____________///
-/////// Страница авторизации /////////
+///////////////////////////////////////////
 .auth_form {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 380px;
-    padding: 15px 25px;
-    border: solid 3px #efefef17;
+    width: 330px;
+    padding: 0px;
     border-radius: 8px;
-    background-color: #cbcbcb30;
+    background-color: #cbcbcb54;
     -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
@@ -426,7 +415,7 @@ main {
             }
         }
         .button_enter {
-            background-color: #000000;
+            background-color: #212121;
             color: #ffffff;
         }
     }
@@ -434,7 +423,11 @@ main {
         background-color: #ffffff00;
         box-shadow: none;
         h1 {
-            margin: 0px 0px 15px -15px;
+            margin: 0px 0px 10px 0px;
+            padding: 0px 0px 10px 0px;
+            border-bottom: solid 2px #dfdfdf;
+            border-left: none;
+            font-size: 25px;
         }
         .button_enter {
             max-width: 100%;
@@ -443,13 +436,21 @@ main {
             -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
             box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
         }
+        label {
+            margin-top: 1px;
+        }
         input {
-            max-width: 170px;
+            max-width: 240px;
+        }
+        .button_enter {
+            margin-top: 5px;
+            margin-bottom: -2px;
+            font-weight: bold;
+            font-size: 14px;
         }
     }
 }
-///____________///
-/////// Страницы 403 и 404 /////////
+///////////////////////////////////////////
 .wrapperError {
     padding-bottom: 100px;
     margin: auto;
@@ -490,7 +491,7 @@ main {
 ///____________///
 ///____________///
 ///____________///
-/////////////////////////////////// Медиазапросы ///////////////////////////////////
+///////////////////////////////////////////
 @media (max-width: 665px) {
     body {
         font-size: 14px;
@@ -547,28 +548,30 @@ main {
             }
         }
     }
-}
-///____________///
-///____________///
-.auth_form {
-    width: 350px;
-    form {
-        .checkbox_auth {
-            flex-direction: row;
+    .auth_form {
+        width: 350px;
+        padding: 5px;
+        form {
+            .checkbox_auth {
+                flex-direction: row;
+            }
         }
-        h1 {
-            margin: 0px 0px 0px -5px;
+        .auth_form__status__form {
+            div {
+                margin: 5px 0 5px 0;
+            }
+            input {
+                min-width: 100%;
+            }
         }
     }
-}
-///____________///
-///____________///
-.wrapperError {
-    &__text {
-        margin-right: 5px;
-    }
-    p {
-        font-size: 18px;
+    .wrapperError {
+        &__text {
+            margin-right: 5px;
+        }
+        p {
+            font-size: 18px;
+        }
     }
 }
 ///____________///
@@ -602,16 +605,15 @@ main {
             }
         }
     }
-    ///____________///
-    ///____________///
     .auth_form {
         width: 310px;
-        .auth_form__status {
-            font-size: 13px;
+        .auth_form__status__form {
+            font-size: 14px;
+            h1 {
+                font-size: 28px;
+            }
         }
     }
-    ///____________///
-    ///____________///
     .select2-results {
         font-size: 11.5px;
         &__group {
@@ -646,13 +648,9 @@ main {
             }
         }
     }
-    ///____________///
-    ///____________///
     .auth_form {
         width: 300px;
     }
-    ///____________///
-    ///____________///
     .wrapperError {
         p {
             font-size: 16px;
@@ -683,27 +681,15 @@ main {
             }
         }
     }
-    ///____________///
-    ///____________///
     .auth_form {
         width: 260px;
         .auth_form__status {
             font-size: 12px;
         }
     }
-    ///____________///
-    ///____________///
     .wrapperError {
         p {
             font-size: 13.9px;
-        }
-    }
-    ///____________///
-    ///____________///
-    .select2-results {
-        font-size: 9px;
-        &__group {
-            font-size: 9.5px;
         }
     }
 }
