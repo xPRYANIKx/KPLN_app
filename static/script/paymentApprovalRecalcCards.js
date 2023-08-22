@@ -1,7 +1,6 @@
 function paymentApprovalRecalcCards() {
     var s_f_a_p = document.getElementById('card_selected_for_approval_value').dataset.value;
     var a_m_v = document.getElementById('card_available_money_value').dataset.value;
-    console.log(s_f_a_p, '  -  ', a_m_v)
 
     var selectedRows = document.getElementsByName('selectedRows')
     var approval_sum = document.getElementsByName('approval_sum')
@@ -17,9 +16,8 @@ function paymentApprovalRecalcCards() {
                 var amount_sum = 0;
                 amount[i].value? amount_sum = parseFloat(amount[i].value): amount_sum = parseFloat(approval_sum[i].value);
 
-                s_f_a_p = (s_f_a_p + amount_sum).toFixed(2);
-                console.log(s_f_a_p, 'typeof(s_f_a_p)  ', typeof(s_f_a_p))
-                a_m_v = (a_m_v - amount_sum).toFixed(2);
+                s_f_a_p = Number((s_f_a_p + amount_sum).toFixed(2));
+                a_m_v = Number((a_m_v - amount_sum).toFixed(2));
             }
         }
     }

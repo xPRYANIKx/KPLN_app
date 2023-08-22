@@ -1,9 +1,49 @@
 {% extends "layout-main.html" %}
-{% block head %} {{ super() }} {% endblock %}
+{% block head %}
+    {{ super() }}
+    {% block scripts %}
+    <style>
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+        }
+        .card-title {
+            font-weight: bold;
+            font-size: 250%;
+        }
+        .card-cost {
+            color: green;
+        }
+    </style>
+    {% endblock %}
+
+{% endblock %}
 {% block content %}
-{% for p in menu %}
-<a href="{{p.url}}">
-    <img src="{{p.img}}" width="50" height="50" alt="{{p.name}}" title="{{p.name}}">{{p.name}}
-</a>
-{% endfor %}
+
+<div class="cards-container">
+    {% for m in menu %}
+<!--    Категория плашек (платежи, Админ и тп)-->
+    {{m.menu_item}}
+    {% for p in m.sub_item %}
+
+    <!--    Карточка конкретной плашки-->
+    <a href="{{p.url}}">
+        <div class="card">
+            <h2 class="card-title"></h2>
+            <img src="{{p.img}}" width="50" height="50" alt="{{p.name}}" title="{{p.name}}">
+            <p class="card-cost">{{ p.name }}</p>
+        </div>
+    </a>
+    {% endfor %}
+    {% endfor %}
+</div>
+
+
 {% endblock %}

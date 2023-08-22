@@ -30,8 +30,11 @@
                 <div class="menu_content">
                     <ul>
                         <li class="mainmenu_h"><a href="/">Главная страница</a></li>
-                        {% for p in menu %}
+                        {% for m in menu %}
+                        <ul>{{m.menu_item}}</ul>
+                        {% for p in m.sub_item %}
                         <li><a href="{{p.url}}">{{p.name}}</a></li>
+                        {% endfor %}
                         {% endfor %}
                     </ul>
                 </div>

@@ -444,6 +444,12 @@ def set_approved_payments():
             values_p_a_h = []  # Данные для записи в таблицу payments_approval_history
             values_p_a = []  # Данные для записи в таблицу payments_approval_history
 
+            # Данные для удаления временных данных из таблицы payments_summary_tab
+            values_p_d = []
+            page_name = 'payment_approval'
+            parameter_name = 'amount'
+
+
             values_a_h = []  # Список согласованных заявок для записи на БД
             pay_id_list_raw = []  # Список согласованных id заявок без обработки ошибок
             approval_id_list = []  # Список согласованных id заявок, без аннулир. и неправильные суммы согласования
@@ -591,6 +597,12 @@ def set_approved_payments():
                         total_approval_sum[i]['payment_full_agreed_status'],
                         total_approval_sum[i]['close_status']
                     ])
+                    values_p_d.append((
+                        page_name,
+                        total_approval_sum[i]['payment_id'],
+                        parameter_name,
+                        user_id
+                    ))
 
                 """для db payments_approval_history"""
                 if total_approval_sum[i]['payment_id'] and total_approval_sum[i]['status_id'] in [2, 3, 4, 5, 6]:
@@ -619,6 +631,11 @@ def set_approved_payments():
                     print(query_p_s_t)
                     print(values_p_s_t)
                     execute_values(cursor, query_p_s_t, values_p_s_t)
+
+                    columns_p_d = 'page_name, parent_id::int, parameter_name, user_id'
+                    query_p_d = get_db_dml_query(action='DELETE', table='payment_draft', columns=columns_p_d)
+                    execute_values(cursor, query_p_d, (values_p_d,))
+
                     conn.commit()
 
                     # Если есть что записывать в payments_approval_history
@@ -1070,6 +1087,9 @@ def get_db_dml_query(action, table, columns, expr_set=None, subquery=";"):
         expr_cols = str(columns).replace('\'', '').replace('"', '')
         # Конструктор запроса
         query = f"INSERT INTO {table} AS t1 {expr_cols} VALUES %s ON CONFLICT ({columns[-1]}) DO UPDATE SET {expr_set};"
+
+    elif action == 'DELETE':
+        query = f"DELETE FROM {table} WHERE ({columns}) IN %s;"
 
     return query
 

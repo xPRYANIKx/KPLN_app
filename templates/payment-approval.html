@@ -93,7 +93,7 @@
                 <td>{{ application.partner }}</td>
                 <td>{{ application.payment_sum }}</td>
                 <td><input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>{{ application.approval_sum}}</td>
-                <td><input type="number" id="amount-{{ loop.index }}" name="amount" step="0.01" value="{{ application.amount }}" onchange="saveData({{ loop.index }})"></td>
+                <td><input type="number" id="amount-{{ loop.index }}" name="amount" step="0.01" value="{{ application.amount }}" onchange="saveData({{ loop.index }})" oninput="paymentApprovalRecalcCards()"></td>
                 <td>{{ application.payment_due_date }}</td>
                 <td>
                     <select id="status_id-{{ loop.index }}" name="status_id"
