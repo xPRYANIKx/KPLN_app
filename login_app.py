@@ -260,7 +260,7 @@ def func_hlnk_profile():
                          "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"},
                     ]
                  },
-                {"menu_item": "Admin", "sub_item":
+                {"menu_item": "Администрирование", "sub_item":
                     [{"name": "Регистрация пользователей", "url": "register",
                       "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"}, ]
                  },
