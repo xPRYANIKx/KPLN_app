@@ -612,7 +612,7 @@ main form button:enabled {
     font-size: 16px;
   }
   #menu .menu_content ul {
-    padding: 20px 20px 30px 0px;
+    padding: 20px 10px 30px 0px;
   }
   #menu .menu_content ul ul {
     font-size: 20px;
@@ -677,6 +677,7 @@ main form button:enabled {
     font-size: 9px;
   }
   #menu .menu_content {
+    padding: 10px 0px 20px 0px;
     font-size: 14px;
   }
   #menu .menu_content ul ul {
