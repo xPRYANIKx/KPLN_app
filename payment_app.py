@@ -291,7 +291,6 @@ def set_new_payment():
                 if object_id:
                     session['n_s_v_new_payment']['obj_n'] = [object_id, object_name]
 
-                get_flashed_messages()
                 flash(message=['Платёж не сохранён', str(e)], category='error')
                 return redirect(url_for('.get_new_payment'))
         return redirect(url_for('.get_new_payment'))
@@ -459,6 +458,7 @@ def set_approved_payments():
 
             for i in range(len(selected_rows)):
                 row = int(selected_rows[i]) - 1
+                print('set_approved_payments', payment_number[row])
 
                 pay_id_list_raw.append(int(payment_number[row]))
 
@@ -468,6 +468,8 @@ def set_approved_payments():
 
                 if status_id[row] == 'К рассмотрению':
                     flash(message=['Функция не работает', ''], category='error')
+
+                    pprint(get_flashed_messages())
                     return redirect(url_for('.get_unapproved_payments'))
 
                 values_a_h.append([

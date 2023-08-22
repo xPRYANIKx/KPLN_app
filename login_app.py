@@ -79,8 +79,6 @@ def before_request():
         conn = conn_init()
         dbase = FDataBase(conn)
 
-        # Clear the flashed messages list
-        get_flashed_messages()
     except Exception as e:
         return f'before_request ❗❗❗ Ошибка \n---{e}'
 
@@ -153,14 +151,9 @@ def login():
                 # flash(message=['Вы вошли в систему', ''], category='success')
                 return redirect(request.args.get("next") or url_for("login_app.index"))
 
-            flash(message=['❌ Логин или пароль указан неверно', ''], category='error')
             conn.close()
-            # return redirect(url_for('login'))
-            return render_template(
-                "login.html", title="Авторизация", menu=hlnk_menu, menu_profile=hlnk_profile,
-                error_msg='❌ Логин или пароль указан неверно')
+            return redirect(url_for('.login'))
 
-        # return redirect(url_for('login'))
         return render_template("login.html", title="Авторизация", menu=hlnk_menu,
                                menu_profile=hlnk_profile)
     except Exception as e:

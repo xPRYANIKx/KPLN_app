@@ -31,17 +31,17 @@ class FDataBase:
             self.__cur.execute(f"SELECT email FROM users WHERE email = '{values[2]}'")
             res = self.__cur.fetchone()
             if res:
-                flash(f'❌ Логин уже есть в базе', category='error')
+                flash(message=['❌ Логин уже есть в базе', ''], category='error')
                 return False
 
             self.__cur.execute(query, values)
             self.__db.commit()
             self.__cur.close()
         except Exception as e:
-            flash("❗ Ошибка добавления пользователя в БД " + str(e))
+            flash(message=['❗ Ошибка добавления пользователя в БД', str(e)], category='error')
             return False
 
-        flash('✔️ Пользователь внесен', category='success')
+        flash(message=['✔️ Пользователь внесен', ''], category='success')
         return True
 
     def get_user(self, user_id):
@@ -49,14 +49,12 @@ class FDataBase:
             self.__cur.execute(f"SELECT * FROM users WHERE user_id = {user_id} LIMIT 1")
             res = self.__cur.fetchone()
             if not res:
-                flash(f'❌ Пользователь не найден', category='error')
-                print("Пользователь не найден")
+                flash(message=['Пользователь не найден', ''], category='error')
                 return False
 
             return res
         except Exception as e:
-            flash(f'❗ Ошибка получения данных из БД {str(e)}', category='error')
-            print("get_user Ошибка получения данных из БД " + str(e))
+            flash(message=['❗ Ошибка получения данных из БД', str(e)], category='error')
 
         return False
 
@@ -81,14 +79,12 @@ class FDataBase:
             self.__cur.execute(f"SELECT * FROM users WHERE email = '{email}' LIMIT 1")
             res = self.__cur.fetchone()
             if not res:
-                flash(f'❌ Пользователь не найден', category='error')
-                print("Пользователь не найден")
+                flash(message=['Пользователь не найден', ''], category='error')
                 return False
 
             return res
         except Exception as e:
-            flash(f'❗ Ошибка получения данных из БД {str(e)}', category='error')
-            print("get_user_by_email Ошибка получения данных из БД " + str(e))
+            flash(message=['❗ Ошибка получения данных из БД', str(e)], category='error')
 
         return False
 
