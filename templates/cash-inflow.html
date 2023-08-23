@@ -1,127 +1,135 @@
 {% extends "layout-main.html" %}
 {% block head %}
-    {{ super() }}
-    {% block scripts %}
-    <script src="static/script/checkFormCashInflow.js"></script>
-    <script src="static/script/select2.min.js"></script>
-    <script src="static/script/selectSearchCashInflow.js"></script>
-    <script src="static/script/numberWithSpaces.js"></script>
-    <style>
-        .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .card {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px;
-            width: 300px;
-        }
-        .card-title {
-            font-weight: bold;
-            font-size: 250%;
-        }
-        .card-cost {
-            color: green;
-        }
-    </style>
-    {% endblock %}
-{% endblock %}
-{% block content %}
-{% if companies_balances %}
-<div class="cards-container">
-    {% for c, b in companies_balances %}
-        <div class="card">
-            <h2 class="card-title">{{ c }}</h2>
-            <p class="card-cost">{{ b }}  ₽</p>
-        </div>
-    {% endfor %}
-</div>
-{% else %}
-{% endif %}
+{{ super() }}
+{% block scripts %}
+<script src="static/script/checkFormCashInflow.js"></script>
+<script src="static/script/select2.min.js"></script>
+<script src="static/script/selectSearchCashInflow.js"></script>
+<script src="static/script/numberWithSpaces.js"></script>
+
 
 <body>
 
-
-<form method="POST" action="/cash-inflow">
-    <h1>{{title}}</h1>
-
-    <div><label for="our_company" id="our_company_label">Компания</label>
-        <select class="selectSearch" name="our_company" id="our_company" required onchange="checkFormCashInflow()">
-            {% if not_save_val.get('o_c') %}
-            <option value="{{ not_save_val.get('o_c')[0] }}-@@@-{{ not_save_val.get('o_c')[1] }}">{{ not_save_val.get('o_c')[1] }}</option>
-            {% else %}
-            <option value="" disabled selected hidden>Выберите компанию</option>
-            {% endif %}
-            {% for our_company in our_companies %}
-            <option value="{{ our_company[0] }}-@@@-{{ our_company[1] }}">{{ our_company[1] }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div><label for="inflow_type">Тип поступления</label>
-        <select class="selectSearch" name="inflow_type" id="inflow_type" required onchange="checkFormCashInflow()">
-            {% if not_save_val.get('i_t') %}
-            <option value="{{ not_save_val.get('i_t')[0] }}-@@@-{{ not_save_val.get('i_t')[1] }}">{{ not_save_val.get('i_t')[1] }}</option>
-            {% else %}
-            {% endif %}
-            {% for inflow_type in inflow_types %}
-            <option value="{{ inflow_type[0] }}-@@@-{{ inflow_type[1] }}">{{ inflow_type[1] }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div><label for="cash_inflow_sum">Сумма поступления</label>
-        <input type="text" placeholder="руб." name="cash_inflow_sum" id="cash_inflow_sum" onchange="numberWithSpaces(event, ' руб.')"
-            value="{{not_save_val.get('c_i_s') if not_save_val.get('c_i_s') else '' }}" required oninput="checkFormCashInflow()" />
-    </div>
-    <div class="hidden_label" id="taker_company_div">
-            <label for="taker_company" id="taker_company_label">Куда переводим</label>
-            <select class="selectSearch" name="taker_company" id="taker_company" required onchange="checkFormCashInflow()">
-            {% if not_save_val.get('t_c') %}
-            <option value="{{ not_save_val.get('t_c')[0] }}-@@@-{{ not_save_val.get('t_c')[1] }}">{{ not_save_val.get('t_c')[1] }}</option>
-            {% else %}
-            <option value="" disabled selected hidden>Выберите компанию</option>
-            {% endif %}
-            {% for our_company in our_companies %}
-            <option value="{{ our_company[0] }}-@@@-{{ our_company[1] }}">{{ our_company[1] }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="hidden_label" id="cash_inflow_description_div">
-    <p><label for="cash_inflow_description">Комментарий</label>
-        <textarea name="cash_inflow_description" id="cash_inflow_description" rows="2"
-            placeholder="Добавьте описание"
-            required oninput="checkFormCashInflow()">{{ not_save_val.get('i_d') if not_save_val.get('i_d') }}</textarea>
-    </p>
-    </div>
-
-
-    <button type="submit" id="submitBtn" onclick="window['logInfo'].showModal();" disabled>Сохранить</button>
-</form>
-
-
-<table id="inflow_historical_data-table" name="historical_data" class="display">
-    <thead>
-        <tr>
-            <th>№</th>
-            <th>ДАТА</th>
-            <th>СУММА</th>
-            <th>КОММЕНТАРИЙ</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for data in historical_data %}
-        <tr>
-            <td>{{loop.index}}</td>
-            <td>{{ data.inflow_at }}</td>
-            <td>{{ data.inflow_sum }}</td>
-            <td>{{ data.contractor_name }}: {{ data.inflow_description }}</td>
-        </tr>
+    {% endblock %}
+    {% endblock %}
+    {% block content %}
+    {% if companies_balances %}
+    <div class="cards-container cash-inflow">
+        {% for c, b in companies_balances %}
+        <div id="cash_inflow__card" class="card">
+            <h2 class="card-title">{{ c }}</h2>
+            <p class="card-cost">{{ b }} ₽</p>
+        </div>
         {% endfor %}
-    </tbody>
-</table>
+    </div>
+    {% else %}
+    {% endif %}
 
 
 
 
-{% endblock %}
+
+
+
+
+
+
+
+
+
+    <form id="cash_inflow__form" method="POST" action="/cash-inflow">
+        <h1>{{title}}</h1>
+        <div class="input_div">
+            <div><label for="our_company" id="our_company_label">Компания</label>
+                <select class="selectSearch" name="our_company" id="our_company" required onchange="checkFormCashInflow()">
+                    {% if not_save_val.get('o_c') %}
+                    <option value="{{ not_save_val.get('o_c')[0] }}-@@@-{{ not_save_val.get('o_c')[1] }}">{{ not_save_val.get('o_c')[1] }}</option>
+                    {% else %}
+                    <option value="" disabled selected hidden>Выберите компанию</option>
+                    {% endif %}
+                    {% for our_company in our_companies %}
+                    <option value="{{ our_company[0] }}-@@@-{{ our_company[1] }}">{{ our_company[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div><label for="inflow_type">Тип поступления</label>
+                <select class="selectSearch" name="inflow_type" id="inflow_type" required onchange="checkFormCashInflow()">
+                    {% if not_save_val.get('i_t') %}
+                    <option value="{{ not_save_val.get('i_t')[0] }}-@@@-{{ not_save_val.get('i_t')[1] }}">{{ not_save_val.get('i_t')[1] }}</option>
+                    {% else %}
+                    {% endif %}
+                    {% for inflow_type in inflow_types %}
+                    <option value="{{ inflow_type[0] }}-@@@-{{ inflow_type[1] }}">{{ inflow_type[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div><label for="cash_inflow_sum">Сумма поступления</label>
+                <input type="text" placeholder="руб." name="cash_inflow_sum" id="cash_inflow_sum" onchange="numberWithSpaces(event, ' руб.')"
+                    value="{{not_save_val.get('c_i_s') if not_save_val.get('c_i_s') else '' }}" required oninput="checkFormCashInflow()" />
+            </div>
+            <div class="hidden_label" id="taker_company_div">
+                <label for="taker_company" id="taker_company_label">Куда переводим</label>
+                <select class="selectSearch" name="taker_company" id="taker_company" required onchange="checkFormCashInflow()">
+                    {% if not_save_val.get('t_c') %}
+                    <option value="{{ not_save_val.get('t_c')[0] }}-@@@-{{ not_save_val.get('t_c')[1] }}">{{ not_save_val.get('t_c')[1] }}</option>
+                    {% else %}
+                    <option value="" disabled selected hidden>Выберите компанию</option>
+                    {% endif %}
+                    {% for our_company in our_companies %}
+                    <option value="{{ our_company[0] }}-@@@-{{ our_company[1] }}">{{ our_company[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="hidden_label" id="cash_inflow_description_div">
+                <p><label for="cash_inflow_description">Комментарий</label>
+                    <textarea name="cash_inflow_description" id="cash_inflow_description" rows="2" placeholder="Добавьте описание" required
+                        oninput="checkFormCashInflow()">{{ not_save_val.get('i_d') if not_save_val.get('i_d') }}</textarea>
+                </p>
+            </div>
+            <div class="right_button">
+                <button type="submit" id="submitBtn" onclick="window['logInfo'].showModal();" disabled>Сохранить</button>
+            </div>
+        </div>
+    </form>
+
+
+    <table id="inflow_historical_data-table" name="historical_data" class="display">
+        <thead>
+            <tr>
+                <th class="th_numb">№</th>
+                <th class="th_date">ДАТА</th>
+                <th class="th_sum">СУММА</th>
+                <th class="th_coment">КОММЕНТАРИЙ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in historical_data %}
+            <tr>
+                <td class="th_numb__i">{{loop.index}}</td>
+                <td class="th_date__i">{{ data.inflow_at }}</td>
+                <td class="th_sum" __i>{{ data.inflow_sum }} ₽</td>
+                <td class="th_coment__i">{{ data.contractor_name }}: {{ data.inflow_description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <div id="inflow_historical_data-table__response">
+        <table>
+            <tbody>
+                {% for data in historical_data %}
+                <tr>
+                    <td>
+                        <span class="td_cinflow_response_date">{{ data.inflow_at }}</span><br>
+                        <span class="td_cinflow_response_span_sum">Сумма: </span> <span class="td_cinflow_response_span_sum__int">{{ data.inflow_sum }}
+                            ₽</span><br>
+                        <span class="td_cinflow_response_company">{{ data.contractor_name }}</span> <span class="td_cinflow_response_com">{{
+                            data.inflow_description }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}

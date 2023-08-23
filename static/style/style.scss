@@ -34,31 +34,58 @@ body {
         -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
         box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     }
+    .right_button {
+        display: flex;
+        justify-content: end;
+        margin-top: -2px;
+    }
     #payment_sum {
         padding: 5px 2px 5px 8px;
     }
     /// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     table {
-        width: 100%;
-        border: solid 2px #000000;
-        border-collapse: collapse;
-        font-size: 14px;
         thead {
             background-color: #4e4f4f;
             color: #ffffff;
-            th {
-                text-align: center;
-                cursor: pointer;
+            th,
+            td {
+                font-size: 14px;
+                font-weight: bold;
             }
         }
+        tr:nth-child(2n) {
+            background-color: #d7d5d5;
+        }
+        tbody tr:nth-child(2n + 1) {
+            background-color: #eaedec;
+        }
+
         th,
         td {
-            text-align: left;
+            padding: 10px;
             vertical-align: middle;
-            padding: 8px;
-            border: solid 2px #000000;
+            border-right: solid 2px #ffffff57;
+            font-size: 13px;
+            cursor: default;
+        }
+        .th_numb,
+        .th_numb__i {
+            width: 2%;
+            text-align: center;
+            font-weight: bold;
+        }
+        .th_date,
+        .th_date__i {
+            width: 18%;
+            text-align: center;
+        }
+        .th_sum,
+        .th_sum_i {
+            width: 25%;
+            text-align: center;
         }
     }
+    /// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #logInfo {
         position: absolute;
         top: 40%;
@@ -107,6 +134,11 @@ body {
         width: 100%;
         height: 100vh;
     }
+    .cards-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 ///____________///
 ///____________///
@@ -138,7 +170,7 @@ header {
         color: #ffffff;
     }
     a {
-        color: #faebd7;
+        color: #ebc592;
         &:hover {
             color: #5ab1ce;
         }
@@ -206,7 +238,7 @@ header {
                     color: #fafdff;
                     text-decoration: none;
                     &:hover {
-                        color: #e3d47f;
+                        color: #ffc24d;
                     }
                 }
             }
@@ -234,7 +266,9 @@ footer {
     background-color: #000000;
     color: #ffffff;
     a {
-        color: #faebd7;
+        color: #ebc592;
+        font-weight: bold;
+        text-decoration: none;
         &:hover {
             color: #5ab1ce;
         }
@@ -481,6 +515,87 @@ main {
         }
     }
 }
+///////////////////////////////////////////
+.cards-container.cash-inflow {
+    flex-wrap: wrap;
+    #cash_inflow__card {
+        background-color: #0a0a0ac4;
+        color: #ffffff;
+        width: 165px;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        margin: 10px;
+        font-family: "TT Lakes";
+        -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        .card-title {
+            font-size: 25px;
+            font-weight: bold;
+            color: #ffc24d;
+            border-bottom: solid 2px #ffc33636;
+        }
+        .card-cost {
+            margin-top: 5px;
+            font-size: 15px;
+        }
+    }
+}
+
+#cash_inflow__form {
+    display: flex;
+    flex-direction: column;
+    width: 580px;
+    margin: 30px 0px;
+    h1 {
+        margin: 25px 0 10px 0px;
+        font-size: 30px;
+    }
+    .input_div {
+        flex-direction: column;
+    }
+    .select2-container {
+        width: 320px !important;
+    }
+    textarea {
+        min-width: 450px;
+    }
+}
+#inflow_historical_data-table {
+    width: 535px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+#inflow_historical_data-table__response {
+    display: none;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    table {
+        width: 100%;
+        .td_cinflow_response_date {
+            font-size: 17.5px;
+            font-weight: bold;
+            color: #006cbb;
+            text-decoration: underline 2px;
+        }
+        .td_cinflow_response_span_sum {
+            font-size: 15.5px;
+            font-weight: bold;
+            &__int {
+                font-size: 15px;
+            }
+        }
+        .td_cinflow_response_company {
+            font-size: 15.5px;
+            font-weight: bold;
+        }
+        .td_cinflow_response_com {
+            font-size: 14px;
+            color: #454545;
+        }
+    }
+}
 ///____________///
 ///____________///
 ///____________///
@@ -584,6 +699,44 @@ main {
             font-size: 18px;
         }
     }
+    #cash_inflow__card {
+        width: 155px;
+        .card-title {
+            font-size: 20px;
+        }
+        .card-cost {
+            font-size: 14px;
+        }
+    }
+    #cash_inflow__form {
+        width: 100%;
+        textarea {
+            min-width: 100%;
+        }
+        .select2-selection__rendered {
+            width: 100% !important;
+        }
+        .select2-container {
+            width: 100% !important;
+        }
+        #cash_inflow_sum {
+            min-width: 100%;
+        }
+        .right_button {
+            flex-direction: row;
+            margin: 0px 0px -5px 0px;
+            button {
+                font-size: 16px;
+            }
+        }
+    }
+    #inflow_historical_data-table {
+        display: none;
+    }
+    #inflow_historical_data-table__response {
+        display: block;
+        width: 100%;
+    }
 }
 ///____________///
 ///____________///
@@ -644,6 +797,26 @@ main {
             font-size: 13.5px;
         }
     }
+    #cash_inflow__card {
+        width: 110px;
+        .card-title {
+            font-size: 15px;
+        }
+        .card-cost {
+            font-size: 12px;
+        }
+    }
+    #cash_inflow__form {
+        h1 {
+            font-size: 25px;
+        }
+        .right_button {
+            button {
+                width: 100%;
+                font-size: 14px;
+            }
+        }
+    }
 }
 ///____________///
 ///____________///
@@ -678,6 +851,16 @@ main {
     .wrapperError {
         p {
             font-size: 16px;
+        }
+    }
+
+    #cash_inflow__card {
+        width: 100px;
+        .card-title {
+            font-size: 13px;
+        }
+        .card-cost {
+            font-size: 10.3px;
         }
     }
 }
@@ -728,6 +911,22 @@ main {
     .wrapperError {
         p {
             font-size: 13.9px;
+        }
+    }
+
+    #cash_inflow__card {
+        width: 110px;
+        .card-title {
+            font-size: 15px;
+        }
+        .card-cost {
+            font-size: 12px;
+        }
+    }
+
+    #cash_inflow__form {
+        h1 {
+            font-size: 20px;
         }
     }
 }

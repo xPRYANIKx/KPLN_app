@@ -878,7 +878,7 @@ def get_cash_inflow():
         hlnk_menu, hlnk_profile = login_app.func_hlnk_profile()
         not_save_val = session['n_s_v_cash_inflow'] if session.get('n_s_v_cash_inflow') else {}
 
-        return render_template(template_name_or_list='cash-inflow.html', menu=hlnk_menu, menu_profile=hlnk_profile, our_companies=our_companies, inflow_types=inflow_types, historical_data=historical_data, not_save_val=not_save_val, companies_balances=companies_balances, title='ПОСТУПЛЕНИЯ ДС')
+        return render_template(template_name_or_list='cash-inflow.html', menu=hlnk_menu, menu_profile=hlnk_profile, our_companies=our_companies, inflow_types=inflow_types, historical_data=historical_data, not_save_val=not_save_val, companies_balances=companies_balances, title='Поступления денежных средств')
     # except Exception as e:
     #     return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
 

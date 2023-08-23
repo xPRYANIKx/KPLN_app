@@ -85,6 +85,20 @@ table {
   font-weight: 400;
   font-style: normal;
 }
+@font-face {
+  font-family: "TT Lakes";
+  src: url("../font/TTLakes-Regular.eot");
+  src: url("../font/TTLakes-Regular.eot?#iefix") format("embedded-opentype"), url("../font/TTLakes-Regular.woff") format("woff"), url("../font/TTLakes-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "TT Lakes";
+  src: url("../font/TTLakes-Bold.eot");
+  src: url("../font/TTLakes-Bold.eot?#iefix") format("embedded-opentype"), url("../font/TTLakes-Bold.woff") format("woff"), url("../font/TTLakes-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
 body {
   width: 100%;
   background-color: #f6f3f3;
@@ -114,29 +128,52 @@ body .help_p {
   background-color: rgba(255, 231, 145, 0.5411764706);
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
+body .right_button {
+  display: flex;
+  justify-content: end;
+  margin-top: -2px;
+}
 body #payment_sum {
   padding: 5px 2px 5px 8px;
-}
-body table {
-  width: 100%;
-  border: solid 2px #000000;
-  border-collapse: collapse;
-  font-size: 14px;
 }
 body table thead {
   background-color: #4e4f4f;
   color: #ffffff;
 }
-body table thead th {
-  text-align: center;
-  cursor: pointer;
+body table thead th,
+body table thead td {
+  font-size: 14px;
+  font-weight: bold;
+}
+body table tr:nth-child(2n) {
+  background-color: #d7d5d5;
+}
+body table tbody tr:nth-child(2n+1) {
+  background-color: #eaedec;
 }
 body table th,
 body table td {
-  text-align: left;
+  padding: 10px;
   vertical-align: middle;
-  padding: 8px;
-  border: solid 2px #000000;
+  border-right: solid 2px rgba(255, 255, 255, 0.3411764706);
+  font-size: 13px;
+  cursor: default;
+}
+body table .th_numb,
+body table .th_numb__i {
+  width: 2%;
+  text-align: center;
+  font-weight: bold;
+}
+body table .th_date,
+body table .th_date__i {
+  width: 18%;
+  text-align: center;
+}
+body table .th_sum,
+body table .th_sum_i {
+  width: 25%;
+  text-align: center;
 }
 body #logInfo {
   position: absolute;
@@ -181,6 +218,11 @@ body .wrapper {
   width: 100%;
   height: 100vh;
 }
+body .cards-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
 header {
   display: flex;
@@ -207,7 +249,7 @@ header #header_auth__label {
   color: #ffffff;
 }
 header a {
-  color: #faebd7;
+  color: #ebc592;
 }
 header a:hover {
   color: #5ab1ce;
@@ -262,7 +304,7 @@ header a:hover {
   text-decoration: none;
 }
 #menu .menu_content ul li a:hover {
-  color: #e3d47f;
+  color: #ffc24d;
 }
 #menu .menu_content ul .mainmenu_h {
   margin-left: 0px;
@@ -285,7 +327,9 @@ footer {
   color: #ffffff;
 }
 footer a {
-  color: #faebd7;
+  color: #ebc592;
+  font-weight: bold;
+  text-decoration: none;
 }
 footer a:hover {
   color: #5ab1ce;
@@ -517,6 +561,88 @@ main form button:enabled {
   color: #587ef0;
 }
 
+.cards-container.cash-inflow {
+  flex-wrap: wrap;
+}
+.cards-container.cash-inflow #cash_inflow__card {
+  background-color: rgba(10, 10, 10, 0.768627451);
+  color: #ffffff;
+  width: 165px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 10px;
+  font-family: "TT Lakes";
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+.cards-container.cash-inflow #cash_inflow__card .card-title {
+  font-size: 25px;
+  font-weight: bold;
+  color: #ffc24d;
+  border-bottom: solid 2px rgba(255, 195, 54, 0.2117647059);
+}
+.cards-container.cash-inflow #cash_inflow__card .card-cost {
+  margin-top: 5px;
+  font-size: 15px;
+}
+
+#cash_inflow__form {
+  display: flex;
+  flex-direction: column;
+  width: 580px;
+  margin: 30px 0px;
+}
+#cash_inflow__form h1 {
+  margin: 25px 0 10px 0px;
+  font-size: 30px;
+}
+#cash_inflow__form .input_div {
+  flex-direction: column;
+}
+#cash_inflow__form .select2-container {
+  width: 320px !important;
+}
+#cash_inflow__form textarea {
+  min-width: 450px;
+}
+
+#inflow_historical_data-table {
+  width: 535px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+#inflow_historical_data-table__response {
+  display: none;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+#inflow_historical_data-table__response table {
+  width: 100%;
+}
+#inflow_historical_data-table__response table .td_cinflow_response_date {
+  font-size: 17.5px;
+  font-weight: bold;
+  color: #006cbb;
+  -webkit-text-decoration: underline 2px;
+          text-decoration: underline 2px;
+}
+#inflow_historical_data-table__response table .td_cinflow_response_span_sum {
+  font-size: 15.5px;
+  font-weight: bold;
+}
+#inflow_historical_data-table__response table .td_cinflow_response_span_sum__int {
+  font-size: 15px;
+}
+#inflow_historical_data-table__response table .td_cinflow_response_company {
+  font-size: 15.5px;
+  font-weight: bold;
+}
+#inflow_historical_data-table__response table .td_cinflow_response_com {
+  font-size: 14px;
+  color: #454545;
+}
+
 @media (max-width: 665px) {
   body {
     font-size: 14px;
@@ -592,6 +718,44 @@ main form button:enabled {
   .wrapperError p {
     font-size: 18px;
   }
+  #cash_inflow__card {
+    width: 155px;
+  }
+  #cash_inflow__card .card-title {
+    font-size: 20px;
+  }
+  #cash_inflow__card .card-cost {
+    font-size: 14px;
+  }
+  #cash_inflow__form {
+    width: 100%;
+  }
+  #cash_inflow__form textarea {
+    min-width: 100%;
+  }
+  #cash_inflow__form .select2-selection__rendered {
+    width: 100% !important;
+  }
+  #cash_inflow__form .select2-container {
+    width: 100% !important;
+  }
+  #cash_inflow__form #cash_inflow_sum {
+    min-width: 100%;
+  }
+  #cash_inflow__form .right_button {
+    flex-direction: row;
+    margin: 0px 0px -5px 0px;
+  }
+  #cash_inflow__form .right_button button {
+    font-size: 16px;
+  }
+  #inflow_historical_data-table {
+    display: none;
+  }
+  #inflow_historical_data-table__response {
+    display: block;
+    width: 100%;
+  }
 }
 @media (max-width: 390px) {
   header {
@@ -644,6 +808,22 @@ main form button:enabled {
   .select2-results__group {
     font-size: 13.5px;
   }
+  #cash_inflow__card {
+    width: 110px;
+  }
+  #cash_inflow__card .card-title {
+    font-size: 15px;
+  }
+  #cash_inflow__card .card-cost {
+    font-size: 12px;
+  }
+  #cash_inflow__form h1 {
+    font-size: 25px;
+  }
+  #cash_inflow__form .right_button button {
+    width: 100%;
+    font-size: 14px;
+  }
 }
 @media (max-width: 340px) {
   header {
@@ -667,6 +847,15 @@ main form button:enabled {
   }
   .wrapperError p {
     font-size: 16px;
+  }
+  #cash_inflow__card {
+    width: 100px;
+  }
+  #cash_inflow__card .card-title {
+    font-size: 13px;
+  }
+  #cash_inflow__card .card-cost {
+    font-size: 10.3px;
   }
 }
 @media (max-width: 320px) {
@@ -703,5 +892,17 @@ main form button:enabled {
   }
   .wrapperError p {
     font-size: 13.9px;
+  }
+  #cash_inflow__card {
+    width: 110px;
+  }
+  #cash_inflow__card .card-title {
+    font-size: 15px;
+  }
+  #cash_inflow__card .card-cost {
+    font-size: 12px;
+  }
+  #cash_inflow__form h1 {
+    font-size: 20px;
   }
 }/*# sourceMappingURL=style.css.map */

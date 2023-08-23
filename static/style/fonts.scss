@@ -29,3 +29,23 @@
   font-weight: 400;
   font-style: normal;
 }
+@font-face {
+  font-family: "TT Lakes";
+  src: url("../font/TTLakes-Regular.eot");
+  src:
+    url("../font/TTLakes-Regular.eot?#iefix") format("embedded-opentype"),
+    url("../font/TTLakes-Regular.woff") format("woff"),
+    url("../font/TTLakes-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "TT Lakes";
+  src: url("../font/TTLakes-Bold.eot");
+  src:
+    url("../font/TTLakes-Bold.eot?#iefix") format("embedded-opentype"),
+    url("../font/TTLakes-Bold.woff") format("woff"),
+    url("../font/TTLakes-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
