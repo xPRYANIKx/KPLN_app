@@ -7,9 +7,7 @@
 <script src="static/script/selectSearchCashInflow.js"></script>
 <script src="static/script/numberWithSpaces.js"></script>
 
-
 <body>
-
     {% endblock %}
     {% endblock %}
     {% block content %}
@@ -24,17 +22,6 @@
     </div>
     {% else %}
     {% endif %}
-
-
-
-
-
-
-
-
-
-
-
 
 
     <form id="cash_inflow__form" method="POST" action="/cash-inflow">
@@ -107,7 +94,7 @@
             <tr>
                 <td class="th_numb__i">{{loop.index}}</td>
                 <td class="th_date__i">{{ data.inflow_at }}</td>
-                <td class="th_sum" __i>{{ data.inflow_sum }} ₽</td>
+                <td class="th_sum__i">{{ data.inflow_sum }} ₽</td>
                 <td class="th_coment__i">{{ data.contractor_name }}: {{ data.inflow_description }}</td>
             </tr>
             {% endfor %}

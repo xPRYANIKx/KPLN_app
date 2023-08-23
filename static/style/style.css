@@ -167,7 +167,7 @@ body table .th_numb__i {
 }
 body table .th_date,
 body table .th_date__i {
-  width: 18%;
+  max-width: 25%;
   text-align: center;
 }
 body table .th_sum,
@@ -602,14 +602,38 @@ main form button:enabled {
 #cash_inflow__form .select2-container {
   width: 320px !important;
 }
+#cash_inflow__form #taker_company_div {
+  margin-bottom: 25px;
+}
 #cash_inflow__form textarea {
   min-width: 450px;
 }
+#cash_inflow__form #cash_inflow_description_div {
+  margin-bottom: 20px;
+}
 
 #inflow_historical_data-table {
-  width: 535px;
+  max-width: 755px;
   margin: 0 auto;
   margin-bottom: 20px;
+}
+#inflow_historical_data-table th,
+#inflow_historical_data-table td {
+  padding: 2px 2px 2px 10px;
+}
+#inflow_historical_data-table .th_numb,
+#inflow_historical_data-table .th_numb__i {
+  padding: 2px 5px;
+}
+#inflow_historical_data-table .th_date,
+#inflow_historical_data-table .th_date__i {
+  width: 160px;
+}
+#inflow_historical_data-table .th_date__i {
+  text-align: left;
+}
+#inflow_historical_data-table .th_sum {
+  width: 150px;
 }
 
 #inflow_historical_data-table__response {
