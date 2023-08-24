@@ -1,36 +1,40 @@
 {% extends "layout-main.html" %}
 {% block head %}
-    {{ super() }}
-    {% block scripts %}
-    <style>
-        .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .card {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px;
-            width: 300px;
-        }
-        .card-title {
-            font-weight: bold;
-            font-size: 250%;
-        }
-        .card-cost {
-            color: green;
-        }
-    </style>
-    {% endblock %}
+{{ super() }}
+{% block scripts %}
+<style>
+    .cards-container {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ccc;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px;
+        width: 300px;
+    }
+
+    .card-title {
+        font-weight: bold;
+        font-size: 250%;
+    }
+
+    .card-cost {
+        color: green;
+    }
+</style>
+{% endblock %}
 
 {% endblock %}
 {% block content %}
 
 <div class="cards-container">
     {% for m in menu %}
-<!--    Категория плашек (платежи, Админ и тп)-->
-    {{m.menu_item}}
+    <!--    Категория плашек (платежи, Админ и тп)-->
+    <div>{{m.menu_item}}</div>
     {% for p in m.sub_item %}
 
     <!--    Карточка конкретной плашки-->
@@ -47,3 +51,14 @@
 
 
 {% endblock %}
+
+
+
+<div class="Это вообще все объекты в ГМ (или объекты, которые можно разбить на другие объекты для позиционирования)">
+    <div class="Это категории меню, т.е. платежи, администрирование и т.д">
+        <div class="Это пункт категории добавить поступление, новый платёж и т.д">
+            <div class="Это иконка пункта меню"></div>
+            <div class="Это ссылка на страницу"></div>
+        </div>
+    </div>
+</div>
