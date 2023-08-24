@@ -33,10 +33,10 @@ db_port = "5432"
 dbase = None
 
 # Меню страницы
-hlnk_menu = None
+hlink_menu = None
 
 # Меню профиля
-hlnk_profile = None
+hlink_profile = None
 
 
 # Конект к БД
@@ -112,13 +112,13 @@ def conn_cursor_init():
 def index():
     """Главная страница"""
     try:
-        global hlnk_menu, hlnk_profile
+        global hlink_menu, hlink_profile
 
         # Create profile name dict
-        hlnk_menu, hlnk_profile = func_hlnk_profile()
+        hlink_menu, hlink_profile = func_hlink_profile()
 
-        return render_template('index.html', menu=hlnk_menu,
-                               menu_profile=hlnk_profile, title='Главная страница')
+        return render_template('index.html', menu=hlink_menu,
+                               menu_profile=hlink_profile, title='Главная страница')
     except Exception as e:
         return f'❗❗❗ index \n---{e}'
 
@@ -126,10 +126,10 @@ def index():
 @login_bp.route("/login", methods=["POST", "GET"])
 def login():
     try:
-        global hlnk_menu, hlnk_profile
+        global hlink_menu, hlink_profile
 
         # Create profile name dict
-        hlnk_menu, hlnk_profile = func_hlnk_profile()
+        hlink_menu, hlink_profile = func_hlink_profile()
         if current_user.is_authenticated:
             return redirect(url_for('login_app.index'))
 
@@ -154,8 +154,8 @@ def login():
             conn.close()
             return redirect(url_for('.login'))
 
-        return render_template("login.html", title="Авторизация", menu=hlnk_menu,
-                               menu_profile=hlnk_profile)
+        return render_template("login.html", title="Авторизация", menu=hlink_menu,
+                               menu_profile=hlink_profile)
     except Exception as e:
         return f'login ❗❗❗ Ошибка \n---{e}'
 
@@ -164,10 +164,10 @@ def login():
 @login_required
 def logout():
     try:
-        global hlnk_menu, hlnk_profile
+        global hlink_menu, hlink_profile
 
         logout_user()
-        hlnk_menu, hlnk_profile = func_hlnk_profile()
+        hlink_menu, hlink_profile = func_hlink_profile()
         # flash(message=['Вы вышли из аккаунта', ''], category='success')
 
         return redirect(request.args.get('next') or request.referrer)
@@ -179,14 +179,14 @@ def logout():
 @login_required
 def profile():
     try:
-        global hlnk_menu, hlnk_profile
+        global hlink_menu, hlink_profile
         name = current_user.get_name()
 
         # Create profile name dict
-        hlnk_menu, hlnk_profile = func_hlnk_profile()
+        hlink_menu, hlink_profile = func_hlink_profile()
 
-        return render_template("profile.html", title="Профиль", menu=hlnk_menu,
-                               menu_profile=hlnk_profile, name=name)
+        return render_template("profile.html", title="Профиль", menu=hlink_menu,
+                               menu_profile=hlink_profile, name=name)
     except Exception as e:
         return f'profile ❗❗❗ Ошибка \n---{e}'
 
@@ -218,19 +218,19 @@ def register():
                     flash(message=['register ❗❗❗ Ошибка', str(e)], category='error')
                     return redirect(url_for('.register'))
 
-            return render_template("register.html", title="Регистрация", menu=hlnk_menu,
-                                   menu_profile=hlnk_profile)
+            return render_template("register.html", title="Регистрация", menu=hlink_menu,
+                                   menu_profile=hlink_profile)
     except Exception as e:
         return f'register ❗❗❗ Ошибка \n---{e}'
 
 
-def func_hlnk_profile():
+def func_hlink_profile():
     # try:
-    global hlnk_menu, hlnk_profile
+    global hlink_menu, hlink_profile
 
     if current_user.is_authenticated:
         # Меню профиля
-        hlnk_profile = {
+        hlink_profile = {
             "name": [current_user.get_profile_name(), '(Выйти)'], "url": "logout"},
 
         # Check user role.
@@ -238,16 +238,16 @@ def func_hlnk_profile():
         if current_user.get_role() == 1:
 
             # НОВЫЙ СПИСОК МЕНЮ - СПИСОК СЛОВАРЕЙ со словарями
-            hlnk_menu = [
+            hlink_menu = [
                 {"menu_item": "Платежи", "sub_item":
                     [
                         {"name": "Добавить поступления", "url": "cash-inflow",
                          "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
-                        {"name": "Новый платеж", "url": "new-payment",
+                        {"name": "Новая заявка на оплату", "url": "new-payment",
                          "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
                         {"name": "Согласование платежей", "url": "payment-approval",
                          "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
-                        {"name": "Оплата платежей", "url": "payment_pay",
+                        {"name": "Оплата платежей", "url": "payment-pay",
                          "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
                         {"name": "Список платежей", "url": "payment_list",
                          "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"},
@@ -259,9 +259,9 @@ def func_hlnk_profile():
                  },
             ]
         else:
-            hlnk_menu = [
+            hlink_menu = [
                 {"menu_item": "Платежи", "sub_item":
-                    [{"name": "Новый платеж", "url": "new-payment",
+                    [{"name": "Новая заявка на оплату", "url": "new-payment",
                       "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
                      {"name": "Список платежей", "url": "payment_list",
                       "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"}, ]
@@ -270,19 +270,24 @@ def func_hlnk_profile():
 
     else:
         # Меню профиля
-        hlnk_profile = {
+        hlink_profile = {
             "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"},
 
-        hlnk_menu = [
+        hlink_menu = [
             {"menu_item": "Платежи", "sub_item":
                 [
-                    {"name": "Новый платеж", "url": "new-payment",
+                    {"name": "Новая заявка на оплату", "url": "new-payment",
                      "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
                 ]
              },
         ]
 
-
-    return hlnk_menu, hlnk_profile
+    return hlink_menu, hlink_profile
     # except Exception as e:
-    #     return f'func_hlnk_profile ❗❗❗ Ошибка \n---{e}'
+    #     return f'func_hlink_profile ❗❗❗ Ошибка \n---{e}'
+
+
+@login_bp.route("/kostya", )
+def kostya():
+    return render_template("kostya.html")
+
