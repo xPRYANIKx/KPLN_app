@@ -386,7 +386,7 @@ def get_unapproved_payments():
             return render_template(
                 'payment-approval.html', menu=hlink_menu, menu_profile=hlink_profile,
                 applications=all_payments, approval_statuses=approval_statuses, account_money=account_money,
-                available_money=available_money, title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
+                available_money=available_money, page=request.path[1:], title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
     except Exception as e:
         conn.rollback()
         login_app.conn_cursor_close(cursor, conn)
@@ -680,11 +680,16 @@ def save_quick_changes_approved_payments():
         print('save_quick_changes_approved_payments')
         # Сохраняем изменения в полях (согл сумма, статус, сохр до полн оплаты) заявки без нажатия кнопки "Отправить"
         # try:
+        page = request.form['page']
         payment_id = int(request.form['payment_number'])
         row_id = request.form['row_id']
         amount = request.form['amount']
-        status_id = request.form['status_id']
-        status_id2 = request.form.getlist('status_id')
+        if page == 'payment-approval':
+            status_id = request.form['status_id']
+            status_id2 = request.form.getlist('status_id')
+        else:
+            status_id = None
+            status_id2 = None
         agreed_status = request.form['payment_full_agreed_status']
         for key, val in request.form.items():
             print('  - ', key, val)
@@ -697,69 +702,70 @@ def save_quick_changes_approved_payments():
             amount = float(amount)
 
         print(f"""payment_id {payment_id}
-    row_id {row_id}
-    amount {amount}
-    status_id {status_id}
-    status_id2 {status_id2}
-    agreed_status {agreed_status}
-    """)
+        row_id {row_id}
+        amount {amount}
+        status_id {status_id}
+        status_id2 {status_id2}
+        agreed_status {agreed_status}
+        """)
 
         user_id = login_app.current_user.get_id()
 
         # Execute the SQL query
         conn, cursor = login_app.conn_cursor_init()
 
-        # Статусы Андрея
-        query_approval_statuses = """
-            SELECT payment_agreed_status_id AS id
-            FROM payment_agreed_statuses 
-            WHERE payment_agreed_status_name = %s
-        """
-        cursor.execute(query_approval_statuses, (status_id,))
-        approval_statuses = cursor.fetchone()[0]
+        if page == 'payment-approval':
+            # Статусы Андрея
+            query_approval_statuses = """
+                SELECT payment_agreed_status_id AS id
+                FROM payment_agreed_statuses 
+                WHERE payment_agreed_status_name = %s
+            """
+            cursor.execute(query_approval_statuses, (status_id,))
+            approval_statuses = cursor.fetchone()[0]
 
-        # СТАТУС ПЛАТЕЖА
-        # Последний статус платежа
-        query_last_status = """
-            SELECT DISTINCT ON (payment_id) 
-                     status_id
-            FROM payments_approval_history
-            WHERE payment_id = %s
-            ORDER BY payment_id, create_at DESC
-        """
-        cursor.execute(query_last_status, (payment_id,))
-        try:
-            last_status_id = cursor.fetchone()[0]
-        except:
-            last_status_id = ''
-        # Если статус New (id 1), приравниваем его к id 4 - Черновик
-        if last_status_id == 1:
-            last_status_id = 4
-        # Если статусы не совпадают, создаём новую запись
-        if last_status_id != approval_statuses:
-            # Запись в payments_approval_history
-            action_p_a_h = 'INSERT INTO'
-            table_p_a_h = 'payments_approval_history'
-            columns_p_a_h = ('payment_id', 'status_id', 'user_id')
-            values_p_a_h = [[payment_id, approval_statuses, user_id]]
-            query_a_h = get_db_dml_query(action=action_p_a_h, table=table_p_a_h, columns=columns_p_a_h)
-            execute_values(cursor, query_a_h, values_p_a_h)
+            # СТАТУС ПЛАТЕЖА
+            # Последний статус платежа
+            query_last_status = """
+                SELECT DISTINCT ON (payment_id) 
+                         status_id
+                FROM payments_approval_history
+                WHERE payment_id = %s
+                ORDER BY payment_id, create_at DESC
+            """
+            cursor.execute(query_last_status, (payment_id,))
+            try:
+                last_status_id = cursor.fetchone()[0]
+            except:
+                last_status_id = ''
+            # Если статус New (id 1), приравниваем его к id 4 - Черновик
+            if last_status_id == 1:
+                last_status_id = 4
+            # Если статусы не совпадают, создаём новую запись
+            if last_status_id != approval_statuses:
+                # Запись в payments_approval_history
+                action_p_a_h = 'INSERT INTO'
+                table_p_a_h = 'payments_approval_history'
+                columns_p_a_h = ('payment_id', 'status_id', 'user_id')
+                values_p_a_h = [[payment_id, approval_statuses, user_id]]
+                query_a_h = get_db_dml_query(action=action_p_a_h, table=table_p_a_h, columns=columns_p_a_h)
+                execute_values(cursor, query_a_h, values_p_a_h)
 
-        # СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ
-        # Последний статус сохранения до полной оплаты
-        query_last_f_a_status = """
-            SELECT payment_full_agreed_status
-            FROM payments_summary_tab
-            WHERE payment_id = %s
-        """
-        cursor.execute(query_last_f_a_status, (payment_id,))
-        last_f_a_status = cursor.fetchone()[0]
-        # Если статусы не совпадают, обновляем запись
-        if last_f_a_status != agreed_status:
-            columns_p_s_t = ("payment_id", "payment_full_agreed_status")
-            values_p_s_t = [[payment_id, agreed_status]]
-            query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
-            execute_values(cursor, query_p_s_t, values_p_s_t)
+            # СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ
+            # Последний статус сохранения до полной оплаты
+            query_last_f_a_status = """
+                SELECT payment_full_agreed_status
+                FROM payments_summary_tab
+                WHERE payment_id = %s
+            """
+            cursor.execute(query_last_f_a_status, (payment_id,))
+            last_f_a_status = cursor.fetchone()[0]
+            # Если статусы не совпадают, обновляем запись
+            if last_f_a_status != agreed_status:
+                columns_p_s_t = ("payment_id", "payment_full_agreed_status")
+                values_p_s_t = [[payment_id, agreed_status]]
+                query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+                execute_values(cursor, query_p_s_t, values_p_s_t)
 
         # СОГЛАСОВАННАЯ СУММА
         # Неотправленная согласованная сумма
@@ -771,9 +777,8 @@ def save_quick_changes_approved_payments():
         WHERE page_name = %s AND parent_id::int = %s AND parameter_name = %s AND user_id = %s
         ORDER BY payment_id, create_at DESC;
         """
-        page_name = 'payment-approval'
         parameter_name = 'amount'
-        value_last_amount = [page_name, payment_id, parameter_name, user_id]
+        value_last_amount = [page, payment_id, parameter_name, user_id]
         cursor.execute(query_last_amount, value_last_amount)
         last_amount = cursor.fetchone()
         if last_amount:
@@ -894,8 +899,8 @@ def get_cash_inflow():
             return render_template(
                 template_name_or_list='cash-inflow.html', menu=hlink_menu, menu_profile=hlink_profile,
                 our_companies=our_companies, inflow_types=inflow_types, historical_data=historical_data,
-                not_save_val=not_save_val, companies_balances=companies_balances,
-                subcompanies_balances=subcompanies_balances, page=request.path[1:], title='Поступления денежных средств')
+                not_save_val=not_save_val, companies_balances=companies_balances, page=request.path[1:],
+                subcompanies_balances=subcompanies_balances, title='Поступления денежных средств')
     except Exception as e:
         conn.rollback()
         login_app.conn_cursor_close(cursor, conn)

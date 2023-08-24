@@ -286,8 +286,3 @@ def func_hlink_profile():
     # except Exception as e:
     #     return f'func_hlink_profile ❗❗❗ Ошибка \n---{e}'
 
-
-@login_bp.route("/kostya", )
-def kostya():
-    return render_template("kostya.html")
-
