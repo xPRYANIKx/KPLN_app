@@ -895,7 +895,7 @@ def get_cash_inflow():
                 template_name_or_list='cash-inflow.html', menu=hlink_menu, menu_profile=hlink_profile,
                 our_companies=our_companies, inflow_types=inflow_types, historical_data=historical_data,
                 not_save_val=not_save_val, companies_balances=companies_balances,
-                subcompanies_balances=subcompanies_balances, page=request.path[1:], title='ПОСТУПЛЕНИЯ ДС')
+                subcompanies_balances=subcompanies_balances, page=request.path[1:], title='Поступления денежных средств')
     except Exception as e:
         conn.rollback()
         login_app.conn_cursor_close(cursor, conn)
