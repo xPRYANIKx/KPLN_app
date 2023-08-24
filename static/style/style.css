@@ -561,6 +561,19 @@ main form button:enabled {
   color: #587ef0;
 }
 
+#index_main_menu {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+#index_main_menu .cards_container__category {
+  width: 400px;
+  margin-bottom: 25px;
+  padding: 10px 20px;
+  border: solid 2px black;
+  border-radius: 10px;
+}
+
 .cards-container.cash-inflow {
   flex-wrap: wrap;
 }

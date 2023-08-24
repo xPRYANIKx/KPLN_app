@@ -2,52 +2,19 @@
 {% block head %}
 {{ super() }}
 {% block scripts %}
-<style>
-    .cards-container {
-        display: flex;
-        flex-direction: column;
-        border: 1px solid #ccc;
-    }
-
-    .card {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 10px;
-        margin: 10px;
-        width: 300px;
-    }
-
-    .card-title {
-        font-weight: bold;
-        font-size: 250%;
-    }
-
-    .card-cost {
-        color: green;
-    }
-</style>
 {% endblock %}
-
 {% endblock %}
 {% block content %}
 
-<div class="cards-container">
+<div id="index_main_menu" class="cards-container">
     {% for m in menu %}
     <div class="cards_container__category">
         <div class="cards_container__category__name">{{m.menu_item}}</div>
         {% for p in m.sub_item %}
 
-        <div class="card">{{ p.name }}
+        <div class="card">
             <div class="card__pic"><img src="{{p.img}}" width="50" height="50" alt="{{p.name}}" title="{{p.name}}"></div>
             <div class="card__href"><a href="{{p.url}}"> {{ p.name }} </a></div>
-            <!--    Карточка конкретной плашки-->
-            <!--                <a href="{{p.url}}">-->
-            <!--                    <div class="card">-->
-            <!--                        <h2 class="card-title"></h2>-->
-            <!--                        <img src="{{p.img}}" width="50" height="50" alt="{{p.name}}" title="{{p.name}}">-->
-            <!--                        <p class="card-cost">{{ p.name }}</p>-->
-            <!--                    </div>-->
-            <!--                </a>-->
         </div>
         {% endfor %}
     </div>
