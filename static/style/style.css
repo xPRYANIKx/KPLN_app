@@ -570,8 +570,42 @@ main form button:enabled {
   width: 400px;
   margin-bottom: 25px;
   padding: 10px 20px;
-  border: solid 2px black;
+  background-color: #ebebeb;
   border-radius: 10px;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+#index_main_menu .cards_container__category__name {
+  margin-bottom: 9px;
+  margin-left: -7px;
+  font-size: 17px;
+  font-weight: bold;
+  color: #225479;
+  text-transform: uppercase;
+}
+#index_main_menu .cards_container__category a {
+  text-decoration: none;
+}
+#index_main_menu .cards_container__category .card {
+  background-color: rgba(197, 191, 209, 0.2392156863);
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+#index_main_menu .cards_container__category .card__pic {
+  margin-right: 18px;
+}
+#index_main_menu .cards_container__category .card__pic img {
+  max-width: 46px;
+  max-height: 46px;
+}
+#index_main_menu .cards_container__category .card__name {
+  font-size: 16px;
+  font-weight: bold;
+}
+#index_main_menu .cards_container__category .card:hover {
+  background-color: rgba(178, 193, 203, 0.5019607843);
 }
 
 .cards-container.cash-inflow {
@@ -792,6 +826,15 @@ main form button:enabled {
     display: block;
     width: 100%;
   }
+  #index_main_menu .cards_container__category {
+    width: 345px;
+  }
+  #index_main_menu .cards_container__category .card {
+    padding: 8px;
+  }
+  #index_main_menu .cards_container__category .card__name {
+    font-size: 14px;
+  }
 }
 @media (max-width: 390px) {
   header {
@@ -860,6 +903,19 @@ main form button:enabled {
     width: 100%;
     font-size: 14px;
   }
+  #index_main_menu .cards_container__category {
+    width: 305px;
+  }
+  #index_main_menu .cards_container__category .card {
+    padding: 8px 10px;
+  }
+  #index_main_menu .cards_container__category .card__name {
+    font-size: 12.3px;
+  }
+  #index_main_menu .cards_container__category .card__pic img {
+    max-width: 35px;
+    max-height: 35px;
+  }
 }
 @media (max-width: 340px) {
   header {
@@ -892,6 +948,9 @@ main form button:enabled {
   }
   #cash_inflow__card .card-cost {
     font-size: 10.3px;
+  }
+  #index_main_menu .cards_container__category {
+    width: 280px;
   }
 }
 @media (max-width: 320px) {
@@ -940,5 +999,11 @@ main form button:enabled {
   }
   #cash_inflow__form h1 {
     font-size: 20px;
+  }
+  #index_main_menu .cards_container__category {
+    width: 240px;
+  }
+  #index_main_menu .cards_container__category__name {
+    font-size: 15px;
   }
 }/*# sourceMappingURL=style.css.map */

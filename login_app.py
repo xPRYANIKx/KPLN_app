@@ -242,29 +242,29 @@ def func_hlink_profile():
                 {"menu_item": "Платежи", "sub_item":
                     [
                         {"name": "Добавить поступления", "url": "cash-inflow",
-                         "img": "https://cdn-icons-png.flaticon.com/512/617/617002.png"},
+                         "img": "/static/img/menu/cash-inflow.png"},
                         {"name": "Новая заявка на оплату", "url": "new-payment",
-                         "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+                         "img": "/static/img/menu/new-payment.png"},
                         {"name": "Согласование платежей", "url": "payment-approval",
-                         "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"},
+                         "img": "/static/img/menu/payment-approval.png"},
                         {"name": "Оплата платежей", "url": "payment-pay",
-                         "img": "https://cdn-icons-png.flaticon.com/512/3673/3673443.png"},
+                         "img": "/static/img/menu/payment-pay.png"},
                         {"name": "Список платежей", "url": "payment_list",
-                         "img": "https://cdn-icons-png.flaticon.com/512/4631/4631071.png"},
+                         "img": "/static/img/menu/payment-list.png"},
                     ]
                  },
                 {"menu_item": "Администрирование", "sub_item":
                     [{"name": "Регистрация пользователей", "url": "register",
-                      "img": "https://cdn-icons-png.flaticon.com/512/477/477801.png"}, ]
+                      "img": "/static/img/menu/register.png"}, ]
                  },
             ]
         else:
             hlink_menu = [
                 {"menu_item": "Платежи", "sub_item":
                     [{"name": "Новая заявка на оплату", "url": "new-payment",
-                      "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+                      "img": "/static/img/menu/new-payment.png"},
                      {"name": "Список платежей", "url": "payment_list",
-                      "img": "https://cdn-icons-png.flaticon.com/512/1572/1572585.png"}, ]
+                      "img": "/static/img/menu/payment-list.png"}, ]
                  },
             ]
 
@@ -277,7 +277,7 @@ def func_hlink_profile():
             {"menu_item": "Платежи", "sub_item":
                 [
                     {"name": "Новая заявка на оплату", "url": "new-payment",
-                     "img": "https://cdn-icons-png.flaticon.com/512/5776/5776429.png"},
+                     "img": "/static/img/menu/new-payment.png"},
                 ]
              },
         ]
