@@ -608,6 +608,30 @@ main form button:enabled {
   background-color: rgba(178, 193, 203, 0.5019607843);
 }
 
+#register_form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+}
+#register_form h1 {
+  margin-bottom: 15px;
+  font-size: 35px;
+}
+#register_form div {
+  max-width: 350px;
+  margin: 15px 0px 0px 55px;
+}
+#register_form .btn_div {
+  align-self: end;
+  margin: 25px 0px 20px 0px;
+}
+#register_form .btn_div #regBtn {
+  padding: 10px 20px;
+  font-size: 15px;
+  background-color: #000000;
+  color: #ffffff;
+}
+
 .cards-container.cash-inflow {
   flex-wrap: wrap;
 }
@@ -835,6 +859,15 @@ main form button:enabled {
   #index_main_menu .cards_container__category .card__name {
     font-size: 14px;
   }
+  #register_form {
+    max-width: 300px;
+  }
+  #register_form h1 {
+    font-size: 30px;
+  }
+  #register_form div {
+    margin: 10px 0px 0px 0px;
+  }
 }
 @media (max-width: 390px) {
   header {
@@ -915,6 +948,16 @@ main form button:enabled {
   #index_main_menu .cards_container__category .card__pic img {
     max-width: 35px;
     max-height: 35px;
+  }
+  #register_form h1 {
+    font-size: 25px;
+  }
+  #register_form .btn_div {
+    align-self: center;
+  }
+  #register_form .btn_div #regBtn {
+    padding: 10px 15px;
+    font-size: 13.5px;
   }
 }
 @media (max-width: 340px) {
@@ -1005,5 +1048,8 @@ main form button:enabled {
   }
   #index_main_menu .cards_container__category__name {
     font-size: 15px;
+  }
+  #register_form h1 {
+    font-size: 20px;
   }
 }/*# sourceMappingURL=style.css.map */

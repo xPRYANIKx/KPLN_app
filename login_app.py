@@ -218,7 +218,7 @@ def register():
                     flash(message=['register ❗❗❗ Ошибка', str(e)], category='error')
                     return redirect(url_for('.register'))
 
-            return render_template("register.html", title="Регистрация", menu=hlink_menu,
+            return render_template("register.html", title="Регистрация новых пользователей", menu=hlink_menu,
                                    menu_profile=hlink_profile)
     except Exception as e:
         return f'register ❗❗❗ Ошибка \n---{e}'

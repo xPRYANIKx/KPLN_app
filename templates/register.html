@@ -1,26 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{title}}</title>
-</head>
-<body>
+{% extends "layout-main.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
 
 
-    {% for cat, msg in get_flashed_messages(True) %}
-    <div class="flash {{cat}}">{{msg}}</div>
-    {% endfor %}
+<form id="register_form" action="" method="post" class="form-contact">
+    <h1>Новый пользователь</h1>
+    <div><label>Имя: </label> <input type="text" name="first_name" value="" required /></div>
+    <div><label>Фамилия: </label> <input type="text" name="last_name" value="" required /></div>
+    <div><label>Логин: </label> <input type="text" name="email" value="" required /></div>
+    <div><label>Пароль: </label> <input type="password" name="password" value="" required /></div>
+    <div><label>Роль: </label> <input type="text" name="user_role" value="" required /></div>
+    <div><label>Приоритет: </label> <input type="number" step="1" name="user_priority" value="" required /></div>
+    <div class="btn_div"><input id="regBtn" type="submit" value="Зарегистрировать" /></div>
+</form>
 
-    <form action="" method="post" class="form-contact">
-        <p><label>Имя: </label> <input type="text" name="first_name" value="" required />
-        <p><label>Фамилия: </label> <input type="text" name="last_name" value="" required />
-        <p><label>Логин: </label> <input type="text" name="email" value="" required />
-        <p><label>Пароль: </label> <input type="password" name="password" value="" required />
-        <p><label>Роль: </label> <input type="text" name="user_role" value="" required />
-        <p><label>Приоритет: </label> <input type="number" step="1" name="user_priority" value="" required />
-        <p><input type="submit" value="Зарегистрировать" />
-            <hr align=left width="300px">
-    </form>
-
-</body>
-</html>
+{% endblock %}

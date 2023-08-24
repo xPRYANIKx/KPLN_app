@@ -31,17 +31,17 @@ class FDataBase:
             self.__cur.execute(f"SELECT email FROM users WHERE email = '{values[2]}'")
             res = self.__cur.fetchone()
             if res:
-                flash(message=['❌ Логин уже есть в базе', ''], category='error')
+                flash(message=['Логин уже есть в базе', ''], category='error')
                 return False
 
             self.__cur.execute(query, values)
             self.__db.commit()
             self.__cur.close()
         except Exception as e:
-            flash(message=['❗ Ошибка добавления пользователя в БД', str(e)], category='error')
+            flash(message=['Ошибка добавления пользователя в БД', str(e)], category='error')
             return False
 
-        flash(message=['✔️ Пользователь внесен', ''], category='success')
+        flash(message=['Пользователь внесен', ''], category='success')
         return True
 
     def get_user(self, user_id):
@@ -54,7 +54,7 @@ class FDataBase:
 
             return res
         except Exception as e:
-            flash(message=['❗ Ошибка получения данных из БД', str(e)], category='error')
+            flash(message=['Ошибка получения данных из БД', str(e)], category='error')
 
         return False
 
@@ -84,7 +84,7 @@ class FDataBase:
 
             return res
         except Exception as e:
-            flash(message=['❗ Ошибка получения данных из БД ❗', str(e)], category='error')
+            flash(message=['Ошибка получения данных из БД', str(e)], category='error')
 
         return False
 

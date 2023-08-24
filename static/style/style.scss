@@ -565,6 +565,30 @@ main {
     }
 }
 ///////////////////////////////////////////
+#register_form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    h1 {
+        margin-bottom: 15px;
+        font-size: 35px;
+    }
+    div {
+        max-width: 350px;
+        margin: 15px 0px 0px 55px;
+    }
+    .btn_div {
+        align-self: end;
+        margin: 25px 0px 20px 0px;
+        #regBtn {
+            padding: 10px 20px;
+            font-size: 15px;
+            background-color: #000000;
+            color: #ffffff;
+        }
+    }
+}
+///////////////////////////////////////////
 .cards-container.cash-inflow {
     flex-wrap: wrap;
     #cash_inflow__card {
@@ -590,7 +614,6 @@ main {
         }
     }
 }
-
 #cash_inflow__form {
     display: flex;
     flex-direction: column;
@@ -809,7 +832,6 @@ main {
         display: block;
         width: 100%;
     }
-
     #index_main_menu {
         .cards_container__category {
             width: 345px;
@@ -819,6 +841,15 @@ main {
                     font-size: 14px;
                 }
             }
+        }
+    }
+    #register_form {
+        max-width: 300px;
+        h1 {
+            font-size: 30px;
+        }
+        div {
+            margin: 10px 0px 0px 0px;
         }
     }
 }
@@ -901,7 +932,6 @@ main {
             }
         }
     }
-
     #index_main_menu {
         .cards_container__category {
             width: 305px;
@@ -918,6 +948,19 @@ main {
                         max-height: 35px;
                     }
                 }
+            }
+        }
+    }
+    #register_form {
+        h1 {
+            font-size: 25px;
+        }
+        .btn_div {
+            align-self: center;
+
+            #regBtn {
+                padding: 10px 15px;
+                font-size: 13.5px;
             }
         }
     }
@@ -1038,13 +1081,17 @@ main {
             font-size: 20px;
         }
     }
-
     #index_main_menu {
         .cards_container__category {
             width: 240px;
             &__name {
                 font-size: 15px;
             }
+        }
+    }
+    #register_form {
+        h1 {
+            font-size: 20px;
         }
     }
 }
