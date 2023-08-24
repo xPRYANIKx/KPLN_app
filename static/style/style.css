@@ -578,7 +578,6 @@ main form button:enabled {
 .cards-container.cash-inflow #cash_inflow__card .card-title {
   font-size: 25px;
   font-weight: bold;
-  color: #ffc24d;
   border-bottom: solid 2px rgba(255, 195, 54, 0.2117647059);
 }
 .cards-container.cash-inflow #cash_inflow__card .card-cost {
