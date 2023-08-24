@@ -41,6 +41,9 @@ function saveData(rowId, page='') {
     xhr.open('POST', '/save_quick_changes_approved_payments', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
+    console.log(page)
+    console.log(xhr)
+
     xhr.send('row_id=' + rowId + '&payment_number=' + paymentNumber + '&amount=' + amount + '&status_id=' + statusId +
              '&payment_full_agreed_status=' + paymentFullStatus + '&page=' + page);
 }

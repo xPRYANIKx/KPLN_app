@@ -83,7 +83,7 @@
             {% for application in applications %}
             <tr id="row-{{ loop.index }}">
                 <td>{{loop.index}}</td>
-                <td><input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}" onchange="paymentApprovalRecalcCards('{{ page }}'), selectedApprovalSum({{ loop.index }})"></td>
+                <td><input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}" onchange="paymentApprovalRecalcCards(), selectedApprovalSum({{ loop.index }})"></td>
                 <td>{{ application.contractor_name }}</td>
                 <td>{{ application.cost_item_name }}</td>
                 <td><input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{application.payment_number}}</td>
@@ -94,7 +94,7 @@
                 <td>{{ application.partner }}</td>
                 <td>{{ application.payment_sum }}</td>
                 <td><input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>{{ application.approval_sum}}</td>
-                <td><input type="number" id="amount-{{ loop.index }}" name="amount" step="0.01" value="{{ application.amount }}" onchange="saveData({{ loop.index }}, '{{ page }}')" oninput="paymentApprovalRecalcCards('{{ page }}')"></td>
+                <td><input type="number" id="amount-{{ loop.index }}" name="amount" step="0.01" value="{{ application.amount }}" onchange="saveData({{ loop.index }}, '{{ page }}')" oninput="paymentApprovalRecalcCards()"></td>
                 <td>{{ application.payment_due_date }}</td>
                 <td>
                     <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status"

@@ -1,4 +1,4 @@
-function paymentApprovalRecalcCards(page='') {
+function paymentApprovalRecalcCards() {
     var s_f_a_p = document.getElementById('card_selected_for_approval_value').dataset.value;
     var a_m_v = document.getElementById('card_available_money_value').dataset.value;
 
