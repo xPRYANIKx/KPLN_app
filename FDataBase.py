@@ -84,7 +84,7 @@ class FDataBase:
 
             return res
         except Exception as e:
-            flash(message=['❗ Ошибка получения данных из БД', str(e)], category='error')
+            flash(message=['❗ Ошибка получения данных из БД ❗', str(e)], category='error')
 
         return False
 

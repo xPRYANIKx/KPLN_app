@@ -1,8 +1,8 @@
 function selectedApprovalSum(rowId) {
     paymentApprovalRecalcCards();
     var paymentSelectedRows = document.getElementById('selectedRows-' + rowId).checked;
-    var status_id = document.getElementById('status_id-' + rowId).value;
-    var paymentFullAgreedStatus = document.getElementById('paymentFullAgreedStatus-' + rowId).checked;
+    var status_id = document.getElementById('status_id-' + rowId);
+    var paymentFullStatus = document.getElementById('paymentFullStatus-' + rowId).checked;
     var a_m_v = document.getElementById('card_available_money_value').innerHTML;
 
     a_m_v = parseFloat(a_m_v.replace(',', '.'));
@@ -17,10 +17,10 @@ function selectedApprovalSum(rowId) {
             document.getElementById('card_selected_for_approval_value').style.color="red";
             document.getElementById('card_available_money_value').style.color="red";
              if (paymentSelectedRows) {
-                if (status_id != 'Реком.' && status_id != 'Черновик') {
+                if (status_id &&  status_id != 'Реком.' && status_id != 'Черновик') {
                     document.getElementById('row-' + rowId).style.background="grey";
                 }
-                else if (status_id == 'Реком.' || status_id == 'Черновик') {
+                else if (!status_id || status_id == 'Реком.' || status_id == 'Черновик') {
                     document.getElementById('row-' + rowId).style.background="red";
                 }
              }
@@ -29,11 +29,11 @@ function selectedApprovalSum(rowId) {
             document.getElementById('card_selected_for_approval_value').style.color="#34a853";
             document.getElementById('card_available_money_value').style.color="black";
             if (paymentSelectedRows) {
-                if (status_id == 'Реком.' || status_id == 'Черновик') {
-                    if (paymentFullAgreedStatus) {
+                if (!status_id || status_id == 'Реком.' || status_id == 'Черновик') {
+                    if (paymentFullStatus) {
                         document.getElementById('row-' + rowId).style.background="#61e283";
                     }
-                    else if (!paymentFullAgreedStatus){
+                    else if (!paymentFullStatus){
                         document.getElementById('row-' + rowId).style.background="#34a853";
                     }
                 }

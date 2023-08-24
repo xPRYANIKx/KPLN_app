@@ -29,21 +29,25 @@
 
 <div class="cards-container">
     {% for m in menu %}
-<!--    Категория плашек (платежи, Админ и тп)-->
-    {{m.menu_item}}
-    {% for p in m.sub_item %}
+    <div class="cards_container__category">
+        <div class="cards_container__category__name">{{m.menu_item}}</div>
+        {% for p in m.sub_item %}
 
-    <!--    Карточка конкретной плашки-->
-    <a href="{{p.url}}">
-        <div class="card">
-            <h2 class="card-title"></h2>
-            <img src="{{p.img}}" width="50" height="50" alt="{{p.name}}" title="{{p.name}}">
-            <p class="card-cost">{{ p.name }}</p>
-        </div>
-    </a>
-    {% endfor %}
+            <div class="card">{{ p.name }}
+                <div class="card__pic"><img src="{{p.img}}" width="50" height="50" alt="{{p.name}}" title="{{p.name}}"></div>
+                <div class="card__href"><a href="{{p.url}}"> {{ p.name }} </a></div>
+        <!--    Карточка конкретной плашки-->
+<!--                <a href="{{p.url}}">-->
+<!--                    <div class="card">-->
+<!--                        <h2 class="card-title"></h2>-->
+<!--                        <img src="{{p.img}}" width="50" height="50" alt="{{p.name}}" title="{{p.name}}">-->
+<!--                        <p class="card-cost">{{ p.name }}</p>-->
+<!--                    </div>-->
+<!--                </a>-->
+            </div>
+        {% endfor %}
+    </div>
     {% endfor %}
 </div>
-
 
 {% endblock %}
