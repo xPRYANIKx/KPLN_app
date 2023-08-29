@@ -1103,14 +1103,6 @@ def get_unpaid_payments():
                     FROM payments_summary_tab
                 ) AS t1 ON t0.payment_id = t1.payment_id
                 LEFT JOIN (
-                        SELECT DISTINCT ON (payment_id) 
-                            payment_id,
-                            status_id,
-                            SUM(approval_sum) OVER (PARTITION BY payment_id) AS approval_sum
-                        FROM payments_paid_history
-                        ORDER BY payment_id, create_at DESC
-                ) AS t2 ON t0.payment_id = t2.payment_id
-                LEFT JOIN (
                     SELECT contractor_id,
                         contractor_name
                     FROM our_companies            
@@ -1134,8 +1126,8 @@ def get_unpaid_payments():
                 LEFT JOIN (
                         SELECT 
                             DISTINCT payment_id,
-                            SUM(payment_paid_sum) OVER (PARTITION BY payment_id) AS paid_sum
-                        FROM payments_paid
+                            SUM(paid_sum) OVER (PARTITION BY payment_id) AS paid_sum
+                        FROM payments_paid_history
                 ) AS t7 ON t0.payment_id = t7.payment_id
                 LEFT JOIN (
                         SELECT DISTINCT ON (payment_id) 
@@ -1219,7 +1211,6 @@ def set_paid_payments():
             values_a_u = []  # Список измененных согласованных заявок
             values_a_d = []  # Список удалённых согласованных заявок
             values_p_h = []  # Список оплаченных заявок для записи на БД payments_paid_history
-            values_p = []  # Список оплаченных заявок для записи на БД payments_paid
             pay_id_list_raw = []  # Список согласованных id заявок без обработки ошибок
             pay_id_closed = []  # Список закрывающихся заявок
 
@@ -1239,11 +1230,12 @@ def set_paid_payments():
 
             for i in selected_rows:
                 row = i - 1
-                pay_id_list_raw.append(payment_number[row])
 
-            if payment_pay_sum[row] is None:
-                flash(message=['Не указана сумма к оплате', ''], category='error')
-                return redirect(url_for('.get_unpaid_payments'))
+                if payment_pay_sum[row] is None:
+                    flash(message=['Не указана сумма к оплате', f'№ строки {i}'], category='error')
+                    return redirect(url_for('.get_unpaid_payments'))
+
+                pay_id_list_raw.append(payment_number[row])
 
             conn, cursor = login_app.conn_cursor_init_dict()
 
@@ -1281,9 +1273,7 @@ def set_paid_payments():
                                 ))
                         else:
                             status_id = 9
-                            values_a_d.append((
-                                payment_number[row],
-                            ))
+                            values_a_d.append(payment_number[row])
 
 
 
@@ -1299,19 +1289,10 @@ def set_paid_payments():
                     payment_pay_sum[row]
                 ])
 
-                if payment_pay_sum[row] > 0:
-                    values_p.append([
-                        payment_number[row],
-                        status_id,
-                        payment_pay_sum[row]
-                    ])
-
 
 
 
             print('values_p_h', values_p_h)
-
-            print('values_p', values_p)
 
             print('pay_id_closed', pay_id_closed)
 
@@ -1324,35 +1305,25 @@ def set_paid_payments():
                     # Перезапись в payments_paid_history
                     action_p_h = 'INSERT INTO'
                     table_p_h = 'payments_paid_history'
-                    columns_p_h = ('payment_id', 'status_id', 'user_id', 'approval_sum')
+                    columns_p_h = ('payment_id', 'status_id', 'user_id', 'paid_sum')
                     query_p_h = get_db_dml_query(action=action_p_h, table=table_p_h, columns=columns_p_h)
                     execute_values(cursor, query_p_h, values_p_h)
-                    conn.commit()
 
-
-                    # # Перезапись в payments_summary_tab
-                    # columns_p_h = ("payment_id", "payment_full_agreed_status", "payment_close_status")
-                    # query_p_h = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_h)
-                    # execute_values(cursor, query_p_h, values_p_h)
                     flash(message=['Заявки проведены', ''], category='success')
 
                 # Если есть заявки с закрытием
                 if values_a_d:
                     columns_a_d = 'payment_id'
                     query_a_d = get_db_dml_query(action='DELETE', table='payments_approval', columns=columns_a_d)
-                    execute_values(cursor, query_a_d, values_a_d)
-                    conn.commit()
+                    execute_values(cursor, query_a_d, (values_a_d,))
 
                 # Если есть заявки с частичным закрытием
                 if values_a_u:
                     columns_a_u = ("payment_id", "approval_sum")
                     query_a_u = get_db_dml_query(action='UPDATE', table='payments_approval', columns=columns_a_u)
                     execute_values(cursor, query_a_u, values_a_u)
-                    conn.commit()
 
-
-
-
+                conn.commit()
                 login_app.conn_cursor_close(cursor, conn)
 
                 return redirect(url_for('.get_unpaid_payments'))
@@ -1361,7 +1332,7 @@ def set_paid_payments():
                 conn.rollback()
                 login_app.conn_cursor_close(cursor, conn)
                 print(e)
-                return f'отправка set_paid_payments ❗❗❗ Ошибка \n---{e}'
+                return f'отправка set_paid_payments 1 ❗❗❗ Ошибка \n---{e}'
 
 
 
@@ -1372,7 +1343,7 @@ def set_paid_payments():
 
     except Exception as e:
         print(e)
-        return f'отправка set_approved_payments ❗❗❗ Ошибка \n---{e}'
+        return f'отправка set_approved_payments 2 ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/payment-list')

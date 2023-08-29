@@ -17,32 +17,48 @@ conn = psycopg2.connect(dbname=db_name, user=db_user, password=db_password, host
 
 cursor = conn.cursor()
 
-"""
-    SUM(t0.approval_sum) OVER (PARTITION BY t0.payment_id)
-    TRIM(to_char(COALESCE(t0.approval_sum - t7.approval_sum, t0.approval_sum), '9 999 999D99 ₽')) AS approval_sum,
-    COALESCE(t8.amount, null) AS amount,
-"""
+def get_db_dml_query(action, table, columns, expr_set=None, subquery=";"):
+    query = None
+    if action == 'UPDATE':
+        # В columns первым значением списка должна быть колонка для WHERE.
+        # Связано с правилом выполнения sql-запроса
 
-user_id = 2
-# Список статусов платежей Андрея
-query = """
-SELECT 
-    payment_id, 
-    approval_sum
-FROM payments_approval 
-WHERE payment_id::int in %s
-"""
-vars = [(7,), (34,)]
-# cursor.execute(query, vars)
-#
-#
-#
-# zzz = cursor.fetchall()
-# pprint(zzz)
-vars = [[7, 34]]
-execute_values(cursor, query, vars)
-balance_sum = cursor.fetchall()
-pprint(balance_sum)
+        # Список столбцов в SET
+        expr_set = ', '.join([f"{col} = c.{col}" for col in columns[1:]])
+        # Список столбцов для таблицы "с"
+        expr_s_tab = str(columns).replace('\'', '').replace('"', '')
+        # Выражение для WHERE
+        expr_where = result = f"c.{columns[0]} = t.{columns[0]}"
+        # Конструктор запроса
+        query = f"{action} {table} AS t SET {expr_set} FROM (VALUES %s) AS c {expr_s_tab} WHERE {expr_where} {subquery}"
+
+    elif action == 'INSERT INTO':
+        # Кортеж колонок переводим в строки и удаляем кавычки
+        expr_cols = str(columns).replace('\'', '').replace('"', '')
+        # Конструктор запроса
+        query = f"{action} {table} {expr_cols} VALUES %s {subquery}"
+
+    elif action == 'INSERT CONFLICT UPDATE':
+        # В columns последним значением списка должна быть колонка для ON CONFLICT.
+        # Связано с тем, что из value мы берем значения по порядку, все кроме ON CONFLICT колонки
+
+        # Кортеж колонок переводим в строки и удаляем кавычки
+        expr_cols = str(columns).replace('\'', '').replace('"', '')
+        # Конструктор запроса
+        query = f"INSERT INTO {table} AS t1 {expr_cols} VALUES %s ON CONFLICT ({columns[-1]}) DO UPDATE SET {expr_set};"
+
+    elif action == 'DELETE':
+        query = f"DELETE FROM {table} WHERE ({columns}) IN %s;"
+
+    return query
+
+
+columns_a_d = 'payment_id'
+query_a_d = get_db_dml_query(action='DELETE', table='payments_approval', columns=columns_a_d)
+values_a_d = [3, 1, 2]
+execute_values(cursor, query_a_d, (values_a_d,))
+
+conn.commit()
 
 
 cursor.close()
