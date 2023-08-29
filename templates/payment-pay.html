@@ -6,7 +6,7 @@
     <script src="static/script/paymentApprovalSort.js"></script>
     <script src="static/script/paymentApprovalSaveChanges.js"></script>
     <script src="static/script/paymentApprovalRecalcCards.js"></script>
-    <script src="static/script/checkFormPaymentApproval.js"></script>
+    <script src="static/script/paymentApprovalColorize.js"></script>
     <style>
         .cards-container {
             display: flex;
@@ -54,7 +54,7 @@
 <h1>{{title}}</h1>
 
 
-<form id="paymentForm3" action="/payment-approval" method="POST" style="align-self: flex-start">
+<form id="paymentForm3" action="/payment-pay" method="POST" style="align-self: flex-start">
     <button type="submit">Submit</button>
     <table id="payment-table" name="payment_table" class="display">
         <thead>
@@ -70,12 +70,13 @@
                 <th onclick="sortTable(8, 'str')">ОТВЕТСТВЕННЫЙ</th>
                 <th onclick="sortTable(9, 'str')">КОНТРАГЕНТ</th>
                 <th onclick="sortTable(10, 'num')">ОБЩАЯ СУММА</th>
-                <th onclick="sortTable(11, 'num')">СОГЛАСОВАННАЯ СУММА</th>
-                <th onclick="sortTable(12, 'num')">СУММА К ОПЛАТЕ</th>
-                <th onclick="sortTable(13, 'str')">СРОК ОПЛАТЫ</th>
+                <th onclick="sortTable(11, 'num')">ОПЛАЧЕНО</th>
+                <th onclick="sortTable(12, 'num')">СОГЛАСОВАННАЯ СУММА</th>
+                <th onclick="sortTable(13, 'num')">СУММА К ОПЛАТЕ</th>
+                <th onclick="sortTable(14, 'str')">СРОК ОПЛАТЫ</th>
 <!--                <th onclick="sortTable(14, 'str')">СТАТУС</th>-->
-                <th onclick="sortTable(14, 'str')">ЗАКРЫТЬ ТОЛЬКО ПОСЛЕ ПОЛНОЙ ОПЛАТЫ</th>
-                <th onclick="sortTable(15, 'str')">ДАТА СОЗДАНИЯ</th>
+                <th onclick="sortTable(15, 'str')">ЗАКРЫТЬ ТОЛЬКО ПОСЛЕ ПОЛНОЙ ОПЛАТЫ</th>
+                <th onclick="sortTable(16, 'str')">ДАТА СОЗДАНИЯ</th>
 <!--                <th onclick="sortTable(16, 'str')">СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ</th>-->
             </tr>
         </thead>
@@ -83,7 +84,7 @@
             {% for application in applications %}
             <tr id="row-{{ loop.index }}">
                 <td>{{loop.index}}</td>
-                <td><input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}" onchange="paymentApprovalRecalcCards(), selectedApprovalSum({{ loop.index }})"></td>
+                <td><input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}" onchange="paymentApprovalRecalcCards()"></td>
                 <td>{{ application.contractor_name }}</td>
                 <td>{{ application.cost_item_name }}</td>
                 <td><input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{application.payment_number}}</td>
@@ -92,9 +93,12 @@
                 <td>{{ application.object_name }}</td>
                 <td>{{ application.last_name }} {{ application.first_name[0] }}.</td>
                 <td>{{ application.partner }}</td>
-                <td>{{ application.payment_sum }}</td>
-                <td><input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>{{ application.approval_sum}}</td>
-                <td><input type="number" id="amount-{{ loop.index }}" name="amount" step="0.01" value="{{ application.amount }}" onchange="saveData({{ loop.index }}, '{{ page }}')" oninput="paymentApprovalRecalcCards()"></td>
+                <td>{{ application.payment_sum_rub }}</td>
+                <td>{{ application.paid_sum_rub }}</td>
+                <td><input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>{{ application.approval_sum_rub}}</td>
+                <td><input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}"
+
+                           onchange="saveData({{ loop.index }}, '{{ page }}')" oninput="paymentApprovalRecalcCards()"></td>
                 <td>{{ application.payment_due_date }}</td>
                 <td>
                     <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status"

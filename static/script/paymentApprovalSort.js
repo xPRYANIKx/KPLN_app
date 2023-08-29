@@ -11,6 +11,7 @@ function sortTable(column, type_col='str') {
             shouldSwitch = false;
             x = rows[i].getElementsByTagName("td")[column];
             y = rows[i + 1].getElementsByTagName("td")[column];
+            console.log(x.dataset.sort);
 
             // Тип данных в колонки - строка
             if (type_col == 'str') {
@@ -73,6 +74,50 @@ function sortTable(column, type_col='str') {
             catch {
             }
         }
-
     }
+}
+
+function sortTable2() {
+console.log('----', new Date())
+var getCellValue = (tr, idx) => tr.children[idx].dataset['sort'];
+console.log(0)
+var comparer = (idx, asc) => (a, b) =>
+((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : (console.log('   -   v1', v1), console.log('   -   v2', v2), v1.toString().localeCompare(v2)))
+    (getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+console.log(1)
+
+document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+  console.log(2)
+  var table = th.closest('table');
+  console.log(3)
+  var tbody = table.querySelector('tbody');
+  console.log(4)
+  Array.from(tbody.querySelectorAll('tr'))
+    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+    .forEach(tr => tbody.appendChild(tr) );
+})));
+
+//document.querySelectorAll('th').forEach(th => {
+//  console.log(2)
+//  var table = th.closest('table');
+//  console.log(3)
+//  var tbody = table.querySelector('tbody');
+//  console.log(4)
+//  console.log(tbody.querySelectorAll('th'))
+//  Array.from(tbody.querySelectorAll('tr'))
+//    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+//    .forEach(tr => tbody.appendChild(tr) );
+//});
+
+//document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+//  console.log(2)
+//  var table = th.closest('table');
+//  console.log(3)
+//  var tbody = table.querySelector('tbody');
+//  console.log(4)
+//  Array.from(tbody.querySelectorAll('tr'))
+//    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+//    .forEach(tr => tbody.appendChild(tr) );
+//})));
 }
