@@ -17,14 +17,15 @@ function paymentApprovalRecalcCards() {
 
                 amount[i].value = amount[i].value.replace('₽', '').replace(' руб.', '').replace(/ /g, "").replace(",", ".")
 
-                amount[i].value? amount_sum = parseFloat(amount[i].value): amount_sum = parseFloat(approvalSum[i].value);
+                amount[i].value? amount_sum = parseFloat(amount[i].value): amount_sum = 0;
                 amount_sum > parseFloat(approvalSum[i].value)? amount_sum=parseFloat(approvalSum[i].value) : 0;
                 amount_sum < 0 ? amount_sum = 0 : 0;
 
                 parseFloat(a_m_v) < amount_sum ? amount_sum=a_m_v : 0;
 
-                s_f_a_p = parseFloat(s_f_a_p + amount_sum).toFixed(2);
-                a_m_v = parseFloat(a_m_v - amount_sum).toFixed(2);
+                s_f_a_p = (parseFloat(s_f_a_p) + amount_sum).toFixed(2);
+
+                a_m_v = (parseFloat(a_m_v) - amount_sum).toFixed(2);
             }
         }
         tabColorize(i);

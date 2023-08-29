@@ -97,7 +97,6 @@
                 <td>{{ application.paid_sum_rub }}</td>
                 <td><input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>{{ application.approval_sum_rub}}</td>
                 <td><input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}"
-
                            onchange="saveData({{ loop.index }}, '{{ page }}')" oninput="paymentApprovalRecalcCards()"></td>
                 <td>{{ application.payment_due_date }}</td>
                 <td>
