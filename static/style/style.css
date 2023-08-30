@@ -80,23 +80,16 @@ table {
   font-style: normal;
 }
 @font-face {
+  font-family: "Montserrat";
+  src: url("../font/Montserrat-Black.eot");
+  src: url("../font/Montserrat-Black.eot?#iefix") format("embedded-opentype"), url("../font/Montserrat-Black.woff") format("woff"), url("../font/Montserrat-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
   font-family: "FS Elliot";
   src: local("FS Elliot Regular"), local("FS-Elliot-Regular"), url("../font/FSElliotPro.woff2") format("woff2"), url("../font/FSElliotPro.woff") format("woff"), url("../font/FSElliotPro.ttf") format("truetype");
   font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: "TT Lakes";
-  src: url("../font/TTLakes-Regular.eot");
-  src: url("../font/TTLakes-Regular.eot?#iefix") format("embedded-opentype"), url("../font/TTLakes-Regular.woff") format("woff"), url("../font/TTLakes-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "TT Lakes";
-  src: url("../font/TTLakes-Bold.eot");
-  src: url("../font/TTLakes-Bold.eot?#iefix") format("embedded-opentype"), url("../font/TTLakes-Bold.woff") format("woff"), url("../font/TTLakes-Bold.ttf") format("truetype");
-  font-weight: bold;
   font-style: normal;
 }
 body {
@@ -158,22 +151,6 @@ body table td {
   border-right: solid 2px rgba(255, 255, 255, 0.3411764706);
   font-size: 13px;
   cursor: default;
-}
-body table .th_numb,
-body table .th_numb__i {
-  width: 2%;
-  text-align: center;
-  font-weight: bold;
-}
-body table .th_date,
-body table .th_date__i {
-  max-width: 25%;
-  text-align: center;
-}
-body table .th_sum,
-body table .th_sum_i {
-  width: 25%;
-  text-align: center;
 }
 body #logInfo {
   position: absolute;
@@ -370,7 +347,7 @@ main form {
   width: 550px;
   margin: 20px 0px;
   padding: 0px 20px;
-  border-radius: 12px;
+  border-radius: 5px;
   background-color: #ededed;
   align-self: center;
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
@@ -571,7 +548,7 @@ main form button:enabled {
   margin-bottom: 25px;
   padding: 10px 20px;
   background-color: #ebebeb;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
 #index_main_menu .cards_container__category__name {
@@ -636,29 +613,54 @@ main form button:enabled {
   flex-wrap: wrap;
 }
 .cards-container.cash-inflow #cash_inflow__card {
-  background-color: rgba(10, 10, 10, 0.768627451);
+  width: 189px;
+  padding: 7px 20px;
+  margin: 5px 2px;
   color: #ffffff;
-  width: 165px;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  margin: 10px;
-  font-family: "TT Lakes";
-  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  background-color: #535353;
 }
 .cards-container.cash-inflow #cash_inflow__card .card-title {
-  font-size: 25px;
+  font-size: 32px;
   font-weight: bold;
-  border-bottom: solid 2px rgba(255, 195, 54, 0.2117647059);
+  text-transform: uppercase;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.2117647059);
 }
 .cards-container.cash-inflow #cash_inflow__card .card-cost {
   margin-top: 5px;
   font-size: 15px;
 }
 
+.itc-slider {
+  width: 579px;
+  align-self: center;
+  margin-left: -4px;
+}
+.itc-slider .itc-slider-wrapper .itc-slider-items {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card {
+  max-width: 200px;
+  margin: 0 auto;
+  border-radius: 0px;
+  background-color: #737373;
+  border-left: solid 4px white;
+  box-shadow: none;
+}
+.itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card .card-title {
+  font-size: 18px;
+}
+.itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card .card-cost {
+  font-size: 11px;
+}
+.itc-slider .itc-slider-btn-prev {
+  margin-left: 4px;
+}
+
 #cash_inflow__form {
   display: flex;
   flex-direction: column;
+  border-radius: 5px;
   width: 580px;
   margin: 30px 0px;
 }
@@ -693,11 +695,21 @@ main form button:enabled {
 }
 #inflow_historical_data-table .th_numb,
 #inflow_historical_data-table .th_numb__i {
+  width: 2%;
   padding: 2px 5px;
+  text-align: center;
+  font-weight: bold;
 }
 #inflow_historical_data-table .th_date,
 #inflow_historical_data-table .th_date__i {
   width: 160px;
+  max-width: 25%;
+  text-align: center;
+}
+#inflow_historical_data-table .th_sum,
+#inflow_historical_data-table .th_sum_i {
+  width: 25%;
+  text-align: center;
 }
 #inflow_historical_data-table .th_date__i {
   text-align: left;
@@ -737,6 +749,118 @@ main form button:enabled {
   color: #454545;
 }
 
+#payment-approval-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#payment-approval-cards-container .card {
+  padding: 10px 15px;
+  margin: 10px;
+  max-width: 300px;
+  background-color: #ebebeb;
+  border-radius: 12px;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+#payment-approval-cards-container .card .card-title {
+  border-bottom: solid 1px #d5d5d5;
+  font-weight: bold;
+  font-size: 30px;
+}
+#payment-approval-cards-container .card .card-cost {
+  margin-top: 5px;
+  color: #808080;
+  font-size: 13px;
+}
+
+.exception_table_page main {
+  width: 100%;
+}
+
+#paymentForm3 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0px 0px 30px 0px;
+  align-self: flex-start;
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: none;
+}
+#paymentForm3 button {
+  align-self: center;
+  margin-top: 20px;
+}
+#paymentForm3 table {
+  max-width: 100%;
+  margin-bottom: 15px;
+}
+#paymentForm3 table thead tr th {
+  font-size: 11.3px;
+}
+#paymentForm3 table thead tr .th_save_pay {
+  font-size: 9px;
+}
+#paymentForm3 table tbody tr td {
+  font-size: 11px;
+}
+#paymentForm3 table input,
+#paymentForm3 table select {
+  font-size: 11px;
+}
+#paymentForm3 table input[type=checkbox] {
+  zoom: 2;
+}
+#paymentForm3 table .th_num_row_i,
+#paymentForm3 table .th_select_i,
+#paymentForm3 table .th_company_i,
+#paymentForm3 table .th_responsible_i,
+#paymentForm3 table .th_main_sum_i,
+#paymentForm3 table .th_sum_remain_i,
+#paymentForm3 table .th_pay_date_i,
+#paymentForm3 table .th_date_create_i,
+#paymentForm3 table .th_save_pay_i {
+  text-align: center;
+}
+#paymentForm3 table .th_company_i {
+  min-width: 67px;
+}
+#paymentForm3 table .th_category_i {
+  min-width: 150px;
+}
+#paymentForm3 table .th_num_pay_i {
+  min-width: 108px;
+}
+#paymentForm3 table .th_object_i {
+  min-width: 110px;
+}
+#paymentForm3 table .th_main_sum_i,
+#paymentForm3 table .th_sum_remain_i {
+  min-width: 105px;
+}
+#paymentForm3 table .th_sum_agreed_i {
+  text-align: center;
+}
+#paymentForm3 table .th_sum_agreed_i input {
+  width: 110px;
+}
+#paymentForm3 table .th_pay_date_i {
+  min-width: 84px;
+}
+#paymentForm3 table .th_status_i select {
+  max-width: 135px;
+}
+
+@media (max-width: 720px) {
+  .cards-container.cash-inflow {
+    flex-wrap: nowrap;
+  }
+  .cards-container.cash-inflow #cash_inflow__card {
+    min-width: 189px;
+  }
+  .cards-container.cash-inflow #cash_inflow__card .card-title {
+    font-size: 27px;
+  }
+}
 @media (max-width: 665px) {
   body {
     font-size: 14px;
@@ -867,6 +991,26 @@ main form button:enabled {
   }
   #register_form div {
     margin: 10px 0px 0px 0px;
+  }
+  .cards-container.cash-inflow {
+    flex-wrap: wrap;
+  }
+  .cards-container.cash-inflow #cash_inflow__card {
+    width: 189px;
+  }
+  .cards-container.cash-inflow #cash_inflow__card .card-title {
+    font-size: 30px;
+  }
+  .itc-slider {
+    width: 400px;
+  }
+}
+@media (max-width: 510px) {
+  .cards-container .cash-inflow #cash_inflow__card {
+    width: 196px;
+  }
+  .itc-slider {
+    width: 200px;
   }
 }
 @media (max-width: 390px) {

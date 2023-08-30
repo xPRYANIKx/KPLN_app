@@ -42,7 +42,6 @@ body {
     #payment_sum {
         padding: 5px 2px 5px 8px;
     }
-    /// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     table {
         thead {
             background-color: #4e4f4f;
@@ -67,22 +66,6 @@ body {
             border-right: solid 2px #ffffff57;
             font-size: 13px;
             cursor: default;
-        }
-        .th_numb,
-        .th_numb__i {
-            width: 2%;
-            text-align: center;
-            font-weight: bold;
-        }
-        .th_date,
-        .th_date__i {
-            max-width: 25%;
-            text-align: center;
-        }
-        .th_sum,
-        .th_sum_i {
-            width: 25%;
-            text-align: center;
         }
     }
     /// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -311,7 +294,7 @@ main {
         width: 550px;
         margin: 20px 0px;
         padding: 0px 20px;
-        border-radius: 12px;
+        border-radius: 5px;
         background-color: #ededed;
         align-self: center;
         -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
@@ -525,7 +508,7 @@ main {
         margin-bottom: 25px;
         padding: 10px 20px;
         background-color: #ebebeb;
-        border-radius: 10px;
+        border-radius: 5px;
         -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
         -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
         box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
@@ -592,21 +575,16 @@ main {
 .cards-container.cash-inflow {
     flex-wrap: wrap;
     #cash_inflow__card {
-        background-color: #0a0a0ac4;
+        width: 189px;
+        padding: 7px 20px;
+        margin: 5px 2px;
         color: #ffffff;
-        width: 165px;
-        border: none;
-        border-radius: 8px;
-        padding: 10px 20px;
-        margin: 10px;
-        font-family: "TT Lakes";
-        -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-        -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-        box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        background-color: #535353;
         .card-title {
-            font-size: 25px;
+            font-size: 32px;
             font-weight: bold;
-            border-bottom: solid 2px #ffc33636;
+            text-transform: uppercase;
+            border-bottom: solid 1px #00000036;
         }
         .card-cost {
             margin-top: 5px;
@@ -614,9 +592,38 @@ main {
         }
     }
 }
+.itc-slider {
+    width: 579px;
+    align-self: center;
+    margin-left: -4px;
+    .itc-slider-wrapper {
+        .itc-slider-items {
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            #cash_inflow__card {
+                max-width: 200px;
+                margin: 0 auto;
+                border-radius: 0px;
+                background-color: #737373;
+                border-left: solid 4px white;
+                box-shadow: none;
+                .card-title {
+                    font-size: 18px;
+                }
+                .card-cost {
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+    .itc-slider-btn-prev {
+        margin-left: 4px;
+    }
+}
 #cash_inflow__form {
     display: flex;
     flex-direction: column;
+    border-radius: 5px;
     width: 580px;
     margin: 30px 0px;
     h1 {
@@ -647,13 +654,24 @@ main {
     td {
         padding: 2px 2px 2px 10px;
     }
+
     .th_numb,
     .th_numb__i {
+        width: 2%;
         padding: 2px 5px;
+        text-align: center;
+        font-weight: bold;
     }
     .th_date,
     .th_date__i {
         width: 160px;
+        max-width: 25%;
+        text-align: center;
+    }
+    .th_sum,
+    .th_sum_i {
+        width: 25%;
+        text-align: center;
     }
     .th_date__i {
         text-align: left;
@@ -691,6 +709,119 @@ main {
         }
     }
 }
+#payment-approval-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .card {
+        padding: 10px 15px;
+        margin: 10px;
+        max-width: 300px;
+        background-color: #ebebeb;
+        border-radius: 12px;
+        -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+
+        .card-title {
+            border-bottom: solid 1px #d5d5d5;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .card-cost {
+            margin-top: 5px;
+            color: #808080;
+            font-size: 13px;
+        }
+    }
+}
+.exception_table_page main {
+    width: 100%;
+}
+#paymentForm3 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0px 0px 30px 0px;
+    align-self: flex-start;
+    background-color: #ffffff00;
+    box-shadow: none;
+    button {
+        align-self: center;
+        margin-top: 20px;
+    }
+    table {
+        max-width: 100%;
+        margin-bottom: 15px;
+        thead {
+            tr {
+                th {
+                    font-size: 11.3px;
+                }
+                .th_save_pay {
+                    font-size: 9px;
+                }
+            }
+        }
+        tbody {
+            tr {
+                td {
+                    font-size: 11px;
+                }
+            }
+        }
+        input,
+        select {
+            font-size: 11px;
+        }
+        input[type="checkbox"] {
+            zoom: 2;
+        }
+        .th_num_row_i,
+        .th_select_i,
+        .th_company_i,
+        .th_responsible_i,
+        .th_main_sum_i,
+        .th_sum_remain_i,
+        .th_pay_date_i,
+        .th_date_create_i,
+        .th_save_pay_i {
+            text-align: center;
+        }
+
+        .th_company_i {
+            min-width: 67px;
+        }
+        .th_category_i {
+            min-width: 150px;
+        }
+        .th_num_pay_i {
+            min-width: 108px;
+        }
+        .th_object_i {
+            min-width: 110px;
+        }
+        .th_main_sum_i,
+        .th_sum_remain_i {
+            min-width: 105px;
+        }
+        .th_sum_agreed_i {
+            text-align: center;
+            input {
+                width: 110px;
+            }
+        }
+        .th_pay_date_i {
+            min-width: 84px;
+        }
+        .th_status_i {
+            select {
+                max-width: 135px;
+            }
+        }
+    }
+}
+
 ///____________///
 ///____________///
 ///____________///
@@ -710,6 +841,22 @@ main {
 ///____________///
 ///____________///
 ///////////////////////////////////////////
+@media (max-width: 720px) {
+    .cards-container.cash-inflow {
+        flex-wrap: nowrap;
+        #cash_inflow__card {
+            min-width: 189px;
+            .card-title {
+                font-size: 27px;
+            }
+        }
+    }
+}
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
 @media (max-width: 665px) {
     body {
         font-size: 14px;
@@ -852,7 +999,34 @@ main {
             margin: 10px 0px 0px 0px;
         }
     }
+
+    .cards-container.cash-inflow {
+        flex-wrap: wrap;
+        #cash_inflow__card {
+            width: 189px;
+            .card-title {
+                font-size: 30px;
+            }
+        }
+    }
+    .itc-slider {
+        width: 400px;
+    }
 }
+
+@media (max-width: 510px) {
+    .cards-container {
+        .cash-inflow {
+            #cash_inflow__card {
+                width: 196px;
+            }
+        }
+    }
+    .itc-slider {
+        width: 200px;
+    }
+}
+
 ///____________///
 ///____________///
 ///____________///

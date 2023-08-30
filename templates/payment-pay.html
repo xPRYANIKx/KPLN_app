@@ -1,35 +1,38 @@
 {% extends "layout-main.html" %}
 {% block head %}
-    {{ super() }}
-    {% block scripts %}
-    <script src="static/script/numberWithSpaces.js"></script>
-    <script src="static/script/paymentApprovalSort.js"></script>
-    <script src="static/script/paymentApprovalSaveChanges.js"></script>
-    <script src="static/script/paymentApprovalRecalcCards.js"></script>
-    <script src="static/script/paymentApprovalColorize.js"></script>
-    <style>
-        .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .card {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px;
-            width: 300px;
-        }
-        .card-title {
-            color: black;
-            font-weight: bold;
-            font-size: 250%;
-        }
-        .card-cost {
-            color: grey;
-            font-size: 60%;
-        }
-    </style>
-    {% endblock %}
+{{ super() }}
+{% block scripts %}
+<script src="static/script/numberWithSpaces.js"></script>
+<script src="static/script/paymentApprovalSort.js"></script>
+<script src="static/script/paymentApprovalSaveChanges.js"></script>
+<script src="static/script/paymentApprovalRecalcCards.js"></script>
+<script src="static/script/paymentApprovalColorize.js"></script>
+<style>
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px;
+        width: 300px;
+    }
+
+    .card-title {
+        color: black;
+        font-weight: bold;
+        font-size: 250%;
+    }
+
+    .card-cost {
+        color: grey;
+        font-size: 60%;
+    }
+</style>
+{% endblock %}
 {% endblock %}
 {% block content %}
 
@@ -55,7 +58,7 @@
 
 
 <form id="paymentForm3" action="/payment-pay" method="POST" style="align-self: flex-start">
-    <button type="submit">Submit</button>
+    <button type="submit">Отправить</button>
     <table id="payment-table" name="payment_table" class="display">
         <thead>
             <tr>
@@ -93,20 +96,20 @@
                         onchange="paymentApprovalRecalcCards()">
                 </td>
                 <td data-sort="{{application.contractor_id}}">
-                    <input 
-                        name="contractor_id" 
-                        value="{{application.contractor_id}}" 
-                        hidden 
+                    <input
+                        name="contractor_id"
+                        value="{{application.contractor_id}}"
+                        hidden
                         readonly>
                     {{ application.contractor_name }}
                 </td>
                 <td data-sort="{{application.cost_item_name}}">{{ application.cost_item_name }}</td>
                 <td data-sort="{application.payment_id}}">
-                    <input 
-                        id="paymentNumber-{{ loop.index }}" 
-                        name="payment_number" 
-                        value="{{application.payment_id}}" 
-                        hidden 
+                    <input
+                        id="paymentNumber-{{ loop.index }}"
+                        name="payment_number"
+                        value="{{application.payment_id}}"
+                        hidden
                         readonly>
                     {{application.payment_number}}
                 </td>
