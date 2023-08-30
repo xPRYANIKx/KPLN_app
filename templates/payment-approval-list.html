@@ -1,7 +1,7 @@
 {% extends "layout-main.html" %}
 {% block head %}
-    {{ super() }}
-    {% block scripts %}
+{{ super() }}
+{% block scripts %}
 <!--    <script src="static/script/paymentApprovalSort.js"></script>-->
 
 
@@ -32,29 +32,32 @@
 <!--</script>-->
 
 
-    <style>
-        .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .card {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px;
-            width: 300px;
-        }
-        .card-title {
-            color: black;
-            font-weight: bold;
-            font-size: 250%;
-        }
-        .card-cost {
-            color: grey;
-            font-size: 60%;
-        }
-    </style>
-    {% endblock %}
+<style>
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px;
+        width: 300px;
+    }
+
+    .card-title {
+        color: black;
+        font-weight: bold;
+        font-size: 250%;
+    }
+
+    .card-cost {
+        color: grey;
+        font-size: 60%;
+    }
+</style>
+{% endblock %}
 {% endblock %}
 {% block content %}
 
@@ -73,15 +76,15 @@
 <br>
 <br>
 
-<div class="cards-container">
-    <form action="payment-approval" target="_blank">
-       <button>Согласование</button>
+<div style="margin-left: -180px;" class="cards-container">
+    <form style="background-color: white; box-shadow: none;" action="payment-approval" target="_blank">
+        <button style="width: 200px">Согласование</button>
     </form>
-    <form action="payment-approval-list" target="_blank">
-       <button style="background-color:#4285f4;">Согласованные платежи</button>
+    <form style="background-color: white; box-shadow: none;" action="payment-approval-list" target="_blank">
+        <button style="width: 200px; background-color:#4285f4;">Согласованные платежи</button>
     </form>
-    <form action="payment-paid-list" target="_blank">
-       <button>Оплаченные платежи</button>
+    <form style="background-color: white; box-shadow: none;" action="payment-paid-list" target="_blank">
+        <button style="width: 300px">Оплаченные платежи</button>
     </form>
 </div>
 

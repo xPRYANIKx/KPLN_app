@@ -67,15 +67,16 @@
         </div>
     </div>
 
-    <div class="cards-container">
-        <form action="payment-approval" target="_blank">
-           <button style="background-color:#4285f4;">Согласование</button>
+
+    <div style="margin-left: -180px;" class="cards-container">
+        <form style="background-color: white; box-shadow: none;" action="payment-approval" target="_blank">
+            <button style="width: 200px; background-color:#4285f4;">Согласование</button>
         </form>
-        <form action="payment-approval-list" target="_blank">
-           <button>Согласованные платежи</button>
+        <form style="background-color: white; box-shadow: none;" action="payment-approval-list" target="_blank">
+            <button style="width: 300px">Согласованные платежи</button>
         </form>
-        <form action="payment-paid-list" target="_blank">
-           <button>Оплаченные платежи</button>
+        <form style="background-color: white; box-shadow: none;" action="payment-paid-list" target="_blank">
+            <button style="width: 300px">Оплаченные платежи</button>
         </form>
     </div>
 
@@ -101,23 +102,23 @@
                     <th class="th_status">СТАТУС</th>
                     <th class="th_date_create">ДАТА СОЗДАНИЯ</th>
                     <th class="th_save_pay">СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ</th>
-    <!--                <th onclick="sortTable2()">№</th>-->
-    <!--                <th onclick="sortTable2()">ВЫБОР</th>-->
-    <!--                <th onclick="sortTable2()">СИП/КПЛН</th>-->
-    <!--                <th onclick="sortTable2()">СТАТЬЯ ЗАТРАТ</th>-->
-    <!--                <th onclick="sortTable2()">№ ПЛАТЕЖА</th>-->
-    <!--                <th onclick="sortTable2()">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>-->
-    <!--                <th onclick="sortTable2()">ОПИСАНИЕ</th>-->
-    <!--                <th onclick="sortTable2()">ОБЪЕКТ</th>-->
-    <!--                <th onclick="sortTable2()">ОТВЕТСТВЕННЫЙ</th>-->
-    <!--                <th onclick="sortTable2()">КОНТРАГЕНТ</th>-->
-    <!--                <th onclick="sortTable2()">ОБЩАЯ СУММА</th>-->
-    <!--                <th onclick="sortTable2()">ОСТАТОК К ОПЛАТЕ</th>-->
-    <!--                <th onclick="sortTable2()">СОГЛАСОВАННАЯ СУММА</th>-->
-    <!--                <th onclick="sortTable2()">СРОК ОПЛАТЫ</th>-->
-    <!--                <th onclick="sortTable2()">СТАТУС</th>-->
-    <!--                <th onclick="sortTable2()">ДАТА СОЗДАНИЯ</th>-->
-    <!--                <th onclick="sortTable2()">СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ</th>-->
+                    <!--                <th onclick="sortTable2()">№</th>-->
+                    <!--                <th onclick="sortTable2()">ВЫБОР</th>-->
+                    <!--                <th onclick="sortTable2()">СИП/КПЛН</th>-->
+                    <!--                <th onclick="sortTable2()">СТАТЬЯ ЗАТРАТ</th>-->
+                    <!--                <th onclick="sortTable2()">№ ПЛАТЕЖА</th>-->
+                    <!--                <th onclick="sortTable2()">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>-->
+                    <!--                <th onclick="sortTable2()">ОПИСАНИЕ</th>-->
+                    <!--                <th onclick="sortTable2()">ОБЪЕКТ</th>-->
+                    <!--                <th onclick="sortTable2()">ОТВЕТСТВЕННЫЙ</th>-->
+                    <!--                <th onclick="sortTable2()">КОНТРАГЕНТ</th>-->
+                    <!--                <th onclick="sortTable2()">ОБЩАЯ СУММА</th>-->
+                    <!--                <th onclick="sortTable2()">ОСТАТОК К ОПЛАТЕ</th>-->
+                    <!--                <th onclick="sortTable2()">СОГЛАСОВАННАЯ СУММА</th>-->
+                    <!--                <th onclick="sortTable2()">СРОК ОПЛАТЫ</th>-->
+                    <!--                <th onclick="sortTable2()">СТАТУС</th>-->
+                    <!--                <th onclick="sortTable2()">ДАТА СОЗДАНИЯ</th>-->
+                    <!--                <th onclick="sortTable2()">СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ</th>-->
                 </tr>
             </thead>
             <tbody>
@@ -125,57 +126,37 @@
                 <tr id="row-{{ loop.index }}">
                     <td class="th_num_row_i" data-sort="{{ loop.index }}">{{loop.index}}</td>
                     <td class="th_select_i" data-sort={{ loop.index }}>
-                        <input
-                            type="checkbox"
-                            id="selectedRows-{{ loop.index }}"
-                            name="selectedRows"
-                            value="{{loop.index}}"
+                        <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
                             onchange="paymentApprovalRecalcCards()">
                     </td>
                     <td class="th_company_i" data-sort="{{application.contractor_id}}">{{ application.contractor_name }}</td>
                     <td class="th_category_i" data-sort="{{application.cost_item_name}}">{{ application.cost_item_name }}</td>
                     <td class="th_num_pay_i" data-sort="{application.payment_id}}">
-                        <input
-                            id="paymentNumber-{{ loop.index }}"
-                            name="payment_number"
-                            value="{{application.payment_id}}"
-                            hidden
-                            readonly>
+                        <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>
                         {{application.payment_number}}
                     </td>
-                    <td class="th_name_i" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}">{{ application.basis_of_payment_short }}</td>
-                    <td class="th_discription_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}">{{ application.payment_description_short }}</td>
+                    <td class="th_name_i" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}">{{
+                        application.basis_of_payment_short }}</td>
+                    <td class="th_discription_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}">{{
+                        application.payment_description_short }}</td>
                     <td class="th_object_i" data-sort="{{application.object_name}}">{{ application.object_name }}</td>
                     <td class="th_responsible_i">{{ application.last_name }} {{ application.first_name[0] }}.</td>
                     <td class="th_contractor_i">{{ application.partner }}</td>
                     <td class="th_main_sum_i">{{ application.payment_sum_rub }}</td>
                     <td class="th_sum_remain_i">
-                        <input
-                            id="approvalSum-{{ loop.index }}"
-                            name="approval_sum"
-                            value="{{application.approval_sum}}"
-                            hidden
-                            readonly>
+                        <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>
                         {{ application.approval_sum_rub}}
                     </td>
                     <td class="th_sum_agreed_i">
-                        <input
-                            id="amount-{{ loop.index }}"
-                            name="amount"
-                            value="{{ application.amount_rub }}"
-                            onchange="saveData({{ loop.index }}, '{{ page }}')"
-                            oninput="paymentApprovalRecalcCards()">
+                        <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}"
+                            onchange="saveData({{ loop.index }}, '{{ page }}')" oninput="paymentApprovalRecalcCards()">
                     </td>
                     <td class="th_pay_date_i">{{ application.payment_due_date }}</td>
                     <td class="th_status_i" id="status-{{ loop.index }}">
-                        <select
-                            id="status_id-{{ loop.index }}"
-                            name="status_id"
-                            data-amount="{{ 444 if application.status_id==4 else 33333}}"
+                        <select id="status_id-{{ loop.index }}" name="status_id" data-amount="{{ 444 if application.status_id==4 else 33333}}"
                             onchange="paymentApprovalRecalcCards(), saveData({{ loop.index }}, '{{ page }}')">
                             {% for s in approval_statuses %}
-                            <option
-                                {% if application.status_id==s.payment_agreed_status_id %} selected {% endif %}>
+                            <option {% if application.status_id==s.payment_agreed_status_id %} selected {% endif %}>
                                 {{ s.payment_agreed_status_name }}
                             </option>
                             {% endfor %}
@@ -183,12 +164,8 @@
                     </td>
                     <td class="th_date_create_i">{{ application.payment_at }}</td>
                     <td class="th_save_pay_i">
-                        <input
-                            type="checkbox"
-                            id="paymentFullStatus-{{ loop.index }}"
-                            name="payment_full_agreed_status"
-                            value="{{loop.index}}"
-                            {% if application.payment_full_agreed_status %}checked{% endif %}
+                        <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if
+                            application.payment_full_agreed_status %}checked{% endif %}
                             onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }})">
                     </td>
                 </tr>
