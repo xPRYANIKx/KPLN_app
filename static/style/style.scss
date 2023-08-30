@@ -577,7 +577,7 @@ main {
     #cash_inflow__card {
         width: 189px;
         padding: 7px 20px;
-        margin: 5px 2px;
+        margin: 4px 2px;
         color: #ffffff;
         background-color: #535353;
         .card-title {
@@ -591,6 +591,10 @@ main {
             font-size: 15px;
         }
     }
+}
+
+.cash_inflow__static {
+    margin-top: 10px;
 }
 .itc-slider {
     width: 579px;
@@ -686,25 +690,30 @@ main {
     padding-bottom: 20px;
     table {
         width: 100%;
+        tr {
+            border-left: solid 2px #2a61a5a3;
+            border-bottom: solid 2px #0000000b;
+        }
         .td_cinflow_response_date {
-            font-size: 17.5px;
+            font-size: 19px;
             font-weight: bold;
-            color: #006cbb;
-            text-decoration: underline 2px;
+            padding: 0px 7px 0px 5px;
+            color: #ffffff;
+            background-color: rgb(65 152 255 / 41%);
         }
         .td_cinflow_response_span_sum {
-            font-size: 15.5px;
+            font-size: 17px;
             font-weight: bold;
             &__int {
-                font-size: 15px;
+                font-size: 16px;
             }
         }
         .td_cinflow_response_company {
-            font-size: 15.5px;
+            font-size: 14px;
             font-weight: bold;
         }
         .td_cinflow_response_com {
-            font-size: 14px;
+            font-size: 12px;
             color: #454545;
         }
     }
@@ -821,7 +830,6 @@ main {
         }
     }
 }
-
 ///____________///
 ///____________///
 ///____________///
@@ -846,6 +854,7 @@ main {
         flex-wrap: nowrap;
         #cash_inflow__card {
             min-width: 189px;
+            margin: 2px;
             .card-title {
                 font-size: 27px;
             }
@@ -999,11 +1008,10 @@ main {
             margin: 10px 0px 0px 0px;
         }
     }
-
     .cards-container.cash-inflow {
         flex-wrap: wrap;
         #cash_inflow__card {
-            width: 189px;
+            width: 195px;
             .card-title {
                 font-size: 30px;
             }
@@ -1011,9 +1019,9 @@ main {
     }
     .itc-slider {
         width: 400px;
+        margin-top: 2px;
     }
 }
-
 @media (max-width: 510px) {
     .cards-container {
         .cash-inflow {
@@ -1026,7 +1034,6 @@ main {
         width: 200px;
     }
 }
-
 ///____________///
 ///____________///
 ///____________///
@@ -1106,6 +1113,16 @@ main {
             }
         }
     }
+    #inflow_historical_data-table__response {
+        table {
+            .td_cinflow_response_date {
+                font-size: 17px;
+            }
+            .td_cinflow_response_span_sum {
+                font-size: 16px;
+            }
+        }
+    }
     #index_main_menu {
         .cards_container__category {
             width: 305px;
@@ -1174,7 +1191,6 @@ main {
             font-size: 16px;
         }
     }
-
     #cash_inflow__card {
         width: 100px;
         .card-title {
@@ -1239,7 +1255,6 @@ main {
             font-size: 13.9px;
         }
     }
-
     #cash_inflow__card {
         width: 110px;
         .card-title {
@@ -1249,12 +1264,20 @@ main {
             font-size: 12px;
         }
     }
-
     #cash_inflow__form {
         h1 {
             font-size: 20px;
         }
     }
+
+    #inflow_historical_data-table__response {
+        table {
+            .td_cinflow_response_com {
+                font-size: 11px;
+            }
+        }
+    }
+
     #index_main_menu {
         .cards_container__category {
             width: 240px;
