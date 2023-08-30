@@ -858,36 +858,39 @@ def get_cash_inflow():
 
             # Список балансов компаний
             cursor.execute("""
-            SELECT 
+            SELECT
                 t1.contractor_name,
-                COALESCE(t2.balance_sum, 0) AS balance_sum           
+                COALESCE(t2.balance_sum, 0) AS balance_sum        
             FROM our_companies AS t1
             LEFT JOIN (
-                        SELECT  
+                        SELECT
                             company_id,
                             balance_sum
                         FROM payments_balance
                 ) AS t2 ON t1.contractor_id = t2.company_id
-                LIMIT 3
+            ORDER BY t1.contractor_id
+            LIMIT 3
             """)
             companies_balances = cursor.fetchall()
 
             # Список балансов других компаний
             cursor.execute("""
-            SELECT 
+            SELECT
                 t1.contractor_name,
-                COALESCE(t2.balance_sum, 0) AS balance_sum           
+                COALESCE(t2.balance_sum, 0) AS balance_sum        
             FROM our_companies AS t1
             LEFT JOIN (
-                        SELECT  
+                        SELECT
                             company_id,
                             balance_sum
                         FROM payments_balance
                 ) AS t2 ON t1.contractor_id = t2.company_id
-                OFFSET 3
+            ORDER BY t1.contractor_id
+            OFFSET 3
             """)
             subcompanies_balances = cursor.fetchall()
 
+            print(companies_balances)
             print(subcompanies_balances)
 
             login_app.conn_cursor_close(cursor, conn)

@@ -294,7 +294,7 @@ main {
         width: 550px;
         margin: 20px 0px;
         padding: 0px 20px;
-        border-radius: 12px;
+        border-radius: 5px;
         background-color: #ededed;
         align-self: center;
         -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
@@ -508,7 +508,7 @@ main {
         margin-bottom: 25px;
         padding: 10px 20px;
         background-color: #ebebeb;
-        border-radius: 10px;
+        border-radius: 5px;
         -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
         -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
         box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
@@ -575,20 +575,16 @@ main {
 .cards-container.cash-inflow {
     flex-wrap: wrap;
     #cash_inflow__card {
-        background-color: #0a0a0ac4;
+        width: 189px;
+        padding: 7px 20px;
+        margin: 5px 2px;
         color: #ffffff;
-        width: 165px;
-        border: none;
-        border-radius: 8px;
-        padding: 10px 20px;
-        margin: 10px;
-        -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-        -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-        box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        background-color: #535353;
         .card-title {
-            font-size: 25px;
+            font-size: 32px;
             font-weight: bold;
-            border-bottom: solid 2px #ffc33636;
+            text-transform: uppercase;
+            border-bottom: solid 1px #00000036;
         }
         .card-cost {
             margin-top: 5px;
@@ -596,9 +592,38 @@ main {
         }
     }
 }
+.itc-slider {
+    width: 579px;
+    align-self: center;
+    margin-left: -4px;
+    .itc-slider-wrapper {
+        .itc-slider-items {
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            #cash_inflow__card {
+                max-width: 200px;
+                margin: 0 auto;
+                border-radius: 0px;
+                background-color: #737373;
+                border-left: solid 4px white;
+                box-shadow: none;
+                .card-title {
+                    font-size: 18px;
+                }
+                .card-cost {
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+    .itc-slider-btn-prev {
+        margin-left: 4px;
+    }
+}
 #cash_inflow__form {
     display: flex;
     flex-direction: column;
+    border-radius: 5px;
     width: 580px;
     margin: 30px 0px;
     h1 {
@@ -816,6 +841,22 @@ main {
 ///____________///
 ///____________///
 ///////////////////////////////////////////
+@media (max-width: 720px) {
+    .cards-container.cash-inflow {
+        flex-wrap: nowrap;
+        #cash_inflow__card {
+            min-width: 189px;
+            .card-title {
+                font-size: 27px;
+            }
+        }
+    }
+}
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
 @media (max-width: 665px) {
     body {
         font-size: 14px;
@@ -958,7 +999,34 @@ main {
             margin: 10px 0px 0px 0px;
         }
     }
+
+    .cards-container.cash-inflow {
+        flex-wrap: wrap;
+        #cash_inflow__card {
+            width: 189px;
+            .card-title {
+                font-size: 30px;
+            }
+        }
+    }
+    .itc-slider {
+        width: 400px;
+    }
 }
+
+@media (max-width: 510px) {
+    .cards-container {
+        .cash-inflow {
+            #cash_inflow__card {
+                width: 196px;
+            }
+        }
+    }
+    .itc-slider {
+        width: 200px;
+    }
+}
+
 ///____________///
 ///____________///
 ///____________///
