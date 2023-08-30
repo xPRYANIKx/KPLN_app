@@ -731,7 +731,7 @@ main form button:enabled {
   width: 100%;
 }
 #inflow_historical_data-table__response table tr {
-  border-left: solid 2px rgba(42, 97, 165, 0.6392156863);
+  border-left: solid 2px rgba(87, 86, 86, 0.41);
   border-bottom: solid 2px rgba(0, 0, 0, 0.0431372549);
 }
 #inflow_historical_data-table__response table .td_cinflow_response_date {
@@ -739,7 +739,7 @@ main form button:enabled {
   font-weight: bold;
   padding: 0px 7px 0px 5px;
   color: #ffffff;
-  background-color: rgba(65, 152, 255, 0.41);
+  background-color: rgba(111, 111, 111, 0.41);
 }
 #inflow_historical_data-table__response table .td_cinflow_response_span_sum {
   font-size: 17px;
@@ -1017,7 +1017,7 @@ main form button:enabled {
 }
 @media (max-width: 510px) {
   .cards-container .cash-inflow #cash_inflow__card {
-    width: 196px;
+    width: 198px;
   }
   .itc-slider {
     width: 200px;
