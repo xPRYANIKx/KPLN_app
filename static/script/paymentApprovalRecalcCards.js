@@ -28,7 +28,7 @@ function paymentApprovalRecalcCards() {
                 a_m_v = (parseFloat(a_m_v) - amount_sum).toFixed(2);
             }
         }
-        tabColorize(i);
+        tabColorize(i+1);
     }
 
     if (s_f_a_p == 0) {

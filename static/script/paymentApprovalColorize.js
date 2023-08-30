@@ -33,6 +33,7 @@ function tabColorize(rowId='') {
 
         if (!paymentSelectedRows) {
             document.getElementById('row-' + rowId).style.background="#00000000";
+            document.getElementById('row-' + rowId).style.borderBottom="none";
         }
         else {
             if (statusId) {
@@ -45,9 +46,11 @@ function tabColorize(rowId='') {
                     else {
                         if (paymentFullStatus) {
                             document.getElementById('row-' + rowId).style.background="#61e283";
+                            document.getElementById('row-' + rowId).style.borderBottom="1px solid #00000036";
                         }
                         else if (!paymentFullStatus){
                             document.getElementById('row-' + rowId).style.background="#34a853";
+                            document.getElementById('row-' + rowId).style.borderBottom="solid 1px #00000036";
                         }
                     }
                 }
@@ -64,15 +67,17 @@ function tabColorize(rowId='') {
                 else {
                     if (paymentFullStatus) {
                         document.getElementById('row-' + rowId).style.background="#61e283";
+                        document.getElementById('row-' + rowId).style.borderBottom="1px solid #00000036";
                     }
                     else if (!paymentFullStatus){
                         document.getElementById('row-' + rowId).style.background="#34a853";
+                        document.getElementById('row-' + rowId).style.borderBottom="1px solid #00000036";
                     }
                 }
             }
         }
         if (statusId && statusId === 'Черновик') {
-            document.getElementById('status-' + rowId).style.background="purple"
+            document.getElementById('status-' + rowId).style.background="yellow"
         }
     }
 

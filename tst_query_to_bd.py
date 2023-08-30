@@ -15,7 +15,10 @@ db_port = "5432"
 
 conn = psycopg2.connect(dbname=db_name, user=db_user, password=db_password, host=db_host, port=db_port)
 
-cursor = conn.cursor()
+cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+user_id = 2
+
 
 def get_db_dml_query(action, table, columns, expr_set=None, subquery=";"):
     query = None
@@ -53,13 +56,78 @@ def get_db_dml_query(action, table, columns, expr_set=None, subquery=";"):
     return query
 
 
-columns_a_d = 'payment_id'
-query_a_d = get_db_dml_query(action='DELETE', table='payments_approval', columns=columns_a_d)
-values_a_d = [3, 1, 2]
-execute_values(cursor, query_a_d, (values_a_d,))
+cursor.execute(
+    """SELECT 
+                            DISTINCT t0.payment_id AS payment_id,
+                            t1.payment_number,
+                            t3.contractor_name,
+                            t4.cost_item_name,
+                            SUBSTRING(t1.basis_of_payment, 1,70) AS basis_of_payment_short,
+                            t1.basis_of_payment,  
+                            t5.first_name,
+                            t5.last_name,
+                            SUBSTRING(t1.payment_description, 1,135) AS payment_description_short,
+                            t1.payment_description,  
+                            COALESCE(t6.object_name, '') AS object_name,
+                            t1.partner,
+                            t1.payment_sum,
+                            COALESCE(TRIM(to_char(t1.payment_sum, '999 999 999D99 ₽')), '') AS payment_sum_rub,
+                            t0.approval_sum,
+                            TRIM(to_char(t0.approval_sum, '9 999 999D99 ₽')) AS approval_sum_rub,
+                            t1.payment_due_date,
+                            date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp) AS payment_at,
+                            t8.status_name
+                        FROM payments_approval_history AS t0
+                        LEFT JOIN (
+                            SELECT 
+                                payment_id, 
+                                payment_number, 
+                                basis_of_payment,
+                                payment_description,
+                                partner,
+                                payment_sum,
+                                payment_due_date,
+                                payment_at,
+                                our_companies_id,
+                                cost_item_id,
+                                responsible,
+                                object_id
+                            FROM payments_summary_tab
+                        ) AS t1 ON t0.payment_id = t1.payment_id
+                        LEFT JOIN (
+                            SELECT contractor_id,
+                                contractor_name
+                            FROM our_companies            
+                        ) AS t3 ON t1.our_companies_id = t3.contractor_id
+                        LEFT JOIN (
+                            SELECT cost_item_id,
+                                cost_item_name
+                            FROM payment_cost_items            
+                        ) AS t4 ON t1.cost_item_id = t4.cost_item_id
+                        LEFT JOIN (
+                                SELECT user_id,
+                                    first_name,
+                                    last_name
+                                FROM users
+                        ) AS t5 ON t1.responsible = t5.user_id
+                        LEFT JOIN (
+                                SELECT object_id,
+                                    object_name
+                                FROM objects
+                        ) AS t6 ON t1.object_id = t6.object_id
+                        LEFT JOIN (
+                                SELECT payment_agreed_status_id AS status_id,
+                                    payment_agreed_status_name AS status_name
+                                FROM payment_agreed_statuses
+                        ) AS t8 ON t0.status_id = t8.status_id
 
-conn.commit()
 
+                        ORDER BY t1.payment_due_date;
+                        """
+)
+companies_balance = cursor.fetchall()
+pprint(companies_balance)
+print(len(companies_balance))
 
 cursor.close()
 conn.close()

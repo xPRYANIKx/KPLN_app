@@ -77,7 +77,17 @@
     </div>
 
 </div>
-
+<div class="cards-container">
+    <form action="payment-approval" target="_blank">
+       <button style="background-color:#4285f4;">Согласование</button>
+    </form>
+    <form action="payment-approval-list" target="_blank">
+       <button>Согласованные платежи</button>
+    </form>
+    <form action="payment-paid-list" target="_blank">
+       <button>Оплаченные платежи</button>
+    </form>
+</div>
 
 
 <h1>{{title}}</h1>
@@ -136,7 +146,7 @@
                         value="{{loop.index}}"
                         onchange="paymentApprovalRecalcCards()">
                 </td>
-                <td data-sort="{{application.contractor_name}}">{{ application.contractor_name }}</td>
+                <td data-sort="{{application.contractor_id}}">{{ application.contractor_name }}</td>
                 <td data-sort="{{application.cost_item_name}}">{{ application.cost_item_name }}</td>
                 <td data-sort="{application.payment_id}}">
                     <input
@@ -147,8 +157,8 @@
                         readonly>
                     {{application.payment_number}}
                 </td>
-                <td data-sort="{{application.basis_of_payment}}">{{ application.basis_of_payment }}</td>
-                <td data-sort="{{application.basis_of_payment}}">{{ application.payment_description }}</td>
+                <td data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}">{{ application.basis_of_payment_short }}</td>
+                <td data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}">{{ application.payment_description_short }}</td>
                 <td data-sort="{{application.object_name}}">{{ application.object_name }}</td>
                 <td>{{ application.last_name }} {{ application.first_name[0] }}.</td>
                 <td>{{ application.partner }}</td>
@@ -193,7 +203,7 @@
                         name="payment_full_agreed_status"
                         value="{{loop.index}}"
                         {% if application.payment_full_agreed_status %}checked{% endif %}
-                        onchange="saveData({{ loop.index }}, '{{ page }}')">
+                        onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }})">
                 </td>
             </tr>
             {% endfor %}
