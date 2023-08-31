@@ -76,7 +76,7 @@ body {
         max-width: 275px;
         z-index: 6;
         border: solid 1px #d5d5d547;
-        border-radius: 9px;
+        border-radius: 5px;
         -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.29);
         -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.29);
         box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.29);
@@ -608,7 +608,7 @@ main {
                 max-width: 200px;
                 margin: 0 auto;
                 border-radius: 0px;
-                background-color: #737373;
+                background-color: #9c9c9c;
                 border-left: solid 4px white;
                 box-shadow: none;
                 .card-title {
@@ -643,6 +643,12 @@ main {
     #taker_company_div {
         margin-bottom: 25px;
     }
+    #cash_inflow_sum {
+        min-height: 28px;
+    }
+    .cash_inflow_sum_label {
+        margin-bottom: -5px;
+    }
     textarea {
         min-width: 450px;
     }
@@ -658,13 +664,15 @@ main {
     td {
         padding: 2px 2px 2px 10px;
     }
-
-    .th_numb,
-    .th_numb__i {
-        width: 2%;
-        padding: 2px 5px;
-        text-align: center;
-        font-weight: bold;
+    .inflow_historical_data-table_h1 {
+        background-color: #292929;
+        th {
+            padding: 5px;
+            font-size: 17px;
+        }
+    }
+    .inflow_historical_data-table_h2 {
+        background-color: #656565;
     }
     .th_date,
     .th_date__i {
@@ -683,6 +691,9 @@ main {
     .th_sum {
         width: 150px;
     }
+    .th_coment__company {
+        font-weight: 900;
+    }
 }
 #inflow_historical_data-table__response {
     display: none;
@@ -691,26 +702,31 @@ main {
     table {
         width: 100%;
         tr {
-            border-left: solid 2px rgb(87 86 86 / 41%);
-            border-bottom: solid 2px #0000000b;
+            border-bottom: solid 2px #0000002c;
+        }
+        .inflow_historical_data-table_h1__response {
+            padding: 4px 0px 1px 8px;
+            background-color: #413f3f;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 900;
         }
         .td_cinflow_response_date {
             font-size: 19px;
             font-weight: bold;
-            padding: 0px 7px 0px 5px;
-            color: #ffffff;
-            background-color: rgb(111 111 111 / 41%);
+            text-decoration: underline 2px;
+            text-decoration-color: #8d8d8d;
         }
         .td_cinflow_response_span_sum {
             font-size: 17px;
-            font-weight: bold;
+            font-weight: 900;
             &__int {
                 font-size: 16px;
             }
         }
         .td_cinflow_response_company {
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 900;
         }
         .td_cinflow_response_com {
             font-size: 12px;
@@ -1016,22 +1032,43 @@ main {
                 font-size: 30px;
             }
         }
-    }
-    .itc-slider {
-        width: 400px;
-        margin-top: 2px;
-    }
-}
-@media (max-width: 510px) {
-    .cards-container {
-        .cash-inflow {
-            #cash_inflow__card {
-                width: 198px;
-            }
+        #cash_inflow__card:nth-child(3n) {
+            width: 395px;
         }
     }
     .itc-slider {
-        width: 200px;
+        width: 399px;
+        margin-top: 2px;
+    }
+}
+@media (max-width: 477px) {
+    .cards-container.cash-inflow {
+        #cash_inflow__card {
+            min-width: 250px;
+            .card-title {
+                font-size: 18px;
+            }
+            .card-cost {
+                font-size: 12px;
+            }
+        }
+        #cash_inflow__card:nth-child(3n) {
+            width: 250px;
+        }
+    }
+    .itc-slider {
+        width: 250px;
+        margin-top: 2px;
+        margin-left: 0px;
+        .itc-slider-wrapper {
+            .itc-slider-items #cash_inflow__card {
+                width: 365px;
+                border-left: none;
+            }
+        }
+        .itc-slider-btn-prev {
+            margin-left: 0px;
+        }
     }
 }
 ///____________///
@@ -1104,6 +1141,7 @@ main {
     }
     #cash_inflow__form {
         h1 {
+            margin-bottom: -5px;
             font-size: 25px;
         }
         .right_button {
@@ -1155,6 +1193,18 @@ main {
             }
         }
     }
+    .cards-container.cash-inflow {
+        #cash_inflow__card {
+            width: 257px;
+        }
+        #cash_inflow__card:nth-child(3n) {
+            width: 257px;
+        }
+    }
+    .itc-slider {
+        width: 257px;
+        margin-top: 3px;
+    }
 }
 ///____________///
 ///____________///
@@ -1191,14 +1241,14 @@ main {
             font-size: 16px;
         }
     }
-    #cash_inflow__card {
-        width: 100px;
-        .card-title {
-            font-size: 13px;
+    .cards-container.cash-inflow {
+        #cash_inflow__card {
+            max-width: 210px;
+            min-width: 210px;
         }
-        .card-cost {
-            font-size: 10.3px;
-        }
+    }
+    .itc-slider {
+        width: 210px;
     }
     #index_main_menu {
         .cards_container__category {
@@ -1268,12 +1318,23 @@ main {
         h1 {
             font-size: 20px;
         }
+        .select2-selection__rendered {
+            font-size: 11px;
+        }
+    }
+    #cash_inflow_page {
+        .select2-results {
+            font-size: 10px;
+        }
     }
 
     #inflow_historical_data-table__response {
         table {
             .td_cinflow_response_com {
                 font-size: 11px;
+            }
+            .inflow_historical_data-table_h1__response {
+                font-size: 13px;
             }
         }
     }

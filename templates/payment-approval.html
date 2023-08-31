@@ -90,7 +90,7 @@
                     <th class="th_company">СИП/КПЛН</th>
                     <th class="th_category">СТАТЬЯ ЗАТРАТ</th>
                     <th class="th_num_pay">№ ПЛАТЕЖА</th>
-                    <th class="th_name">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
+                    <th style="display: none;" class="th_name">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
                     <th class="th_discription">ОПИСАНИЕ</th>
                     <th class="th_object">ОБЪЕКТ</th>
                     <th class="th_responsible">ОТВЕТСТВЕННЫЙ</th>
@@ -131,7 +131,7 @@
                     </td>
                     <td class="th_company_i" data-sort="{{application.contractor_id}}">{{ application.contractor_name }}</td>
                     <td class="th_category_i" data-sort="{{application.cost_item_name}}">{{ application.cost_item_name }}</td>
-                    <td class="th_num_pay_i" data-sort="{application.payment_id}}">
+                    <td style="display: none;" class="th_num_pay_i" data-sort="{application.payment_id}}">
                         <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>
                         {{application.payment_number}}
                     </td>

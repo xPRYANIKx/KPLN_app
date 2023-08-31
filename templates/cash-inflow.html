@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="static/style/itc-slider.css">
 
 
-<body>
+<body id="cash_inflow_page">
 
 
     {% endblock %}
@@ -86,7 +86,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div><label for="cash_inflow_sum">Сумма поступления</label>
+                <div><label class="cash_inflow_sum_label" id="cash_inflow_sum" for="cash_inflow_sum">Сумма поступления</label>
                     <input type="text" placeholder="руб." name="cash_inflow_sum" id="cash_inflow_sum" onchange="numberWithSpaces(event, ' руб.')"
                         value="{{not_save_val.get('c_i_s') if not_save_val.get('c_i_s') else '' }}" required oninput="checkFormCashInflow()" />
                 </div>
@@ -118,8 +118,10 @@
 
         <table id="inflow_historical_data-table" name="historical_data" class="display">
             <thead>
-                <tr>
-                    <th class="th_numb">№</th>
+                <tr class="inflow_historical_data-table_h1">
+                    <th colspan="3">ПОСЛЕДНИЕ ПОСТУПЛЕНИЯ ДЕНЕЖНЫХ СРЕДСТВ</th>
+                </tr>
+                <tr class="inflow_historical_data-table_h2">
                     <th class="th_date">ДАТА</th>
                     <th class="th_sum">СУММА</th>
                     <th class="th_coment">КОММЕНТАРИЙ</th>
@@ -128,10 +130,9 @@
             <tbody>
                 {% for data in historical_data %}
                 <tr>
-                    <td class="th_numb__i">{{loop.index}}</td>
                     <td class="th_date__i">{{ data.inflow_at }}</td>
                     <td class="th_sum__i">{{ data.inflow_sum }} ₽</td>
-                    <td class="th_coment__i">{{ data.contractor_name }}: {{ data.inflow_description }}</td>
+                    <td class="th_coment__i"><span class="th_coment__company">{{ data.contractor_name }}:</span> {{ data.inflow_description }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -141,6 +142,9 @@
         <div id="inflow_historical_data-table__response">
             <table>
                 <tbody>
+                    <tr class="inflow_historical_data-table_h1__response">
+                        <td>ИСТОРИЯ ПОСТУПЛЕНИЙ</td>
+                    </tr>
                     {% for data in historical_data %}
                     <tr>
                         <td>
