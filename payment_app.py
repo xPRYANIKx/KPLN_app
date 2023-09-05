@@ -383,7 +383,7 @@ def get_unapproved_payments():
             return render_template(
                 'payment-approval.html', menu=hlink_menu, menu_profile=hlink_profile,
                 applications=all_payments, approval_statuses=approval_statuses, account_money=account_money,
-                available_money=available_money, page=request.path[1:], title='СОГЛАСОВАНИЕ ПЛАТЕЖЕЙ')
+                available_money=available_money, page=request.path[1:], title='Согласование платежей')
     except Exception as e:
         pprint(e)
         return f'get_unapproved_payments ❗❗❗ Ошибка \n---{e}'
@@ -1191,7 +1191,7 @@ def get_unpaid_payments():
             return render_template(
                 'payment-pay.html', menu=hlink_menu, menu_profile=hlink_profile,
                 applications=all_payments, approval_statuses=approval_statuses, account_money=account_money,
-                available_money=available_money, page=request.path[1:], title='ОПЛАТА ПЛАТЕЖЕЙ')
+                available_money=available_money, page=request.path[1:], title='Оплата платежей')
     except Exception as e:
         pprint(e)
         return f'get_unpaid_payments ❗❗❗ Ошибка \n---{e}'

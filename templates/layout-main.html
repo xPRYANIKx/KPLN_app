@@ -4,68 +4,71 @@
 <head>
     {% block head %}
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta meta name="viewport" content="width=device-width, user-scalable=no" />
     <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script src="static/script/removeLogInfo.js"></script>
-    <link rel="stylesheet" href="static/style/select2.min.css">
-    <link rel="stylesheet" href="static/style/style.css">
-
-
-
-    {% block scripts %}{% endblock %}
-
     <title>{{title}}</title>
+
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="static/script/selectSearch2.js" defer></script>
+
+    <script src="static/script/removeLogInfo.js"></script>
+    <script src="static/script/todayYear.js" defer></script>
+    <script src="static/script/menuNav.js" defer></script>
+
+    <link rel="stylesheet" href="static/style/style.css">
     {% endblock %}
 </head>
 
-<body>
-    {% include "flash.html" %}
-    <div class="wrapper">
 
-        <header>
-            <div class="header__pic">
-                <div class="header__pic__menu">
-                    <img src="static/img/menu.png" alt="kpln_menu" id="menuImage">
-                </div>
+
+
+{% include "flash.html" %}
+<div class="wrapper">
+
+
+    <header>
+        <div class="header__pic">
+            <div class="header__pic__menu">
+                <img src="static/img/menu.png" alt="kpln_menu" id="menuImage">
             </div>
-            <div id="header_auth__label">{{menu_profile[0].name[0]}}&nbsp;<a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
-            <div id="menu">
-                <div class="menu_content">
-                    <ul>
-                        <li class="mainmenu_h"><a href="/">Главная страница</a></li>
-                        {% for m in menu %}
-                        <ul>{{m.menu_item}}</ul>
-                        {% for p in m.sub_item %}
-                        <li><a href="{{p.url}}">{{p.name}}</a></li>
-                        {% endfor %}
-                        {% endfor %}
-                    </ul>
-                </div>
+        </div>
+        <div id="header__auth__label">{{menu_profile[0].name[0]}}&nbsp;<a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a></div>
+        <div id="menu">
+            <div class="menu_content">
+                <ul>
+                    <li class="mainmenu_h"><a href="/">Главная страница</a></li>
+                    {% for m in menu %}
+                    <ul>{{m.menu_item}}</ul>
+                    {% for p in m.sub_item %}
+                    <li><a href="{{p.url}}">{{p.name}}</a></li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
             </div>
-        </header>
-        <main>
-            {% block content %}
-            {% endblock %}
-        </main>
+        </div>
+    </header>
 
-        <footer>
-            <div class=" footer_company">
-                <div class="footer_company__href">
-                    <div class="footer_company__href_bitrix24"><a href="https://kpln.bitrix24.ru/">Битрикс24</a></div>
-                    <div class="footer_company__href_moodle"><a href="http://moodle/">Учебный центр</a></div>
-                </div>
-                <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbsp Проектное бюро "Крупный план"</div>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+
+    <footer>
+        <div class=" footer_company">
+            <div class="footer_company__href">
+                <div class="footer_company__href_bitrix24"><a href="https://kpln.bitrix24.ru/">Битрикс24</a></div>
+                <div class="footer_company__href_moodle"><a href="http://moodle/">Учебный центр</a></div>
             </div>
-        </footer>
+            <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbsp Проектное бюро "Крупный план"</div>
+        </div>
+    </footer>
 
-    </div>
 
+</div>
 
-
-    <script src="static/script/todayYear.js"></script>
-    <script src="static/script/menunav.js"></script>
-
-</body>
 </html>

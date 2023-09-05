@@ -1,15 +1,12 @@
 {% extends "layout-error.html" %}
 {% block head %}
-    {{ super() }}
+{{ super() }}
 {% endblock %}
 {% block content %}
-<div class="wrapperError">
-  <div><a href="/">
-      <img src="/static/img/404.gif" alt="Ошибка 404"></a>
-  </div>
-  <div class="wrapperError__text">
-    <p>Страница не найдена.</p>
-    <p>Вернуться на <a href="/">главную</a> страницу.</p>
-  </div>
-</div>
-{% endblock %}
+<body id="error_page">
+  <div class="error_page_wrapper">
+    <div class="wrapperError__info"><a href="/"><img src="/static/img/404.png" alt="Ошибка 404"></a></div>
+    <p class="error_page_name">Страница не найдена :(</p>
+    <p class="error_page_name_main_page">Переход на <a href="/">главную</a> страницу</p>
+    {% endblock %}>
+</body>

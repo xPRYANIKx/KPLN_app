@@ -1,15 +1,14 @@
 {% extends "layout-error.html" %}
 {% block head %}
-    {{ super() }}
+{{ super() }}
 {% endblock %}
 {% block content %}
-  <div class="wrapperError">
-    <div><a href="/">
-      <img src="static/img/403.gif" alt="Ошибка 403"></a>
-    </div>
-    <div class="wrapperError__text">
-      <p>Доступ ограничен.</p>
-      <p>Вернуться на <a href="/">главную</a> страницу.</p>
-    </div>
+<body id="error_page">
+  {% include "flash.html" %}
+  <div class="error_page_wrapper">
+    <div class="wrapperError__info"><a href="/"><img src="/static/img/403.png" alt="Ошибка 404"></a></div>
+    <p class="error_page_name">Доступ ограничен</p>
+    <p class="error_page_name_main_page">Переход на <a href="/">главную</a> страницу</p>
+    {% endblock %}>
   </div>
-{% endblock %}
+</body>

@@ -11,8 +11,8 @@ login_bp = Blueprint('login_app', __name__)
 
 login_manager = LoginManager()
 login_manager.login_view = 'login_app.login'
-login_manager.login_message = ["Не достаточно прав для доступа", '']
-login_manager.login_message_category = "success"
+login_manager.login_message = ["Недостаточно прав для доступа", '']
+login_manager.login_message_category = "error"
 
 
 @login_bp.record_once
@@ -271,7 +271,7 @@ def func_hlink_profile():
     else:
         # Меню профиля
         hlink_profile = {
-            "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"},
+            "name": ["Гостевой доступ", '(Войти)'], "url": "login"},
 
         hlink_menu = [
             {"menu_item": "Платежи", "sub_item":
