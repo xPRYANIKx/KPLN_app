@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     {% block head %}
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta meta name="viewport" content="width=device-width, user-scalable=no" />
     <link rel="shortcut icon" href="static/img/fav.png" type="image/x-icon">
-    <script src="static/script/jquery.min.js"></script>
-    <script src="static/script/removeLogInfo.js"></script>
-    <link rel="stylesheet" href="static/style/select2.min.css">
-    <link rel="stylesheet" href="static/style/style.css">
-
-
     <title>{{title}}</title>
+
+    <script src="static/script/removeLogInfo.js"></script>
+    <script src="static/script/menunav.js" defer></script>
+    <script src="static/script/todayYear.js" defer></script>
+
+    <link rel="stylesheet" href="static/style/style.css">
     {% endblock %}
 </head>
 
-<body>
+
+<body id="login_page">
     {% include "flash.html" %}
     <div class="wrapper">
+
 
         <header>
             <div class="header__pic">
@@ -40,10 +41,13 @@
                 </div>
             </div>
         </header>
+
+
         <main>
             {% block content %}
             {% endblock %}
         </main>
+
 
         <footer>
             <div class=" footer_company">
@@ -55,10 +59,7 @@
             </div>
         </footer>
 
+
     </div>
-
-    <script src="static/script/todayYear.js"></script>
-    <script src="static/script/menunav.js"></script>
-
 </body>
 </html>

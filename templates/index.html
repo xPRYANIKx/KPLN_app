@@ -4,31 +4,24 @@
 {% endblock %}
 {% block content %}
 
-<div id="index_main_menu" class="cards-container">
-    {% for m in menu %}
-    <div class="cards_container__category">
-        <div class="cards_container__category__name">{{m.menu_item}}</div>
-        {% for p in m.sub_item %}
-        <a href="{{p.url}}">
-            <div class="card">
-                <div class="card__pic"><img src="{{p.img}}" alt="{{p.name}}" title="{{p.name}}"></div>
-                <div class="card__name"> {{ p.name }}</div>
-            </div>
-        </a>
+
+<body id="main_page_page">
+    <div id="index_main_menu" class="cards-container">
+        {% for m in menu %}
+        <div class="cards_container__category">
+            <div class="cards_container__category__name">{{m.menu_item}}</div>
+            {% for p in m.sub_item %}
+            <a href="{{p.url}}">
+                <div class="card">
+                    <div class="card__pic"><img src="{{p.img}}" alt="{{p.name}}" title="{{p.name}}"></div>
+                    <div class="card__name"> {{ p.name }}</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
         {% endfor %}
     </div>
-    {% endfor %}
-</div>
 
-{% endblock %}
+    {% endblock %}
 
-
-
-<div class="Это вообще все объекты в ГМ (или объекты, которые можно разбить на другие объекты для позиционирования)">
-    <div class="Это категории меню, т.е. платежи, администрирование и т.д">
-        <div class="Это пункт категории добавить поступление, новый платёж и т.д">
-            <div class="Это иконка пункта меню"></div>
-            <div class="Это ссылка на страницу"></div>
-        </div>
-    </div>
-</div>
+</body>

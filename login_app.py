@@ -284,7 +284,7 @@ def func_hlink_profile():
     else:
         # Меню профиля
         hlink_profile = {
-            "name": ["Вы используете гостевой доступ", '(Войти)'], "url": "login"},
+            "name": ["Гостевой доступ", '(Войти)'], "url": "login"},
 
         hlink_menu = [
             {"menu_item": "Платежи", "sub_item":

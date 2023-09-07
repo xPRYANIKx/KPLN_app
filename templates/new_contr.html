@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>{{title}}</title>
 </head>
-
 <body>
     <h1>Добавить новый договор</h1>
-
     {% for p in menu %}
     <li><a href="{{p.url}}">{{p.name}}</a></li>
     {% endfor %}
-
     <br>
     {% for cat, msg in get_flashed_messages(True) %}
     <div class="flash {{cat}}">{{msg}}</div>
     {% endfor %}
     <br>
 </body>
-
 </html>

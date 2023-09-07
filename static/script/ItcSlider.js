@@ -1,12 +1,3 @@
-/**
- * @class ItcSlider
- * @version 1.0.1
- * @author https://github.com/itchief
- * @copyright Alexander Maltsev 2020 - 2023
- * @license MIT (https://github.com/itchief/ui-components/blob/master/LICENSE)
- * @tutorial https://itchief.ru/javascript/slider
- */
-
 class ItcSlider {
   static #EL_WRAPPER = 'wrapper';
   static #EL_ITEMS = 'items';
