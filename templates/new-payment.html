@@ -1,12 +1,12 @@
 {% extends "layout-main.html" %}
 {% block head %}
 {{ super() }}
-{% block scripts %}
+
 <script src="static/script/checkFormNewPayment.js"></script>
 <script src="static/script/select2.min.js"></script>
 <script src="static/script/selectSearchNewPayment.js"></script>
 <script src="static/script/numberWithSpaces.js"></script>
-{% endblock %}
+
 {% endblock %}
 {% block content %}
 <form id="new_payment" method="POST" action="/new-payment">

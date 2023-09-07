@@ -1,7 +1,7 @@
 {% extends "layout-main.html" %}
 {% block head %}
 {{ super() }}
-{% block scripts %}
+
 <!--    <script src="static/script/paymentApprovalSort.js"></script>-->
 
 
@@ -57,7 +57,7 @@
         font-size: 60%;
     }
 </style>
-{% endblock %}
+
 {% endblock %}
 {% block content %}
 
@@ -74,13 +74,13 @@
 
 
 <div style="margin-left: -180px;" class="cards-container">
-    <form style="background-color: white; box-shadow: none;" action="payment-approval" target="_blank">
+    <form style="background-color: white; box-shadow: none;" action="payment-approval">
         <button style="width: 200px">Согласование</button>
     </form>
-    <form style="background-color: white; box-shadow: none;" action="payment-approval-list" target="_blank">
+    <form style="background-color: white; box-shadow: none;" action="payment-approval-list">
         <button style="width: 300px">Согласованные платежи</button>
     </form>
-    <form style="background-color: white; box-shadow: none;" action="payment-paid-list" target="_blank">
+    <form style="background-color: white; box-shadow: none;" action="payment-paid-list">
         <button style="width: 300px; background-color:#4285f4;">Оплаченные платежи</button>
     </form>
 </div>

@@ -32,8 +32,9 @@ function tabColorize(rowId='') {
         }
 
         if (!paymentSelectedRows) {
-            document.getElementById('row-' + rowId).style.background="#00000000";
             document.getElementById('row-' + rowId).style.borderBottom="none";
+            rowId%2? document.getElementById('row-' + rowId).style.background="#eaedec" : document.getElementById('row-' + rowId).style.background="#d7d5d5";
+
         }
         else {
             if (statusId) {

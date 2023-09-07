@@ -45,6 +45,15 @@ class FDataBase:
         return True
 
     def get_user(self, user_id):
+
+        # self.__cur.execute(f"SELECT * FROM users WHERE user_id = {user_id} LIMIT 1")
+        # res = self.__cur.fetchone()
+        # if not res:
+        #     flash(message=['Пользователь не найден', ''], category='error')
+        #     return False
+        #
+        # return res
+
         try:
             self.__cur.execute(f"SELECT * FROM users WHERE user_id = {user_id} LIMIT 1")
             res = self.__cur.fetchone()
@@ -54,9 +63,9 @@ class FDataBase:
 
             return res
         except Exception as e:
-            flash(message=['Ошибка получения данных из БД', str(e)], category='error')
+            flash(message=['Ошибка получения данных из БД 111', str(e)], category='error')
 
-        return False
+        # return False
 
     # def get_name(self):
     #     try:

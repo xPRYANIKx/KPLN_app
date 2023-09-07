@@ -11,8 +11,8 @@ login_bp = Blueprint('login_app', __name__)
 
 login_manager = LoginManager()
 login_manager.login_view = 'login_app.login'
-login_manager.login_message = ["Не достаточно прав для доступа", '']
-login_manager.login_message_category = "success"
+login_manager.login_message = ["Недостаточно прав для доступа", '']
+login_manager.login_message_category = "error"
 
 
 @login_bp.record_once
@@ -57,6 +57,7 @@ def conn_init():
 # Закрытие соединения
 def conn_cursor_close(cursor, conn):
     try:
+        print('   conn_cursor_close')
         g.cursor.close()
         g.conn.close()
     except Exception as e:
@@ -66,14 +67,24 @@ def conn_cursor_close(cursor, conn):
 @login_manager.user_loader
 def load_user(user_id):
     try:
+        conn = conn_init()
+        # dbase = FDataBase(conn)
+        # conn.close()
+        print('user_loader')
+        print(user_id)
+        print(dbase)
+
+
         return UserLogin().from_db(user_id, dbase)
     except Exception as e:
+        print('@login_manager.user_loader', e)
         return None
 
 
 @login_bp.before_request
 def before_request():
     try:
+        print('before_request')
         # Установление соединения с БД перед выполнением запроса
         global dbase
         conn = conn_init()
@@ -227,6 +238,8 @@ def register():
 def func_hlink_profile():
     # try:
     global hlink_menu, hlink_profile
+
+    print('   func_hlink_profile')
 
     if current_user.is_authenticated:
         # Меню профиля
