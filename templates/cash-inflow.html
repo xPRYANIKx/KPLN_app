@@ -54,7 +54,7 @@
     <form id="cash_inflow__form" method="POST" action="/cash-inflow">
         <h1><img src="static/img/h1/cash_inflow.png"> {{title}}</h1>
         <div class="input_div">
-            <div><label for="our_company" id="our_company_label">Компания</label>
+            <div><label for="our_company" id="our_company_label">Компания:</label>
                 <select class="selectSearch2" name="our_company" id="our_company" required onchange="checkFormCashInflow()">
                     {% if not_save_val.get('o_c') %}
                     <option value="{{ not_save_val.get('o_c')[0] }}-@@@-{{ not_save_val.get('o_c')[1] }}">{{ not_save_val.get('o_c')[1] }}</option>
@@ -66,7 +66,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div><label for="inflow_type">Тип поступления</label>
+            <div><label for="inflow_type">Тип поступления:</label>
                 <select class="selectSearch2" name="inflow_type" id="inflow_type" required onchange="checkFormCashInflow()">
                     {% if not_save_val.get('i_t') %}
                     <option value="{{ not_save_val.get('i_t')[0] }}-@@@-{{ not_save_val.get('i_t')[1] }}">{{ not_save_val.get('i_t')[1] }}</option>
@@ -77,12 +77,13 @@
                     {% endfor %}
                 </select>
             </div>
-            <div><label class="cash_inflow_sum_label" id="cash_inflow_sum" for="cash_inflow_sum">Сумма поступления</label>
-                <input type="text" placeholder="руб." name="cash_inflow_sum" id="cash_inflow_sum" onchange="numberWithSpaces(event, ' руб.')"
-                    value="{{not_save_val.get('c_i_s') if not_save_val.get('c_i_s') else '' }}" required oninput="checkFormCashInflow()" />
+            <div><label class="cash_inflow_sum_label" for="cash_inflow_sum">Сумма поступления:</label>
+                <input class="money_input" type="text" placeholder="руб." name="cash_inflow_sum" id="cash_inflow_sum"
+                    onchange="numberWithSpaces(event, ' руб.')" value="{{not_save_val.get('c_i_s') if not_save_val.get('c_i_s') else '' }}" required
+                    oninput="checkFormCashInflow()" />
             </div>
             <div class="hidden_label" id="taker_company_div">
-                <label for="taker_company" id="taker_company_label">Куда переводим</label>
+                <label for="taker_company" id="taker_company_label">Куда переводим:</label>
                 <select class="selectSearch2" name="taker_company" id="taker_company" required onchange="checkFormCashInflow()">
                     {% if not_save_val.get('t_c') %}
                     <option value="{{ not_save_val.get('t_c')[0] }}-@@@-{{ not_save_val.get('t_c')[1] }}">{{ not_save_val.get('t_c')[1] }}</option>
@@ -95,7 +96,7 @@
                 </select>
             </div>
             <div class="hidden_label" id="cash_inflow_description_div">
-                <p><label for="cash_inflow_description">Комментарий</label>
+                <p><label for="cash_inflow_description">Комментарий:</label>
                     <textarea name="cash_inflow_description" id="cash_inflow_description" rows="2" placeholder="Добавьте описание" required
                         oninput="checkFormCashInflow()">{{ not_save_val.get('i_d') if not_save_val.get('i_d') }}</textarea>
                 </p>
@@ -105,71 +106,6 @@
             </div>
         </div>
     </form>
-
-
-
-
-
-
-    <form id="cash_inflow__form_response" method="POST" action="/cash-inflow">
-        <h1>{{title}}</h1>
-        <div class="input_div">
-            <div><label for="our_company" id="our_company_label">Компания</label>
-                <select name="our_company" id="our_company" required onchange="checkFormCashInflow()">
-                    {% if not_save_val.get('o_c') %}
-                    <option value="{{ not_save_val.get('o_c')[0] }}-@@@-{{ not_save_val.get('o_c')[1] }}">{{ not_save_val.get('o_c')[1] }}</option>
-                    {% else %}
-                    <option value="" disabled selected hidden>Выберите компанию</option>
-                    {% endif %}
-                    {% for our_company in our_companies %}
-                    <option value="{{ our_company[0] }}-@@@-{{ our_company[1] }}">{{ our_company[1] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div><label for="inflow_type">Тип поступления</label>
-                <select name="inflow_type" id="inflow_type" required onchange="checkFormCashInflow()">
-                    {% if not_save_val.get('i_t') %}
-                    <option value="{{ not_save_val.get('i_t')[0] }}-@@@-{{ not_save_val.get('i_t')[1] }}">{{ not_save_val.get('i_t')[1] }}</option>
-                    {% else %}
-                    {% endif %}
-                    {% for inflow_type in inflow_types %}
-                    <option value="{{ inflow_type[0] }}-@@@-{{ inflow_type[1] }}">{{ inflow_type[1] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div><label class="cash_inflow_sum_label" id="cash_inflow_sum" for="cash_inflow_sum">Сумма поступления</label>
-                <input type="text" placeholder="руб." name="cash_inflow_sum" id="cash_inflow_sum" onchange="numberWithSpaces(event, ' руб.')"
-                    value="{{not_save_val.get('c_i_s') if not_save_val.get('c_i_s') else '' }}" required oninput="checkFormCashInflow()" />
-            </div>
-            <div class="hidden_label" id="taker_company_div">
-                <label for="taker_company" id="taker_company_label">Куда переводим</label>
-                <select name="taker_company" id="taker_company" required onchange="checkFormCashInflow()">
-                    {% if not_save_val.get('t_c') %}
-                    <option value="{{ not_save_val.get('t_c')[0] }}-@@@-{{ not_save_val.get('t_c')[1] }}">{{ not_save_val.get('t_c')[1] }}</option>
-                    {% else %}
-                    <option value="" disabled selected hidden>Выберите компанию</option>
-                    {% endif %}
-                    {% for our_company in our_companies %}
-                    <option value="{{ our_company[0] }}-@@@-{{ our_company[1] }}">{{ our_company[1] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="hidden_label" id="cash_inflow_description_div">
-                <p><label for="cash_inflow_description">Комментарий</label>
-                    <textarea name="cash_inflow_description" id="cash_inflow_description" rows="2" placeholder="Добавьте описание" required
-                        oninput="checkFormCashInflow()">{{ not_save_val.get('i_d') if not_save_val.get('i_d') }}</textarea>
-                </p>
-            </div>
-            <div class="right_button">
-                <button type="submit" id="submitBtn" onclick="window['logInfo'].showModal();" disabled>Сохранить</button>
-            </div>
-        </div>
-    </form>
-
-
-
-
-
     <table id="inflow_historical_data-table" name="historical_data" class="display">
         <thead>
             <tr class="inflow_historical_data-table_h1">

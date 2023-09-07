@@ -98,6 +98,29 @@ body {
             cursor: default;
         }
     }
+    select {
+        width: 100%;
+        -webkit-appearance: none;
+        background-image: url("../img/select.png");
+        background-size: 3%;
+        background-position: 98% center;
+        background-repeat: no-repeat;
+        line-height: 1em;
+        /* for FF */
+        -moz-appearance: none;
+        text-indent: 0.01px;
+        text-overflow: "";
+        /* for IE */
+        -ms-appearance: none;
+        appearance: none !important;
+        background-color: #ffffff;
+        option {
+            font-family: "Montserrat";
+        }
+    }
+    select ::-ms-expand {
+        display: none;
+    }
     .select2-selection__rendered,
     .select2-results__option--selectable {
         font-size: 13px;
@@ -105,6 +128,12 @@ body {
     }
     .select2-results__option--disabled {
         display: none;
+    }
+    .select2-results__option--selectable {
+        border-top: solid 1px #8080802d;
+    }
+    .select2-results__options {
+        font-size: 13px;
     }
 }
 .wrapper {
@@ -564,6 +593,13 @@ main {
 /// СТРАНИЦА ПОСТУПЛЕНИЕ ДЕНЕЖНЫХ СРЕДСТВ
 /////////////////////////////////////////////////////////////////
 #cash_inflow_page {
+    .money_input {
+        padding-left: 9px;
+        &::placeholder {
+            font-size: 12.5px;
+        }
+    }
+
     .cards-container.cash-inflow {
         flex-wrap: wrap;
         #cash_inflow__card {
@@ -574,7 +610,7 @@ main {
             background-color: #535353;
             .card-title {
                 font-size: 32px;
-                font-weight: bold;
+                font-weight: 900;
                 text-transform: uppercase;
                 border-bottom: solid 1px #00000036;
             }
@@ -621,15 +657,25 @@ main {
         border-radius: 5px;
         width: 580px;
         margin: 30px 0px;
+        label {
+            font-size: 15px;
+            margin-top: 2px;
+        }
         h1 {
-            margin: 25px 0 10px 0px;
-            font-size: 28px;
+            margin: 25px 0px 0px 0px;
+            font-size: 26px;
+            padding-bottom: 8px;
+            border-bottom: solid 2px rgba(173, 173, 173, 0.24);
+        }
+        select:after {
+            padding-right: 50px;
         }
         .input_div {
             flex-direction: column;
-        }
-        #taker_company_div {
-            margin-bottom: 25px;
+            padding: 0px 18px;
+            #taker_company_div {
+                display: none;
+            }
         }
         #cash_inflow_sum {
             min-height: 28px;
@@ -637,18 +683,21 @@ main {
         .cash_inflow_sum_label {
             margin-bottom: -5px;
         }
+
+        .select2-selection--single {
+            width: 320px;
+        }
+
         textarea {
             min-width: 450px;
+            margin-top: 4px;
         }
         #cash_inflow_description_div {
-            margin-bottom: 20px;
+            margin-bottom: -2px;
         }
         .right_button {
             align-self: end;
         }
-    }
-    #cash_inflow__form_response {
-        display: none;
     }
     #inflow_historical_data-table {
         max-width: 755px;
@@ -689,6 +738,7 @@ main {
             font-weight: 900;
         }
     }
+
     #inflow_historical_data-table__response {
         display: none;
         margin: 0 auto;
@@ -702,8 +752,10 @@ main {
                 padding: 4px 0px 1px 8px;
                 background-color: #413f3f;
                 color: #ffffff;
-                font-size: 16px;
                 font-weight: 900;
+                td {
+                    font-size: 17px;
+                }
             }
             .td_cinflow_response_date {
                 font-size: 19px;
@@ -730,7 +782,7 @@ main {
     }
 }
 /////////////////////////////////////////////////////////////////
-/// СТРАНИЦА ПОСТУПЛЕНИЕ ДЕНЕЖНЫХ СРЕДСТВ
+/// СТРАНИЦА ЗАЯВКИ НА ОПЛАТУ
 /////////////////////////////////////////////////////////////////
 #new-payment_page {
     h1 {
@@ -937,6 +989,54 @@ main {
     main {
         width: 100%;
     }
+    #cash_inflow_page {
+        .cards-container.cash-inflow {
+            #cash_inflow__card {
+                width: 126px;
+                .card-title {
+                    font-size: 19px;
+                    font-weight: 900;
+                }
+                .card-cost {
+                    font-size: 12px;
+                }
+            }
+        }
+        .itc-slider {
+            width: 390px;
+        }
+        #cash_inflow__form {
+            width: 520px;
+            flex-direction: column;
+            .input_div {
+                div {
+                    flex-direction: column;
+                }
+            }
+        }
+
+        #inflow_historical_data-table {
+            display: none;
+        }
+        #inflow_historical_data-table__response {
+            display: flex;
+        }
+    }
+}
+///____________///
+///____________///
+///____________///
+///____________///
+///____________///
+@media (max-width: 570px) {
+    #cash_inflow_page {
+        #cash_inflow__form__response {
+            width: 420px;
+            h1 {
+                font-size: 22px;
+            }
+        }
+    }
 }
 ///____________///
 ///____________///
@@ -1038,6 +1138,41 @@ main {
             }
         }
     }
+
+    #cash_inflow_page {
+        .cards-container.cash-inflow {
+            #cash_inflow__card {
+                width: 267px;
+                margin: 2px 2px;
+                padding: 2px 12px;
+                .card-title {
+                    font-size: 14px;
+                }
+            }
+        }
+        .itc-slider {
+            width: 267px;
+            margin-top: 2px;
+            margin-left: 0px;
+            .itc-slider-wrapper {
+                .itc-slider-items {
+                    #cash_inflow__card {
+                        max-width: 270px;
+                        border-left: none;
+                        .card-title {
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+            .itc-slider-btn {
+                height: 48px;
+            }
+            .itc-slider-btn-prev {
+                margin-left: 0px;
+            }
+        }
+    }
 }
 ///____________///
 ///____________///
@@ -1103,6 +1238,24 @@ main {
             }
         }
     }
+
+    #cash_inflow_page {
+        .cards-container.cash-inflow {
+            #cash_inflow__card {
+                width: 220px;
+            }
+        }
+        .itc-slider {
+            width: 220px;
+            .itc-slider-wrapper {
+                .itc-slider-items {
+                    #cash_inflow__card {
+                        max-width: 220px;
+                    }
+                }
+            }
+        }
+    }
 }
 ///____________///
 ///____________///
@@ -1157,6 +1310,24 @@ main {
         #index_main_menu {
             .cards_container__category {
                 width: 240px;
+            }
+        }
+    }
+
+    #cash_inflow_page {
+        .cards-container.cash-inflow {
+            #cash_inflow__card {
+                width: 190px;
+            }
+        }
+        .itc-slider {
+            width: 190px;
+            .itc-slider-wrapper {
+                .itc-slider-items {
+                    #cash_inflow__card {
+                        max-width: 190px;
+                    }
+                }
             }
         }
     }

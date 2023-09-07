@@ -260,6 +260,28 @@ body table td {
   font-size: 13px;
   cursor: default;
 }
+body select {
+  width: 100%;
+  -webkit-appearance: none;
+  background-image: url("../img/select.png");
+  background-size: 3%;
+  background-position: 98% center;
+  background-repeat: no-repeat;
+  line-height: 1em;
+  /* for FF */
+  -moz-appearance: none;
+  text-indent: 0.01px;
+  text-overflow: "";
+  /* for IE */
+  appearance: none !important;
+  background-color: #ffffff;
+}
+body select option {
+  font-family: "Montserrat";
+}
+body select ::-ms-expand {
+  display: none;
+}
 body .select2-selection__rendered,
 body .select2-results__option--selectable {
   font-size: 13px;
@@ -267,6 +289,12 @@ body .select2-results__option--selectable {
 }
 body .select2-results__option--disabled {
   display: none;
+}
+body .select2-results__option--selectable {
+  border-top: solid 1px rgba(128, 128, 128, 0.1764705882);
+}
+body .select2-results__options {
+  font-size: 13px;
 }
 
 .wrapper {
@@ -672,6 +700,15 @@ main form button:enabled {
   background-color: rgba(178, 193, 203, 0.5019607843);
 }
 
+#cash_inflow_page .money_input {
+  padding-left: 9px;
+}
+#cash_inflow_page .money_input::-moz-placeholder {
+  font-size: 12.5px;
+}
+#cash_inflow_page .money_input::placeholder {
+  font-size: 12.5px;
+}
 #cash_inflow_page .cards-container.cash-inflow {
   flex-wrap: wrap;
 }
@@ -684,7 +721,7 @@ main form button:enabled {
 }
 #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card .card-title {
   font-size: 32px;
-  font-weight: bold;
+  font-weight: 900;
   text-transform: uppercase;
   border-bottom: solid 1px rgba(0, 0, 0, 0.2117647059);
 }
@@ -728,15 +765,25 @@ main form button:enabled {
   width: 580px;
   margin: 30px 0px;
 }
+#cash_inflow_page #cash_inflow__form label {
+  font-size: 15px;
+  margin-top: 2px;
+}
 #cash_inflow_page #cash_inflow__form h1 {
-  margin: 25px 0 10px 0px;
-  font-size: 28px;
+  margin: 25px 0px 0px 0px;
+  font-size: 26px;
+  padding-bottom: 8px;
+  border-bottom: solid 2px rgba(173, 173, 173, 0.24);
+}
+#cash_inflow_page #cash_inflow__form select:after {
+  padding-right: 50px;
 }
 #cash_inflow_page #cash_inflow__form .input_div {
   flex-direction: column;
+  padding: 0px 18px;
 }
-#cash_inflow_page #cash_inflow__form #taker_company_div {
-  margin-bottom: 25px;
+#cash_inflow_page #cash_inflow__form .input_div #taker_company_div {
+  display: none;
 }
 #cash_inflow_page #cash_inflow__form #cash_inflow_sum {
   min-height: 28px;
@@ -744,17 +791,18 @@ main form button:enabled {
 #cash_inflow_page #cash_inflow__form .cash_inflow_sum_label {
   margin-bottom: -5px;
 }
+#cash_inflow_page #cash_inflow__form .select2-selection--single {
+  width: 320px;
+}
 #cash_inflow_page #cash_inflow__form textarea {
   min-width: 450px;
+  margin-top: 4px;
 }
 #cash_inflow_page #cash_inflow__form #cash_inflow_description_div {
-  margin-bottom: 20px;
+  margin-bottom: -2px;
 }
 #cash_inflow_page #cash_inflow__form .right_button {
   align-self: end;
-}
-#cash_inflow_page #cash_inflow__form_response {
-  display: none;
 }
 #cash_inflow_page #inflow_historical_data-table {
   max-width: 755px;
@@ -810,8 +858,10 @@ main form button:enabled {
   padding: 4px 0px 1px 8px;
   background-color: #413f3f;
   color: #ffffff;
-  font-size: 16px;
   font-weight: 900;
+}
+#cash_inflow_page #inflow_historical_data-table__response table .inflow_historical_data-table_h1__response td {
+  font-size: 17px;
 }
 #cash_inflow_page #inflow_historical_data-table__response table .td_cinflow_response_date {
   font-size: 19px;
@@ -981,6 +1031,40 @@ main form button:enabled {
   main {
     width: 100%;
   }
+  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card {
+    width: 126px;
+  }
+  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card .card-title {
+    font-size: 19px;
+    font-weight: 900;
+  }
+  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card .card-cost {
+    font-size: 12px;
+  }
+  #cash_inflow_page .itc-slider {
+    width: 390px;
+  }
+  #cash_inflow_page #cash_inflow__form {
+    width: 520px;
+    flex-direction: column;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div div {
+    flex-direction: column;
+  }
+  #cash_inflow_page #inflow_historical_data-table {
+    display: none;
+  }
+  #cash_inflow_page #inflow_historical_data-table__response {
+    display: flex;
+  }
+}
+@media (max-width: 570px) {
+  #cash_inflow_page #cash_inflow__form__response {
+    width: 420px;
+  }
+  #cash_inflow_page #cash_inflow__form__response h1 {
+    font-size: 22px;
+  }
 }
 @media (max-width: 470px) {
   header .header__pic__menu img {
@@ -1056,6 +1140,32 @@ main form button:enabled {
   #main_page_page #index_main_menu .cards_container__category .card__name {
     font-size: 14px;
   }
+  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card {
+    width: 267px;
+    margin: 2px 2px;
+    padding: 2px 12px;
+  }
+  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card .card-title {
+    font-size: 14px;
+  }
+  #cash_inflow_page .itc-slider {
+    width: 267px;
+    margin-top: 2px;
+    margin-left: 0px;
+  }
+  #cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card {
+    max-width: 270px;
+    border-left: none;
+  }
+  #cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card .card-title {
+    font-size: 14px;
+  }
+  #cash_inflow_page .itc-slider .itc-slider-btn {
+    height: 48px;
+  }
+  #cash_inflow_page .itc-slider .itc-slider-btn-prev {
+    margin-left: 0px;
+  }
 }
 @media (max-width: 350px) {
   header #header__auth__label {
@@ -1098,6 +1208,15 @@ main form button:enabled {
   #main_page_page #index_main_menu .cards_container__category .card__name {
     font-size: 13.5px;
   }
+  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card {
+    width: 220px;
+  }
+  #cash_inflow_page .itc-slider {
+    width: 220px;
+  }
+  #cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card {
+    max-width: 220px;
+  }
 }
 @media (max-width: 310px) {
   header #header__auth__label {
@@ -1132,5 +1251,14 @@ main form button:enabled {
   }
   #main_page_page #index_main_menu .cards_container__category {
     width: 240px;
+  }
+  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card {
+    width: 190px;
+  }
+  #cash_inflow_page .itc-slider {
+    width: 190px;
+  }
+  #cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card {
+    max-width: 190px;
   }
 }/*# sourceMappingURL=style.css.map */
