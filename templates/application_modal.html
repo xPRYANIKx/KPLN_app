@@ -1,22 +1,67 @@
-<h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p>
-<h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p>
-<h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p>
-<h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p>
-<h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p><h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p><h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p><h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p><h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p><h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p>
-<h1>Modal Window Content</h1>
-<p>This is the content of the modal window.</p>
+<dialog class="window" id="testwind">
+    <form id="new_payment" method="POST" action="/new-payment2">
+        <img src="static/img/h1/new-payment.png"><h1 id="tst_el2" ></h1>
+        <p><label for="basis_of_payment">Наименование платежа *</label>
+            <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required>
 
+            </textarea>
+        <p class="form_description">* Аванс по договору № с субподрядчиком (наименование субподрядчика в контрагенты) или
+            оплата по акту по договору</p>
+        </p>
+        <div><label for="responsible">Ответственный *</label>
+            <select class="selectSearch2" name="responsible" id="responsible" required>
+                <option>-</option>
+            </select>
+        </div>
+        <div class="unitedform">
+            <div><label for="cost_items">Тип заявки *</label>
+                <select class="selectSearch2" name="cost_items" id="cost_items" required>
 
+                    <option></option>
 
+                    <optgroup label="">
 
+                        <option value=""></option>
 
+                    </optgroup>
+                </select>
+            </div>
+            <div class="hidden_label" id="objects_name_div">
+                <label for="objects_name" id="objects_name_label">Объект *</label>
+                <select class="selectSearch2" name="objects_name" id="objects_name">
+
+                    <option value=""></option>
+
+                </select>
+            </div>
+        </div>
+        <p><label for="payment_description">Описание*</label>
+            <textarea name="payment_description" id="payment_description" rows="4"
+                placeholder="Укажите:&#10;- Наименование работ (ООС, техрегламент, ПОС и т.п.)&#10;- Статус (работы выполнены, аванс, работы приняты заказчиком)"
+                required></textarea>
+        </p>
+        <div><label for="partners">Контрагент</label>
+            <input type="text" name="partners" id="partners" list="partners_name" value="">
+            <datalist id="partners_name">
+                <option></option>
+
+            </datalist>
+        </div>
+        <div><label for="payment_due_date">Срок оплаты *</label>
+            <input type="date" name="payment_due_date" id="payment_due_date" value="" required>
+        </div>
+        <div><label for="our_company">Компания *</label>
+            <select class="selectSearch2" name="our_company" id="our_company" required>
+
+                <option value=""></option>
+
+            </select>
+        </div>
+        <div><label for="payment_sum">Сумма оплаты *</label>
+            <input type="text" placeholder="руб." name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' руб.')"
+                value="" required />
+        </div>
+        <div class="help_p">* - поля обязательные для заполнения</div>
+    </form>
+    <button id="cancel" type="reset">Cancel</button>
+</dialog>
