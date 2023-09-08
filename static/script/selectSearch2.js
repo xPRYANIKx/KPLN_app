@@ -2,8 +2,12 @@ function checkSelect2Status() {
     var windowWidth = window.innerWidth;
     var selectElement = document.getElementsByClassName('selectSearch2');
 
-    if (windowWidth <= 768) {
-        $(selectElement).select2('destroy');
+    if (windowWidth <= 720) {
+
+        if ($('select').data('select2')) {
+            $(selectElement).select2('destroy');
+        }
+
     } else {
 
         $(document).ready(function () {
@@ -11,7 +15,6 @@ function checkSelect2Status() {
         });
     }
 }
-
 
 var currentWindowWidth = window.innerWidth;
 

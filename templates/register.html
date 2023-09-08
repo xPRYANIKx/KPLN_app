@@ -13,13 +13,13 @@
     <div><label>Пароль: </label> <input type="password" name="password" value="" required /></div>
     <div><label>Роль: </label>
 
-    <select id="user_role" name="user_role" required>
-        {% for s in roles %}
-        <option value="{{ s.role_id }}">
-            {{ s.role_name }}
-        </option>
-        {% endfor %}
-    </select>
+        <select id="user_role" name="user_role" required>
+            {% for s in roles %}
+            <option value="{{ s.role_id }}">
+                {{ s.role_name }}
+            </option>
+            {% endfor %}
+        </select>
     </div>
 
     <div><label>Приоритет: </label> <input type="number" step="1" name="user_priority" value="" required /></div>

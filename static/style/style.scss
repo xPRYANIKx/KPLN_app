@@ -98,29 +98,7 @@ body {
             cursor: default;
         }
     }
-    select {
-        width: 100%;
-        -webkit-appearance: none;
-        background-image: url("../img/select.png");
-        background-size: 3%;
-        background-position: 98% center;
-        background-repeat: no-repeat;
-        line-height: 1em;
-        /* for FF */
-        -moz-appearance: none;
-        text-indent: 0.01px;
-        text-overflow: "";
-        /* for IE */
-        -ms-appearance: none;
-        appearance: none !important;
-        background-color: #ffffff;
-        option {
-            font-family: "Montserrat";
-        }
-    }
-    select ::-ms-expand {
-        display: none;
-    }
+    ///////////////////////////////////////////////////////////////
     .select2-selection__rendered,
     .select2-results__option--selectable {
         font-size: 13px;
@@ -135,6 +113,7 @@ body {
     .select2-results__options {
         font-size: 13px;
     }
+    ///////////////////////////////////////////////////////////////
 }
 .wrapper {
     display: flex;
@@ -336,11 +315,34 @@ main {
             flex: 1;
             font-weight: bold;
         }
+        select {
+            width: 100%;
+            min-height: 28px;
+            margin-top: 1px;
+            padding-left: 8px;
+            -webkit-appearance: none;
+            background-image: url("../img/select.png");
+            background-size: 10px;
+            background-position: 98.7% center;
+            background-repeat: no-repeat;
+            line-height: 1em;
+            -moz-appearance: none;
+            text-indent: 0.01px;
+            text-overflow: "";
+            -ms-appearance: none;
+            appearance: none !important;
+            background-color: #ffffff;
+            option {
+                font-family: "Montserrat";
+            }
+        }
+        select ::-ms-expand {
+            display: none;
+        }
         select,
         input {
             max-width: 320px;
             flex: 2;
-            padding: 4px 7px;
             border: solid 1px #aaa;
             border-radius: 3px;
             font-family: "Montserrat";
@@ -418,6 +420,8 @@ main {
                 }
                 input {
                     max-width: 240px;
+                    min-height: 24px;
+                    padding: 4px 0px 4px 7px;
                 }
             }
             .checkbox_auth {
@@ -452,7 +456,7 @@ main {
 /////////////////////////////////////////////////////////////////
 #register_page {
     #logInfo {
-        max-width: 650px;
+        max-width: 95%;
     }
     #register_form {
         display: flex;
@@ -474,8 +478,16 @@ main {
                 margin-left: 3px;
                 font-size: 14px;
             }
-            input {
+            input,
+            select {
                 max-width: 170px;
+                min-height: 24px;
+                padding: 4px 0px 4px 7px;
+            }
+            select {
+                min-height: 27px;
+                background-size: 9px;
+                background-position: 96.9% center;
             }
         }
         .btn_div {
@@ -744,40 +756,43 @@ main {
         margin: 0 auto;
         padding-bottom: 20px;
         table {
-            width: 100%;
-            tr {
-                border-bottom: solid 2px #0000002c;
+            max-width: 100%;
+            .table__value_head {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                &__money {
+                    font-size: 16px;
+                    font-weight: 900;
+                    color: #0d4300;
+                }
+                &__time {
+                    padding: 4px 5px 2px 4px;
+                    font-size: 11px;
+                    background-color: rgba(147, 147, 147, 0.95);
+                    color: #ffffff;
+                }
+            }
+            .table__info__company {
+                font-weight: 900;
             }
             .inflow_historical_data-table_h1__response {
-                padding: 4px 0px 1px 8px;
-                background-color: #413f3f;
+                background-color: #000000;
                 color: #ffffff;
-                font-weight: 900;
                 td {
-                    font-size: 17px;
+                    padding: 5px;
+                    text-align: center;
+                    font-size: 13px;
+                    font-weight: 900;
                 }
             }
-            .td_cinflow_response_date {
-                font-size: 19px;
-                font-weight: bold;
-                text-decoration: underline 2px;
-                text-decoration-color: #8d8d8d;
-            }
-            .td_cinflow_response_span_sum {
-                font-size: 17px;
-                font-weight: 900;
-                &__int {
-                    font-size: 16px;
-                }
-            }
-            .td_cinflow_response_company {
-                font-size: 14px;
-                font-weight: 900;
-            }
-            .td_cinflow_response_com {
-                font-size: 12px;
-                color: #454545;
-            }
+        }
+    }
+    /////////////////////////////////////////////////////////////////
+    .hidden_label {
+        .select2-container--default {
+            width: 318px !important;
+            margin-right: 2px;
         }
     }
 }
@@ -1008,9 +1023,28 @@ main {
         #cash_inflow__form {
             width: 520px;
             flex-direction: column;
+            h1 {
+                font-size: 23.5px;
+            }
             .input_div {
+                margin: 5px 0px 5px 0px;
                 div {
                     flex-direction: column;
+                }
+                select,
+                input,
+                textarea {
+                    max-width: 100%;
+                    min-width: 100%;
+                }
+                textarea {
+                    margin-top: 1px;
+                }
+                .cash_inflow_sum_label {
+                    margin-bottom: 0px;
+                }
+                #taker_company_div {
+                    margin-bottom: 20px;
                 }
             }
         }
@@ -1030,10 +1064,22 @@ main {
 ///____________///
 @media (max-width: 570px) {
     #cash_inflow_page {
-        #cash_inflow__form__response {
+        #cash_inflow__form {
             width: 420px;
             h1 {
-                font-size: 22px;
+                font-size: 26px;
+                padding-bottom: 18px;
+                img {
+                    margin-right: 15px;
+                }
+            }
+            .input_div {
+                .cash_inflow_sum_label {
+                    margin-bottom: 0px;
+                }
+                select {
+                    background-position: 97.78% center;
+                }
             }
         }
     }
@@ -1106,7 +1152,8 @@ main {
                     margin-bottom: 1px;
                     font-size: 13px;
                 }
-                input {
+                input,
+                select {
                     min-width: 100%;
                 }
             }
@@ -1138,7 +1185,6 @@ main {
             }
         }
     }
-
     #cash_inflow_page {
         .cards-container.cash-inflow {
             #cash_inflow__card {
@@ -1170,6 +1216,29 @@ main {
             }
             .itc-slider-btn-prev {
                 margin-left: 0px;
+            }
+        }
+        #cash_inflow__form {
+            width: 315px;
+            h1 {
+                font-size: 21px;
+                img {
+                    margin-right: 12px;
+                }
+            }
+            .input_div {
+                #taker_company_div {
+                    margin-bottom: 14px;
+                }
+                .right_button {
+                    margin-top: 23px;
+                }
+            }
+            .right_button {
+                align-self: auto;
+                button {
+                    width: 100%;
+                }
             }
         }
     }
@@ -1255,6 +1324,40 @@ main {
                 }
             }
         }
+        #cash_inflow__form {
+            width: 270px;
+            h1 {
+                font-size: 16.5px;
+            }
+            .input_div {
+                #taker_company_div {
+                    margin-bottom: 10px;
+                }
+                label {
+                    font-size: 12px;
+                }
+                .cash_inflow_sum_label {
+                    margin-bottom: 1px;
+                }
+            }
+            #submitBtn {
+                font-size: 15px;
+            }
+        }
+
+        #inflow_historical_data-table__response {
+            table {
+                .table__value_head {
+                    flex-direction: column;
+                    margin-bottom: 8px;
+                    &__time {
+                        width: 120px;
+                        background-color: rgb(195 195 195 / 61%);
+                        color: #000000;
+                    }
+                }
+            }
+        }
     }
 }
 ///____________///
@@ -1328,6 +1431,34 @@ main {
                         max-width: 190px;
                     }
                 }
+            }
+        }
+        #cash_inflow__form {
+            width: 235px;
+            h1 {
+                margin-left: 10px;
+            }
+            .input_div {
+                div {
+                    margin: 9px 0 5px 0;
+                    select {
+                        font-size: 11px;
+                        option {
+                            font-size: 10px;
+                        }
+                    }
+                    textarea,
+                    input,
+                    input::placeholder {
+                        font-size: 11px;
+                    }
+                }
+            }
+        }
+
+        #inflow_historical_data-table__response {
+            .table__info {
+                font-size: 12px;
             }
         }
     }

@@ -136,11 +136,12 @@
                 {% for data in historical_data %}
                 <tr>
                     <td>
-                        <span class="td_cinflow_response_date">{{ data.inflow_at }}</span><br>
-                        <span class="td_cinflow_response_span_sum">Сумма: </span> <span class="td_cinflow_response_span_sum__int">{{ data.inflow_sum }}
-                            ₽</span><br>
-                        <span class="td_cinflow_response_company">{{ data.contractor_name }}</span> <span class="td_cinflow_response_com">{{
-                            data.inflow_description }}</span>
+                        <div class="table__value_head">
+                            <div class="table__value_head__money">{{ data.inflow_sum }} ₽</div>
+                            <div class="table__value_head__time">{{ data.inflow_at }}</div>
+                        </div>
+                        <div class="table__info"><span class="table__info__company">{{ data.contractor_name }}:</span><span class="table__info__commit">
+                                {{data.inflow_description }}</span></div>
                     </td>
                 </tr>
                 {% endfor %}

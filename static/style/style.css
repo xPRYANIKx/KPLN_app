@@ -260,28 +260,6 @@ body table td {
   font-size: 13px;
   cursor: default;
 }
-body select {
-  width: 100%;
-  -webkit-appearance: none;
-  background-image: url("../img/select.png");
-  background-size: 3%;
-  background-position: 98% center;
-  background-repeat: no-repeat;
-  line-height: 1em;
-  /* for FF */
-  -moz-appearance: none;
-  text-indent: 0.01px;
-  text-overflow: "";
-  /* for IE */
-  appearance: none !important;
-  background-color: #ffffff;
-}
-body select option {
-  font-family: "Montserrat";
-}
-body select ::-ms-expand {
-  display: none;
-}
 body .select2-selection__rendered,
 body .select2-results__option--selectable {
   font-size: 13px;
@@ -472,11 +450,33 @@ main form label {
   flex: 1;
   font-weight: bold;
 }
+main form select {
+  width: 100%;
+  min-height: 28px;
+  margin-top: 1px;
+  padding-left: 8px;
+  -webkit-appearance: none;
+  background-image: url("../img/select.png");
+  background-size: 10px;
+  background-position: 98.7% center;
+  background-repeat: no-repeat;
+  line-height: 1em;
+  -moz-appearance: none;
+  text-indent: 0.01px;
+  text-overflow: "";
+  appearance: none !important;
+  background-color: #ffffff;
+}
+main form select option {
+  font-family: "Montserrat";
+}
+main form select ::-ms-expand {
+  display: none;
+}
 main form select,
 main form input {
   max-width: 320px;
   flex: 2;
-  padding: 4px 7px;
   border: solid 1px #aaa;
   border-radius: 3px;
   font-family: "Montserrat";
@@ -550,6 +550,8 @@ main form button:enabled {
 #login_page .auth_form form .auth_form__email input,
 #login_page .auth_form form .auth_form__password input {
   max-width: 240px;
+  min-height: 24px;
+  padding: 4px 0px 4px 7px;
 }
 #login_page .auth_form form .checkbox_auth {
   justify-content: end;
@@ -573,7 +575,7 @@ main form button:enabled {
 }
 
 #register_page #logInfo {
-  max-width: 650px;
+  max-width: 95%;
 }
 #register_page #register_form {
   display: flex;
@@ -597,8 +599,16 @@ main form button:enabled {
   margin-left: 3px;
   font-size: 14px;
 }
-#register_page #register_form div input {
+#register_page #register_form div input,
+#register_page #register_form div select {
   max-width: 170px;
+  min-height: 24px;
+  padding: 4px 0px 4px 7px;
+}
+#register_page #register_form div select {
+  min-height: 27px;
+  background-size: 9px;
+  background-position: 96.9% center;
 }
 #register_page #register_form .btn_div {
   min-width: 100%;
@@ -849,41 +859,40 @@ main form button:enabled {
   padding-bottom: 20px;
 }
 #cash_inflow_page #inflow_historical_data-table__response table {
-  width: 100%;
+  max-width: 100%;
 }
-#cash_inflow_page #inflow_historical_data-table__response table tr {
-  border-bottom: solid 2px rgba(0, 0, 0, 0.1725490196);
+#cash_inflow_page #inflow_historical_data-table__response table .table__value_head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+#cash_inflow_page #inflow_historical_data-table__response table .table__value_head__money {
+  font-size: 16px;
+  font-weight: 900;
+  color: #0d4300;
+}
+#cash_inflow_page #inflow_historical_data-table__response table .table__value_head__time {
+  padding: 4px 5px 2px 4px;
+  font-size: 11px;
+  background-color: rgba(147, 147, 147, 0.95);
+  color: #ffffff;
+}
+#cash_inflow_page #inflow_historical_data-table__response table .table__info__company {
+  font-weight: 900;
 }
 #cash_inflow_page #inflow_historical_data-table__response table .inflow_historical_data-table_h1__response {
-  padding: 4px 0px 1px 8px;
-  background-color: #413f3f;
+  background-color: #000000;
   color: #ffffff;
-  font-weight: 900;
 }
 #cash_inflow_page #inflow_historical_data-table__response table .inflow_historical_data-table_h1__response td {
-  font-size: 17px;
-}
-#cash_inflow_page #inflow_historical_data-table__response table .td_cinflow_response_date {
-  font-size: 19px;
-  font-weight: bold;
-  -webkit-text-decoration: underline 2px;
-          text-decoration: underline 2px;
-  text-decoration-color: #8d8d8d;
-}
-#cash_inflow_page #inflow_historical_data-table__response table .td_cinflow_response_span_sum {
-  font-size: 17px;
+  padding: 5px;
+  text-align: center;
+  font-size: 13px;
   font-weight: 900;
 }
-#cash_inflow_page #inflow_historical_data-table__response table .td_cinflow_response_span_sum__int {
-  font-size: 16px;
-}
-#cash_inflow_page #inflow_historical_data-table__response table .td_cinflow_response_company {
-  font-size: 14px;
-  font-weight: 900;
-}
-#cash_inflow_page #inflow_historical_data-table__response table .td_cinflow_response_com {
-  font-size: 12px;
-  color: #454545;
+#cash_inflow_page .hidden_label .select2-container--default {
+  width: 318px !important;
+  margin-right: 2px;
 }
 
 #new-payment_page h1 {
@@ -1048,8 +1057,29 @@ main form button:enabled {
     width: 520px;
     flex-direction: column;
   }
+  #cash_inflow_page #cash_inflow__form h1 {
+    font-size: 23.5px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div {
+    margin: 5px 0px 5px 0px;
+  }
   #cash_inflow_page #cash_inflow__form .input_div div {
     flex-direction: column;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div select,
+  #cash_inflow_page #cash_inflow__form .input_div input,
+  #cash_inflow_page #cash_inflow__form .input_div textarea {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div textarea {
+    margin-top: 1px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div .cash_inflow_sum_label {
+    margin-bottom: 0px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div #taker_company_div {
+    margin-bottom: 20px;
   }
   #cash_inflow_page #inflow_historical_data-table {
     display: none;
@@ -1059,11 +1089,21 @@ main form button:enabled {
   }
 }
 @media (max-width: 570px) {
-  #cash_inflow_page #cash_inflow__form__response {
+  #cash_inflow_page #cash_inflow__form {
     width: 420px;
   }
-  #cash_inflow_page #cash_inflow__form__response h1 {
-    font-size: 22px;
+  #cash_inflow_page #cash_inflow__form h1 {
+    font-size: 26px;
+    padding-bottom: 18px;
+  }
+  #cash_inflow_page #cash_inflow__form h1 img {
+    margin-right: 15px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div .cash_inflow_sum_label {
+    margin-bottom: 0px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div select {
+    background-position: 97.78% center;
   }
 }
 @media (max-width: 470px) {
@@ -1121,7 +1161,8 @@ main form button:enabled {
     margin-bottom: 1px;
     font-size: 13px;
   }
-  #register_page #register_form div input {
+  #register_page #register_form div input,
+  #register_page #register_form div select {
     min-width: 100%;
   }
   #error_page .error_page_wrapper .error_page_name {
@@ -1165,6 +1206,27 @@ main form button:enabled {
   }
   #cash_inflow_page .itc-slider .itc-slider-btn-prev {
     margin-left: 0px;
+  }
+  #cash_inflow_page #cash_inflow__form {
+    width: 315px;
+  }
+  #cash_inflow_page #cash_inflow__form h1 {
+    font-size: 21px;
+  }
+  #cash_inflow_page #cash_inflow__form h1 img {
+    margin-right: 12px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div #taker_company_div {
+    margin-bottom: 14px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div .right_button {
+    margin-top: 23px;
+  }
+  #cash_inflow_page #cash_inflow__form .right_button {
+    align-self: auto;
+  }
+  #cash_inflow_page #cash_inflow__form .right_button button {
+    width: 100%;
   }
 }
 @media (max-width: 350px) {
@@ -1217,6 +1279,33 @@ main form button:enabled {
   #cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card {
     max-width: 220px;
   }
+  #cash_inflow_page #cash_inflow__form {
+    width: 270px;
+  }
+  #cash_inflow_page #cash_inflow__form h1 {
+    font-size: 16.5px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div #taker_company_div {
+    margin-bottom: 10px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div label {
+    font-size: 12px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div .cash_inflow_sum_label {
+    margin-bottom: 1px;
+  }
+  #cash_inflow_page #cash_inflow__form #submitBtn {
+    font-size: 15px;
+  }
+  #cash_inflow_page #inflow_historical_data-table__response table .table__value_head {
+    flex-direction: column;
+    margin-bottom: 8px;
+  }
+  #cash_inflow_page #inflow_historical_data-table__response table .table__value_head__time {
+    width: 120px;
+    background-color: rgba(195, 195, 195, 0.61);
+    color: #000000;
+  }
 }
 @media (max-width: 310px) {
   header #header__auth__label {
@@ -1260,5 +1349,31 @@ main form button:enabled {
   }
   #cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card {
     max-width: 190px;
+  }
+  #cash_inflow_page #cash_inflow__form {
+    width: 235px;
+  }
+  #cash_inflow_page #cash_inflow__form h1 {
+    margin-left: 10px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div div {
+    margin: 9px 0 5px 0;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div div select {
+    font-size: 11px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div div select option {
+    font-size: 10px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div div input::-moz-placeholder {
+    font-size: 11px;
+  }
+  #cash_inflow_page #cash_inflow__form .input_div div textarea,
+  #cash_inflow_page #cash_inflow__form .input_div div input,
+  #cash_inflow_page #cash_inflow__form .input_div div input::placeholder {
+    font-size: 11px;
+  }
+  #cash_inflow_page #inflow_historical_data-table__response .table__info {
+    font-size: 12px;
   }
 }/*# sourceMappingURL=style.css.map */
