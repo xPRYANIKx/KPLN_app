@@ -7,131 +7,79 @@
 <script src="static/script/paymentApprovalSaveChanges.js"></script>
 <script src="static/script/paymentApprovalRecalcCards.js"></script>
 <script src="static/script/paymentApprovalColorize.js"></script>
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
-<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<script src="static/script/application_modal.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<script>
+    function getModal() {
+        $.ajax({
+            url: '/open_modal',
+            type: 'GET',
+            dataType: 'html'
+        }).then(data => {
+            $('#myModal.modal-content').html(data);
+            $('#myModal').modal('show');
+        });
+    }
+</script>
 
-<!--<script>-->
-<!--    $(document).ready(function() {-->
-<!--        // Set the request ID when the Edit button is clicked-->
-<!--        $('.edit-btn').click(function() {-->
-<!--            var requestId = $(this).data('id');-->
-<!--            $('#requestId').val(requestId);-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
+<script>
+    function getModal2() {
+        var dataToUpdate = {
+            paymentId: 1,
+            newPaymentStatus: 'Completed'
+          };
 
-<!--    <script>-->
-<!--        $(document).ready(function() {-->
-<!--            $('#openModalBtn').click(function() {-->
-<!--                $.ajax({-->
-<!--                url: '/get_modal_payment',-->
-<!--                method: 'GET',-->
-<!--                dataType: 'json'-->
-<!--                })-->
-<!--            .done(function(response) {-->
-<!--                hiddenBox.show();})-->
-<!--            });-->
-<!--        });-->
-<!--    </script>-->
+        // Send an AJAX request to the Flask route
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/update_payment', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
 
-<!--<script>-->
-<!--    function getModal() {-->
-<!--        $.ajax({-->
-<!--            url: '/open_modal',-->
-<!--            type: 'GET',-->
-<!--            success: function(response) {-->
-<!--                $('#modalContent').html(response.modal_content);-->
-<!--                $('#myModal').modal('show');-->
-<!--            }-->
-<!--        });-->
-<!--    }-->
-<!--</script>-->
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // Handle the response here
+                var updatedData = JSON.parse(xhr.responseText);
 
+                // Update the window with the new data
+                document.getElementById('tst_el2').innerText = updatedData.payment[5];
+                console.log(updatedData.payment[5]);
+                console.log(updatedData.payment);
+            }
+        };
 
-<!--<script>-->
-<!--    function getModal() {-->
-<!--        $.ajax({-->
-<!--            url: '/get_modal_payment',-->
-<!--            method: 'GET',-->
-<!--            dataType: 'json',-->
-<!--            success: function(data) {-->
-<!--                console.log(111, data);-->
-<!--                // Pass the data to the modal window-->
-<!--                $.post('/open_modal', { data: data }, );-->
-<!--            }-->
-<!--        });-->
-<!--    }-->
+        xhr.send(JSON.stringify(dataToUpdate));
 
-<!--    function savePayment() {-->
-<!--        var id = $('#id').val();-->
-<!--        var name = $('#name').val();-->
-<!--        var amount = $('#amount').val();-->
-
-<!--        // Send the updated data to the server-->
-<!--        $.ajax({-->
-<!--            url: '/save_payment',-->
-<!--            method: 'POST',-->
-<!--            data: { id: id, name: name, amount: amount },-->
-<!--            dataType: 'json',-->
-<!--            success: function(response) {-->
-<!--                alert(response.message);-->
-<!--                // Close the modal window-->
-<!--                $('.modal').modal('hide');-->
-<!--            }-->
-<!--        });-->
-<!--    }-->
-<!--</script>-->
+};
+</script>
 
 
 
 
-<!--<script>-->
+<!--<dialog class="window" id="testwind">-->
+<!--    <input id="tst_el2"value="" readonly>-->
+<!--    <h2 id="tst_el"> </h2>-->
 
-<!--console.log('&#45;&#45;&#45;&#45;', new Date())-->
-<!--var getCellValue = (tr, idx) => tr.children[idx].dataset['sort'];-->
-<!--console.log(0)-->
-<!--var comparer = (idx, asc) => (a, b) =>-->
-<!--((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : (console.log('   -   v1', v1), console.log('   -   v2', v2), v1.toString().localeCompare(v2)))-->
-<!--    (getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));-->
+<!--    <h2> {{ available_money }} ₽</h2>-->
 
-<!--console.log(1)-->
+<!--    <div style="margin-left: -180px;" class="cards-container">-->
+<!--        <form style="background-color: white; box-shadow: none;" action="payment-approval">-->
+<!--            <button style="width: 200px; background-color:#4285f4;">Согласование</button>-->
+<!--        </form>-->
+<!--        <form style="background-color: white; box-shadow: none;" action="payment-approval-list">-->
+<!--            <button style="width: 300px">Согласованные платежи</button>-->
+<!--        </form>-->
+<!--        <form style="background-color: white; box-shadow: none;" action="payment-paid-list">-->
+<!--            <button style="width: 300px">Оплаченные платежи</button>-->
+<!--        </form>-->
+<!--    </div>-->
 
-<!--document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {-->
-<!--  console.log(2)-->
-<!--  var table = th.closest('table');-->
-<!--  console.log(3)-->
-<!--  var tbody = table.querySelector('tbody');-->
-<!--  console.log(4)-->
-<!--  Array.from(tbody.querySelectorAll('tr'))-->
-<!--    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))-->
-<!--    .forEach(tr => tbody.appendChild(tr) );-->
-<!--})));-->
+<!--    <button id="cancel" type="reset">Cancel</button>-->
 
-
-
-<!--</script>-->
+<!--</dialog>-->
 
 
-<dialog class="window" id="testwind">
 
-                <h2> {{ available_money }} ₽</h2>
-
-     <div style="margin-left: -180px;" class="cards-container">
-        <form style="background-color: white; box-shadow: none;" action="payment-approval">
-            <button style="width: 200px; background-color:#4285f4;">Согласование</button>
-        </form>
-        <form style="background-color: white; box-shadow: none;" action="payment-approval-list">
-            <button style="width: 300px">Согласованные платежи</button>
-        </form>
-        <form style="background-color: white; box-shadow: none;" action="payment-paid-list">
-            <button style="width: 300px">Оплаченные платежи</button>
-        </form>
-    </div>
-
-    <button id="cancel" type="reset">Cancel</button>
-
-</dialog>
 <script>
   (function () {
     var cancelButton = document.getElementById("cancel");
@@ -144,16 +92,11 @@
     });
   })();
 </script>
+
 <div class="exception_table_page">
     {% endblock %}
     {% block content %}
-    <button id="openModalBtn" onclick="window['testwind'].showModal();">Open Modal</button>
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div id="modalContent"></div>
-        </div>
-    </div>
+    {% include "application_modal.html" %}
 
     <h1 >{{title}}</h1>
     <div id="payment-approval-cards-container">
@@ -242,26 +185,26 @@
                 {% for application in applications %}
                 <tr id="row-{{ loop.index }}">
                     <td><a href="/get_modal_payment/{{ application.payment_id }}">View Details</a></td>
-                    <td class="th_num_row_i" data-sort="{{ loop.index }}" onclick="getModal()">{{loop.index}}</td>
+                    <td class="th_num_row_i" data-sort="{{ loop.index }}" onclick="window['testwind'].showModal()">{{loop.index}}</td>
                     <td class="th_select_i" data-sort={{ loop.index }}>
                         <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
                             onchange="paymentApprovalRecalcCards({{ loop.index }})">
                     </td>
-                    <td class="th_company_i" data-sort="{{application.contractor_id}}">{{ application.contractor_name }}</td>
-                    <td class="th_category_i" data-sort="{{application.cost_item_name}}">{{ application.cost_item_name }}</td>
-                    <td class="th_num_pay_i" data-sort="{{application.payment_id}}" data-toggle="modal" data-target="#editModal" data-id="{{ request[0] }}">
+                    <td class="th_company_i" data-sort="{{application.contractor_id}}" onclick="window['testwind'].showModal(), getModal2()">{{ application.contractor_name }}</td>
+                    <td class="th_category_i" data-sort="{{application.cost_item_name}}" onclick="window['testwind'].showModal()">{{ application.cost_item_name }}</td>
+                    <td class="th_num_pay_i" data-sort="{{application.payment_id}}" data-toggle="modal" data-target="#editModal" data-id="{{ request[0] }}" onclick="window['testwind'].showModal()">
                         <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>
                         {{application.payment_number}}
                     </td>
-                    <td class="th_name_i" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}">{{
+                    <td class="th_name_i" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}" onclick="window['testwind'].showModal()">{{
                         application.basis_of_payment_short }}</td>
-                    <td class="th_discription_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}">{{
+                    <td class="th_discription_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}" onclick="window['testwind'].showModal()">{{
                         application.payment_description_short }}</td>
-                    <td class="th_object_i" data-sort="{{application.object_name}}">{{ application.object_name }}</td>
-                    <td class="th_responsible_i">{{ application.last_name }} {{ application.first_name[0] }}.</td>
-                    <td class="th_contractor_i">{{ application.partner }}</td>
-                    <td class="th_main_sum_i">{{ application.payment_sum_rub }}</td>
-                    <td class="th_sum_remain_i">
+                    <td class="th_object_i" data-sort="{{application.object_name}}" onclick="window['testwind'].showModal()">{{ application.object_name }}</td>
+                    <td class="th_responsible_i" onclick="window['testwind'].showModal()">{{ application.last_name }} {{ application.first_name[0] }}.</td>
+                    <td class="th_contractor_i" onclick="window['testwind'].showModal()">{{ application.partner }}</td>
+                    <td class="th_main_sum_i" onclick="window['testwind'].showModal()">{{ application.payment_sum_rub }}</td>
+                    <td class="th_sum_remain_i" onclick="window['testwind'].showModal()">
                         <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>
                         {{ application.approval_sum_rub}}
                     </td>
@@ -269,7 +212,7 @@
                         <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}" data-amount=0
                             onchange="saveData({{ loop.index }}, '{{ page }}')">
                     </td>
-                    <td class="th_pay_date_i">{{ application.payment_due_date }}</td>
+                    <td class="th_pay_date_i" onclick="window['testwind'].showModal()">{{ application.payment_due_date }}</td>
                     <td class="th_status_i" id="status-{{ loop.index }}">
                         <select id="status_id-{{ loop.index }}" name="status_id" data-amount="{{ 444 if application.status_id==4 else 33333}}"
                             onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
@@ -280,7 +223,7 @@
                             {% endfor %}
                         </select>
                     </td>
-                    <td class="th_date_create_i">{{ application.payment_at }}</td>
+                    <td class="th_date_create_i" onclick="window['testwind'].showModal()">{{ application.payment_at }}</td>
                     <td class="th_save_pay_i">
                         <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if
                             application.payment_full_agreed_status %}checked{% endif %}
@@ -288,154 +231,10 @@
                     </td>
                 </tr>
 
-
-
                 {% endfor %}
             </tbody>
         </table>
     </form>
-
-
-
-
 </div>
-<!--    &lt;!&ndash; Edit Request Modal &ndash;&gt;-->
-<!--    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">-->
-<!--        <div class="modal-dialog" role="document">-->
-<!--            <div class="modal-content">&ndash;&gt;-->
-<!--                <div class="modal-header">-->
-<!--                    <h5 class="modal-title" id="editModalLabel{{ request[0] }}">Edit Request</h5>-->
-<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                        <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--                <form action="/edit_request" method="POST">-->
-<!--                    <div class="modal-body">-->
-<!--                        <input type="hidden" name="request_id" value="{{ request[0] }}">-->
-<!--                        <div class="form-group">-->
-<!--                            <label for="appName">Application Name</label>-->
-<!--                            <input type="text" class="form-control" id="appName" name="app_name" value="{{ request[1] }}" readonly>-->
-<!--                        </div>-->
-<!--                        <div class="form-group">-->
-<!--                            <label for="appDate">Date of Application</label>-->
-<!--                            <input type="text" class="form-control" id="appDate" name="app_date" value="{{ request[2] }}" readonly>-->
-<!--                        </div>-->
-<!--                        <div class="form-group">-->
-<!--                            <label for="personResponsible">Person Responsible</label>-->
-<!--                            <input type="text" class="form-control" id="personResponsible" name="person_responsible" value="{{ request[3] }}" readonly>-->
-<!--                        </div>-->
-<!--                        <div class="form-group">-->
-<!--                            <label for="amount">Amount</label>-->
-<!--                            <input type="text" class="form-control" id="amount" name="amount" value="{{ request[4] }}">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="modal-footer">-->
-<!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                        <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to save this request?')">Save</button>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 
-
-<!--<div class="modal" tabindex="-1" role="dialog" id="myModal">-->
-<!--  <div class="modal-dialog" role="document">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <h5 class="modal-title">Modal title</h5>-->
-<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--          <span aria-hidden="true">&times;</span>-->
-<!--        </button>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--        {% for item in AjaxResponse %}-->
-<!--          <label>{{item}}</label>-->
-<!--        {% endfor %}-->
-<!--      </div>-->
-<!--      <div class="modal-footer">-->
-<!--        <button type="button" class="btn btn-primary">Save changes</button>-->
-<!--        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--<div id="result"></div>-->
-
-<script>
-    // Function to send data to the Flask route
-    function sendData() {
-        var data = 'your_data_here';
-
-        // Send an AJAX POST request to the Flask route
-        $.ajax({
-            url: '/get_modal_payment',
-            method: 'GET',
-            dataType: 'json'
-            })
-        .done(function(response) {
-            // Create a new modal element
-            var modal = $('<div id="myModal" class="modal">');
-
-            // Create the modal content
-            var modalContent = $('<div class="modal-content">');
-
-            // Add the response data to the modal content
-            modalContent.append($('<p>').text('Response: ' + response));
-
-            // Append the modal content to the modal
-            modal.append(modalContent);
-
-            // Append the modal to the body
-            $('body').append(modal);
-
-            // Display the modal
-            modal.show();
-          })
-        .fail(function() {
-            // Handle any error that occurred during the Ajax request
-            console.log('Error occurred');
-        });
-
-    }
-</script>
-<!--                &lt;!&ndash; Edit Modal &ndash;&gt;-->
-<!--            <div class="modal fade" id="editModal{{ request[0] }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ request[0] }}" aria-hidden="true">-->
-<!--                <div class="modal-dialog" role="document">-->
-<!--                    <div class="modal-content">-->
-<!--                        <div class="modal-header">-->
-<!--                            <h5 class="modal-title" id="editModalLabel{{ request[0] }}">Edit Request</h5>-->
-<!--                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                                <span aria-hidden="true">&times;</span>-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                        <form action="/edit_request" method="POST">-->
-<!--                            <div class="modal-body">-->
-<!--                                <input type="hidden" name="request_id" value="{{ request[0] }}">-->
-<!--                                <div class="form-group">-->
-<!--                                    <label for="appName">Application Name</label>-->
-<!--                                    <input type="text" class="form-control" id="appName" name="app_name" value="{{ request[1] }}" readonly>-->
-<!--                                </div>-->
-<!--                                <div class="form-group">-->
-<!--                                    <label for="appDate">Date of Application</label>-->
-<!--                                    <input type="text" class="form-control" id="appDate" name="app_date" value="{{ request[2] }}" readonly>-->
-<!--                                </div>-->
-<!--                                <div class="form-group">-->
-<!--                                    <label for="personResponsible">Person Responsible</label>-->
-<!--                                    <input type="text" class="form-control" id="personResponsible" name="person_responsible" value="{{ request[3] }}" readonly>-->
-<!--                                </div>-->
-<!--                                <div class="form-group">-->
-<!--                                    <label for="amount">Amount</label>-->
-<!--                                    <input type="text" class="form-control" id="amount" name="amount" value="{{ request[4] }}">-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="modal-footer">-->
-<!--                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                                <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to save this request?')">Save</button>-->
-<!--                            </div>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
 {% endblock %}
