@@ -6,6 +6,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from werkzeug.security import check_password_hash
 from user_login import UserLogin
 from FDataBase import FDataBase
+from db_data_conf import db_data
 
 login_bp = Blueprint('login_app', __name__)
 
@@ -24,11 +25,11 @@ def on_load(state):
 
 
 # PostgreSQL database configuration
-db_name = "kpln_db"
-db_user = "postgres"
-db_password = "postgres"
-db_host = "localhost"
-db_port = "5432"
+db_name = db_data()['db_name']
+db_user = db_data()['db_user']
+db_password = db_data()['db_password']
+db_host = db_data()['db_host']
+db_port = db_data()['db_port']
 
 dbase = None
 
@@ -57,7 +58,6 @@ def conn_init():
 # Закрытие соединения
 def conn_cursor_close(cursor, conn):
     try:
-        print('   conn_cursor_close')
         g.cursor.close()
         g.conn.close()
     except Exception as e:
@@ -67,24 +67,16 @@ def conn_cursor_close(cursor, conn):
 @login_manager.user_loader
 def load_user(user_id):
     try:
-        conn = conn_init()
-        # dbase = FDataBase(conn)
-        # conn.close()
-        print('user_loader')
-        print(user_id)
-        print(dbase)
-
+        # conn = conn_init()
 
         return UserLogin().from_db(user_id, dbase)
     except Exception as e:
-        print('@login_manager.user_loader', e)
         return None
 
 
 @login_bp.before_request
 def before_request():
     try:
-        print('before_request')
         # Установление соединения с БД перед выполнением запроса
         global dbase
         conn = conn_init()
@@ -229,8 +221,18 @@ def register():
                     flash(message=['register ❗❗❗ Ошибка', str(e)], category='error')
                     return redirect(url_for('.register'))
 
+            else:
+                conn, cursor = conn_cursor_init_dict()
+                cursor.execute(
+                    """SELECT 
+                            *
+                    FROM user_role;"""
+                )
+                roles = cursor.fetchall()
+                conn_cursor_close(cursor, conn)
+
             return render_template("register.html", title="Регистрация новых пользователей", menu=hlink_menu,
-                                   menu_profile=hlink_profile)
+                                   menu_profile=hlink_profile, roles=roles)
     except Exception as e:
         return f'register ❗❗❗ Ошибка \n---{e}'
 
@@ -238,8 +240,6 @@ def register():
 def func_hlink_profile():
     # try:
     global hlink_menu, hlink_profile
-
-    print('   func_hlink_profile')
 
     if current_user.is_authenticated:
         # Меню профиля

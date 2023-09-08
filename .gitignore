@@ -163,6 +163,14 @@ x86/
 [Aa][Rr][Mm]64/
 bld/
 [Bb]in/
+# Файл для тестирования кусков кода
+tmp.py
+# Файл для тестирования sql-запросов
+tst_query_to_bd.py
+# :)
+app.py
+db_data_conf.py
+
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/

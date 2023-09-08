@@ -19,13 +19,6 @@ from wtforms import Form, BooleanField, StringField, DecimalField, IntegerField,
 
 payment_app_bp = Blueprint('payment_app', __name__)
 
-# PostgreSQL database configuration
-db_name = "kpln_db"
-db_user = "postgres"
-db_password = "postgres"
-db_host = "localhost"
-db_port = "5432"
-
 dbase = None
 
 # Меню страницы

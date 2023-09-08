@@ -1,5 +1,11 @@
-columns = [11,22,33,44,55,66]
-zz = 33
-if zz not in columns:
-    print(11111111)
-print(zz)
+def db_data():
+    return {
+        "db_name": "kpln_db",
+        "db_user": "postgres",
+        "db_password": "wnBiT%pr7C3T",
+        "db_password": "postgres",
+        "db_host": "localhost",
+        "db_port": "5432",
+    }
+
+print(db_data()['db_password'])
