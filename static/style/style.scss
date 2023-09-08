@@ -339,14 +339,12 @@ main {
         select ::-ms-expand {
             display: none;
         }
-        select,
-        input {
-            max-width: 320px;
-            flex: 2;
-            border: solid 1px #aaa;
-            border-radius: 3px;
-            font-family: "Montserrat";
-            font-size: 13px;
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            display: none;
+        }
+        input[type="date"] {
+            background: url("../img/calendar.png") #ffffff no-repeat 98% 50%;
+            background-size: 15px;
         }
         textarea {
             width: 100%;
@@ -375,6 +373,21 @@ main {
                 background-color: #000000;
                 color: #ffffff;
             }
+        }
+        select,
+        input {
+            max-width: 320px;
+            flex: 2;
+            border: solid 1px #aaa;
+            border-radius: 3px;
+            font-family: "Montserrat";
+            font-size: 13px;
+        }
+        select,
+        select::placeholder,
+        input,
+        textarea {
+            color: #000000;
         }
     }
 }
@@ -430,6 +443,8 @@ main {
                 font-size: 13.5px;
                 div {
                     input {
+                        min-width: 13px;
+                        min-height: 13px;
                         flex: 0;
                     }
                 }
@@ -611,7 +626,6 @@ main {
             font-size: 12.5px;
         }
     }
-
     .cards-container.cash-inflow {
         flex-wrap: wrap;
         #cash_inflow__card {
@@ -750,7 +764,6 @@ main {
             font-weight: 900;
         }
     }
-
     #inflow_historical_data-table__response {
         display: none;
         margin: 0 auto;
@@ -788,52 +801,70 @@ main {
             }
         }
     }
-    /////////////////////////////////////////////////////////////////
-    .hidden_label {
-        .select2-container--default {
-            width: 318px !important;
-            margin-right: 2px;
-        }
-    }
 }
 /////////////////////////////////////////////////////////////////
 /// СТРАНИЦА ЗАЯВКИ НА ОПЛАТУ
 /////////////////////////////////////////////////////////////////
 #new-payment_page {
-    h1 {
-        margin: 20px 0px;
-        font-size: 32px;
+    #new_payment {
+        padding: 0px 35px;
+        h1 {
+            margin: 25px 0px 15px -8px;
+            font-size: 26px;
+            padding-bottom: 8px;
+            border-bottom: solid 2px rgba(173, 173, 173, 0.24);
+            img {
+                margin-right: 5px;
+                margin-bottom: 5px;
+            }
+        }
+        label {
+            font-size: 15px;
+        }
+        #basis_of_payment {
+            height: 62px;
+        }
+        input {
+            min-height: 28px;
+            padding-left: 8px;
+        }
+        .form_description {
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #757575;
+        }
+        .unitedform {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 16px;
+            margin-left: 15px;
+            padding: 0px 15px 8px 15px;
+            border-left: solid 2px #80808045;
+            font-size: 14.5px;
+            .hidden_label {
+                display: none;
+                .select2-container--default {
+                    width: 292px !important;
+                }
+            }
+        }
+        .help_p {
+            max-width: 280px;
+            margin-top: 30px;
+            padding: 5px 8px 5px 8px;
+            border-radius: 3px;
+            font-size: 13px;
+            background-color: #ffe7918a;
+            -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+            -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+            box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        }
     }
-    .form_description {
-        margin-bottom: 20px;
-        font-size: 12px;
-        color: #757575;
-    }
-    .unitedform {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 16px;
-        margin-left: 15px;
-        padding: 0px 15px 8px 15px;
-        border-left: solid 2px #80808045;
-        font-size: 14.5px;
-    }
-    .hidden_label {
-        display: none;
-    }
-    .help_p {
-        max-width: 280px;
-        margin-top: 30px;
-        padding: 5px 8px 5px 8px;
-        border-radius: 3px;
-        font-size: 13px;
-        background-color: #ffe7918a;
-        -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-        -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-        box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-    }
-    #new_payment_response {
-        display: none;
+    /////////////////////////////////////////////////////////////////
+    .select2-results__group {
+        font-size: 15px;
+        font-weight: 900;
+        background-color: #99999933;
     }
 }
 ///____________///

@@ -262,7 +262,7 @@ def func_hlink_profile():
                          "img": "/static/img/menu/payment-approval.png"},
                         {"name": "Оплата платежей", "url": "payment-pay",
                          "img": "/static/img/menu/payment-pay.png"},
-                        {"name": "Список платежей", "url": "payment_list",
+                        {"name": "Список платежей", "url": "payment-paid-list",
                          "img": "/static/img/menu/payment-list.png"},
                     ]
                  },
@@ -276,7 +276,7 @@ def func_hlink_profile():
                 {"menu_item": "Платежи", "sub_item":
                     [{"name": "Новая заявка на оплату", "url": "new-payment",
                       "img": "/static/img/menu/new-payment.png"},
-                     {"name": "Список платежей", "url": "payment_list",
+                     {"name": "Список платежей", "url": "payment-paid-list",
                       "img": "/static/img/menu/payment-list.png"}, ]
                  },
             ]

@@ -473,14 +473,12 @@ main form select option {
 main form select ::-ms-expand {
   display: none;
 }
-main form select,
-main form input {
-  max-width: 320px;
-  flex: 2;
-  border: solid 1px #aaa;
-  border-radius: 3px;
-  font-family: "Montserrat";
-  font-size: 13px;
+main form input[type=date]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+main form input[type=date] {
+  background: url("../img/calendar.png") #ffffff no-repeat 98% 50%;
+  background-size: 15px;
 }
 main form textarea {
   width: 100%;
@@ -507,6 +505,24 @@ main form button {
 main form button:enabled {
   background-color: #000000;
   color: #ffffff;
+}
+main form select,
+main form input {
+  max-width: 320px;
+  flex: 2;
+  border: solid 1px #aaa;
+  border-radius: 3px;
+  font-family: "Montserrat";
+  font-size: 13px;
+}
+main form select::-moz-placeholder {
+  color: #000000;
+}
+main form select,
+main form select::placeholder,
+main form input,
+main form textarea {
+  color: #000000;
 }
 
 #login_page .auth_form {
@@ -559,6 +575,8 @@ main form button:enabled {
   font-size: 13.5px;
 }
 #login_page .auth_form form .checkbox_auth div input {
+  min-width: 13px;
+  min-height: 13px;
   flex: 0;
 }
 #login_page .auth_form form .checkbox_auth .checkbox_auth__label {
@@ -890,21 +908,36 @@ main form button:enabled {
   font-size: 13px;
   font-weight: 900;
 }
-#cash_inflow_page .hidden_label .select2-container--default {
-  width: 318px !important;
-  margin-right: 2px;
-}
 
-#new-payment_page h1 {
-  margin: 20px 0px;
-  font-size: 32px;
+#new-payment_page #new_payment {
+  padding: 0px 35px;
 }
-#new-payment_page .form_description {
+#new-payment_page #new_payment h1 {
+  margin: 25px 0px 15px -8px;
+  font-size: 26px;
+  padding-bottom: 8px;
+  border-bottom: solid 2px rgba(173, 173, 173, 0.24);
+}
+#new-payment_page #new_payment h1 img {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+#new-payment_page #new_payment label {
+  font-size: 15px;
+}
+#new-payment_page #new_payment #basis_of_payment {
+  height: 62px;
+}
+#new-payment_page #new_payment input {
+  min-height: 28px;
+  padding-left: 8px;
+}
+#new-payment_page #new_payment .form_description {
   margin-bottom: 20px;
   font-size: 12px;
   color: #757575;
 }
-#new-payment_page .unitedform {
+#new-payment_page #new_payment .unitedform {
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
@@ -913,10 +946,13 @@ main form button:enabled {
   border-left: solid 2px rgba(128, 128, 128, 0.2705882353);
   font-size: 14.5px;
 }
-#new-payment_page .hidden_label {
+#new-payment_page #new_payment .unitedform .hidden_label {
   display: none;
 }
-#new-payment_page .help_p {
+#new-payment_page #new_payment .unitedform .hidden_label .select2-container--default {
+  width: 292px !important;
+}
+#new-payment_page #new_payment .help_p {
   max-width: 280px;
   margin-top: 30px;
   padding: 5px 8px 5px 8px;
@@ -925,8 +961,10 @@ main form button:enabled {
   background-color: rgba(255, 231, 145, 0.5411764706);
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
-#new-payment_page #new_payment_response {
-  display: none;
+#new-payment_page .select2-results__group {
+  font-size: 15px;
+  font-weight: 900;
+  background-color: rgba(153, 153, 153, 0.2);
 }
 
 #payment-approval-cards-container {
