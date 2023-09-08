@@ -24,34 +24,6 @@
     }
 </script>
 
-<script>
-    function getModal2() {
-        var dataToUpdate = {
-            paymentId: 1,
-            newPaymentStatus: 'Completed'
-          };
-
-        // Send an AJAX request to the Flask route
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/update_payment', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                // Handle the response here
-                var updatedData = JSON.parse(xhr.responseText);
-
-                // Update the window with the new data
-                document.getElementById('tst_el2').innerText = updatedData.payment[5];
-                console.log(updatedData.payment[5]);
-                console.log(updatedData.payment);
-            }
-        };
-
-        xhr.send(JSON.stringify(dataToUpdate));
-
-};
-</script>
 
 
 
@@ -144,7 +116,6 @@
         <table id="payment-table" name="payment_table" class="display">
             <thead>
                 <tr>
-                    <th class="th_num_row">ххх</th>
                     <th class="th_num_row">№</th>
                     <th class="th_select">ВЫБОР</th>
                     <th class="th_company">СИП/КПЛН</th>
@@ -184,15 +155,14 @@
             <tbody>
                 {% for application in applications %}
                 <tr id="row-{{ loop.index }}">
-                    <td><a href="/get_modal_payment/{{ application.payment_id }}">View Details</a></td>
                     <td class="th_num_row_i" data-sort="{{ loop.index }}" onclick="window['testwind'].showModal()">{{loop.index}}</td>
                     <td class="th_select_i" data-sort={{ loop.index }}>
                         <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
                             onchange="paymentApprovalRecalcCards({{ loop.index }})">
                     </td>
-                    <td class="th_company_i" data-sort="{{application.contractor_id}}" onclick="window['testwind'].showModal(), getModal2()">{{ application.contractor_name }}</td>
-                    <td class="th_category_i" data-sort="{{application.cost_item_name}}" onclick="window['testwind'].showModal()">{{ application.cost_item_name }}</td>
-                    <td class="th_num_pay_i" data-sort="{{application.payment_id}}" data-toggle="modal" data-target="#editModal" data-id="{{ request[0] }}" onclick="window['testwind'].showModal()">
+                    <td class="th_company_i" data-sort="{{ application.contractor_id }}" onclick="window['testwind'].showModal(), getModal2({{ application.payment_id }})">{{ application.contractor_name }}</td>
+                    <td class="th_category_i" data-sort="{{ application.cost_item_name }}" onclick="window['testwind'].showModal()">{{ application.cost_item_name }}</td>
+                    <td class="th_num_pay_i" data-sort="{{ application.payment_id }}" data-toggle="modal" data-target="#editModal" data-id="{{ request[0] }}" onclick="window['testwind'].showModal()">
                         <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>
                         {{application.payment_number}}
                     </td>

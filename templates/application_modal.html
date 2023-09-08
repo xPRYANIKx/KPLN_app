@@ -1,6 +1,6 @@
 <dialog class="window" id="testwind">
     <form id="new_payment" method="POST" action="/new-payment2">
-        <img src="static/img/h1/new-payment.png"><h1 id="tst_el2" ></h1>
+        <img src="static/img/h1/new-payment.png"><h1 id="card_title" ></h1>
         <p><label for="basis_of_payment">Наименование платежа *</label>
             <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required>
 
@@ -9,13 +9,13 @@
             оплата по акту по договору</p>
         </p>
         <div><label for="responsible">Ответственный *</label>
-            <select class="selectSearch2" name="responsible" id="responsible" required>
+            <select name="responsible" id="responsible" required>
                 <option>-</option>
             </select>
         </div>
         <div class="unitedform">
             <div><label for="cost_items">Тип заявки *</label>
-                <select class="selectSearch2" name="cost_items" id="cost_items" required>
+                <select name="cost_items" id="cost_items" required>
 
                     <option></option>
 
@@ -28,7 +28,7 @@
             </div>
             <div class="hidden_label" id="objects_name_div">
                 <label for="objects_name" id="objects_name_label">Объект *</label>
-                <select class="selectSearch2" name="objects_name" id="objects_name">
+                <select name="objects_name" id="objects_name">
 
                     <option value=""></option>
 
@@ -51,7 +51,7 @@
             <input type="date" name="payment_due_date" id="payment_due_date" value="" required>
         </div>
         <div><label for="our_company">Компания *</label>
-            <select class="selectSearch2" name="our_company" id="our_company" required>
+            <select name="our_company" id="our_company" required>
 
                 <option value=""></option>
 
