@@ -315,13 +315,16 @@ main {
             flex: 1;
             font-weight: bold;
         }
+        input[type="date"] {
+            padding-right: 3px;
+        }
         select {
             width: 100%;
             min-height: 28px;
             margin-top: 1px;
             padding-left: 8px;
             -webkit-appearance: none;
-            background-image: url("../img/select.png");
+            background-image: url("../img/interface/select.png");
             background-size: 10px;
             background-position: 98.7% center;
             background-repeat: no-repeat;
@@ -338,13 +341,6 @@ main {
         }
         select ::-ms-expand {
             display: none;
-        }
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            display: none;
-        }
-        input[type="date"] {
-            background: url("../img/calendar.png") #ffffff no-repeat 98% 50%;
-            background-size: 15px;
         }
         textarea {
             width: 100%;
@@ -828,6 +824,17 @@ main {
             min-height: 28px;
             padding-left: 8px;
         }
+        select {
+            optgroup {
+                font-size: 15px;
+                font-weight: 900;
+                background-color: #d7d7d769;
+                option {
+                    font-size: 13px;
+                    background-color: white;
+                }
+            }
+        }
         .form_description {
             margin-bottom: 20px;
             font-size: 12px;
@@ -838,13 +845,13 @@ main {
             flex-direction: column;
             margin-bottom: 16px;
             margin-left: 15px;
-            padding: 0px 15px 8px 15px;
+            padding: 0px 0px 8px 15px;
             border-left: solid 2px #80808045;
             font-size: 14.5px;
             .hidden_label {
                 display: none;
                 .select2-container--default {
-                    width: 292px !important;
+                    width: 302px !important;
                 }
             }
         }
@@ -858,6 +865,9 @@ main {
             -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
             -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
             box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        }
+        #submitBtn {
+            margin-top: 10px;
         }
     }
     /////////////////////////////////////////////////////////////////
@@ -1079,12 +1089,39 @@ main {
                 }
             }
         }
-
         #inflow_historical_data-table {
             display: none;
         }
         #inflow_historical_data-table__response {
             display: flex;
+        }
+    }
+    #new-payment_page {
+        #new_payment {
+            width: 100%;
+            min-width: 490px;
+            .form_description {
+                margin-bottom: 15px;
+            }
+            div {
+                flex-direction: column;
+                select,
+                input {
+                    min-width: 100%;
+                }
+            }
+            .unitedform {
+                margin-left: 2px;
+                .type_app {
+                    margin-top: 5px;
+                }
+            }
+            .help_p {
+                margin-top: 20px;
+            }
+            #submitBtn {
+                margin-top: 20px;
+            }
         }
     }
 }
@@ -1111,6 +1148,20 @@ main {
                 select {
                     background-position: 97.78% center;
                 }
+            }
+        }
+    }
+    #new-payment_page {
+        #new_payment {
+            min-width: 430px;
+            h1 {
+                font-size: 25px;
+                img {
+                    margin-right: 9px;
+                }
+            }
+            .form_description {
+                margin-bottom: 5px;
             }
         }
     }
@@ -1273,6 +1324,38 @@ main {
             }
         }
     }
+    #new-payment_page {
+        #new_payment {
+            min-width: 320px;
+            h1 {
+                font-size: 23px;
+                img {
+                    width: 47px;
+                    margin-right: 9px;
+                }
+            }
+            .form_description {
+                font-size: 10px;
+            }
+            select {
+                padding-top: 2px;
+                optgroup {
+                    option {
+                        font-size: 12px;
+                    }
+                }
+            }
+            textarea::placeholder {
+                font-size: 12px;
+            }
+            .help_p {
+                font-size: 11px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    }
 }
 ///____________///
 ///____________///
@@ -1338,7 +1421,6 @@ main {
             }
         }
     }
-
     #cash_inflow_page {
         .cards-container.cash-inflow {
             #cash_inflow__card {
@@ -1375,7 +1457,6 @@ main {
                 font-size: 15px;
             }
         }
-
         #inflow_historical_data-table__response {
             table {
                 .table__value_head {
@@ -1387,6 +1468,24 @@ main {
                         color: #000000;
                     }
                 }
+            }
+        }
+    }
+    #new-payment_page {
+        #new_payment {
+            min-width: 280px;
+            h1 {
+                font-size: 21px;
+            }
+            select {
+                background-position: 97% center;
+                font-size: 12px;
+            }
+            textarea::placeholder {
+                font-size: 11px;
+            }
+            .help_p {
+                font-size: 9.4px;
             }
         }
     }
@@ -1486,10 +1585,45 @@ main {
                 }
             }
         }
-
         #inflow_historical_data-table__response {
-            .table__info {
-                font-size: 12px;
+            table {
+                .table__value_head__money {
+                    font-size: 14px;
+                }
+                .table__info {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+
+    #new-payment_page {
+        #new_payment {
+            min-width: 250px;
+            h1 {
+                font-size: 19px;
+                img {
+                    width: 40px;
+                }
+            }
+            textarea,
+            input {
+                font-size: 11px;
+            }
+            input[type="date"] {
+                padding-top: 1px;
+            }
+            textarea::placeholder {
+                font-size: 10px;
+            }
+            label {
+                font-size: 13px;
+            }
+            select {
+                font-size: 11px;
+            }
+            .help_p {
+                font-size: 8px;
             }
         }
     }

@@ -450,13 +450,16 @@ main form label {
   flex: 1;
   font-weight: bold;
 }
+main form input[type=date] {
+  padding-right: 3px;
+}
 main form select {
   width: 100%;
   min-height: 28px;
   margin-top: 1px;
   padding-left: 8px;
   -webkit-appearance: none;
-  background-image: url("../img/select.png");
+  background-image: url("../img/interface/select.png");
   background-size: 10px;
   background-position: 98.7% center;
   background-repeat: no-repeat;
@@ -472,13 +475,6 @@ main form select option {
 }
 main form select ::-ms-expand {
   display: none;
-}
-main form input[type=date]::-webkit-calendar-picker-indicator {
-  display: none;
-}
-main form input[type=date] {
-  background: url("../img/calendar.png") #ffffff no-repeat 98% 50%;
-  background-size: 15px;
 }
 main form textarea {
   width: 100%;
@@ -932,6 +928,15 @@ main form textarea {
   min-height: 28px;
   padding-left: 8px;
 }
+#new-payment_page #new_payment select optgroup {
+  font-size: 15px;
+  font-weight: 900;
+  background-color: rgba(215, 215, 215, 0.4117647059);
+}
+#new-payment_page #new_payment select optgroup option {
+  font-size: 13px;
+  background-color: white;
+}
 #new-payment_page #new_payment .form_description {
   margin-bottom: 20px;
   font-size: 12px;
@@ -942,7 +947,7 @@ main form textarea {
   flex-direction: column;
   margin-bottom: 16px;
   margin-left: 15px;
-  padding: 0px 15px 8px 15px;
+  padding: 0px 0px 8px 15px;
   border-left: solid 2px rgba(128, 128, 128, 0.2705882353);
   font-size: 14.5px;
 }
@@ -950,7 +955,7 @@ main form textarea {
   display: none;
 }
 #new-payment_page #new_payment .unitedform .hidden_label .select2-container--default {
-  width: 292px !important;
+  width: 302px !important;
 }
 #new-payment_page #new_payment .help_p {
   max-width: 280px;
@@ -960,6 +965,9 @@ main form textarea {
   font-size: 13px;
   background-color: rgba(255, 231, 145, 0.5411764706);
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+#new-payment_page #new_payment #submitBtn {
+  margin-top: 10px;
 }
 #new-payment_page .select2-results__group {
   font-size: 15px;
@@ -1125,6 +1133,32 @@ main form textarea {
   #cash_inflow_page #inflow_historical_data-table__response {
     display: flex;
   }
+  #new-payment_page #new_payment {
+    width: 100%;
+    min-width: 490px;
+  }
+  #new-payment_page #new_payment .form_description {
+    margin-bottom: 15px;
+  }
+  #new-payment_page #new_payment div {
+    flex-direction: column;
+  }
+  #new-payment_page #new_payment div select,
+  #new-payment_page #new_payment div input {
+    min-width: 100%;
+  }
+  #new-payment_page #new_payment .unitedform {
+    margin-left: 2px;
+  }
+  #new-payment_page #new_payment .unitedform .type_app {
+    margin-top: 5px;
+  }
+  #new-payment_page #new_payment .help_p {
+    margin-top: 20px;
+  }
+  #new-payment_page #new_payment #submitBtn {
+    margin-top: 20px;
+  }
 }
 @media (max-width: 570px) {
   #cash_inflow_page #cash_inflow__form {
@@ -1142,6 +1176,18 @@ main form textarea {
   }
   #cash_inflow_page #cash_inflow__form .input_div select {
     background-position: 97.78% center;
+  }
+  #new-payment_page #new_payment {
+    min-width: 430px;
+  }
+  #new-payment_page #new_payment h1 {
+    font-size: 25px;
+  }
+  #new-payment_page #new_payment h1 img {
+    margin-right: 9px;
+  }
+  #new-payment_page #new_payment .form_description {
+    margin-bottom: 5px;
   }
 }
 @media (max-width: 470px) {
@@ -1266,6 +1312,37 @@ main form textarea {
   #cash_inflow_page #cash_inflow__form .right_button button {
     width: 100%;
   }
+  #new-payment_page #new_payment {
+    min-width: 320px;
+  }
+  #new-payment_page #new_payment h1 {
+    font-size: 23px;
+  }
+  #new-payment_page #new_payment h1 img {
+    width: 47px;
+    margin-right: 9px;
+  }
+  #new-payment_page #new_payment .form_description {
+    font-size: 10px;
+  }
+  #new-payment_page #new_payment select {
+    padding-top: 2px;
+  }
+  #new-payment_page #new_payment select optgroup option {
+    font-size: 12px;
+  }
+  #new-payment_page #new_payment textarea::-moz-placeholder {
+    font-size: 12px;
+  }
+  #new-payment_page #new_payment textarea::placeholder {
+    font-size: 12px;
+  }
+  #new-payment_page #new_payment .help_p {
+    font-size: 11px;
+  }
+  #new-payment_page #new_payment button {
+    width: 100%;
+  }
 }
 @media (max-width: 350px) {
   header #header__auth__label {
@@ -1344,6 +1421,25 @@ main form textarea {
     background-color: rgba(195, 195, 195, 0.61);
     color: #000000;
   }
+  #new-payment_page #new_payment {
+    min-width: 280px;
+  }
+  #new-payment_page #new_payment h1 {
+    font-size: 21px;
+  }
+  #new-payment_page #new_payment select {
+    background-position: 97% center;
+    font-size: 12px;
+  }
+  #new-payment_page #new_payment textarea::-moz-placeholder {
+    font-size: 11px;
+  }
+  #new-payment_page #new_payment textarea::placeholder {
+    font-size: 11px;
+  }
+  #new-payment_page #new_payment .help_p {
+    font-size: 9.4px;
+  }
 }
 @media (max-width: 310px) {
   header #header__auth__label {
@@ -1411,7 +1507,41 @@ main form textarea {
   #cash_inflow_page #cash_inflow__form .input_div div input::placeholder {
     font-size: 11px;
   }
-  #cash_inflow_page #inflow_historical_data-table__response .table__info {
+  #cash_inflow_page #inflow_historical_data-table__response table .table__value_head__money {
+    font-size: 14px;
+  }
+  #cash_inflow_page #inflow_historical_data-table__response table .table__info {
     font-size: 12px;
+  }
+  #new-payment_page #new_payment {
+    min-width: 250px;
+  }
+  #new-payment_page #new_payment h1 {
+    font-size: 19px;
+  }
+  #new-payment_page #new_payment h1 img {
+    width: 40px;
+  }
+  #new-payment_page #new_payment textarea,
+  #new-payment_page #new_payment input {
+    font-size: 11px;
+  }
+  #new-payment_page #new_payment input[type=date] {
+    padding-top: 1px;
+  }
+  #new-payment_page #new_payment textarea::-moz-placeholder {
+    font-size: 10px;
+  }
+  #new-payment_page #new_payment textarea::placeholder {
+    font-size: 10px;
+  }
+  #new-payment_page #new_payment label {
+    font-size: 13px;
+  }
+  #new-payment_page #new_payment select {
+    font-size: 11px;
+  }
+  #new-payment_page #new_payment .help_p {
+    font-size: 8px;
   }
 }/*# sourceMappingURL=style.css.map */
