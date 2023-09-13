@@ -3,7 +3,7 @@ $(document).ready(function () {
 });
 
 
-function tabColorize(rowId='') {
+function tabColorize(rowId = '') {
     if (rowId) {
         var paymentSelectedRows = document.getElementById('selectedRows-' + rowId).checked;
         var approvalSum = document.getElementById('approvalSum-' + rowId).value;
@@ -23,62 +23,62 @@ function tabColorize(rowId='') {
 
         }
         else {
-            document.getElementById('card_selected_for_approval_value').style.color="#34a853";
-            document.getElementById('card_available_money_value').style.color="black";
+            document.getElementById('card_selected_for_approval_value').style.color = "#147d30";
+            document.getElementById('card_available_money_value').style.color = "black";
         }
 
         if (statusId && statusId !== 'Черновик') {
-            document.getElementById('status-' + rowId).style.background="#00000000"
+            document.getElementById('status-' + rowId).style.background = "#00000000"
         }
 
         if (!paymentSelectedRows) {
-            document.getElementById('row-' + rowId).style.borderBottom="none";
-            rowId%2? document.getElementById('row-' + rowId).style.background="#eaedec" : document.getElementById('row-' + rowId).style.background="#d7d5d5";
+            document.getElementById('row-' + rowId).style.borderBottom = "none";
+            rowId % 2 ? document.getElementById('row-' + rowId).style.background = "#eaedec" : document.getElementById('row-' + rowId).style.background = "#d7d5d5";
 
         }
         else {
             if (statusId) {
                 if (statusId == 'Реком.' || statusId == 'Черновик') {
                     if (a_m_v < 0) {
-                        document.getElementById('card_selected_for_approval_value').style.color="red";
-                        document.getElementById('card_available_money_value').style.color="red";
-                        document.getElementById('row-' + rowId).style.background="red";
+                        document.getElementById('card_selected_for_approval_value').style.color = "red";
+                        document.getElementById('card_available_money_value').style.color = "red";
+                        document.getElementById('row-' + rowId).style.background = "red";
                     }
                     else {
                         if (paymentFullStatus) {
-                            document.getElementById('row-' + rowId).style.background="#61e283";
-                            document.getElementById('row-' + rowId).style.borderBottom="1px solid #00000036";
+                            document.getElementById('row-' + rowId).style.background = "#bcefca";
+                            document.getElementById('row-' + rowId).style.borderBottom = "1px solid #00000036";
                         }
-                        else if (!paymentFullStatus){
-                            document.getElementById('row-' + rowId).style.background="#34a853";
-                            document.getElementById('row-' + rowId).style.borderBottom="solid 1px #00000036";
+                        else if (!paymentFullStatus) {
+                            document.getElementById('row-' + rowId).style.background = "#88df9f";
+                            document.getElementById('row-' + rowId).style.borderBottom = "solid 1px #00000036";
                         }
                     }
                 }
                 else {
-                    document.getElementById('row-' + rowId).style.background="grey";
+                    document.getElementById('row-' + rowId).style.background = "#ffb1b1";
                 }
             }
             else {
                 if (a_m_v < 0) {
-                    document.getElementById('card_selected_for_approval_value').style.color="red";
-                    document.getElementById('card_available_money_value').style.color="red";
-                    document.getElementById('row-' + rowId).style.background="red";
+                    document.getElementById('card_selected_for_approval_value').style.color = "red";
+                    document.getElementById('card_available_money_value').style.color = "red";
+                    document.getElementById('row-' + rowId).style.background = "red";
                 }
                 else {
                     if (paymentFullStatus) {
-                        document.getElementById('row-' + rowId).style.background="#61e283";
-                        document.getElementById('row-' + rowId).style.borderBottom="1px solid #00000036";
+                        document.getElementById('row-' + rowId).style.background = "#bcefca";
+                        document.getElementById('row-' + rowId).style.borderBottom = "1px solid #00000036";
                     }
-                    else if (!paymentFullStatus){
-                        document.getElementById('row-' + rowId).style.background="#34a853";
-                        document.getElementById('row-' + rowId).style.borderBottom="1px solid #00000036";
+                    else if (!paymentFullStatus) {
+                        document.getElementById('row-' + rowId).style.background = "#88df9f";
+                        document.getElementById('row-' + rowId).style.borderBottom = "1px solid #00000036";
                     }
                 }
             }
         }
         if (statusId && statusId === 'Черновик') {
-            document.getElementById('status-' + rowId).style.background="yellow"
+            document.getElementById('status-' + rowId).style.background = "#e3e33294"
         }
     }
 
@@ -87,9 +87,9 @@ function tabColorize(rowId='') {
         var statusId = document.getElementsByName('status_id');
 
         if (statusId.length) {
-            for (var i=0; i<selectedRows.length; i++) {
+            for (var i = 0; i < selectedRows.length; i++) {
                 if (statusId[i].value == 'Черновик') {
-                    document.getElementById('status-' + (i+1)).style.background="yellow"
+                    document.getElementById('status-' + (i + 1)).style.background = "#e3e33294"
                 }
             }
         }
