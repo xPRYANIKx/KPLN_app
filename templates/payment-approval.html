@@ -33,7 +33,6 @@
         });
     })();
 </script>
-
 <!-- Срабатывание ссылки на всю ячейку нужно убирать - иногда работает на заголовке + слайд на маленьких разрешениях невозможен -->
 <!-- Варианты разрешения конфликта: надписи делать ссылками или добавить кнопочку вертикальное троеточие -->
 <!-- Починить условное форматирование (!)-->
@@ -108,45 +107,45 @@
 
 
 
-
-    <h1><img src="static/img/h1/payment-approval.png"> {{title}}</h1>
-    <div id="payment-approval-cards-container">
-        <div class="card" id="card_selected_for_approval">
-            <div class="cards_h1_border">
-                <h2 class="card-title" id="card_selected_for_approval_value">&nbsp;</h2>
+    <div class="tpages_top_panel">
+        <h1><img src="static/img/h1/payment-approval.png"> {{title}}</h1>
+        <div class="cards-container">
+            <div class="card" id="card_selected_for_approval">
+                <div class="cards_h1_border">
+                    <h2 class="card-title" id="card_selected_for_approval_value">&nbsp;</h2>
+                </div>
+                <div>
+                    <p class="card-cost">Выбрано для одобрения</p>
+                </div>
             </div>
-            <div>
-                <p class="card-cost">Выбрано для одобрения</p>
+            <div class="card" id="card_available_money">
+                <div class="cards_h1_border">
+                    <h2 class="card-title" id="card_available_money_value" data-value="{{ available_money }}">{{ available_money }} ₽</h2>
+                </div>
+                <div>
+                    <p class="card-cost">Доступные к распределению</p>
+                </div>
+            </div>
+            <div class="card" id="card_account_money">
+                <div class="cards_h1_border">
+                    <h2 class="card-title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
+                </div>
+                <div>
+                    <p class="card-cost">На счету</p>
+                </div>
             </div>
         </div>
-        <div class="card" id="card_available_money">
-            <div class="cards_h1_border">
-                <h2 class="card-title" id="card_available_money_value" data-value="{{ available_money }}">{{ available_money }} ₽</h2>
-            </div>
-            <div>
-                <p class="card-cost">Доступные к распределению</p>
-            </div>
-        </div>
-        <div class="card" id="card_account_money">
-            <div class="cards_h1_border">
-                <h2 class="card-title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
-            </div>
-            <div>
-                <p class="card-cost">На счету</p>
-            </div>
+        <div id="payment-approval__menu">
+            <div class="not_form_button focus_button">Согласование платежей</div>
+            <div class="not_form_button"><a href="payment-approval-list">Согласованные платежи</a> </div>
+            <div class="not_form_button"><a href="payment-paid-list">Оплаченные платежи</a></div>
         </div>
     </div>
-    <div id="payment-approval__menu">
-        <div class="not_form_button focus_button"><a href="payment-approval">Согласование платежей</a></div>
-        <div class="not_form_button"><a href="payment-approval-list">Согласованные платежи</a> </div>
-        <div class="not_form_button"><a href="payment-paid-list">Оплаченные платежи</a></div>
-    </div>
 
 
 
 
-
-    <form id="paymentForm3" action="/payment-approval" method="POST" style="align-self: flex-start">
+    <form id="paymentForm" action="/payment-approval" method="POST" style="align-self: flex-start">
         <button type="submit">Отправить</button>
 
         <table id="payment-table" name="payment_table" class="display">

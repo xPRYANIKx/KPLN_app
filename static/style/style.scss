@@ -395,7 +395,13 @@ main {
         text-align: center;
         font-family: "Montserrat";
         font-size: 15px;
+        font-weight: bold;
         background-color: #393939;
+        color: #ffffff;
+        -ms-user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
         -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
         -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
         box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
@@ -406,7 +412,8 @@ main {
         }
     }
     .focus_button {
-        background-color: #1680a3;
+        background-color: #ababab;
+        box-shadow: none;
     }
 }
 /////////////////////////////////////////////////////////////////
@@ -727,9 +734,14 @@ main {
         .cash_inflow_sum_label {
             margin-bottom: -5px;
         }
-
         .select2-selection--single {
             width: 320px;
+        }
+
+        .hidden_label {
+            .select2-container--default {
+                width: 320px !important;
+            }
         }
 
         textarea {
@@ -900,57 +912,83 @@ main {
     }
 }
 /////////////////////////////////////////////////////////////////
-/// СТРАНИЦА СОГЛАСОВАНИЯ ПЛАТЕЖЕЙ
+/// СТРАНИЦы СОГЛАСОВАНИЯ ПЛАТЕЖЕЙ
 /////////////////////////////////////////////////////////////////
-#payment-approval_page {
+#payment-approval_page,
+#payment-approval-list_page,
+#payment-paid-list_page {
     main {
         width: 100%;
         margin: 50px 0px;
     }
-    h1 {
-        width: 700px;
-        align-self: center;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
-        border-bottom: solid 2px #ddd9d9b8;
-        font-size: 34px;
-    }
-    #payment-approval-cards-container {
+    .tpages_top_panel {
+        width: 760px;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        .card {
-            padding: 10px 15px;
-            margin: 10px;
-            max-width: 300px;
-            background-color: #ebebeb;
-            border-radius: 5px;
-            -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-            -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-            box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+        flex-direction: column;
+        border-left: solid 4px #dfa90f;
+        align-self: center;
+        h1 {
+            width: 700px;
+            align-self: center;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: solid 2px #ddd9d9b8;
+            font-size: 34px;
+        }
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            .card {
+                padding: 10px 15px;
+                margin: 10px;
+                max-width: 300px;
+                background-color: #ebebeb;
+                -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+                -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+                box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 
-            .card-title {
-                border-bottom: solid 1px #d5d5d5;
-                font-weight: bold;
-                font-size: 30px;
+                .card-title {
+                    border-bottom: solid 1px #d5d5d5;
+                    font-weight: bold;
+                    font-size: 30px;
+                }
+                .card-cost {
+                    margin-top: 5px;
+                    color: #808080;
+                    font-size: 13px;
+                }
             }
-            .card-cost {
-                margin-top: 5px;
-                color: #808080;
-                font-size: 13px;
+            #card_available_money_alp,
+            #card_account_money_alp {
+                min-width: 340px;
+            }
+        }
+        #payment-approval__menu {
+            width: 700px;
+            display: flex;
+            align-self: center;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: solid 2px #ddd9d9b8;
+            .not_form_button {
+                margin: 0px 14px 0px 0px;
+                min-width: 225px;
             }
         }
     }
-    #payment-approval__menu {
-        width: 700px;
+    .help_info {
+        width: 565px;
         display: flex;
         align-self: center;
-        margin-top: 10px;
-        padding-top: 15px;
-        border-top: solid 2px #ddd9d9b8;
-        .not_form_button {
-            margin: 0px 14px 0px 0px;
-            min-width: 225px;
+        align-items: center;
+        margin: 20px;
+        padding: 8px 13px;
+        background-color: #ffed7a4d;
+        font-weight: bold;
+        img {
+            width: 50px;
+            margin-right: 5px;
         }
     }
 
@@ -993,8 +1031,7 @@ main {
             }
         }
     }
-
-    #paymentForm3 {
+    #paymentForm {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -1003,8 +1040,8 @@ main {
         background-color: #ffffff00;
         box-shadow: none;
         button {
-            align-self: end;
             margin-top: 20px;
+            font-weight: bold;
         }
         table {
             max-width: 100%;
@@ -1103,7 +1140,6 @@ main {
             .th_status_i {
                 select {
                     width: 122px;
-                    padding-top: 2px;
                     background-position: 96% center;
                     font-size: 13px;
                 }
@@ -1115,6 +1151,22 @@ main {
         }
     }
 }
+
+#payment-approval-list_page {
+    .tpages_top_panel {
+        border-left: solid 4px #2c9700;
+    }
+}
+
+#payment-paid-list_page {
+    .tpages_top_panel {
+        border-left: solid 4px #56a3e5;
+    }
+    .help_info {
+        width: 800px;
+    }
+}
+
 ///____________///
 ///____________///
 ///____________///
