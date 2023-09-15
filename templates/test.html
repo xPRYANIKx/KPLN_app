@@ -14,6 +14,7 @@
 
 
 
+
         .progress_button {
             position: relative;
             width: 320px;
@@ -30,11 +31,11 @@
 
         .progress_button-text {
             transition: opacity 0.5s;
-            -webkit-touch-callout: none; 
+            -webkit-touch-callout: none;
             -webkit-user-select: none;
             -khtml-user-select: none;
             -moz-user-select: none;
-            -ms-user-select: none; 
+            -ms-user-select: none;
             user-select: none;
         }
 
@@ -53,20 +54,21 @@
             margin-top: 10px;
         }
     </style>
+
+
+
+
 </head>
 <body>
 
 
 
-    <button class="progress_button" onpointerdown="startButtonAnimation(event)" onpointerup="stopButtonAnimation(event)" onpointerleave="stopButtonAnimation(event)"
-        ontouchend="stopButtonAnimation(event)" ontouchstart="startButtonAnimation(event)" ontouchcancel="stopButtonAnimation(event)">
-
-
+    <button class="progress_button" onpointerdown="startButtonAnimation(event)" onpointerup="stopButtonAnimation(event)"
+        onpointerleave="stopButtonAnimation(event)" ontouchend="stopButtonAnimation(event)" ontouchstart="startButtonAnimation(event)"
+        ontouchcancel="stopButtonAnimation(event)">
         <div class="progress_button-overlay"></div>
         <span class="progress_button-text">Отправить</span>
     </button>
-
-
     <dialog id="random_dialog">
         <p>Это диалоговое окно вызывается при зажатии кнопки "Отправить".</p>
         <p>По нажатию кнопки "Закрыть" происходит перерендер всей страницы, чтобы очистить DOM-дерево</p>
@@ -101,9 +103,6 @@
                 dialog.showModal();
             }, 2000);
         }
-
-
-
         function stopButtonAnimation(e) {
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && !e?.pointerType) {
                 return;
@@ -123,5 +122,8 @@
             location.reload();
         }
     </script>
+
+
+
 </body>
 </html>

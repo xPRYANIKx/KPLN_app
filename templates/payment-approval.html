@@ -46,64 +46,79 @@
 
 
     <dialog class="window" id="payment-approval__dialog">
-        <h1><img src="static/img/h1/edit_pay.png"> Редактировать платёж</h1>
-        <form id="new_payment" method="POST" action="/new-payment2">
-            <p><label for="basis_of_payment">Наименование платежа *</label>
-                <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required>
+        <div id="payment-approval__dialog__menu">
+            <div id="payment-approval__dialog__menu__edit">
+                <h1><img src="static/img/h1/edit_pay.png"> Редактировать платёж</h1>
+                <form id="new_payment" method="POST" action="/new-payment2">
+                    <p><label for="basis_of_payment">Наименование платежа:</label>
+                        <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required>
                 </textarea>
-            <div><label for="responsible">Ответственный *</label>
-                <select name="responsible" id="responsible" required>
-                    <option>-</option>
-                </select>
-            </div>
-            <div class="unitedform">
-                <div><label for="cost_items">Тип заявки *</label>
-                    <select name="cost_items" id="cost_items" required>
+                    <div><label for="responsible">Ответственный:</label>
+                        <select name="responsible" id="responsible" required>
+                            <option>-</option>
+                        </select>
+                    </div>
+                    <div class="unitedform">
+                        <div><label for="cost_items">Тип заявки:</label>
+                            <select name="cost_items" id="cost_items" required>
 
-                        <option></option>
+                                <option></option>
 
-                        <optgroup label="">
+                                <optgroup label="">
+
+                                    <option value=""></option>
+
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="hidden_label" id="objects_name_div">
+                            <label for="objects_name" id="objects_name_label">Объект:</label>
+                            <select name="objects_name" id="objects_name">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <p><label for="payment_description">Описание:</label>
+                        <textarea name="payment_description" id="payment_description" rows="4" required></textarea>
+                    </p>
+                    <div><label for="partners">Контрагент:</label>
+                        <input type="text" name="partners" id="partners" list="partners_name" value="">
+                        <datalist id="partners_name">
+                            <option></option>
+
+                        </datalist>
+                    </div>
+                    <div><label for="payment_due_date">Срок оплаты:</label>
+                        <input type="date" name="payment_due_date" id="payment_due_date" value="" required>
+                    </div>
+                    <div><label for="our_company">Компания:</label>
+                        <select name="our_company" id="our_company" required>
 
                             <option value=""></option>
 
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="hidden_label" id="objects_name_div">
-                    <label for="objects_name" id="objects_name_label">Объект *</label>
-                    <select name="objects_name" id="objects_name">
-                        <option value=""></option>
-                    </select>
-                </div>
+                        </select>
+                    </div>
+                    <div><label for="payment_sum">Сумма оплаты:</label>
+                        <input type="text" placeholder="руб." name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' руб.')" value=""
+                            required />
+                    </div>
+                    <div class="button_group">
+                        <button id="cancel__edit_btn">Отменить редактирование</button>
+                        <div class="button_group_2b">
+                            <button id="delete__edit_btn">Анулировать</button>
+                            <button id="save__edit_btn">Сохранить</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <p><label for="payment_description">Описание*</label>
-                <textarea name="payment_description" id="payment_description" rows="4" required></textarea>
-            </p>
-            <div><label for="partners">Контрагент</label>
-                <input type="text" name="partners" id="partners" list="partners_name" value="">
-                <datalist id="partners_name">
-                    <option></option>
-
-                </datalist>
+            <div id="payment-approval__dialog__menu__list">
+                <h2><img src="static/img/h1/history.png"> История платежей</h2>
             </div>
-            <div><label for="payment_due_date">Срок оплаты *</label>
-                <input type="date" name="payment_due_date" id="payment_due_date" value="" required>
-            </div>
-            <div><label for="our_company">Компания *</label>
-                <select name="our_company" id="our_company" required>
-
-                    <option value=""></option>
-
-                </select>
-            </div>
-            <div><label for="payment_sum">Сумма оплаты *</label>
-                <input type="text" placeholder="руб." name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' руб.')" value="" required />
-            </div>
-        </form>
-        <button id="cancel" type="reset">Анулировать платёж</button>
-        <button id="cancel" type="reset">Отмена</button>
-        <button id="cancel" type="reset">Сохранить</button>
+        </div>
     </dialog>
+
+
+
 
 
 
