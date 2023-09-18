@@ -4,7 +4,7 @@
 
 <script src="static/script/numberWithSpaces.js"></script>
 
-<script src="static/script/removeEditDialog.js" defer></script>
+<script src="static/script/EditDWindow.js" defer></script>
 
 <script src="static/script/paymentApprovalSaveChanges.js"></script>
 <script src="static/script/paymentApprovalRecalcCards.js"></script>
@@ -76,17 +76,16 @@
                     <p><label for="payment_description">Описание:</label>
                         <textarea name="payment_description" id="payment_description" rows="4" required></textarea>
                     </p>
-                    <div><label for="partners">Контрагент:</label>
+                    <div class="consider_div"><label for="partners">Контрагент:</label>
                         <input type="text" name="partners" id="partners" list="partners_name" value="">
                         <datalist id="partners_name">
                             <option></option>
-
                         </datalist>
                     </div>
-                    <div><label for="payment_due_date">Срок оплаты:</label>
+                    <div class="consider_div"><label for="payment_due_date">Срок оплаты:</label>
                         <input type="date" name="payment_due_date" id="payment_due_date" value="" required>
                     </div>
-                    <div><label for="our_company">Компания:</label>
+                    <div class="consider_div"><label for="our_company">Компания:</label>
                         <select name="our_company" id="our_company" required>
 
                             <option value=""></option>
@@ -102,7 +101,6 @@
                         <button id="save__edit_btn">Сохранить</button>
                     </div>
                 </form>
-                <button id="cancel__edit_btn">Отменить редактирование</button>
             </div>
             <div id="payment-approval__dialog__menu__list">
                 <h2><img src="static/img/h1/history.png"> История платежей</h2>
@@ -185,8 +183,7 @@
                     </td>
                     <td class="th_category_i" data-sort="{{ application.cost_item_name }}">{{
                         application.cost_item_name }}</td>
-                    <td class="th_name_i" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}"
-                        onclick="window['payment-approval__dialog'].showModal()">{{
+                    <td class="th_name_i showModalId" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}">{{
                         application.basis_of_payment_short }}</td>
                     <td class="th_discription_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}"><span
                             class="paymentFormBold">{{ application.contractor_name }}: </span>{{

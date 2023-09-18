@@ -1016,7 +1016,7 @@ main {
                 form {
                     width: 300px;
                     margin: 10px 0px 0px 0px;
-                    padding: 0px;
+                    padding: 0px 0px 0px 5px;
                     background-color: #f3f5f5;
                     box-shadow: none;
                     p {
@@ -1026,17 +1026,25 @@ main {
                     }
                     div {
                         flex-direction: column;
-                        margin: 3px 0 5px 0;
+                        margin: 5px 0 5px 0;
+                        div {
+                            margin: 5px 0 5px 0;
+                        }
                         label {
                             font-size: 14px;
                         }
                         input {
                             min-height: 28px;
                         }
-                        input,
-                        input::placeholder {
-                            padding-left: 6px;
+                        input {
+                            padding-left: 9px;
                         }
+                        input::placeholder {
+                            padding-left: 0px;
+                        }
+                    }
+                    .consider_div {
+                        margin-bottom: 10px;
                     }
                     #payment_sum_div {
                         padding-bottom: 16px;
@@ -1046,7 +1054,7 @@ main {
                     .button_group {
                         flex-direction: row;
                         justify-content: space-between;
-                        margin-top: 10px;
+                        margin-top: 15px;
                         #delete__edit_btn,
                         #save__edit_btn {
                             width: 145px;
@@ -1062,20 +1070,6 @@ main {
                             background-color: #0e4d1a;
                         }
                     }
-                }
-                #cancel__edit_btn {
-                    width: 100%;
-                    height: 35px;
-                    margin: 5px 0px 0px 0px;
-                    padding: 6px;
-                    border: none;
-                    border-radius: 5px;
-                    font-size: 13px;
-                    font-family: "Montserrat";
-                    font-weight: bold;
-                    color: #ffffff;
-                    background-color: #393939;
-                    cursor: pointer;
                 }
             }
             &__list {
