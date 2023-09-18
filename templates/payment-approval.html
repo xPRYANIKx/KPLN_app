@@ -4,13 +4,15 @@
 
 <script src="static/script/numberWithSpaces.js"></script>
 
+<script src="static/script/removeEditDialog.js" defer></script>
+
 <script src="static/script/paymentApprovalSaveChanges.js"></script>
 <script src="static/script/paymentApprovalRecalcCards.js"></script>
 <script src="static/script/paymentApprovalColorize.js"></script>
 
 
 
-<!-- Коля вынеси потом это в один скрипт editingTabularData.js или скооперируй с моим test.html -->
+
 <script src="static/script/application_modal.js"></script>
 <script>
     function getModal() {
@@ -24,18 +26,11 @@
         });
     }
 </script>
-<script>
-    (function () {
-        var cancelButton = document.getElementById("cancel");
-        var favDialog = document.getElementById("payment-approval__dialog");
-        cancelButton.addEventListener("click", function () {
-            favDialog.close();
-        });
-    })();
-</script>
-<!-- Срабатывание ссылки на всю ячейку нужно убирать - иногда работает на заголовке + слайд на маленьких разрешениях невозможен -->
-<!-- Варианты разрешения конфликта: надписи делать ссылками или добавить кнопочку вертикальное троеточие -->
-<!-- Починить условное форматирование (!)-->
+
+
+
+
+
 
 
 
@@ -98,23 +93,22 @@
 
                         </select>
                     </div>
-                    <div><label for="payment_sum">Сумма оплаты:</label>
+                    <div id="payment_sum_div"><label for="payment_sum">Сумма оплаты:</label>
                         <input type="text" placeholder="руб." name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' руб.')" value=""
                             required />
                     </div>
                     <div class="button_group">
-                        <button id="cancel__edit_btn">Отменить редактирование</button>
-                        <div class="button_group_2b">
-                            <button id="delete__edit_btn">Анулировать</button>
-                            <button id="save__edit_btn">Сохранить</button>
-                        </div>
+                        <button id="delete__edit_btn">Анулировать</button>
+                        <button id="save__edit_btn">Сохранить</button>
                     </div>
                 </form>
+                <button id="cancel__edit_btn">Отменить редактирование</button>
             </div>
             <div id="payment-approval__dialog__menu__list">
                 <h2><img src="static/img/h1/history.png"> История платежей</h2>
             </div>
         </div>
+        <img id="crossBtn" src="static/img/interface/close.png">
     </dialog>
 
 
