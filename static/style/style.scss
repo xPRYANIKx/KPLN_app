@@ -757,6 +757,7 @@ main {
     }
     #inflow_historical_data-table {
         max-width: 755px;
+        width: 100%;
         margin: 0 auto;
         margin-bottom: 20px;
         th,
@@ -796,9 +797,11 @@ main {
     }
     #inflow_historical_data-table__response {
         display: none;
+        width: 100%;
         margin: 0 auto;
         padding-bottom: 20px;
         table {
+            width: 100%;
             max-width: 100%;
             .table__value_head {
                 display: flex;
@@ -810,7 +813,9 @@ main {
                     color: #0d4300;
                 }
                 &__time {
+                    width: 125px;
                     padding: 4px 5px 2px 4px;
+                    text-align: center;
                     font-size: 11px;
                     background-color: rgba(147, 147, 147, 0.95);
                     color: #ffffff;
@@ -1085,7 +1090,7 @@ main {
                     img {
                         width: 20px;
                         height: 20px;
-                        margin: 1px 6px 0px 0px;
+                        margin: 1px 8px 0px 0px;
                     }
                 }
             }
