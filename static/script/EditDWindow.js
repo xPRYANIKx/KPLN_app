@@ -1,6 +1,7 @@
 
 const element = document.querySelector(".showModalId");
 const crossButton = document.querySelector("#crossBtn");
+const closeButton = document.querySelector("#closeBtn");
 const dialog = document.querySelector("#payment-approval__dialog");
 
 
@@ -13,6 +14,10 @@ for (var i = 0; i < elements.length; i++) {
 }
 
 crossButton.addEventListener("click", closeDialog);
+function closeDialog() {
+    dialog.close();
+}
+closeButton.addEventListener("click", closeDialog);
 function closeDialog() {
     dialog.close();
 }

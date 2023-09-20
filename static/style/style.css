@@ -1013,7 +1013,7 @@ main .focus_button {
 #payment-approval-list_page main,
 #payment-paid-list_page main {
   width: 100%;
-  margin: 50px 0px;
+  padding: 90px 40px 0px 40px;
 }
 #payment-approval_page .tpages_top_panel,
 #payment-approval-list_page .tpages_top_panel,
@@ -1249,13 +1249,45 @@ main .focus_button {
   height: 20px;
   margin: 1px 8px 0px 0px;
 }
+#payment-approval_page #payment-approval__dialog__menu__list__content,
+#payment-approval-list_page #payment-approval__dialog__menu__list__content,
+#payment-paid-list_page #payment-approval__dialog__menu__list__content {
+  height: 89%;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: solid 1px rgba(128, 128, 128, 0.6117647059);
+  background-color: #ffffff;
+}
+#payment-approval_page #payment-approval__dialog__menu__list__button,
+#payment-approval-list_page #payment-approval__dialog__menu__list__button,
+#payment-paid-list_page #payment-approval__dialog__menu__list__button {
+  display: flex;
+  justify-content: end;
+  border-top: solid 2px #dddddd;
+}
+#payment-approval_page #payment-approval__dialog__menu__list__button button,
+#payment-approval-list_page #payment-approval__dialog__menu__list__button button,
+#payment-paid-list_page #payment-approval__dialog__menu__list__button button {
+  width: 145px;
+  height: 33px;
+  margin-top: 10px;
+  font-family: "Montserrat";
+  font-size: 13px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  background-color: #5d5d5d;
+  cursor: pointer;
+  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+}
 #payment-approval_page #payment-approval__dialog #crossBtn,
 #payment-approval-list_page #payment-approval__dialog #crossBtn,
 #payment-paid-list_page #payment-approval__dialog #crossBtn {
   position: absolute;
-  width: 27px;
-  top: 1%;
-  right: 1.3%;
+  width: 25px;
+  top: 1.2%;
+  right: 2%;
   cursor: pointer;
 }
 #payment-approval_page #paymentForm,
