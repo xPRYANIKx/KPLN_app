@@ -1,4 +1,4 @@
-function sortTable(column, type_col='str') {
+function sortTable(column, type_col = 'str') {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById("payment-table");
     switching = true;
@@ -64,7 +64,7 @@ function sortTable(column, type_col='str') {
 
     for (i = 1; i < rows.length; i++) {
         // у всех чекбоксов меняем значение value
-        for (var i1=0; i1<rows[i].getElementsByTagName("td").length; i1++) {
+        for (var i1 = 0; i1 < rows[i].getElementsByTagName("td").length; i1++) {
             try {
                 var sub_elem = rows[i].getElementsByTagName("td")[i1].getElementsByTagName("input")[0]
                 if (sub_elem.getAttribute('type') === 'checkbox') {
@@ -78,46 +78,46 @@ function sortTable(column, type_col='str') {
 }
 
 function sortTable2() {
-console.log('----', new Date())
-var getCellValue = (tr, idx) => tr.children[idx].dataset['sort'];
-console.log(0)
-var comparer = (idx, asc) => (a, b) =>
-((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : (console.log('   -   v1', v1), console.log('   -   v2', v2), v1.toString().localeCompare(v2)))
-    (getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+    console.log('----', new Date())
+    var getCellValue = (tr, idx) => tr.children[idx].dataset['sort'];
+    console.log(0)
+    var comparer = (idx, asc) => (a, b) =>
+        ((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : (console.log('   -   v1', v1), console.log('   -   v2', v2), v1.toString().localeCompare(v2)))
+            (getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
-console.log(1)
+    console.log(1)
 
-document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
-  console.log(2)
-  var table = th.closest('table');
-  console.log(3)
-  var tbody = table.querySelector('tbody');
-  console.log(4)
-  Array.from(tbody.querySelectorAll('tr'))
-    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
-    .forEach(tr => tbody.appendChild(tr) );
-})));
+    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+        console.log(2)
+        var table = th.closest('table');
+        console.log(3)
+        var tbody = table.querySelector('tbody');
+        console.log(4)
+        Array.from(tbody.querySelectorAll('tr'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => tbody.appendChild(tr));
+    })));
 
-//document.querySelectorAll('th').forEach(th => {
-//  console.log(2)
-//  var table = th.closest('table');
-//  console.log(3)
-//  var tbody = table.querySelector('tbody');
-//  console.log(4)
-//  console.log(tbody.querySelectorAll('th'))
-//  Array.from(tbody.querySelectorAll('tr'))
-//    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
-//    .forEach(tr => tbody.appendChild(tr) );
-//});
+    //document.querySelectorAll('th').forEach(th => {
+    //  console.log(2)
+    //  var table = th.closest('table');
+    //  console.log(3)
+    //  var tbody = table.querySelector('tbody');
+    //  console.log(4)
+    //  console.log(tbody.querySelectorAll('th'))
+    //  Array.from(tbody.querySelectorAll('tr'))
+    //    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+    //    .forEach(tr => tbody.appendChild(tr) );
+    //});
 
-//document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
-//  console.log(2)
-//  var table = th.closest('table');
-//  console.log(3)
-//  var tbody = table.querySelector('tbody');
-//  console.log(4)
-//  Array.from(tbody.querySelectorAll('tr'))
-//    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
-//    .forEach(tr => tbody.appendChild(tr) );
-//})));
+    //document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+    //  console.log(2)
+    //  var table = th.closest('table');
+    //  console.log(3)
+    //  var tbody = table.querySelector('tbody');
+    //  console.log(4)
+    //  Array.from(tbody.querySelectorAll('tr'))
+    //    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+    //    .forEach(tr => tbody.appendChild(tr) );
+    //})));
 }
