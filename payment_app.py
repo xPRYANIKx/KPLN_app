@@ -1500,7 +1500,7 @@ def get_payments_approval_list():
             return render_template(
                 'payment-approval-list.html', menu=hlink_menu, menu_profile=hlink_profile,
                 applications=all_payments, account_money=account_money, available_money=available_money,
-                title='Список согласованных платежей')
+                title='Согласованные платежи')
     except Exception as e:
         pprint(e)
         return f'get_payments_approval_list ❗❗❗ Ошибка \n---{e}'
@@ -1637,7 +1637,7 @@ def get_payments_paid_list():
             return render_template(
                 'payment-paid-list.html', menu=hlink_menu, menu_profile=hlink_profile,
                 applications=all_payments, account_money=account_money, available_money=available_money,
-                title='Список оплаченных платежей')
+                title='Оплаченные платежи')
     except Exception as e:
         pprint(e)
         return f'get_payments_paid_list ❗❗❗ Ошибка \n---{e}'

@@ -1291,6 +1291,45 @@ main {
 ///____________///
 ///____________///
 ///////////////////////////////////////////
+@media (max-width: 1800px) {
+    #payment-approval_page #paymentForm,
+    #payment-approval-list_page .help_info,
+    #payment-approval-list_page #payment-table,
+    #payment-paid-list_page .help_info,
+    #payment-paid-list_page #payment-table,
+    #payment-pay_page #paymentForm {
+        display: none;
+    }
+}
+@media (max-width: 820px) {
+    #payment-approval_page,
+    #payment-approval-list_page,
+    #payment-paid-list_page,
+    #payment-pay_page {
+        .tpages_top_panel {
+            width: 500px;
+            padding-left: 15px;
+            h1 {
+                width: 100%;
+                font-size: 29px;
+            }
+            .cards-container {
+                flex-direction: column;
+                .card {
+                    max-width: 100%;
+                }
+            }
+            #payment-approval__menu {
+                width: 100%;
+                flex-direction: column;
+                .not_form_button {
+                    margin: 0px 0px 8px 0px;
+                }
+            }
+        }
+    }
+}
+
 @media (max-width: 720px) {
     header {
         #menu {
@@ -1420,6 +1459,37 @@ main {
             }
             .form_description {
                 margin-bottom: 5px;
+            }
+        }
+    }
+
+    #payment-approval_page,
+    #payment-approval-list_page,
+    #payment-paid-list_page,
+    #payment-pay_page {
+        main {
+            padding: 90px 40px 0px 20px;
+            .tpages_top_panel {
+                width: 100%;
+                h1 {
+                    font-size: 24px;
+                }
+                .cards-container .card {
+                    min-width: 100% !important;
+                    .cards_h1_border .card-title,
+                    .card-title {
+                        font-size: 23px;
+                    }
+                    .card-cost {
+                        font-size: 11px;
+                    }
+                }
+                #payment-approval__menu {
+                    .not_form_button {
+                        margin: 0px 0px 8px 13px;
+                        font-size: 13px;
+                    }
+                }
             }
         }
     }
@@ -1854,7 +1924,6 @@ main {
             }
         }
     }
-
     #new-payment_page {
         #new_payment {
             min-width: 250px;
@@ -1885,6 +1954,34 @@ main {
             }
             .help_p {
                 font-size: 8px;
+            }
+        }
+    }
+
+    #payment-approval_page,
+    #payment-approval-list_page,
+    #payment-paid-list_page,
+    #payment-pay_page {
+        main {
+            .tpages_top_panel {
+                h1 {
+                    font-size: 20px;
+                }
+                .cards-container .card {
+                    .cards_h1_border .card-title,
+                    .card-title {
+                        font-size: 20px;
+                    }
+                    .card-cost {
+                        font-size: 9.5px;
+                    }
+                }
+                #payment-approval__menu {
+                    .not_form_button {
+                        min-width: 100%;
+                        margin: 0px 0px 8px 9px;
+                    }
+                }
             }
         }
     }
