@@ -1675,18 +1675,14 @@ def get_payments_paid_list():
         return f'get_payments_paid_list ❗❗❗ Ошибка \n---{e}'
 
 
-@payment_app_bp.route('/save_payment', methods=['POST'])
-def save_payment():
-    # Get the updated data from the modal window
-    id = request.form.get('id')
-    name = request.form.get('name')
-    amount = request.form.get('amount')
-
-    # Update the data in the database
-    for key, val in request.form.items():
-        print('   ', key, val)
-
-    return jsonify({'message': 'Payment saved successfully'})
+@payment_app_bp.route('/test')
+# @login_required
+def get_test_button():
+    """Страница создания новой заявки на оплату"""
+    try:
+        return render_template('test.html', title='Новая заявка на оплату')
+    except Exception as e:
+        return f'payment ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/update_payment/<int:payment_id>', methods=['GET'])
@@ -1846,6 +1842,7 @@ def update_payment(payment_id):
                       GROUP BY payment_id)
         SELECT 
                 t1.payment_id,
+                to_char(t1.create_at, 'yy.MM.dd') AS payment_at_2,
                 date_trunc('second', timezone('UTC-3', t1.create_at)::timestamp) AS payment_at,
                 t2.payment_agreed_status_name, 
                 t0.paid_sum,

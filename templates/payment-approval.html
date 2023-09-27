@@ -51,16 +51,16 @@
                     <div><label for="responsible">Ответственный:</label>
                         <select name="responsible" id="responsible" required onchange="checkFormNewPayment()">
                             {% for r in responsible %}
-                            <option value="{{ r[0] }}-@@@-{{ r[1] }} {{ r[2] }}">{{ r[1] }} {{ r[2] }}</option>
+                            <option value="{{ r[0] }}">{{ r[1] }} {{ r[2] }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="unitedform">
                         <div><label for="cost_items">Тип заявки:</label>
                             <select name="cost_items" id="cost_items" required onchange="checkFormNewPayment()">
+                                <option value="0"></option>
                                 {% for category, names in cost_items.items() %}
                                 <optgroup label="{{ category }}">
-                                    <option value="0"></option>
                                     {% for name in names %}
                                     <option value="{{ name[1] }}">{{ name[0] }}</option>
                                     {% endfor %}
@@ -120,7 +120,16 @@
             </div>
             <div id="payment-approval__dialog__menu__list">
                 <h2><img src="static/img/h1/history.png"> История платежей</h2>
-                <div id="payment-approval__dialog__menu__list__content"></div>
+                <div id="payment-approval__dialog__menu__list__content">
+                    <table id="paid_history-table" name="paid_history" class="display">
+                        <thead>
+                                <th class="th_date">ДАТА</th>
+                                <th class="th_sum">СТАТУС</th>
+                                <th class="th_sum">СУММА</th>
+                        </thead>
+                        <tbody id="history_tb"></tbody>
+                    </table>
+                </div>
                 <div id="payment-approval__dialog__menu__list__button">
                     <button id="closeBtn">Отмена</button>
                 </div>

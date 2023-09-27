@@ -2,8 +2,10 @@ function getModal2(paymentId=null) {
     fetch('/update_payment/' + paymentId)
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             console.log(data.payment)
-            console.log(data.payment[5])
+            console.log(data.paid)
+            console.log(data.paid[0][1])
             console.log(data.payment.basis_of_payment)
             console.log(data.payment['basis_of_payment'])
             console.log(typeof data.payment)
@@ -14,7 +16,7 @@ function getModal2(paymentId=null) {
 
             const select = document.getElementById('responsible');
             for (let i = 0; i < select.length; i++) {
-                if (select[i].value === data.payment['user_id'] + '-@@@-' + data.payment['last_name'] + ' ' + data.payment['first_name']) select[i].selected = true;
+                if (select[i].value === data.payment['user_id'].toString()) select[i].selected = true;
             }
 
             const select2 = document.getElementById('cost_items');
@@ -44,6 +46,27 @@ function getModal2(paymentId=null) {
 
             document.getElementById('payment_sum').value = data.payment['amount_rub'];
 
+            if (data.paid.length) {
+                let history_table = document.getElementById('history_tb');
+                for (let i = 0; i < data.paid.length; i++) {
+                    let newRow = document.createElement("tr");
+
+                    let newCell1 = document.createElement("td");
+                    newCell1.innerHTML = data.paid[i][1];
+
+                    let newCell2 = document.createElement("td");
+                    newCell2.innerHTML = data.paid[i][3];
+
+                    let newCell3 = document.createElement("td");
+                    newCell3.innerHTML = data.paid[i][5];
+
+                    newRow.appendChild(newCell1);
+                    newRow.appendChild(newCell2);
+                    newRow.appendChild(newCell3);
+
+                    history_table.appendChild(newRow);
+                }
+            }
         })
         .catch(error => {
           console.error('Error:', error);
