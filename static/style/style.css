@@ -1165,42 +1165,43 @@ main .focus_button {
   background-color: #f3f5f5;
   box-shadow: none;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form p label,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form p label,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form p label,
-#payment-pay_page #payment-approval__dialog__menu__edit form p label {
-  font-size: 14px;
-}
 #payment-approval_page #payment-approval__dialog__menu__edit form div,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form div,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form div,
 #payment-pay_page #payment-approval__dialog__menu__edit form div {
   flex-direction: column;
-  margin: 5px 0 5px 0;
-}
-#payment-approval_page #payment-approval__dialog__menu__edit form div div,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form div div,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form div div,
-#payment-pay_page #payment-approval__dialog__menu__edit form div div {
-  margin: 5px 0 5px 0;
+  margin: 0;
+  margin-bottom: 8px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form div label,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form div label,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form div label,
 #payment-pay_page #payment-approval__dialog__menu__edit form div label {
-  font-size: 14px;
+  margin-bottom: 2px;
+  margin-left: -1px;
+  font-size: 13px;
+}
+#payment-approval_page #payment-approval__dialog__menu__edit form div textarea,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form div textarea,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form div textarea,
+#payment-pay_page #payment-approval__dialog__menu__edit form div textarea {
+  height: 73px;
+  font-size: 11.4px;
+}
+#payment-approval_page #payment-approval__dialog__menu__edit form div select,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form div select,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form div select,
+#payment-pay_page #payment-approval__dialog__menu__edit form div select {
+  font-size: 11.4px;
+  padding-top: 2px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form div input,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form div input,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form div input,
 #payment-pay_page #payment-approval__dialog__menu__edit form div input {
   min-height: 28px;
-}
-#payment-approval_page #payment-approval__dialog__menu__edit form div input,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form div input,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form div input,
-#payment-pay_page #payment-approval__dialog__menu__edit form div input {
-  padding-left: 9px;
+  padding-left: 8px;
+  font-size: 11.4px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form div input::-moz-placeholder, #payment-approval-list_page #payment-approval__dialog__menu__edit form div input::-moz-placeholder, #payment-paid-list_page #payment-approval__dialog__menu__edit form div input::-moz-placeholder, #payment-pay_page #payment-approval__dialog__menu__edit form div input::-moz-placeholder {
   padding-left: 0px;
@@ -1211,11 +1212,17 @@ main .focus_button {
 #payment-pay_page #payment-approval__dialog__menu__edit form div input::placeholder {
   padding-left: 0px;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form .consider_div,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form .consider_div,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form .consider_div,
-#payment-pay_page #payment-approval__dialog__menu__edit form .consider_div {
-  margin-bottom: 10px;
+#payment-approval_page #payment-approval__dialog__menu__edit form div #sum_remain,
+#payment-approval_page #payment-approval__dialog__menu__edit form div #sum_remain:active,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form div #sum_remain,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form div #sum_remain:active,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form div #sum_remain,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form div #sum_remain:active,
+#payment-pay_page #payment-approval__dialog__menu__edit form div #sum_remain,
+#payment-pay_page #payment-approval__dialog__menu__edit form div #sum_remain:active {
+  background-color: #c9c9c9;
+  cursor: auto;
+  outline: none;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div,
@@ -1223,6 +1230,12 @@ main .focus_button {
 #payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div {
   padding-bottom: 16px;
   border-bottom: solid 2px rgba(128, 128, 128, 0.168627451);
+}
+#payment-approval_page #payment-approval__dialog__menu__edit form .description_p,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form .description_p,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form .description_p,
+#payment-pay_page #payment-approval__dialog__menu__edit form .description_p {
+  margin-top: -8px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form .button_group,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group,
