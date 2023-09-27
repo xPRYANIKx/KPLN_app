@@ -45,9 +45,10 @@
             <div id="payment-approval__dialog__menu__edit">
                 <h1><img src="static/img/h1/edit_pay.png"> Редактировать платёж</h1>
                 <form id="new_payment" method="POST" action="/new-payment2">
-                    <p><label for="basis_of_payment">Наименование платежа:</label>
+                    <div><label for="basis_of_payment">Наименование платежа:</label>
                         <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required>
                 </textarea>
+                    </div>
                     <div><label for="responsible">Ответственный:</label>
                         <select name="responsible" id="responsible" required onchange="checkFormNewPayment()">
                             {% for r in responsible %}
@@ -78,9 +79,9 @@
                             </select>
                         </div>
                     </div>
-                    <p><label for="payment_description">Описание:</label>
+                    <div class="description_p"><label for="payment_description">Описание:</label>
                         <textarea name="payment_description" id="payment_description" rows="4" required></textarea>
-                    </p>
+                    </div>
                     <div class="consider_div"><label for="partners">Контрагент:</label>
                         <input type="text" name="partners" id="partners" list="partners_name" value="">
                         <datalist id="partners_name">
@@ -102,11 +103,10 @@
                         </select>
                     </div>
                     <div id="payment_main_sum_div"><label for="main_sum">Общая сумма:</label>
-                        <input type="text" placeholder="руб." name="main_sum" id="main_sum" onchange="numberWithSpaces(event, ' руб.')" value=""
-                            required />
+                        <input type="text" placeholder="руб." name="main_sum" id="main_sum" onchange="numberWithSpaces(event, ' руб.')" value="" required />
                     </div>
                     <div id="payment_sum_remain_div"><label for="sum_remain">Остаток к оплате:</label>
-                        <input name="sum_remain" id="sum_remain" value="" readonly />
+                        <input name="sum_remain" id="sum_remain" value="" readonly="readonly" />
                     </div>
                     <div id="payment_sum_div"><label for="payment_sum">Сумма оплаты:</label>
                         <input type="text" placeholder="руб." name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' руб.')" value=""
@@ -211,8 +211,9 @@
                             onchange="paymentApprovalRecalcCards({{ loop.index }})">
                     </td>
                     <td class="th_category_i" data-sort="{{ application.cost_item_name }}" onclick="getModal2({{ application.payment_id }})">
-                        <input id="paymentNumber-{{ loop.index }}" name="payment_number"  value="{{application.payment_id}}" hidden readonly>{{
-                        application.cost_item_name }}</td>
+                        <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{
+                        application.cost_item_name }}
+                    </td>
                     <td class="th_name_i showModalId" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}"
                         onclick="getModal2({{ application.payment_id }})">{{
                         application.basis_of_payment_short }}</td>
