@@ -9,13 +9,11 @@ function saveData(rowId, page='') {
     if (statusId) {
         statusId = document.getElementById('status_id-' + rowId).value
     }
-
     // Если согласованная сумма больше остатка, приравниваем согл.сум к остатку
     if (amount && parseFloat(amount) > parseFloat(approvalSum)) {
         document.getElementById('amount-' + rowId).value = approvalSum;
         amount = approvalSum;
     }
-
     // Send a POST request to the server
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/save_quick_changes_approved_payments', true);

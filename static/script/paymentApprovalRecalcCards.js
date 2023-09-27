@@ -58,6 +58,11 @@ function paymentApprovalRecalcCards(rowId) {
             document.getElementById('amount-' + rowId).dataset.amount = amount_value;
         }
     }
+    else {
+        s_f_a_p -= amount_dataset;
+        a_m_v += amount_dataset;
+        document.getElementById('amount-' + rowId).dataset.amount = 0;
+    }
 
     tabColorize(rowId);
 

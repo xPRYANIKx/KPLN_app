@@ -65,7 +65,7 @@
                 <tr id="row-{{ loop.index }}">
                     <td class="th_select_i" data-sort="{{ loop.index }}">
                         <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
-                            onchange="paymentApprovalRecalcCards()">
+                            onchange="paymentApprovalRecalcCards({{ loop.index }})">
                     </td>
                     <td data-sort="{{application.contractor_id}}">
                         <input name="contractor_id" value="{{application.contractor_id}}" hidden readonly>
@@ -87,7 +87,7 @@
                     <td><input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>{{
                         application.approval_sum_rub}}</td>
                     <td><input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}"
-                            onchange="saveData({{ loop.index }}, '{{ page }}')" oninput="paymentApprovalRecalcCards()"></td>
+                            onchange="saveData({{ loop.index }}, '{{ page }}')" oninput="paymentApprovalRecalcCards({{ loop.index }})"></td>
                     <td>{{ application.payment_due_date }}</td>
                     <td class="th_save_pay_i">
                         <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if

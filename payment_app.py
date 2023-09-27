@@ -288,9 +288,9 @@ def get_unapproved_payments():
                     t1.payment_sum,
                     COALESCE(TRIM(to_char(t1.payment_sum, '999 999 999D99 ₽')), '') AS payment_sum_rub,
                     COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum) AS approval_sum,
-                    TRIM(to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '9 999 999D99 ₽')) AS approval_sum_rub,
+                    TRIM(to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '999 999 999D99 ₽')) AS approval_sum_rub,
                     COALESCE(t8.amount, null) AS amount,
-                    COALESCE(TRIM(to_char(t8.amount, '999 999 999D99 ₽')), '') AS amount_rub,
+                    COALESCE(TRIM(to_char(t8.amount, '999 999 999 999D99 ₽')), '') AS amount_rub,
                     t1.payment_due_date AS payment_due_date2,
                     to_char(t1.payment_due_date, 'yy.mm.dd') AS payment_due_date,
                     t2.status_id,
@@ -372,6 +372,37 @@ def get_unapproved_payments():
         available_money = cursor.fetchone()
         available_money = account_money - available_money[0] if available_money[0] else account_money
 
+        # Список ответственных
+        cursor.execute(
+            "SELECT user_id, last_name, first_name FROM users WHERE is_fired = FALSE")
+        responsible = cursor.fetchall()
+
+        # Список типов заявок
+        cursor.execute(
+            "SELECT cost_item_id, cost_item_name, cost_item_category FROM payment_cost_items")
+        cost_items_list = cursor.fetchall()
+        # передаём данные в виде словаря для создания сгруппированного выпадающего списка
+        cost_items = {}
+        for item in cost_items_list:
+            key = item[2]
+            value = [item[1], item[0]]
+            if key in cost_items:
+                cost_items[key].append(value)
+            else:
+                cost_items[key] = [value]
+
+        # Список объектов
+        cursor.execute("SELECT object_id, object_name FROM objects")
+        objects_name = cursor.fetchall()
+
+        # Список контрагентов
+        cursor.execute("SELECT DISTINCT partner FROM payments_summary_tab")
+        partners = cursor.fetchall()
+
+        # Список наших компаний из таблицы contractors
+        cursor.execute("SELECT contractor_id, contractor_name FROM our_companies")
+        our_companies = cursor.fetchall()
+
         login_app.conn_cursor_close(cursor, conn)
 
         # Create profile name dict
@@ -380,7 +411,8 @@ def get_unapproved_payments():
         return render_template(
             'payment-approval.html', menu=hlink_menu, menu_profile=hlink_profile,
             applications=all_payments, approval_statuses=approval_statuses, account_money=account_money,
-            available_money=available_money, page=request.path[1:], title='Согласование платежей')
+            available_money=available_money, responsible=responsible, cost_items=cost_items, objects_name=objects_name,
+            partners=partners, our_companies=our_companies, page=request.path[1:], title='Согласование платежей')
     # except Exception as e:
     #     pprint(e)
     #     return f'get_unapproved_payments ❗❗❗ Ошибка \n---{e}'
@@ -1657,17 +1689,17 @@ def save_payment():
     return jsonify({'message': 'Payment saved successfully'})
 
 
-@payment_app_bp.route('/update_payment', methods=['POST'])
-def update_payment():
-    # Get the data from the AJAX request
-    data = request.get_json()
+@payment_app_bp.route('/update_payment/<int:payment_id>', methods=['GET'])
+def update_payment(payment_id):
+    print('update_payment')
 
-    print('data  ', data)
+    data = payment_id
 
     user_id = login_app.current_user.get_id()
     # Connect to the database
     conn, cursor = login_app.conn_cursor_init_dict()
-    payment_id = data['paymentId']
+    # payment_id = data['paymentId']
+    payment_id = data
 
     # Список ответственных
     cursor.execute(
@@ -1707,6 +1739,7 @@ def update_payment():
                 t1.payment_id,
                 t3.contractor_name, 
                 t3.contractor_id, 
+                t4.cost_item_id,
                 t4.cost_item_name, 
                 t1.payment_number,  
                 SUBSTRING(t1.basis_of_payment, 1,70) AS basis_of_payment_short,
@@ -1715,7 +1748,8 @@ def update_payment():
                 t5.first_name,
                 t5.last_name,
                 SUBSTRING(t1.payment_description, 1,70) AS payment_description_short,
-                t1.payment_description, 
+                t1.payment_description,
+                COALESCE(t6.object_id, 0) AS object_id,
                 COALESCE(t6.object_name, '') AS object_name,
                 t1.partner,
                 t1.payment_sum,
@@ -1725,7 +1759,7 @@ def update_payment():
                 COALESCE(t8.amount, null) AS amount,
                 COALESCE(TRIM(to_char(t8.amount, '999 999 999D99 ₽')), '') AS amount_rub,
                 t1.payment_due_date AS payment_due_date2,
-                to_char(t1.payment_due_date, 'yy.mm.dd') AS payment_due_date,
+                to_char(t1.payment_due_date, 'yyyy-MM-dd') AS payment_due_date,
                 t2.status_id,
                 date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp) AS payment_at,
                 t1.payment_full_agreed_status
@@ -1834,13 +1868,19 @@ def update_payment():
 
     login_app.conn_cursor_close(cursor, conn)
 
-    print('update_payment')
-    print(len(cost_items))
+    print('  update_payment', len(cost_items))
     print(cost_items)
-    print(payment['payment_number'])
+    print(payment['basis_of_payment'])
     print(payment[4])
     print(payment)
-
+    print(f'''payment: {payment},
+approval': {approval},
+paid': {paid},
+responsible': {responsible},
+cost_items': {cost_items},
+objects_name': {objects_name},
+partners': {partners},
+our_companies': {our_companies}''')
 
 
 
@@ -1856,7 +1896,7 @@ def update_payment():
 
     # Return the updated data as a response
     return jsonify({
-        'payment': payment,
+        'payment': dict(payment),
         'approval': approval,
         'paid': paid,
         'responsible': responsible,

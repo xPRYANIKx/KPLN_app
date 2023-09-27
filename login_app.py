@@ -154,6 +154,9 @@ def login():
                 # flash(message=['Вы вошли в систему', ''], category='success')
                 return redirect(request.args.get("next") or url_for("login_app.index"))
 
+            else:
+                flash(message=['Пользователь не найден', ''], category='error')
+
             conn.close()
             return redirect(url_for('.login'))
 
