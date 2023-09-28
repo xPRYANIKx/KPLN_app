@@ -1107,11 +1107,12 @@ main {
                     padding-bottom: 8px;
                     border-bottom: solid 2px #dddddd;
                     font-size: 14px;
+                    label {
+                        color: #140397;
+                    }
                 }
                 h2 {
                     display: flex;
-                    padding-bottom: 5px;
-                    border-bottom: solid 2px #dddddd;
                     font-weight: 900;
                     img {
                         width: 20px;
@@ -1120,7 +1121,7 @@ main {
                     }
                 }
                 &__content {
-                    height: 81.3%;
+                    height: 82%;
                     margin: 10px 0px;
                     border-radius: 5px;
                     border: solid 1px #8080809c;
