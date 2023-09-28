@@ -1,69 +1,77 @@
-function getModal2(paymentId=null) {
-    var dataToUpdate = {
-        paymentId: paymentId,
-        newPaymentStatus: 'Completed'
-      };
+function getModal(paymentId=null) {
+    fetch('/get_card_payment/' + paymentId)
+        .then(response => response.json())
+        .then(data => {
+//            console.log(data)
+//            console.log(data.payment)
+//            console.log(data.paid)
+//            console.log(data.payment.basis_of_payment)
+//            console.log(data.payment['basis_of_payment'])
+//            console.log(typeof data.payment)
+//            console.log(data.payment['payment_description'])
 
-    // Send an AJAX request to the Flask route
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/save_payment', true);
-//    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Content-Type', 'application/json');
+            document.getElementById('payment_id').textContent = data.payment['payment_id'];
+            document.getElementById('payment_number').textContent = data.payment['payment_number'];
 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            // Handle the response here
-            var updatedData = JSON.parse(xhr.responseText);
-            console.log(updatedData)
+            document.getElementById('basis_of_payment').textContent = data.payment['basis_of_payment'];
 
-            // Update the window with the new data
-            // Название карточки
-            document.getElementById('card_title').innerText = updatedData.payment[5];
-
-            // Наименование платежа
-            document.getElementById('basis_of_payment').innerText = updatedData.payment[6];
-
-            // Ответственный
-            var selectElement = document.getElementById('responsible')
-            selectElement.innerHTML = "";
-            // Loop through the new list
-            for (var i = 0; i < updatedData.responsible.length; i++) {
-                // Create a new option element
-                var option = document.createElement("option");
-                // Set the value and text of the option
-                option.value = updatedData.responsible[i][0];
-                option.text = updatedData.responsible[i][1] + ' ' + updatedData.responsible[i][2];
-                // Append the option to the select element
-                selectElement.appendChild(option);
+            const select = document.getElementById('responsible');
+            for (let i = 0; i < select.length; i++) {
+                if (select[i].value === data.payment['user_id'].toString()) select[i].selected = true;
             }
-            document.getElementById('responsible').value = updatedData.payment[7]
 
-            // Тип заявки
-            var selectElement = document.getElementById('cost_items')
-            selectElement.innerHTML = "";
-            // Loop through the new list
-            for (var i = 0; i < updatedData.cost_items.length; i++) {
-                // Create a new option element
-                console.log(updatedData.cost_items[i][0], updatedData.cost_items[i][1], updatedData.cost_items[i][2])
-                var optgroup = document.createElement("optgroup");
-                for (var i2 = 0; i2 < updatedData.cost_items[i].length; i2++) {
-                    var option = document.createElement("option");
-                // Set the value and text of the option
-                option.value = updatedData.cost_items[i][0];
-                option.text = updatedData.cost_items[i][1] + ' ' + updatedData.responsible[i][2];
-                // Append the option to the select element
-                selectElement.appendChild(option);
+            const select2 = document.getElementById('cost_items');
+            for (let i = 0; i < select2.length; i++) {
+                if (select2[i].value === data.payment['cost_item_id'].toString()) select2[i].selected = true;
             }
-            document.getElementById('cost_items').value = updatedData.payment[9] + ' ' + updatedData.payment[8]
-            selectElement.selectedIndex = updatedData.payment[7]
 
+            const select3 = document.getElementById('objects_name');
+            for (let i = 0; i < select3.length; i++) {
+                if (select3[i].value === data.payment['object_id'].toString()) select3[i].selected = true;
+            }
 
-//            document.getElementById('responsible').innerText = updatedData.payment[6];
-            console.log(updatedData.payment[5]);
-            console.log(updatedData.payment);
-        }
-    };
+            document.getElementById('payment_description').textContent = data.payment['payment_description'];
 
-    xhr.send(JSON.stringify(dataToUpdate));
+            document.getElementById('partners').value = data.payment['partner'];
 
+            document.getElementById('payment_due_date').value = data.payment['payment_due_date'];
+
+            const select4 = document.getElementById('our_company');
+            for (let i = 0; i < select3.length; i++) {
+                if (select4[i].value === data.payment['contractor_id'].toString()) select4[i].selected = true;
+            }
+
+            document.getElementById('main_sum').value = data.payment['payment_sum_rub'];
+
+            document.getElementById('sum_remain').value = data.payment['approval_sum_rub'];
+
+            document.getElementById('payment_sum').value = data.payment['amount_rub'];
+
+            document.getElementById('historic_approval_sum').textContent = data.payment['historic_approval_sum_rub'];
+
+            if (data.paid.length) {
+                let history_table = document.getElementById('history_tb');
+                for (let i = 0; i < data.paid.length; i++) {
+                    let newRow = document.createElement("tr");
+
+                    let newCell1 = document.createElement("td");
+                    newCell1.innerHTML = data.paid[i][1];
+
+                    let newCell2 = document.createElement("td");
+                    newCell2.innerHTML = data.paid[i][3];
+
+                    let newCell3 = document.createElement("td");
+                    newCell3.innerHTML = data.paid[i][5];
+
+                    newRow.appendChild(newCell1);
+                    newRow.appendChild(newCell2);
+                    newRow.appendChild(newCell3);
+
+                    history_table.appendChild(newRow);
+                }
+            }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+    });
 };
