@@ -1245,13 +1245,13 @@ main .focus_button {
   justify-content: space-between;
   margin-top: 15px;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form .button_group #delete__edit_btn,
+#payment-approval_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
 #payment-approval_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #delete__edit_btn,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #delete__edit_btn,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn,
-#payment-pay_page #payment-approval__dialog__menu__edit form .button_group #delete__edit_btn,
+#payment-pay_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
 #payment-pay_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn {
   width: 145px;
   margin-bottom: 0px;
@@ -1259,10 +1259,10 @@ main .focus_button {
   font-weight: bold;
   cursor: pointer;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form .button_group #delete__edit_btn,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #delete__edit_btn,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #delete__edit_btn,
-#payment-pay_page #payment-approval__dialog__menu__edit form .button_group #delete__edit_btn {
+#payment-approval_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
+#payment-pay_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn {
   background-color: #670000;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn,

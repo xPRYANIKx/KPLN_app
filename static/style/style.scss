@@ -1067,7 +1067,7 @@ main {
                         flex-direction: row;
                         justify-content: space-between;
                         margin-top: 15px;
-                        #delete__edit_btn,
+                        #annul__edit_btn,
                         #save__edit_btn {
                             width: 145px;
                             margin-bottom: 0px;
@@ -1075,7 +1075,7 @@ main {
                             font-weight: bold;
                             cursor: pointer;
                         }
-                        #delete__edit_btn {
+                        #annul__edit_btn {
                             background-color: #670000;
                         }
                         #save__edit_btn {

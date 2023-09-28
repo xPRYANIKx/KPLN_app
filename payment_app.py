@@ -1847,8 +1847,9 @@ def get_card_payment(payment_id):
                 to_char(t1.create_at, 'dd.MM.yy HH:MI:SS') AS payment_at_2,
                 date_trunc('second', timezone('UTC-3', t1.create_at)::timestamp) AS payment_at,
                 t2.payment_agreed_status_name, 
-                t0.paid_sum,
-                TRIM(to_char(t1.paid_sum, '9 999 999D99 ₽')) AS paid_sum_rub
+                t0.paid_sum AS total_paid_sum,
+                TRIM(to_char(t1.paid_sum, '9 999 999D99 ₽')) AS paid_sum_rub,
+                TRIM(to_char(t0.paid_sum, '9 999 999D99 ₽')) AS total_paid_sum_rub
         FROM payments_paid_history AS t1
         LEFT JOIN (
                 SELECT  
