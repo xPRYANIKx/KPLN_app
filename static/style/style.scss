@@ -1056,6 +1056,13 @@ main {
                             outline: none;
                         }
                     }
+                    .name__payment {
+                        flex-direction: row;
+                        font-size: 12px;
+                        &__h {
+                            font-weight: 900;
+                        }
+                    }
                     #payment_sum_div {
                         padding-bottom: 16px;
                         border-bottom: solid 2px #8080802b;
@@ -1101,7 +1108,7 @@ main {
                     }
                 }
                 &__content {
-                    height: 89%;
+                    height: 80%;
                     margin: 10px 0px;
                     border-radius: 5px;
                     border: solid 1px #8080809c;

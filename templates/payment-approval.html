@@ -44,10 +44,10 @@
         <div id="payment-approval__dialog__menu">
             <div id="payment-approval__dialog__menu__edit">
                 <h1><img src="static/img/h1/edit_pay.png"> Редактировать платёж</h1>
-<!--                <form id="new_payment" method="POST" action="/new-payment2">-->
+                <!--                <form id="new_payment" method="POST" action="/new-payment2">-->
                 <form id="new_payment">
-                    <div><label id="payment_id" hidden="hidden"></label>
-                        Платёж №:<label id="payment_number"></label>
+                    <div class="name__payment"><span id="payment_id" hidden="hidden"></span>
+                        <span class="name__payment__h">Платёж №:&nbsp;</span><span id="payment_number"></span>
                     </div>
                     <div><label for="basis_of_payment">Наименование платежа:</label>
                         <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required>
@@ -130,9 +130,9 @@
                 <div id="payment-approval__dialog__menu__list__content">
                     <table id="paid_history-table" name="paid_history" class="display">
                         <thead>
-                                <th class="th_date">ДАТА</th>
-                                <th class="th_sum">СТАТУС</th>
-                                <th class="th_sum">СУММА</th>
+                            <th class="th_date">ДАТА</th>
+                            <th class="th_sum">СТАТУС</th>
+                            <th class="th_sum">СУММА</th>
                         </thead>
                         <tbody id="history_tb"></tbody>
                     </table>
