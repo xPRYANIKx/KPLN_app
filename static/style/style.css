@@ -1185,7 +1185,7 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__edit form div textarea,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form div textarea,
 #payment-pay_page #payment-approval__dialog__menu__edit form div textarea {
-  height: 73px;
+  height: 62px;
   font-size: 11.4px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form div select,
@@ -1224,6 +1224,20 @@ main .focus_button {
   cursor: auto;
   outline: none;
 }
+#payment-approval_page #payment-approval__dialog__menu__edit form .name__payment,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form .name__payment,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form .name__payment,
+#payment-pay_page #payment-approval__dialog__menu__edit form .name__payment {
+  flex-direction: row;
+  margin-left: -1px;
+  font-size: 12px;
+}
+#payment-approval_page #payment-approval__dialog__menu__edit form .name__payment__h,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form .name__payment__h,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form .name__payment__h,
+#payment-pay_page #payment-approval__dialog__menu__edit form .name__payment__h {
+  font-weight: 900;
+}
 #payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div,
@@ -1243,16 +1257,16 @@ main .focus_button {
 #payment-pay_page #payment-approval__dialog__menu__edit form .button_group {
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 15px;
+  margin-top: 5px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
-#payment-approval_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn,
+#payment-approval_page #payment-approval__dialog__menu__edit form .button_group #annul_approval__edit_btn,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #annul_approval__edit_btn,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #annul_approval__edit_btn,
 #payment-pay_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
-#payment-pay_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn {
+#payment-pay_page #payment-approval__dialog__menu__edit form .button_group #annul_approval__edit_btn {
   width: 145px;
   margin-bottom: 0px;
   font-size: 13px;
@@ -1265,11 +1279,11 @@ main .focus_button {
 #payment-pay_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn {
   background-color: #670000;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn,
-#payment-pay_page #payment-approval__dialog__menu__edit form .button_group #save__edit_btn {
-  background-color: #0e4d1a;
+#payment-approval_page #payment-approval__dialog__menu__edit form .button_group #annul_approval__edit_btn,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #annul_approval__edit_btn,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #annul_approval__edit_btn,
+#payment-pay_page #payment-approval__dialog__menu__edit form .button_group #annul_approval__edit_btn {
+  background-color: #670000;
 }
 #payment-approval_page #payment-approval__dialog__menu__list,
 #payment-approval-list_page #payment-approval__dialog__menu__list,
@@ -1280,13 +1294,34 @@ main .focus_button {
   padding: 0px 5px 0px 20px;
   border-left: solid 2px #e5e5e5;
 }
+#payment-approval_page #payment-approval__dialog__menu__list #historic_approval_sum_div_h,
+#payment-approval-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div_h,
+#payment-paid-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div_h,
+#payment-pay_page #payment-approval__dialog__menu__list #historic_approval_sum_div_h {
+  margin-bottom: 3px;
+  font-size: 15px;
+  font-weight: 900;
+}
+#payment-approval_page #payment-approval__dialog__menu__list #historic_approval_sum_div,
+#payment-approval-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div,
+#payment-paid-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div,
+#payment-pay_page #payment-approval__dialog__menu__list #historic_approval_sum_div {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: solid 2px #dddddd;
+  font-size: 14px;
+}
+#payment-approval_page #payment-approval__dialog__menu__list #historic_approval_sum_div label,
+#payment-approval-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div label,
+#payment-paid-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div label,
+#payment-pay_page #payment-approval__dialog__menu__list #historic_approval_sum_div label {
+  color: #140397;
+}
 #payment-approval_page #payment-approval__dialog__menu__list h2,
 #payment-approval-list_page #payment-approval__dialog__menu__list h2,
 #payment-paid-list_page #payment-approval__dialog__menu__list h2,
 #payment-pay_page #payment-approval__dialog__menu__list h2 {
   display: flex;
-  padding-bottom: 5px;
-  border-bottom: solid 2px #dddddd;
   font-weight: 900;
 }
 #payment-approval_page #payment-approval__dialog__menu__list h2 img,
@@ -1301,25 +1336,55 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__list__content,
 #payment-paid-list_page #payment-approval__dialog__menu__list__content,
 #payment-pay_page #payment-approval__dialog__menu__list__content {
-  height: 89%;
+  height: 82%;
   margin: 10px 0px;
   border-radius: 5px;
   border: solid 1px rgba(128, 128, 128, 0.6117647059);
   background-color: #ffffff;
+}
+#payment-approval_page #payment-approval__dialog__menu__list__content table,
+#payment-approval-list_page #payment-approval__dialog__menu__list__content table,
+#payment-paid-list_page #payment-approval__dialog__menu__list__content table,
+#payment-pay_page #payment-approval__dialog__menu__list__content table {
+  width: 100%;
+}
+#payment-approval_page #payment-approval__dialog__menu__list__content table tr th,
+#payment-approval-list_page #payment-approval__dialog__menu__list__content table tr th,
+#payment-paid-list_page #payment-approval__dialog__menu__list__content table tr th,
+#payment-pay_page #payment-approval__dialog__menu__list__content table tr th {
+  font-size: 11px;
+}
+#payment-approval_page #payment-approval__dialog__menu__list__content table .th_date,
+#payment-approval-list_page #payment-approval__dialog__menu__list__content table .th_date,
+#payment-paid-list_page #payment-approval__dialog__menu__list__content table .th_date,
+#payment-pay_page #payment-approval__dialog__menu__list__content table .th_date {
+  width: 62px;
+}
+#payment-approval_page #payment-approval__dialog__menu__list__content table .th_sum,
+#payment-approval-list_page #payment-approval__dialog__menu__list__content table .th_sum,
+#payment-paid-list_page #payment-approval__dialog__menu__list__content table .th_sum,
+#payment-pay_page #payment-approval__dialog__menu__list__content table .th_sum {
+  width: 120px;
+}
+#payment-approval_page #payment-approval__dialog__menu__list__content table td,
+#payment-approval-list_page #payment-approval__dialog__menu__list__content table td,
+#payment-paid-list_page #payment-approval__dialog__menu__list__content table td,
+#payment-pay_page #payment-approval__dialog__menu__list__content table td {
+  font-size: 10px;
 }
 #payment-approval_page #payment-approval__dialog__menu__list__button,
 #payment-approval-list_page #payment-approval__dialog__menu__list__button,
 #payment-paid-list_page #payment-approval__dialog__menu__list__button,
 #payment-pay_page #payment-approval__dialog__menu__list__button {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   border-top: solid 2px #dddddd;
 }
 #payment-approval_page #payment-approval__dialog__menu__list__button button,
 #payment-approval-list_page #payment-approval__dialog__menu__list__button button,
 #payment-paid-list_page #payment-approval__dialog__menu__list__button button,
 #payment-pay_page #payment-approval__dialog__menu__list__button button {
-  width: 145px;
+  width: 134px;
   height: 33px;
   margin-top: 10px;
   font-family: "Montserrat";
@@ -1332,6 +1397,12 @@ main .focus_button {
   cursor: pointer;
   box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
 }
+#payment-approval_page #payment-approval__dialog__menu__list #save__edit_btn,
+#payment-approval-list_page #payment-approval__dialog__menu__list #save__edit_btn,
+#payment-paid-list_page #payment-approval__dialog__menu__list #save__edit_btn,
+#payment-pay_page #payment-approval__dialog__menu__list #save__edit_btn {
+  background-color: #0e4d1a;
+}
 #payment-approval_page #payment-approval__dialog #crossBtn,
 #payment-approval-list_page #payment-approval__dialog #crossBtn,
 #payment-paid-list_page #payment-approval__dialog #crossBtn,
@@ -1339,7 +1410,7 @@ main .focus_button {
   position: absolute;
   width: 25px;
   top: 1.2%;
-  right: 2%;
+  right: 2.2%;
   cursor: pointer;
 }
 #payment-approval_page #paymentForm,

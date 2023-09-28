@@ -44,10 +44,10 @@
         <div id="payment-approval__dialog__menu">
             <div id="payment-approval__dialog__menu__edit">
                 <h1><img src="static/img/h1/edit_pay.png"> Редактировать платёж</h1>
-<!--                <form id="new_payment" method="POST" action="/new-payment2">-->
+                <!--                <form id="new_payment" method="POST" action="/new-payment2">-->
                 <form id="new_payment">
-                    <div><label id="payment_id" hidden="hidden"></label>
-                        Платёж №:<label id="payment_number"></label>
+                    <div class="name__payment"><span id="payment_id" hidden="hidden"></span>
+                        <span class="name__payment__h">Платёж №:&nbsp;</span><span id="payment_number"></span>
                     </div>
                     <div><label for="basis_of_payment">Наименование платежа:</label>
                         <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required>
@@ -117,29 +117,30 @@
                     <div class="button_group">
                         <button id="annul__edit_btn">Аннулировать остаток</button>
                         <button id="annul_approval__edit_btn">Аннулировать согласованное</button>
-                        <button id="save__edit_btn">Сохранить</button>
                     </div>
                 </form>
             </div>
             <div id="payment-approval__dialog__menu__list">
-                <h2><img src="static/img/h1/history.png"> Общая сумма согласования</h2>
-                <div id="payment-approval__dialog__menu__list__content__historic_approval">
-                    <label id="historic_approval_sum"></label><br><br>
 
+                <div id="historic_approval_sum_div_h">Общая сумма согласования:</div>
+                <div id="historic_approval_sum_div">
+                    <label id="historic_approval_sum"></label>
                 </div>
+
                 <h2><img src="static/img/h1/history.png">Платежи:&nbsp;<span id="historic_paid_sum"></span></h2>
                 <div id="payment-approval__dialog__menu__list__content">
                     <table id="paid_history-table" name="paid_history" class="display">
                         <thead>
-                                <th class="th_date">ДАТА</th>
-                                <th class="th_sum">СТАТУС</th>
-                                <th class="th_sum">СУММА</th>
+                            <th class="th_date">ДАТА</th>
+                            <th class="th_sum">СТАТУС</th>
+                            <th class="th_sum">СУММА</th>
                         </thead>
                         <tbody id="history_tb"></tbody>
                     </table>
                 </div>
                 <div id="payment-approval__dialog__menu__list__button">
                     <button id="closeBtn">Отмена</button>
+                    <button id="save__edit_btn">Сохранить</button>
                 </div>
             </div>
         </div>
