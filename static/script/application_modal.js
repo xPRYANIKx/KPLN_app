@@ -1,16 +1,16 @@
-function getModal2(paymentId=null) {
+function getModal2(paymentId = null) {
     var dataToUpdate = {
         paymentId: paymentId,
         newPaymentStatus: 'Completed'
-      };
+    };
 
     // Send an AJAX request to the Flask route
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/save_payment', true);
-//    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    //    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('Content-Type', 'application/json');
 
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             // Handle the response here
             var updatedData = JSON.parse(xhr.responseText);
@@ -48,22 +48,23 @@ function getModal2(paymentId=null) {
                 var optgroup = document.createElement("optgroup");
                 for (var i2 = 0; i2 < updatedData.cost_items[i].length; i2++) {
                     var option = document.createElement("option");
-                // Set the value and text of the option
-                option.value = updatedData.cost_items[i][0];
-                option.text = updatedData.cost_items[i][1] + ' ' + updatedData.responsible[i][2];
-                // Append the option to the select element
-                selectElement.appendChild(option);
+                    // Set the value and text of the option
+                    option.value = updatedData.cost_items[i][0];
+                    option.text = updatedData.cost_items[i][1] + ' ' + updatedData.responsible[i][2];
+                    // Append the option to the select element
+                    selectElement.appendChild(option);
+                }
+                document.getElementById('cost_items').value = updatedData.payment[9] + ' ' + updatedData.payment[8]
+                selectElement.selectedIndex = updatedData.payment[7]
+
+
+                //            document.getElementById('responsible').innerText = updatedData.payment[6];
+                console.log(updatedData.payment[5]);
+                console.log(updatedData.payment);
             }
-            document.getElementById('cost_items').value = updatedData.payment[9] + ' ' + updatedData.payment[8]
-            selectElement.selectedIndex = updatedData.payment[7]
+        };
 
+        xhr.send(JSON.stringify(dataToUpdate));
 
-//            document.getElementById('responsible').innerText = updatedData.payment[6];
-            console.log(updatedData.payment[5]);
-            console.log(updatedData.payment);
-        }
-    };
-
-    xhr.send(JSON.stringify(dataToUpdate));
-
-};
+    }
+}
