@@ -1270,6 +1270,7 @@ main {
             .th_sum_agreed_i {
                 input {
                     max-width: 135px;
+                    min-width: 100%;
                     padding: 4px 7px;
                     font-size: 13px;
                 }
@@ -1286,6 +1287,7 @@ main {
             .th_status_i {
                 select {
                     width: 122px;
+                    min-width: 100%;
                     background-position: 96% center;
                     font-size: 13px;
                 }
