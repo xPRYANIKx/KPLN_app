@@ -115,17 +115,18 @@
                             required />
                     </div>
                     <div class="button_group">
-                        <button id="delete__edit_btn">Анулировать</button>
-                        <button id="save__edit_btn">Сохранить</button>
+                        <button id="annul__edit_btn">Аннулировать остаток</button>
+                        <button id="annul_approval__edit_btn">Аннулировать согласованное</button>
                     </div>
                 </form>
             </div>
             <div id="payment-approval__dialog__menu__list">
-                <h2><img src="static/img/h1/history.png"> Общая сумма согласования</h2>
-                <div id="payment-approval__dialog__menu__list__content__historic_approval">
-                    <label id="historic_approval_sum"></label><br><br>
 
+                <div id="historic_approval_sum_div_h">Общая сумма согласования:</div>
+                <div id="historic_approval_sum_div">
+                    <label id="historic_approval_sum"></label>
                 </div>
+
                 <h2><img src="static/img/h1/history.png"> История платежей</h2>
                 <div id="payment-approval__dialog__menu__list__content">
                     <table id="paid_history-table" name="paid_history" class="display">
@@ -139,6 +140,7 @@
                 </div>
                 <div id="payment-approval__dialog__menu__list__button">
                     <button id="closeBtn">Отмена</button>
+                    <button id="save__edit_btn">Сохранить</button>
                 </div>
             </div>
         </div>

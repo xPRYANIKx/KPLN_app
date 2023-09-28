@@ -1034,7 +1034,7 @@ main {
                             font-size: 13px;
                         }
                         textarea {
-                            height: 73px;
+                            height: 62px;
                             font-size: 11.4px;
                         }
                         select {
@@ -1058,6 +1058,7 @@ main {
                     }
                     .name__payment {
                         flex-direction: row;
+                        margin-left: -1px;
                         font-size: 12px;
                         &__h {
                             font-weight: 900;
@@ -1073,20 +1074,20 @@ main {
                     .button_group {
                         flex-direction: row;
                         justify-content: space-between;
-                        margin-top: 15px;
-                        #delete__edit_btn,
-                        #save__edit_btn {
+                        margin-top: 5px;
+                        #annul__edit_btn,
+                        #annul_approval__edit_btn {
                             width: 145px;
                             margin-bottom: 0px;
                             font-size: 13px;
                             font-weight: bold;
                             cursor: pointer;
                         }
-                        #delete__edit_btn {
+                        #annul__edit_btn {
                             background-color: #670000;
                         }
-                        #save__edit_btn {
-                            background-color: #0e4d1a;
+                        #annul_approval__edit_btn {
+                            background-color: #670000;
                         }
                     }
                 }
@@ -1096,6 +1097,17 @@ main {
                 margin: 15px;
                 padding: 0px 5px 0px 20px;
                 border-left: solid 2px #e5e5e5;
+                #historic_approval_sum_div_h {
+                    margin-bottom: 3px;
+                    font-size: 15px;
+                    font-weight: 900;
+                }
+                #historic_approval_sum_div {
+                    margin-bottom: 10px;
+                    padding-bottom: 8px;
+                    border-bottom: solid 2px #dddddd;
+                    font-size: 14px;
+                }
                 h2 {
                     display: flex;
                     padding-bottom: 5px;
@@ -1108,18 +1120,33 @@ main {
                     }
                 }
                 &__content {
-                    height: 80%;
+                    height: 81.3%;
                     margin: 10px 0px;
                     border-radius: 5px;
                     border: solid 1px #8080809c;
                     background-color: #ffffff;
+                    table {
+                        width: 100%;
+                        tr th {
+                            font-size: 11px;
+                        }
+                        .th_date {
+                            width: 62px;
+                        }
+                        .th_sum {
+                            width: 120px;
+                        }
+                        td {
+                            font-size: 10px;
+                        }
+                    }
                 }
                 &__button {
                     display: flex;
-                    justify-content: end;
+                    justify-content: space-between;
                     border-top: solid 2px #dddddd;
                     button {
-                        width: 145px;
+                        width: 134px;
                         height: 33px;
                         margin-top: 10px;
                         font-family: "Montserrat";
@@ -1135,13 +1162,16 @@ main {
                         box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
                     }
                 }
+                #save__edit_btn {
+                    background-color: #0e4d1a;
+                }
             }
         }
         #crossBtn {
             position: absolute;
             width: 25px;
             top: 1.2%;
-            right: 2%;
+            right: 2.2%;
             cursor: pointer;
         }
     }
