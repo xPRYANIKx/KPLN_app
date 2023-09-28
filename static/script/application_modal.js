@@ -49,6 +49,7 @@ function getModal(paymentId = null) {
 
             document.getElementById('historic_approval_sum').textContent = data.payment['historic_approval_sum_rub'];
 
+
             if (data.paid.length) {
                 let history_table = document.getElementById('history_tb');
                 for (let i = 0; i < data.paid.length; i++) {
@@ -69,6 +70,11 @@ function getModal(paymentId = null) {
 
                     history_table.appendChild(newRow);
                 }
+
+                document.getElementById('historic_paid_sum').textContent = data.paid[0][6];
+            }
+            else {
+                document.getElementById('historic_paid_sum').textContent = '';
             }
         })
         .catch(error => {

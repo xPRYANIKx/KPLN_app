@@ -3,7 +3,7 @@ const element = document.querySelector(".showModalId");
 const crossButton = document.querySelector("#crossBtn");
 const closeButton = document.querySelector("#closeBtn");
 const dialog = document.querySelector("#payment-approval__dialog");
-const annulButton = document.querySelector("#delete__edit_btn");
+const annulButton = document.querySelector("#annul__edit_btn");
 const saveButton = document.querySelector("#save__edit_btn");
 
 
