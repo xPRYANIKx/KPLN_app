@@ -1806,6 +1806,7 @@ def get_card_payment(payment_id):
     )
     payment = cursor.fetchone()
 
+    # Список согласованных платежей
     cursor.execute(
         """WITH
             t0 AS (SELECT 
@@ -1835,6 +1836,7 @@ def get_card_payment(payment_id):
     )
     approval = cursor.fetchall()
 
+    # Список оплаченных платежей
     cursor.execute(
         """WITH
             t0 AS (SELECT 
@@ -1865,6 +1867,46 @@ def get_card_payment(payment_id):
         [payment_id]
     )
     paid = cursor.fetchall()
+
+    # Лог платежа
+    cursor.execute(
+        """
+        WITH 
+        t1 AS (
+            SELECT 
+                create_at,
+                'Согласование' AS type,
+                status_id, 
+                approval_sum AS sum
+            FROM payments_approval_history
+            WHERE payment_id = %s
+            UNION ALL 
+                SELECT  
+                    create_at,
+                    'Оплата' AS type,
+                    status_id, 
+                    paid_sum AS sum
+                FROM payments_paid_history
+                WHERE payment_id = %s),
+        t2 AS (
+                SELECT  
+                    payment_agreed_status_id,
+                    payment_agreed_status_name
+                FROM payment_agreed_statuses
+        )
+        SELECT 
+            to_char(t1.create_at, 'dd.MM.yy HH:MI:SS') AS create_at,
+            t1.type,
+            t2.payment_agreed_status_name,
+            COALESCE(TRIM(to_char(t1.sum, '999 999 999D99 ₽')), '') AS sum
+        FROM t1
+        LEFT JOIN t2 ON t1.status_id=t2.payment_agreed_status_id
+        ORDER BY t1.create_at
+                ;
+        """,
+        [payment_id, payment_id]
+    )
+    logs = cursor.fetchall()
 
     login_app.conn_cursor_close(cursor, conn)
 
@@ -1903,7 +1945,8 @@ def get_card_payment(payment_id):
         'cost_items': cost_items,
         'objects_name': objects_name,
         'partners': partners,
-        'our_companies': our_companies
+        'our_companies': our_companies,
+        'logs': logs
     })
 
 
