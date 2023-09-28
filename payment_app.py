@@ -1685,9 +1685,9 @@ def get_test_button():
         return f'payment ❗❗❗ Ошибка \n---{e}'
 
 
-@payment_app_bp.route('/update_payment/<int:payment_id>', methods=['GET'])
-def update_payment(payment_id):
-    print('update_payment')
+@payment_app_bp.route('/get_card_payment/<int:payment_id>', methods=['GET'])
+def get_card_payment(payment_id):
+    print('get_card_payment')
 
     data = payment_id
 
@@ -1751,7 +1751,9 @@ def update_payment(payment_id):
                 t1.payment_sum,
                 COALESCE(TRIM(to_char(t1.payment_sum, '999 999 999D99 ₽')), '') AS payment_sum_rub,
                 COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum) AS approval_sum,
-                TRIM(to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '9 999 999D99 ₽')) AS approval_sum_rub,
+                TRIM(to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '999 999 999D99 ₽')) AS approval_sum_rub,
+                COALESCE(t2.approval_sum, 0) AS historic_approval_sum,
+                COALESCE(TRIM(to_char(t2.approval_sum, '999 999 999D99 ₽')), '0 ₽') AS historic_approval_sum_rub,
                 COALESCE(t8.amount, null) AS amount,
                 COALESCE(TRIM(to_char(t8.amount, '999 999 999D99 ₽')), '') AS amount_rub,
                 t1.payment_due_date AS payment_due_date2,
@@ -1842,7 +1844,7 @@ def update_payment(payment_id):
                       GROUP BY payment_id)
         SELECT 
                 t1.payment_id,
-                to_char(t1.create_at, 'yy.MM.dd') AS payment_at_2,
+                to_char(t1.create_at, 'dd.MM.yy HH:MI:SS') AS payment_at_2,
                 date_trunc('second', timezone('UTC-3', t1.create_at)::timestamp) AS payment_at,
                 t2.payment_agreed_status_name, 
                 t0.paid_sum,
@@ -1857,7 +1859,7 @@ def update_payment(payment_id):
         LEFT JOIN t0 ON t1.payment_id = t0.payment_id
 
         WHERE t1.payment_id = %s
-        ORDER BY t1.create_at;
+        ORDER BY t1.create_at DESC;
         """,
         [payment_id]
     )
@@ -1865,19 +1867,19 @@ def update_payment(payment_id):
 
     login_app.conn_cursor_close(cursor, conn)
 
-    print('  update_payment', len(cost_items))
-    print(cost_items)
-    print(payment['basis_of_payment'])
-    print(payment[4])
-    print(payment)
-    print(f'''payment: {payment},
-approval': {approval},
-paid': {paid},
-responsible': {responsible},
-cost_items': {cost_items},
-objects_name': {objects_name},
-partners': {partners},
-our_companies': {our_companies}''')
+#     print('  get_card_payment', len(cost_items))
+#     print(cost_items)
+#     print(payment['basis_of_payment'])
+#     print(payment[4])
+#     print(payment)
+#     print(f'''payment: {payment},
+# approval': {approval},
+# paid': {paid},
+# responsible': {responsible},
+# cost_items': {cost_items},
+# objects_name': {objects_name},
+# partners': {partners},
+# our_companies': {our_companies}''')
 
 
 
@@ -1902,6 +1904,107 @@ our_companies': {our_companies}''')
         'partners': partners,
         'our_companies': our_companies
     })
+
+
+@payment_app_bp.route('/annul_payment', methods=['POST'])
+@login_required
+def annul_payment():
+    print('annul_payments')
+    """Аннулирование платежа из карточки платежа"""
+    try:
+        payment_number = int(request.get_json()['paymentId'])  # Номера платежей (передаётся id)
+        status_id = 6  # Статус заявки ("Аннулирован")
+        values_p_s_t = []  # Данные для записи в таблицу payments_summary_tab
+        values_p_a_h = []  # Данные для записи в таблицу payments_approval_history
+
+        # Данные для удаления временных данных из таблицы payments_summary_tab
+        values_p_d = []
+        page_name = 'payment-approval'
+        parameter_name = 'amount'
+
+        values_a_h = []  # Список согласованных заявок для записи на БД
+
+        user_id = login_app.current_user.get_id()
+
+        values_a_h.append([
+            payment_number,
+            status_id,
+            user_id
+        ])
+
+        conn, cursor = login_app.conn_cursor_init_dict()
+
+        """проверяем, не закрыт ли платеж уже"""
+        cursor.execute(
+            """SELECT 
+                    payment_close_status
+            FROM payments_summary_tab
+            WHERE payment_id = %s""",
+            [payment_number]
+        )
+        payment_close_status = cursor.fetchone()[0]
+
+        if payment_close_status:
+            flash(message=['Заявка не аннулирована', ''], category='error')
+            return jsonify({'status': 'error'})
+
+        """для db payments_summary_tab"""
+        values_p_s_t.append([
+            payment_number,  # id заявки
+            True             # Закрытие заявки
+        ])
+
+        """для db payment_draft"""
+        values_p_d.append((
+            page_name,
+            payment_number,
+            parameter_name,
+            user_id
+        ))
+
+        """для db payments_approval_history"""
+        values_p_a_h.append([
+            payment_number,
+            status_id,
+            user_id
+        ])
+
+        try:
+            columns_p_s_t = ("payment_id", "payment_close_status")
+            query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+            execute_values(cursor, query_p_s_t, values_p_s_t)
+
+            columns_p_d = 'page_name, parent_id::int, parameter_name, user_id'
+            query_p_d = get_db_dml_query(action='DELETE', table='payment_draft', columns=columns_p_d)
+            execute_values(cursor, query_p_d, (values_p_d,))
+
+            # Запись в payments_approval_history
+            action_p_a_h = 'INSERT INTO'
+            table_p_a_h = 'payments_approval_history'
+            columns_p_a_h = ('payment_id', 'status_id', 'user_id')
+            query_a_h = get_db_dml_query(
+                action=action_p_a_h, table=table_p_a_h, columns=columns_p_a_h
+            )
+            execute_values(cursor, query_a_h, values_p_a_h)
+            conn.commit()
+
+            flash(message=['Заявка аннулирована', ''], category='success')
+
+            login_app.conn_cursor_close(cursor, conn)
+            print("return redirect(url_for('.get_unapproved_payments'))")
+            return jsonify({'status': 'success'})
+            # return redirect(url_for('.get_unapproved_payments'))
+
+
+        except Exception as e:
+            print('except Exception', e)
+            conn.rollback()
+            login_app.conn_cursor_close(cursor, conn)
+            return f'отправка set_approved_payments ❗❗❗ Ошибка \n---{e}'
+
+    except Exception as e:
+        return f'set_approved_payments ❗❗❗ Ошибка \n---{e}'
+
 
 
 
