@@ -1242,8 +1242,49 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div,
 #payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div {
-  padding-bottom: 16px;
   border-bottom: solid 2px rgba(128, 128, 128, 0.168627451);
+}
+#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__name,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__name,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__name,
+#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__name {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: -1px;
+}
+#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__name__i,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__name__i,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__name__i,
+#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__name__i {
+  text-align: end;
+  margin-right: 4px;
+}
+#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__input,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input,
+#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__input input,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input input,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input input,
+#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__input input {
+  height: 28px;
+}
+#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #payment_sum,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #payment_sum,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #payment_sum,
+#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #payment_sum {
+  max-width: 260px;
+  margin-right: 25px;
+}
+#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #paymentFullStatus,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #paymentFullStatus,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #paymentFullStatus,
+#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #paymentFullStatus {
+  max-width: 28px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form .description_p,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form .description_p,

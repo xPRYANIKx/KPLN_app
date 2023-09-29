@@ -1065,8 +1065,31 @@ main {
                         }
                     }
                     #payment_sum_div {
-                        padding-bottom: 16px;
                         border-bottom: solid 2px #8080802b;
+                        &__name {
+                            display: flex;
+                            flex-direction: row;
+                            margin-bottom: -1px;
+                            &__i {
+                                text-align: end;
+                                margin-right: 4px;
+                            }
+                        }
+                        &__input {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            input {
+                                height: 28px;
+                            }
+                            #payment_sum {
+                                max-width: 260px;
+                                margin-right: 25px;
+                            }
+                            #paymentFullStatus {
+                                max-width: 28px;
+                            }
+                        }
                     }
                     .description_p {
                         margin-top: -8px;
