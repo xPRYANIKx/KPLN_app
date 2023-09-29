@@ -1232,9 +1232,84 @@ main {
         #crossBtn {
             position: absolute;
             width: 25px;
-            top: 1.2%;
-            right: 2.2%;
+            top: 1.3%;
+            right: 1.9%;
             cursor: pointer;
+        }
+    }
+
+    #logDPage {
+        width: 780px;
+        height: 300px;
+        border: none;
+        border-radius: 5px;
+        background-color: #e7e7e7;
+        -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        #logDPage__content {
+            #crossBtnInside {
+                position: absolute;
+                width: 25px;
+                top: 3%;
+                right: 1.3%;
+                cursor: pointer;
+            }
+            h2 {
+                display: flex;
+                margin-bottom: 8px;
+                font-weight: 900;
+                img {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 6px;
+                }
+            }
+            &__text {
+                height: 190px;
+                overflow-y: scroll;
+                padding: 5px 8px;
+                color: #dddddd;
+                background-color: #002e7f;
+                font-family: monospace;
+                font-size: 12px;
+                border-radius: 5px;
+                p {
+                    .logTime {
+                        font-weight: bold;
+                        color: #c3c009;
+                        .logTimeBold {
+                            font-weight: 900;
+                            color: #ede900;
+                        }
+                    }
+                    .logCash {
+                        font-weight: bold;
+                        .logCashPay {
+                            font-weight: 900;
+                            color: #25ff00;
+                        }
+                    }
+                }
+            }
+            &__action {
+                margin-top: 10px;
+                #closeBtnInside {
+                    width: 134px;
+                    height: 33px;
+                    font-family: "Montserrat";
+                    font-size: 13px;
+                    font-weight: bold;
+                    border: none;
+                    border-radius: 5px;
+                    color: #ffffff;
+                    background-color: #414141;
+                    cursor: pointer;
+                    -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+                    -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+                    box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+                }
+            }
         }
     }
 

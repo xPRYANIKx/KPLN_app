@@ -31,24 +31,38 @@ function annulPayment() {
     paymentId = document.getElementById('payment_id').textContent;
     console.log(paymentId);
     fetch('/annul_payment', {
-        "headers" : {
-            'Content-Type' : 'application/json'
+        "headers": {
+            'Content-Type': 'application/json'
         },
         "method": "POST",
-        "body": JSON.stringify( {
-            'paymentId' : paymentId
+        "body": JSON.stringify({
+            'paymentId': paymentId
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('data', data)
-        if (data.status === 'success') {
-            window.location.href = '/payment-approval';
-        } else {
-            window.location.href = '/payment-approval';
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            console.log('data', data)
+            if (data.status === 'success') {
+                window.location.href = '/payment-approval';
+            } else {
+                window.location.href = '/payment-approval';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+const crossButtonInside = document.querySelector("#crossBtnInside");
+const closeButtonInside = document.querySelector("#closeBtnInside");
+const dialogInside = document.querySelector("#logDPage");
+
+
+crossButtonInside.addEventListener("click", closeDialogInside);
+function closeDialogInside() {
+    dialogInside.close();
+}
+closeButtonInside.addEventListener("click", closeDialogInside);
+function closeDialogInside() {
+    dialogInside.close();
 }

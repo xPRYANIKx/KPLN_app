@@ -1515,9 +1515,108 @@ main .focus_button {
 #payment-pay_page #payment-approval__dialog #crossBtn {
   position: absolute;
   width: 25px;
-  top: 1.2%;
-  right: 2.2%;
+  top: 1.3%;
+  right: 1.9%;
   cursor: pointer;
+}
+#payment-approval_page #logDPage,
+#payment-approval-list_page #logDPage,
+#payment-paid-list_page #logDPage,
+#payment-pay_page #logDPage {
+  width: 780px;
+  height: 300px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+}
+#payment-approval_page #logDPage #logDPage__content #crossBtnInside,
+#payment-approval-list_page #logDPage #logDPage__content #crossBtnInside,
+#payment-paid-list_page #logDPage #logDPage__content #crossBtnInside,
+#payment-pay_page #logDPage #logDPage__content #crossBtnInside {
+  position: absolute;
+  width: 25px;
+  top: 3%;
+  right: 1.3%;
+  cursor: pointer;
+}
+#payment-approval_page #logDPage #logDPage__content h2,
+#payment-approval-list_page #logDPage #logDPage__content h2,
+#payment-paid-list_page #logDPage #logDPage__content h2,
+#payment-pay_page #logDPage #logDPage__content h2 {
+  display: flex;
+  margin-bottom: 8px;
+  font-weight: 900;
+}
+#payment-approval_page #logDPage #logDPage__content h2 img,
+#payment-approval-list_page #logDPage #logDPage__content h2 img,
+#payment-paid-list_page #logDPage #logDPage__content h2 img,
+#payment-pay_page #logDPage #logDPage__content h2 img {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+}
+#payment-approval_page #logDPage #logDPage__content__text,
+#payment-approval-list_page #logDPage #logDPage__content__text,
+#payment-paid-list_page #logDPage #logDPage__content__text,
+#payment-pay_page #logDPage #logDPage__content__text {
+  height: 190px;
+  overflow-y: scroll;
+  padding: 5px 8px;
+  color: #dddddd;
+  background-color: #002e7f;
+  font-family: monospace;
+  font-size: 12px;
+  border-radius: 5px;
+}
+#payment-approval_page #logDPage #logDPage__content__text p .logTime,
+#payment-approval-list_page #logDPage #logDPage__content__text p .logTime,
+#payment-paid-list_page #logDPage #logDPage__content__text p .logTime,
+#payment-pay_page #logDPage #logDPage__content__text p .logTime {
+  font-weight: bold;
+  color: #c3c009;
+}
+#payment-approval_page #logDPage #logDPage__content__text p .logTime .logTimeBold,
+#payment-approval-list_page #logDPage #logDPage__content__text p .logTime .logTimeBold,
+#payment-paid-list_page #logDPage #logDPage__content__text p .logTime .logTimeBold,
+#payment-pay_page #logDPage #logDPage__content__text p .logTime .logTimeBold {
+  font-weight: 900;
+  color: #ede900;
+}
+#payment-approval_page #logDPage #logDPage__content__text p .logCash,
+#payment-approval-list_page #logDPage #logDPage__content__text p .logCash,
+#payment-paid-list_page #logDPage #logDPage__content__text p .logCash,
+#payment-pay_page #logDPage #logDPage__content__text p .logCash {
+  font-weight: bold;
+}
+#payment-approval_page #logDPage #logDPage__content__text p .logCash .logCashPay,
+#payment-approval-list_page #logDPage #logDPage__content__text p .logCash .logCashPay,
+#payment-paid-list_page #logDPage #logDPage__content__text p .logCash .logCashPay,
+#payment-pay_page #logDPage #logDPage__content__text p .logCash .logCashPay {
+  font-weight: 900;
+  color: #25ff00;
+}
+#payment-approval_page #logDPage #logDPage__content__action,
+#payment-approval-list_page #logDPage #logDPage__content__action,
+#payment-paid-list_page #logDPage #logDPage__content__action,
+#payment-pay_page #logDPage #logDPage__content__action {
+  margin-top: 10px;
+}
+#payment-approval_page #logDPage #logDPage__content__action #closeBtnInside,
+#payment-approval-list_page #logDPage #logDPage__content__action #closeBtnInside,
+#payment-paid-list_page #logDPage #logDPage__content__action #closeBtnInside,
+#payment-pay_page #logDPage #logDPage__content__action #closeBtnInside {
+  width: 134px;
+  height: 33px;
+  font-family: "Montserrat";
+  font-size: 13px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  background-color: #414141;
+  cursor: pointer;
+  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
 }
 #payment-approval_page #paymentForm,
 #payment-approval-list_page #paymentForm,
