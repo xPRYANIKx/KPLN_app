@@ -129,18 +129,17 @@
 
                 <h2><img src="static/img/h1/history.png">Платежи:&nbsp;<span id="historic_paid_sum"></span></h2>
                 <div id="payment-approval__dialog__menu__list__content">
-                    <table id="paid_history-table" name="paid_history" class="display">
-                        <thead>
-                            <th class="th_date">ДАТА</th>
-                            <th class="th_stat">СТАТУС</th>
-                            <th class="th_sum">СУММА</th>
-                        </thead>
-                        <tbody id="history_tb"></tbody>
-                    </table>
-                </div>
-                <h2><img src="static/img/h1/history.png">Платежи:&nbsp;<span id="historic_paid_sum"></span></h2>
-                <div id="payment-approval__dialog__menu__list__content_logs">
-                    <span id="logs"></span>
+                    <div class="paid_history-table__response">
+                        <table id="paid_history-table" name="paid_history" class="display">
+                            <thead>
+                                <th class="th_date">ДАТА</th>
+                                <th class="th_stat">СТАТУС</th>
+                                <th class="th_sum">СУММА</th>
+                            </thead>
+                            <tbody id="history_tb"></tbody>
+                        </table>
+                    </div>
+                    <button id="logBtn" onclick="window['logDPage'].showModal();">История изменений</button>
                 </div>
                 <div id="payment-approval__dialog__menu__list__button">
                     <button id="closeBtn">Отмена</button>
@@ -151,9 +150,10 @@
         <img id="crossBtn" src="static/img/interface/close.png">
     </dialog>
 
+    <dialog class="window" id="payment-approval__dialog__log"></dialog>
 
-
-
+    <dialog id="logDPage">
+    </dialog>
 
 
     <div class="tpages_top_panel">
