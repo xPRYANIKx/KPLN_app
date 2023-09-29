@@ -1014,6 +1014,7 @@ main .focus_button {
 #payment-pay_page main {
   width: 100%;
   padding: 90px 40px 0px 40px;
+  justify-content: flex-start;
 }
 #payment-approval_page .tpages_top_panel,
 #payment-approval-list_page .tpages_top_panel,
