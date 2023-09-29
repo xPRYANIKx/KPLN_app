@@ -113,7 +113,10 @@
                     <div id="payment_sum_div"><label for="payment_sum">Сумма оплаты:</label>
                         <input type="text" placeholder="руб." name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' руб.')" value=""
                             required />
+                        <input type="checkbox" id="paymentFullStatus" name="paymentFullStatus">
                     </div>
+
+
                     <div class="button_group">
                         <button id="annul__edit_btn">Аннулировать остаток</button>
                         <button id="annul_approval__edit_btn">Аннулировать согласованное</button>
@@ -138,7 +141,7 @@
                         <tbody id="history_tb"></tbody>
                     </table>
                 </div>
-                <h2><img src="static/img/h1/history.png">Платежи:&nbsp;<span id="historic_paid_sum"></span></h2>
+                <h2><img src="static/img/h1/history.png">Логи:</h2>
                 <div id="payment-approval__dialog__menu__list__content_logs">
                     <span id="logs"></span>
                 </div>
