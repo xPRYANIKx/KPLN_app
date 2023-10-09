@@ -240,6 +240,8 @@ body a:hover {
 body table thead {
   background-color: #4e4f4f;
   color: #ffffff;
+  position: sticky;
+  top: 57px;
 }
 body table thead th,
 body table thead td {

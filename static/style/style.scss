@@ -77,6 +77,8 @@ body {
         thead {
             background-color: #4e4f4f;
             color: #ffffff;
+            position: sticky;
+            top: 57px;
             th,
             td {
                 font-size: 14px;
