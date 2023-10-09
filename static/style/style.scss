@@ -77,13 +77,15 @@ body {
         thead {
             background-color: #4e4f4f;
             color: #ffffff;
-            position: sticky;
-            top: 57px;
             th,
             td {
                 font-size: 14px;
                 font-weight: 900;
             }
+        }
+        .fix_thead {
+            position: sticky;
+            top: 57px;
         }
         tr:nth-child(2n) {
             background-color: #d7d5d5;
