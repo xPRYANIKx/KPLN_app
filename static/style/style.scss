@@ -83,6 +83,10 @@ body {
                 font-weight: 900;
             }
         }
+        .fix_thead {
+            position: sticky;
+            top: 57px;
+        }
         tr:nth-child(2n) {
             background-color: #d7d5d5;
         }
@@ -925,6 +929,7 @@ main {
     main {
         width: 100%;
         padding: 90px 40px 0px 40px;
+        justify-content: flex-start;
     }
     .tpages_top_panel {
         width: 760px;
@@ -1065,8 +1070,31 @@ main {
                         }
                     }
                     #payment_sum_div {
-                        padding-bottom: 16px;
                         border-bottom: solid 2px #8080802b;
+                        &__name {
+                            display: flex;
+                            flex-direction: row;
+                            margin-bottom: -1px;
+                            &__i {
+                                text-align: end;
+                                margin-right: 4px;
+                            }
+                        }
+                        &__input {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            input {
+                                height: 28px;
+                            }
+                            #payment_sum {
+                                max-width: 260px;
+                                margin-right: 25px;
+                            }
+                            #paymentFullStatus {
+                                max-width: 28px;
+                            }
+                        }
                     }
                     .description_p {
                         margin-top: -8px;
@@ -1085,9 +1113,15 @@ main {
                         }
                         #annul__edit_btn {
                             background-color: #670000;
+                            &:hover {
+                                background-color: #860000;
+                            }
                         }
                         #annul_approval__edit_btn {
                             background-color: #670000;
+                            &:hover {
+                                background-color: #860000;
+                            }
                         }
                     }
                 }
@@ -1108,7 +1142,8 @@ main {
                     border-bottom: solid 2px #dddddd;
                     font-size: 14px;
                     label {
-                        color: #140397;
+                        color: #001953;
+                        font-weight: bold;
                     }
                 }
                 h2 {
@@ -1119,31 +1154,56 @@ main {
                         height: 20px;
                         margin: 1px 8px 0px 0px;
                     }
+                    #historic_paid_sum {
+                        color: #00216d;
+                    }
                 }
                 &__content {
-                    height: 82%;
-                    margin: 10px 0px;
+                    height: 82.3%;
+                    margin: 10px 0px 0px 0px;
+                    .paid_history-table__response {
+                        min-height: 630px;
+                        max-height: 630px;
+                        overflow-y: scroll;
+                        table {
+                            width: 100%;
+                            tr th {
+                                font-size: 11px;
+                            }
+                            .th_date {
+                                width: 62px;
+                            }
+                            .th_stat {
+                                width: 86px;
+                            }
+                            .th_sum {
+                                width: 110px;
+                            }
+                            td {
+                                font-size: 10px;
+                            }
+                        }
+                    }
+                }
+                #logBtn {
+                    width: 100%;
+                    height: 30px;
+                    margin-top: 10px;
+                    color: #f3f3f3;
+                    background-color: #414141;
+                    border: none;
                     border-radius: 5px;
-                    border: solid 1px #8080809c;
-                    background-color: #ffffff;
-                    table {
-                        width: 100%;
-                        tr th {
-                            font-size: 11px;
-                        }
-                        .th_date {
-                            width: 62px;
-                        }
-                        .th_sum {
-                            width: 120px;
-                        }
-                        td {
-                            font-size: 10px;
-                        }
+                    font-family: "Montserrat";
+                    font-size: 13px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    &:hover {
+                        background-color: #5d5d5d;
                     }
                 }
                 &__button {
                     display: flex;
+                    padding-top: 2px;
                     justify-content: space-between;
                     border-top: solid 2px #dddddd;
                     button {
@@ -1156,24 +1216,105 @@ main {
                         border: none;
                         border-radius: 5px;
                         color: #ffffff;
-                        background-color: #5d5d5d;
+                        background-color: #414141;
                         cursor: pointer;
                         -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
                         -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
                         box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+                        &:hover {
+                            background-color: #5d5d5d;
+                        }
                     }
                 }
                 #save__edit_btn {
                     background-color: #0e4d1a;
+                    &:hover {
+                        background-color: #016114;
+                    }
                 }
             }
         }
         #crossBtn {
             position: absolute;
             width: 25px;
-            top: 1.2%;
-            right: 2.2%;
+            top: 1.3%;
+            right: 1.9%;
             cursor: pointer;
+        }
+    }
+
+    #logDPage {
+        width: 780px;
+        height: 300px;
+        border: none;
+        border-radius: 5px;
+        background-color: #e7e7e7;
+        -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        #logDPage__content {
+            #crossBtnInside {
+                position: absolute;
+                width: 25px;
+                top: 3%;
+                right: 1.3%;
+                cursor: pointer;
+            }
+            h2 {
+                display: flex;
+                margin-bottom: 8px;
+                font-weight: 900;
+                img {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 6px;
+                }
+            }
+            &__text {
+                height: 190px;
+                overflow-y: scroll;
+                padding: 5px 8px;
+                color: #dddddd;
+                background-color: #002e7f;
+                font-family: monospace;
+                font-size: 12px;
+                border-radius: 5px;
+                p {
+                    .logTime {
+                        font-weight: bold;
+                        color: #c3c009;
+                        .logTimeBold {
+                            font-weight: 900;
+                            color: #ede900;
+                        }
+                    }
+                    .logCash {
+                        font-weight: bold;
+                        .logCashPay {
+                            font-weight: 900;
+                            color: #25ff00;
+                        }
+                    }
+                }
+            }
+            &__action {
+                margin-top: 10px;
+                #closeBtnInside {
+                    width: 134px;
+                    height: 33px;
+                    font-family: "Montserrat";
+                    font-size: 13px;
+                    font-weight: bold;
+                    border: none;
+                    border-radius: 5px;
+                    color: #ffffff;
+                    background-color: #414141;
+                    cursor: pointer;
+                    -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+                    -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+                    box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+                }
+            }
         }
     }
 
