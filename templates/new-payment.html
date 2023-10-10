@@ -79,7 +79,7 @@
         </div>
         <div><label for="payment_due_date">Срок оплаты: *</label>
             <input type="date" onload="getDate()" name="payment_due_date" id="payment_due_date"
-                value="{{not_save_val.get('p_d_d') if not_save_val.get('p_d_d') else today }}" required oninput="checkFormNewPayment()">
+                value="{{not_save_val.get('p_d_d') if not_save_val.get('p_d_d') }}" required oninput="checkFormNewPayment()">
         </div>
         <div><label for="our_company">Компания: *</label>
             <select class="selectSearch2" name="our_company" id="our_company" required onchange="checkFormNewPayment()">

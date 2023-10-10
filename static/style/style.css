@@ -1515,10 +1515,10 @@ main .focus_button {
   color: #242e7b;
   cursor: pointer;
 }
-#payment-approval_page #paymentForm table .th_discription_i,
-#payment-approval-list_page #paymentForm table .th_discription_i,
-#payment-paid-list_page #paymentForm table .th_discription_i,
-#payment-pay_page #paymentForm table .th_discription_i {
+#payment-approval_page #paymentForm table .th_description_i,
+#payment-approval-list_page #paymentForm table .th_description_i,
+#payment-paid-list_page #paymentForm table .th_description_i,
+#payment-pay_page #paymentForm table .th_description_i {
   max-width: 500px;
 }
 #payment-approval_page #paymentForm table .th_object_i,
@@ -1625,7 +1625,7 @@ main .focus_button {
   border-left: solid 4px #dbdbdb;
 }
 
-@media (max-width: 1800px) {
+@media (max-width: 180px) {
   #payment-approval_page #paymentForm,
   #payment-approval-list_page .help_info,
   #payment-approval-list_page #payment-table,

@@ -7,22 +7,24 @@
 <body id="register_page"></body>
 <form id="register_form" action="" method="post" class="form-contact">
     <h1><img src="static/img/h1/register.png"> {{title}}</h1>
-    <div><label>Имя: </label> <input type="text" name="first_name" value="" required /></div>
-    <div><label>Фамилия: </label> <input type="text" name="last_name" value="" required /></div>
-    <div><label>Логин: </label> <input type="text" name="email" value="" required /></div>
-    <div><label>Пароль: </label> <input type="password" name="password" value="" required /></div>
-    <div><label>Роль: </label>
+    <div><label>Фамилия*: </label> <input type="text" name="last_name" value="" required /></div>
+    <div><label>Имя*: </label> <input type="text" name="first_name" value="" required /></div>
+    <div><label>Отчество: </label> <input type="text" name="surname" value="" /></div>
+    <div><label>Логин*: </label> <input type="text" name="email" value="" required /></div>
+    <div><label>Пароль*: </label> <input type="password" name="password" value="" required /></div>
+    <div><label>Роль*: </label>
 
         <select id="user_role" name="user_role" required>
+            <option> Выберите пункт </option>
             {% for s in roles %}
-            <option value="{{ s.role_id }}">
+            <option value="{{ s.role_id }}" >
                 {{ s.role_name }}
             </option>
             {% endfor %}
         </select>
     </div>
 
-    <div><label>Приоритет: </label> <input type="number" step="1" name="user_priority" value="" required /></div>
+    <div><label>Приоритет*: </label> <input type="number" step="1" name="user_priority" value="100" required /></div>
     <div class="btn_div"><input id="regBtn" type="submit" value="Зарегистрировать" /></div>
 </form>
 {% endblock %}

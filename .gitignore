@@ -167,6 +167,7 @@ bld/
 tmp.py
 # Файл для тестирования sql-запросов
 tst_query_to_bd.py
+wsgi.py
 # :)
 app.py
 db_data_conf.py

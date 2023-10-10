@@ -21,11 +21,27 @@ function checkFormNewPayment() {
         document.getElementById("objects_name_div").style.display = "none";
         document.getElementById("objects_name").required = false;
     }
+    var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
+    if (page_url === 'payment-approval') {
+        field8 = 'payment-approval'
+    }
 
     if (field1 !== '' && field2 !== '' && field3 !== '' && field4 !== '' && field5 !== '' && field6 !== '' &&
         field7 !== '' && field8 !== '') {
-        document.getElementById('submitBtn').disabled = false;
+        if (page_url === 'payment-approval') {
+            document.getElementById('save__edit_btn').disabled = false;
+            document.getElementById('save__edit_btn').style.background='green';
+        }
+        else {
+            document.getElementById('submitBtn').disabled = false;
+        }
     } else {
-        document.getElementById('submitBtn').disabled = true;
+        if (page_url === 'payment-approval') {
+            document.getElementById('save__edit_btn').disabled = true;
+            document.getElementById('save__edit_btn').style.background='grey';
+        }
+        else {
+            document.getElementById('submitBtn').disabled = true;
+        }
     }
 }

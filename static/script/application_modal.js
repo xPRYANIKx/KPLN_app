@@ -22,7 +22,20 @@ function getModal(paymentId = null) {
 
             const select2 = document.getElementById('cost_items');
             for (let i = 0; i < select2.length; i++) {
-                if (select2[i].value === data.payment['cost_item_id'].toString()) select2[i].selected = true;
+                if (select2[i].value.split('-@@@-')[1] === data.payment['cost_item_id'].toString()) {
+                    select2[i].selected = true;
+
+                    if (select2[i].value.split('-@@@-')[0] === 'Субподрядчики') {
+                        document.getElementById("objects_name_div").style.display = "flex";
+                        document.getElementById("objects_name").required = true;
+                    }
+                    else if (select2[i].value.split('-@@@-')[0] !== 'Субподрядчики') {
+                        document.getElementById("objects_name_div").style.display = "none";
+                        document.getElementById("objects_name").required = false;
+                    }
+
+
+                }
             }
 
             const select3 = document.getElementById('objects_name');
@@ -37,7 +50,7 @@ function getModal(paymentId = null) {
             document.getElementById('payment_due_date').value = data.payment['payment_due_date'];
 
             const select4 = document.getElementById('our_company');
-            for (let i = 0; i < select3.length; i++) {
+            for (let i = 0; i < select4.length; i++) {
                 if (select4[i].value === data.payment['contractor_id'].toString()) select4[i].selected = true;
             }
 
@@ -45,7 +58,12 @@ function getModal(paymentId = null) {
 
             document.getElementById('sum_remain').value = data.payment['approval_sum_rub'];
 
+            document.getElementById('sum_approval').value = data.payment['historic_approval_sum_rub'];
+            document.getElementById('sum_approval').style.background='grey'
+
             document.getElementById('payment_sum').value = data.payment['amount_rub'];
+
+            document.getElementById('paymentFullStatus').checked = data.payment['payment_full_agreed_status'];
 
             document.getElementById('historic_approval_sum').textContent = data.payment['historic_approval_sum_rub'];
 

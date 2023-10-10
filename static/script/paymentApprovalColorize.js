@@ -1,5 +1,48 @@
 $(document).ready(function () {
     tabColorize();
+    var userRoleId = document.getElementById('header__auth__role_id').textContent;
+    var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
+
+    if (userRoleId == 6 && page_url === 'payment-approval') {
+        var card_selected = document.getElementById('card_selected_for_approval');
+        var card_available = document.getElementById('card_available_money');
+        var card_account = document.getElementById('card_account_money');
+
+        card_selected.setAttribute("hidden", "hidden");
+        card_available.id = 'card_available_money_alp';
+        card_account.id = 'card_account_money_alp';
+
+        var head_cell = document.getElementsByClassName('th_sum_agreed')[0];
+        head_cell.setAttribute("hidden", "hidden");
+
+        var column = document.getElementsByClassName('th_sum_agreed_i');
+        if (column.length) {
+            for (var i = 0; i < column.length; i++) {
+                var cell = column[i];
+                cell.setAttribute("hidden", "hidden");
+            }
+        }
+    }
+
+
+
+//    if (element2.length) {
+//        for (var i = 0; i < element2.length; i++) {
+//            var element2 = document.getElementsByClassName('th_contractor_i');
+//            if (statusId[i].value == 'Черновик') {
+//                document.getElementById('status-' + (i + 1)).style.background = "#e3e33294"
+//            }
+//        }
+//    }
+//
+//    var hidden = element.getAttribute("hidden");
+//    if (hidden) {
+//       element.removeAttribute("hidden");
+//       console.log("Hide table")
+//    } else {
+//       element.setAttribute("hidden", "hidden");
+//       console.log("Show table")
+//    }
 });
 
 
@@ -29,6 +72,7 @@ function tabColorize(rowId = '') {
 
         if (statusId && statusId !== 'Черновик') {
             document.getElementById('status-' + rowId).style.background = "#00000000"
+            document.getElementById('category-' + rowId).style.background = "#00000000"
         }
 
         if (!paymentSelectedRows) {
@@ -79,6 +123,7 @@ function tabColorize(rowId = '') {
         }
         if (statusId && statusId === 'Черновик') {
             document.getElementById('status-' + rowId).style.background = "#e3e33294"
+            document.getElementById('category-' + rowId).style.background = "#e3e33294"
         }
     }
 
@@ -90,6 +135,7 @@ function tabColorize(rowId = '') {
             for (var i = 0; i < selectedRows.length; i++) {
                 if (statusId[i].value == 'Черновик') {
                     document.getElementById('status-' + (i + 1)).style.background = "#e3e33294"
+                    document.getElementById('category-' + (i + 1)).style.background = "#e3e33294"
                 }
             }
         }

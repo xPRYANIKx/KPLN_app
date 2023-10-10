@@ -1238,7 +1238,7 @@ main {
                 cursor: pointer;
             }
 
-            .th_discription_i {
+            .th_description_i {
                 max-width: 500px;
             }
 
@@ -1338,16 +1338,16 @@ main {
 ///____________///
 ///____________///
 ///////////////////////////////////////////
-@media (max-width: 1800px) {
-    #payment-approval_page #paymentForm,
-    #payment-approval-list_page .help_info,
-    #payment-approval-list_page #payment-table,
-    #payment-paid-list_page .help_info,
-    #payment-paid-list_page #payment-table,
-    #payment-pay_page #paymentForm {
-        display: none;
-    }
-}
+// @media (max-width: 1800px) {
+//     #payment-approval_page #paymentForm,
+//     #payment-approval-list_page .help_info,
+//     #payment-approval-list_page #payment-table,
+//     #payment-paid-list_page .help_info,
+//     #payment-paid-list_page #payment-table,
+//     #payment-pay_page #paymentForm {
+//         display: none;
+//     }
+// }
 @media (max-width: 820px) {
     #payment-approval_page,
     #payment-approval-list_page,

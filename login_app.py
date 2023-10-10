@@ -112,6 +112,7 @@ def conn_cursor_init():
 
 
 @login_bp.route('/', methods=["POST", "GET"])
+@login_required
 def index():
     """Главная страница"""
     try:
@@ -211,20 +212,35 @@ def register():
                     dbase = FDataBase(conn)
                     form_data = request.form
                     res = dbase.add_user(form_data)
+
+                    conn, cursor = conn_cursor_init_dict()
+                    cursor.execute(
+                        """SELECT 
+                                *
+                        FROM user_role;"""
+                    )
+                    roles = cursor.fetchall()
+                    conn_cursor_close(cursor, conn)
                     if res:
                         # Close the database connection
                         conn.close()
-                        return redirect(url_for('.register'))
+                        return render_template("register.html",
+                                               title="Регистрация новых пользователей", menu=hlink_menu,
+                                               menu_profile=hlink_profile, roles=roles)
                     else:
                         conn.rollback()
                         conn.close()
-                        return redirect(url_for('.register'))
+                        return render_template("register.html",
+                                               title="Регистрация новых пользователей", menu=hlink_menu,
+                                               menu_profile=hlink_profile, roles=roles)
 
                 except Exception as e:
                     flash(message=['register ❗❗❗ Ошибка', str(e)], category='error')
-                    return redirect(url_for('.register'))
+                    return render_template("register.html", title="Регистрация новых пользователей",
+                                           menu=hlink_menu,
+                                           menu_profile=hlink_profile, roles=roles)
 
-            else:
+            if request.method == 'GET':
                 conn, cursor = conn_cursor_init_dict()
                 cursor.execute(
                     """SELECT 
@@ -247,12 +263,11 @@ def func_hlink_profile():
     if current_user.is_authenticated:
         # Меню профиля
         hlink_profile = {
-            "name": [current_user.get_profile_name(), '(Выйти)'], "url": "logout"},
+            "name": [current_user.get_profile_name(), '(Выйти)'], "url": "logout", "role_id": current_user.get_role()},
 
         # Check user role.
         # Role: Admin
         if current_user.get_role() == 1:
-
             # НОВЫЙ СПИСОК МЕНЮ - СПИСОК СЛОВАРЕЙ со словарями
             hlink_menu = [
                 {"menu_item": "Платежи", "sub_item":
@@ -265,7 +280,7 @@ def func_hlink_profile():
                          "img": "/static/img/menu/payment-approval.png"},
                         {"name": "Оплата платежей", "url": "payment-pay",
                          "img": "/static/img/menu/payment-pay.png"},
-                        {"name": "Список платежей", "url": "payment-paid-list",
+                        {"name": "Список платежей", "url": "payment-list",
                          "img": "/static/img/menu/payment-list.png"},
                     ]
                  },
@@ -274,12 +289,49 @@ def func_hlink_profile():
                       "img": "/static/img/menu/register.png"}, ]
                  },
             ]
+
+        # Role: Director
+        elif current_user.get_role() == 4:
+            # НОВЫЙ СПИСОК МЕНЮ - СПИСОК СЛОВАРЕЙ со словарями
+            hlink_menu = [
+                {"menu_item": "Платежи", "sub_item":
+                    [
+                        {"name": "Новая заявка на оплату", "url": "new-payment",
+                         "img": "/static/img/menu/new-payment.png"},
+                        {"name": "Согласование платежей", "url": "payment-approval",
+                         "img": "/static/img/menu/payment-approval.png"},
+                        {"name": "Список платежей", "url": "payment-list",
+                         "img": "/static/img/menu/payment-list.png"},
+                    ]
+                 },
+            ]
+
+        # Role: buh
+        elif current_user.get_role() == 6:
+            # НОВЫЙ СПИСОК МЕНЮ - СПИСОК СЛОВАРЕЙ со словарями
+            hlink_menu = [
+                {"menu_item": "Платежи", "sub_item":
+                    [
+                        {"name": "Добавить поступления", "url": "cash-inflow",
+                         "img": "/static/img/menu/cash-inflow.png"},
+                        {"name": "Новая заявка на оплату", "url": "new-payment",
+                         "img": "/static/img/menu/new-payment.png"},
+                        {"name": "Согласование платежей", "url": "payment-approval",
+                         "img": "/static/img/menu/payment-approval.png"},
+                        {"name": "Оплата платежей", "url": "payment-pay",
+                         "img": "/static/img/menu/payment-pay.png"},
+                        {"name": "Список платежей", "url": "payment-list",
+                         "img": "/static/img/menu/payment-list.png"},
+                    ]
+                 },
+            ]
+
         else:
             hlink_menu = [
                 {"menu_item": "Платежи", "sub_item":
                     [{"name": "Новая заявка на оплату", "url": "new-payment",
                       "img": "/static/img/menu/new-payment.png"},
-                     {"name": "Список платежей", "url": "payment-paid-list",
+                     {"name": "Список платежей", "url": "payment-list",
                       "img": "/static/img/menu/payment-list.png"}, ]
                  },
             ]

@@ -9,8 +9,9 @@
 <script src="static/script/paymentApprovalSaveChanges.js"></script>
 <script src="static/script/paymentApprovalRecalcCards.js"></script>
 <script src="static/script/paymentApprovalColorize.js"></script>
+<script src="static/script/paymentApprovalClearAmountWhenNoSelect.js"></script>
 
-
+<script src="static/script/checkFormNewPayment.js"></script>
 
 
 <script src="static/script/application_modal.js"></script>
@@ -54,7 +55,7 @@
                 </textarea>
                     </div>
                     <div><label for="responsible">Ответственный:</label>
-                        <select name="responsible" id="responsible" required onchange="checkFormNewPayment()">
+                        <select name="responsible" id="responsible" required>
                             {% for r in responsible %}
                             <option value="{{ r[0] }}">{{ r[1] }} {{ r[2] }}</option>
                             {% endfor %}
@@ -66,7 +67,7 @@
                                 {% for category, names in cost_items.items() %}
                                 <optgroup label="{{ category }}">
                                     {% for name in names %}
-                                    <option value="{{ name[1] }}">{{ name[0] }}</option>
+                                    <option value="{{ category }}-@@@-{{ name[1] }}">{{ name[0] }}</option>
                                     {% endfor %}
                                 </optgroup>
                                 {% endfor %}
@@ -75,7 +76,7 @@
                         <div class="hidden_label" id="objects_name_div">
                             <label for="objects_name" id="objects_name_label">Объект:</label>
                             <select name="objects_name" id="objects_name" onchange="checkFormNewPayment()">
-                                <option value="0"></option>
+                                <option value=""></option>
                                 {% for object_name in objects_name %}
                                 <option value="{{ object_name[0] }}">{{ object_name[1] }}</option>
                                 {% endfor %}
@@ -106,6 +107,9 @@
                     </div>
                     <div id="payment_main_sum_div"><label for="main_sum">Общая сумма:</label>
                         <input type="text" placeholder="руб." name="main_sum" id="main_sum" onchange="numberWithSpaces(event, ' руб.')" value="" required />
+                    </div>
+                    <div id="payment_sum_approval_div"><label for="sum_approval">Согласованная сумма:</label>
+                        <input name="sum_approval" id="sum_approval" value="" readonly="readonly" />
                     </div>
                     <div id="payment_sum_remain_div"><label for="sum_remain">Остаток к оплате:</label>
                         <input name="sum_remain" id="sum_remain" value="" readonly="readonly" />
@@ -147,6 +151,7 @@
                 </div>
                 <div id="payment-approval__dialog__menu__list__button">
                     <button id="closeBtn">Отмена</button>
+<!--                    <button id="submitBtn">Сохранить</button>-->
                     <button id="save__edit_btn">Сохранить</button>
                 </div>
             </div>
@@ -172,7 +177,7 @@
             </div>
             <div class="card" id="card_available_money">
                 <div class="cards_h1_border">
-                    <h2 class="card-title" id="card_available_money_value" data-value="{{ available_money }}">{{ available_money }} ₽</h2>
+                    <h2 class="card-title" id="card_available_money_value" data-value="{{ money['available_money'] }}">{{ money['available_money_rub'] }}</h2>
                 </div>
                 <div>
                     <p class="card-cost">Доступные к распределению</p>
@@ -180,7 +185,7 @@
             </div>
             <div class="card" id="card_account_money">
                 <div class="cards_h1_border">
-                    <h2 class="card-title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
+                    <h2 class="card-title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
                 </div>
                 <div>
                     <p class="card-cost">На счету</p>
@@ -195,10 +200,8 @@
     </div>
 
 
-
-
     <form id="paymentForm" action="/payment-approval" method="POST" style="align-self: flex-start">
-        <button type="submit">Отправить</button>
+        <button type="submit" id="submitButton">Отправить</button>
 
         <table id="payment-table" name="payment_table" class="display">
             <thead>
@@ -206,7 +209,7 @@
                     <th class="th_select">ВЫБОР</th>
                     <th class="th_category">СТАТЬЯ ЗАТРАТ</th>
                     <th class="th_name">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
-                    <th class="th_discription">ОПИСАНИЕ</th>
+                    <th class="th_description">ОПИСАНИЕ</th>
                     <th class="th_object">ОБЪЕКТ</th>
                     <th class="th_responsible">ОТВЕТСТВЕННЫЙ</th>
                     <th class="th_contractor">КОНТРАГЕНТ</th>
@@ -224,16 +227,16 @@
                 <tr id="row-{{ loop.index }}">
                     <td class="th_select_i" data-sort="{{ loop.index }}">
                         <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
-                            onchange="paymentApprovalRecalcCards({{ loop.index }})">
+                            onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }})">
                     </td>
-                    <td class="th_category_i" data-sort="{{ application.cost_item_name }}" onclick="getModal({{ application.payment_id }})">
+                    <td class="th_category_i" id="category-{{ loop.index }}" data-sort="{{ application.cost_item_name }}" onclick="getModal({{ application.payment_id }})">
                         <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{
                         application.cost_item_name }}
                     </td>
                     <td class="th_name_i showModalId" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}"
                         onclick="getModal({{ application.payment_id }})">{{
                         application.basis_of_payment_short }}</td>
-                    <td class="th_discription_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}"><span
+                    <td class="th_description_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}"><span
                             class="paymentFormBold">{{ application.contractor_name }}: </span>{{
                         application.payment_description_short }}</td>
                     <td class="th_object_i" data-sort="{{application.object_name}}">{{ application.object_name
@@ -248,7 +251,7 @@
                     </td>
                     <td class="th_sum_agreed_i">
                         <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}" data-amount=0
-                            onchange="saveData({{ loop.index }}, '{{ page }}')">
+                            onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
                     </td>
                     <td class="th_pay_date_i">{{ application.payment_due_date }}</td>
                     <td class="th_status_i" id="status-{{ loop.index }}">

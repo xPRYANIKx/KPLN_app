@@ -19,18 +19,19 @@ class FDataBase:
             # Получаем данные из формы регистрации
             first_name = form_data.get('first_name')
             last_name = form_data.get('last_name')
+            surname = form_data.get('surname')
             email = form_data.get('email')
             user_role = form_data.get('user_role')
             user_priority = form_data.get('user_priority')
             password = generate_password_hash(form_data.get('password'))
 
-            print(first_name, last_name, email, user_priority, password, user_role, sep='\n')
+            print(first_name, last_name, surname, email, user_priority, password, user_role, sep='\n')
 
-            query = """INSERT INTO users (first_name, last_name, email, user_priority, password, user_role_id)
-                            VALUES (%s, %s, %s, %s, %s, %s)"""
-            values = (first_name, last_name, email, user_priority, password, user_role)
+            query = """INSERT INTO users (first_name, last_name, surname, email, user_priority, password, user_role_id)
+                            VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+            values = (first_name, last_name, surname, email, user_priority, password, user_role)
             # Check to same email value in db
-            self.__cur.execute(f"SELECT email FROM users WHERE email = '{values[2]}'")
+            self.__cur.execute(f"SELECT email FROM users WHERE email = '{email}'")
             res = self.__cur.fetchone()
             if res:
                 flash(message=['Логин уже есть в базе', ''], category='error')
