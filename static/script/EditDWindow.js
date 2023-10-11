@@ -14,7 +14,11 @@ for (var i = 0; i < elements.length; i++) {
         var dialog = document.getElementById("payment-approval__dialog");
         var bodyRef = document.getElementById('paid_history-table').getElementsByTagName('tbody')[0];
         bodyRef.innerHTML = ''
+        var logDPage = document.getElementById('logDPage__content__text');
+        logDPage.innerHTML = ''
         dialog.showModal();
+        ;
+        
     });
 }
 
@@ -72,18 +76,31 @@ saveButton.addEventListener("click", savePayment);
 function savePayment() {
     var paymentId = document.getElementById('payment_id').textContent;
     var basis_of_payment = document.getElementById('basis_of_payment').value;
+    var basis_of_payment_dataset = document.getElementById('basis_of_payment').dataset.value;
     var responsible = document.getElementById('responsible').value;
+    var responsible_dataset = document.getElementById('responsible').dataset.value;
     var cost_items = document.getElementById('cost_items').value;
     var cost_items_category = cost_items.split('-@@@-')[0];
     var cost_items_id = cost_items.split('-@@@-')[1];
+    var cost_items_id_dataset = document.getElementById('cost_items').dataset.value;
     var objects_name = document.getElementById('objects_name').value;
+    var objects_name_dataset = document.getElementById('objects_name').dataset.value;
     var payment_description = document.getElementById('payment_description').value;
+    var payment_description_dataset = document.getElementById('payment_description').dataset.value;
     var partners = document.getElementById('partners').value;
+    var partners_dataset = document.getElementById('partners').dataset.value;
     var payment_due_date = document.getElementById('payment_due_date').value;
+    var payment_due_date_dataset = document.getElementById('payment_due_date').dataset.value;
     var our_company = document.getElementById('our_company').value;
+    var our_company_dataset = document.getElementById('our_company').dataset.value;
     var main_sum = document.getElementById('main_sum').value;
+    var main_sum_dataset = document.getElementById('main_sum').dataset.value;
     var payment_sum = document.getElementById('payment_sum').value;
+    var payment_sum_dataset = document.getElementById('payment_sum').dataset.value;
+    var sum_approval = document.getElementById('sum_approval').value;
+    var sum_approval_dataset = document.getElementById('sum_approval').dataset.value;
     var payment_full_agreed_status = document.getElementById('paymentFullStatus').checked;
+    var payment_full_agreed_status_dataset = document.getElementById('paymentFullStatus').dataset.value;
 
 //    Если вид работ не субподрядчики, то удаляем id проекта
     cost_items_category !== 'Субподрядчики'? objects_name = '': 1;
@@ -102,29 +119,37 @@ console.log(
    payment_sum  ${payment_sum}
    payment_full_agreed_status  ${payment_full_agreed_status}`)
 
-
-
-
-    console.log(paymentId);
     fetch('/save_payment', {
         "headers" : {
             'Content-Type' : 'application/json'
         },
         "method": "POST",
         "body": JSON.stringify( {
-            'paymentId': paymentId,
-            'basis_of_payment': basis_of_payment,
-            'responsible': responsible,
-            'cost_items': cost_items_id,
-            'objects_name': objects_name,
-            'payment_description': payment_description,
-            'partners': partners,
-            'payment_due_date': payment_due_date,
-            'our_company': our_company,
-            'main_sum': main_sum,
-            'payment_sum': payment_sum,
-            'objects_name': objects_name,
-            'payment_full_agreed_status': payment_full_agreed_status,
+                'payment_id': paymentId,
+                'basis_of_payment': basis_of_payment,
+            'basis_of_payment_dataset': basis_of_payment_dataset,
+                'responsible': responsible,
+            'responsible_dataset': responsible_dataset,
+                'cost_item_id': cost_items_id,
+            'cost_item_id_dataset': cost_items_id_dataset,
+                'object_id': objects_name,
+            'object_id_dataset': objects_name_dataset,
+                'payment_description': payment_description,
+            'payment_description_dataset': payment_description_dataset,
+                'partners': partners,
+            'partners_dataset': partners_dataset,
+                'payment_due_date': payment_due_date,
+            'payment_due_date_dataset': payment_due_date_dataset,
+                'our_company_id': our_company,
+            'our_company_id_dataset': our_company_dataset,
+                'main_sum': main_sum,
+            'main_sum_dataset': main_sum_dataset,
+                'sum_approval': sum_approval,
+            'sum_approval_dataset': sum_approval_dataset,
+                'payment_sum': payment_sum,
+            'payment_sum_dataset': payment_sum_dataset,
+                'payment_full_agreed_status': payment_full_agreed_status,
+            'payment_full_agreed_status_dataset': payment_full_agreed_status_dataset
         })
     })
     .then(response => response.json())

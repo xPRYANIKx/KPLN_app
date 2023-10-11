@@ -681,6 +681,10 @@ def set_approved_payments():
                     # Перезапись в payments_summary_tab
                     columns_p_s_t = ("payment_id", "payment_full_agreed_status", "payment_close_status")
                     query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+                    print('query_p_s_t')
+                    print(query_p_s_t)
+                    print('\nvalues_p_s_t')
+                    print(values_p_s_t)
                     execute_values(cursor, query_p_s_t, values_p_s_t)
 
                     columns_p_d = 'page_name, parent_id::int, parameter_name, user_id'
@@ -1162,7 +1166,7 @@ def get_unpaid_payments():
                     t1.payment_sum,
                     COALESCE(TRIM(to_char(t1.payment_sum, '999 999 999D99 ₽')), '') AS payment_sum_rub,
                     t0.approval_sum,
-                    TRIM(to_char(t0.approval_sum, '9 999 999D99 ₽')) AS approval_sum_rub,
+                    TRIM(to_char(t0.approval_sum, '999 999 999D99 ₽')) AS approval_sum_rub,
                     COALESCE(t7.paid_sum, null) AS paid_sum,
                     COALESCE(TRIM(to_char(t7.paid_sum, '999 999 999D99 ₽')), '') AS paid_sum_rub,
                     COALESCE(t8.amount, null) AS amount,
@@ -1228,6 +1232,8 @@ def get_unpaid_payments():
                 ['payment-pay', 'amount', user_id]
             )
             all_payments = cursor.fetchall()
+
+            pprint(all_payments)
 
             # Список согласованных платежей
             cursor.execute("SELECT * FROM payments_approval")
@@ -1884,6 +1890,8 @@ def get_card_payment(payment_id):
                 TRIM(to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '999 999 999D99 ₽')) AS approval_sum_rub,
                 COALESCE(t2.approval_sum, 0) AS historic_approval_sum,
                 COALESCE(TRIM(to_char(t2.approval_sum, '999 999 999D99 ₽')), '0 ₽') AS historic_approval_sum_rub,
+                COALESCE(t9.approval_sum, 0) AS approval_to_pay_sum,
+                COALESCE(TRIM(to_char(t9.approval_sum, '999 999 999D99 ₽')), '0 ₽') AS approval_to_pay_sum_rub,
                 COALESCE(t8.amount, null) AS amount,
                 COALESCE(TRIM(to_char(t8.amount, '999 999 999D99 ₽')), '') AS amount_rub,
                 t1.payment_due_date AS payment_due_date2,
@@ -1929,6 +1937,12 @@ def get_card_payment(payment_id):
                 WHERE page_name = %s AND parameter_name = %s AND user_id = %s
                 ORDER BY payment_id, create_at DESC
         ) AS t8 ON t1.payment_id = t8.payment_id
+        LEFT JOIN (
+                SELECT 
+                    payment_id,
+                    approval_sum
+                FROM payments_approval
+        ) AS t9 ON t1.payment_id = t9.payment_id
         WHERE not t1.payment_close_status AND t1.payment_id = %s
         ORDER BY t1.payment_due_date;
         """,
@@ -1976,7 +1990,7 @@ def get_card_payment(payment_id):
                       GROUP BY payment_id)
         SELECT 
                 t1.payment_id,
-                to_char(t1.create_at, 'dd.MM.yy HH:MI:SS') AS payment_at_2,
+                to_char(t1.create_at, 'dd.MM.yy HH24:MI:SS') AS payment_at_2,
                 date_trunc('second', timezone('UTC-3', t1.create_at)::timestamp) AS payment_at,
                 t2.payment_agreed_status_name, 
                 t0.paid_sum AS total_paid_sum,
@@ -2025,7 +2039,8 @@ def get_card_payment(payment_id):
                 FROM payment_agreed_statuses
         )
         SELECT 
-            to_char(t1.create_at, 'dd.MM.yy HH:MI:SS') AS create_at,
+            to_char(t1.create_at, 'dd.MM.yy') AS create_at_date,
+            to_char(t1.create_at, 'HH24:MI:SS') AS create_at_time,
             t1.type,
             t2.payment_agreed_status_name,
             COALESCE(TRIM(to_char(t1.sum, '999 999 999D99 ₽')), '') AS sum
@@ -2184,181 +2199,288 @@ def save_payment():
     print('save_payment')
     """Сохраняем изменения платежа из карточки платежа"""
     try:
-        payment_id = int(request.get_json()['paymentId'])  # Номера платежей (передаётся id)
-        our_companies_id = int(request.get_json()['our_companies_id'])  # id нашей компании
-        cost_item_id = int(request.get_json()['cost_item_id'])  # id статьи затрат
+        print('         save_payment')
+        # zzz = request.get_json()
+        # print('pprint(zzz)')
+        # pprint(zzz)
+
+        payment_id = int(request.get_json()['payment_id'])  # Номера платежей (передаётся id)
+
         basis_of_payment = request.get_json()['basis_of_payment']  # Основание (наименование) платежа
-        payment_description = request.get_json()['payment_description']  # Описание
-        object_id = int(request.get_json()['object_id'])  # id объекта
-        payment_sum = convert_amount(request.get_json()['payment_sum'])  # Общая сумма
-        payment_due_date = request.get_json()['payment_due_date']  # Срок оплаты
-        payment_full_agreed_status = request.get_json()['payment_full_agreed_status']  # Сохранить до полной оплаты
         responsible = int(request.get_json()['responsible'])  # id ответственного
-        zzz = request.get_json()
-        pprint(zzz)
+        cost_item_id = int(request.get_json()['cost_item_id'])  # id статьи затрат
+        object_id = int(request.get_json()['object_id'])  # id объекта
+        payment_description = request.get_json()['payment_description']  # Описание
+        partners = request.get_json()['partners']  # Контрагент
+        payment_due_date = request.get_json()['payment_due_date']  # Срок оплаты
+        our_companies_id = int(request.get_json()['our_company_id'])  # id нашей компании
+        main_sum = convert_amount(request.get_json()['main_sum'])  # Общая сумма
+        sum_approval = convert_amount(request.get_json()['sum_approval'])  # Неоплаченная сумма согласования
+        payment_sum = convert_amount(request.get_json()['payment_sum'])  # Сумма оплаты
+        payment_full_agreed_status = request.get_json()['payment_full_agreed_status']  # Сохранить до полной оплаты
+
+        # data-value данные для проверки, в каких полях были изменения
+        basis_of_payment_dataset = request.get_json()['basis_of_payment_dataset']  # Основание (наименование) платежа
+        responsible_dataset = int(request.get_json()['responsible_dataset'])  # id ответственного
+        cost_item_id_dataset = int(request.get_json()['cost_item_id_dataset'])  # id статьи затрат
+        object_id_dataset = int(request.get_json()['object_id_dataset'])  # id объекта
+        payment_description_dataset = request.get_json()['payment_description_dataset']  # Описание
+        partners_dataset = request.get_json()['partners_dataset']  # Контрагент
+        payment_due_date_dataset = request.get_json()['payment_due_date_dataset']  # Срок оплаты
+        our_companies_id_dataset = int(request.get_json()['our_company_id_dataset'])  # id нашей компании
+        main_sum_dataset = convert_amount(request.get_json()['main_sum_dataset'])  # Общая сумма
+        sum_approval_dataset = convert_amount(request.get_json()['sum_approval_dataset'])  # Неоплаченная сумма согласования
+        payment_sum_dataset = convert_amount(request.get_json()['payment_sum_dataset'])  # Сумма оплаты
+        payment_full_agreed_status_dataset = request.get_json()['payment_full_agreed_status_dataset']  # Сохранить до полной оплаты
+        payment_full_agreed_status_dataset = True if payment_full_agreed_status_dataset=='true' else False
 
         status_id = 12  # Статус заявки ("Обновлено")
         values_p_s_t = []  # Данные для записи в таблицу payments_summary_tab
         values_p_a_h = []  # Данные для записи в таблицу payments_approval_history
+        columns_p_s_t = []  # Список колонок, в которых произошло изменение (payments_summary_tab)
+        columnsp_a_h = []  # Список колонок, в которых произошло изменение (payments_approval_history)
+
+        # Словарь True/False для определения, что пользователь изменил в payments_summary_tab
+        status_change_list_p_s_t = {}
+        status_change_list_p_s_t['basis_of_payment'] = [
+            basis_of_payment != basis_of_payment_dataset,
+            basis_of_payment
+        ]
+        status_change_list_p_s_t['responsible'] = [
+            responsible != responsible_dataset,
+            responsible
+        ]
+        status_change_list_p_s_t['cost_item_id'] = [
+            cost_item_id != cost_item_id_dataset,
+            cost_item_id
+        ]
+        status_change_list_p_s_t['object_id'] = [
+            object_id != object_id_dataset,
+            object_id
+        ]
+        status_change_list_p_s_t['payment_description'] = [
+            payment_description != payment_description_dataset,
+            payment_description
+        ]
+        status_change_list_p_s_t['partner'] = [
+            partners != partners_dataset,
+            partners
+        ]
+        status_change_list_p_s_t['payment_due_date'] = [
+            payment_due_date != payment_due_date_dataset,
+            payment_due_date
+        ]
+        status_change_list_p_s_t['our_companies_id'] = [
+            our_companies_id != our_companies_id_dataset,
+            our_companies_id
+        ]
+        status_change_list_p_s_t['main_sum'] = [
+            main_sum != main_sum_dataset,
+            main_sum
+        ]
+        status_change_list_p_s_t['payment_sum'] = [
+            payment_sum != payment_sum_dataset,
+            payment_sum
+        ]
+        status_change_list_p_s_t['payment_full_agreed_status'] = [
+            payment_full_agreed_status != payment_full_agreed_status_dataset,
+            payment_full_agreed_status
+        ]
+
+        pprint(status_change_list_p_s_t)
+        print('\n\n\n')
+
+        # True/False для определения, изменил ли пользователь согласованный остаток в payments_approval
+        status_change_list_p_a = sum_approval != sum_approval_dataset
+
 
 
 
         conn, cursor = login_app.conn_cursor_init_dict()
+        #
+        # # Общая согласованная сумма
+        # cursor.execute(
+        #     """SELECT
+        #             SUM(approval_sum) approval_sum
+        #         FROM payments_approval_history
+        #         WHERE payment_id = %s
+        #         GROUP BY payment_id;
+        # """,
+        #     [payment_id]
+        # )
+        # historic_approval_sum = cursor.fetchone()
+        #
+        # # ОШИБКА Общая сумма меньше суммы согласования. Если не получается, необходимо аннулировать согласованное и
+        # # попробовать уменьшить на сумму согласованного
+        # if payment_sum < historic_approval_sum[0]:
+        #     print('Общая сумма меньше суммы согласования')
+        #     login_app.conn_cursor_close(cursor, conn)
+        #     return jsonify({
+        #         'status': 'error',
+        #         'description': 'Общая сумма меньше суммы согласования',
+        #     })
+        #
+        # payment_close_status = 3 if historic_approval_sum==1 else 11111
+        #
+        #
 
-        # Общая согласованная сумма
-        cursor.execute(
-            """SELECT  
-                    SUM(approval_sum) approval_sum
-                FROM payments_approval_history
-                WHERE payment_id = %s
-                GROUP BY payment_id;
-        """,
-            [payment_id]
-        )
-        historic_approval_sum = cursor.fetchone()
-
-        # ОШИБКА Общая сумма меньше суммы согласования
-        if payment_sum < historic_approval_sum[0]:
-            print('Общая сумма меньше суммы согласования')
-            login_app.conn_cursor_close(cursor, conn)
-            return jsonify({
-                'status': 'error',
-                'description': 'Общая сумма меньше суммы согласования',
-            })
-
-        payment_close_status = 3 if historic_approval_sum==1 else 11111
-
+        print(1)
         """для db payments_summary_tab"""
         values_p_s_t.append([
-            payment_id,  # id заявки
-            True  # Закрытие заявки
+            payment_id  # id заявки
         ])
-
-
-
-
-        # Изменяем запись в таблице payments_summary_tab
-        columns_p_s_t = (
-            "payment_id",
-            "our_companies_id",
-            "cost_item_id",
-            "basis_of_payment",
-            "payment_description",
-            "object_id",
-            "partner",
-            "payment_sum",
-            "payment_due_date",
-            "payment_full_agreed_status",
-            "responsible",
-            "payment_close_status")
-        query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
-        # execute_values(cursor, query_p_s_t, values_p_s_t)
-        pprint(query_p_s_t)
-
-        # Запись в payments_approval_history
-        action_p_a_h = 'INSERT INTO'
-        table_p_a_h = 'payments_approval_history'
-        columns_p_a_h = ('payment_id', 'status_id', 'user_id')
-        query_a_h = get_db_dml_query(
-            action=action_p_a_h, table=table_p_a_h, columns=columns_p_a_h
+        print(2)
+        columns_p_s_t.append(
+            "payment_id"
         )
-        # execute_values(cursor, query_a_h, values_p_a_h)
-        # conn.commit()
+        print(3)
+        print(type(columns_p_s_t))
+        for k, v in status_change_list_p_s_t.items():
+            if v[0]:
+                values_p_s_t[0].append(v[1])
+                columns_p_s_t.append(k)
+
+        columns_p_s_t = tuple(columns_p_s_t)
+        print(values_p_s_t)
+        print(columns_p_s_t)
+
+
+
+
+        # # Изменяем запись в таблице payments_summary_tab
+        # if (len(columns_p_s_t) > 1):
+        #     query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+        #     # execute_values(cursor, query_p_s_t, values_p_s_t)
+        #     print(query_p_s_t)
+        #     # conn.commit()
 
         login_app.conn_cursor_close(cursor, conn)
 
+        return jsonify({'status': 'success'})
 
-        return jsonify({'status': 'error'})
-        # status_id = 6  # Статус заявки ("Аннулирован")
-        # values_p_s_t = []  # Данные для записи в таблицу payments_summary_tab
-        # values_p_a_h = []  # Данные для записи в таблицу payments_approval_history
+
+        # columns_p_s_t = (
+        #     "payment_id",
+        #     "our_companies_id",
+        #     "cost_item_id",
+        #     "basis_of_payment",
+        #     "payment_description",
+        #     "object_id",
+        #     "partner",
+        #     "payment_sum",
+        #     "payment_due_date",
+        #     "payment_full_agreed_status",
+        #     "responsible",
+        #     "payment_close_status")
+        # query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+        # # execute_values(cursor, query_p_s_t, values_p_s_t)
+        # pprint(query_p_s_t)
         #
-        # # Данные для удаления временных данных из таблицы payments_summary_tab
-        # values_p_d = []
-        # page_name = 'payment-approval'
-        # parameter_name = 'amount'
-        #
-        # values_a_h = []  # Список согласованных заявок для записи на БД
-        #
-        # user_id = login_app.current_user.get_id()
-        #
-        # values_a_h.append([
-        #     payment_number,
-        #     status_id,
-        #     user_id
-        # ])
-        #
-        # conn, cursor = login_app.conn_cursor_init_dict()
-        #
-        # """проверяем, не закрыт ли платеж уже"""
-        # cursor.execute(
-        #     """SELECT
-        #             payment_close_status
-        #     FROM payments_summary_tab
-        #     WHERE payment_id = %s""",
-        #     [payment_number]
+        # # Запись в payments_approval_history
+        # action_p_a_h = 'INSERT INTO'
+        # table_p_a_h = 'payments_approval_history'
+        # columns_p_a_h = ('payment_id', 'status_id', 'user_id')
+        # query_a_h = get_db_dml_query(
+        #     action=action_p_a_h, table=table_p_a_h, columns=columns_p_a_h
         # )
-        # payment_close_status = cursor.fetchone()[0]
+        # # execute_values(cursor, query_a_h, values_p_a_h)
+        # # conn.commit()
         #
-        # if payment_close_status:
-        #     flash(message=['Заявка не аннулирована', ''], category='error')
-        #     return jsonify({'status': 'error'})
-        #
-        # """для db payments_summary_tab"""
-        # values_p_s_t.append([
-        #     payment_number,  # id заявки
-        #     True  # Закрытие заявки
-        # ])
-        #
-        # """для db payment_draft"""
-        # values_p_d.append((
-        #     page_name,
-        #     payment_number,
-        #     parameter_name,
-        #     user_id
-        # ))
-        #
-        # """для db payments_approval_history"""
-        # values_p_a_h.append([
-        #     payment_number,
-        #     status_id,
-        #     user_id
-        # ])
-        #
-        # try:
-        #     columns_p_s_t = ("payment_id", "payment_close_status")
-        #     query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
-        #     execute_values(cursor, query_p_s_t, values_p_s_t)
-        #
-        #     columns_p_d = 'page_name, parent_id::int, parameter_name, user_id'
-        #     query_p_d = get_db_dml_query(action='DELETE', table='payment_draft', columns=columns_p_d)
-        #     execute_values(cursor, query_p_d, (values_p_d,))
-        #
-        #     # Запись в payments_approval_history
-        #     action_p_a_h = 'INSERT INTO'
-        #     table_p_a_h = 'payments_approval_history'
-        #     columns_p_a_h = ('payment_id', 'status_id', 'user_id')
-        #     query_a_h = get_db_dml_query(
-        #         action=action_p_a_h, table=table_p_a_h, columns=columns_p_a_h
-        #     )
-        #     execute_values(cursor, query_a_h, values_p_a_h)
-        #     conn.commit()
-        #
-        #     flash(message=['Заявка аннулирована', ''], category='success')
-        #
-        #     login_app.conn_cursor_close(cursor, conn)
-        #     print("return redirect(url_for('.get_unapproved_payments'))")
-        #     return jsonify({'status': 'success'})
-        #     # return redirect(url_for('.get_unapproved_payments'))
+        # login_app.conn_cursor_close(cursor, conn)
         #
         #
-        # except Exception as e:
-        #     print('except Exception', e)
-        #     conn.rollback()
-        #     login_app.conn_cursor_close(cursor, conn)
-        #     return f'отправка set_approved_payments ❗❗❗ Ошибка \n---{e}'
+        # return jsonify({'status': 'error'})
+        # # status_id = 6  # Статус заявки ("Аннулирован")
+        # # values_p_s_t = []  # Данные для записи в таблицу payments_summary_tab
+        # # values_p_a_h = []  # Данные для записи в таблицу payments_approval_history
+        # #
+        # # # Данные для удаления временных данных из таблицы payments_summary_tab
+        # # values_p_d = []
+        # # page_name = 'payment-approval'
+        # # parameter_name = 'amount'
+        # #
+        # # values_a_h = []  # Список согласованных заявок для записи на БД
+        # #
+        # # user_id = login_app.current_user.get_id()
+        # #
+        # # values_a_h.append([
+        # #     payment_number,
+        # #     status_id,
+        # #     user_id
+        # # ])
+        # #
+        # # conn, cursor = login_app.conn_cursor_init_dict()
+        # #
+        # # """проверяем, не закрыт ли платеж уже"""
+        # # cursor.execute(
+        # #     """SELECT
+        # #             payment_close_status
+        # #     FROM payments_summary_tab
+        # #     WHERE payment_id = %s""",
+        # #     [payment_number]
+        # # )
+        # # payment_close_status = cursor.fetchone()[0]
+        # #
+        # # if payment_close_status:
+        # #     flash(message=['Заявка не аннулирована', ''], category='error')
+        # #     return jsonify({'status': 'error'})
+        # #
+        # # """для db payments_summary_tab"""
+        # # values_p_s_t.append([
+        # #     payment_number,  # id заявки
+        # #     True  # Закрытие заявки
+        # # ])
+        # #
+        # # """для db payment_draft"""
+        # # values_p_d.append((
+        # #     page_name,
+        # #     payment_number,
+        # #     parameter_name,
+        # #     user_id
+        # # ))
+        # #
+        # # """для db payments_approval_history"""
+        # # values_p_a_h.append([
+        # #     payment_number,
+        # #     status_id,
+        # #     user_id
+        # # ])
+        # #
+        # # try:
+        # #     columns_p_s_t = ("payment_id", "payment_close_status")
+        # #     query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
+        # #     execute_values(cursor, query_p_s_t, values_p_s_t)
+        # #
+        # #     columns_p_d = 'page_name, parent_id::int, parameter_name, user_id'
+        # #     query_p_d = get_db_dml_query(action='DELETE', table='payment_draft', columns=columns_p_d)
+        # #     execute_values(cursor, query_p_d, (values_p_d,))
+        # #
+        # #     # Запись в payments_approval_history
+        # #     action_p_a_h = 'INSERT INTO'
+        # #     table_p_a_h = 'payments_approval_history'
+        # #     columns_p_a_h = ('payment_id', 'status_id', 'user_id')
+        # #     query_a_h = get_db_dml_query(
+        # #         action=action_p_a_h, table=table_p_a_h, columns=columns_p_a_h
+        # #     )
+        # #     execute_values(cursor, query_a_h, values_p_a_h)
+        # #     conn.commit()
+        # #
+        # #     flash(message=['Заявка аннулирована', ''], category='success')
+        # #
+        # #     login_app.conn_cursor_close(cursor, conn)
+        # #     print("return redirect(url_for('.get_unapproved_payments'))")
+        # #     return jsonify({'status': 'success'})
+        # #     # return redirect(url_for('.get_unapproved_payments'))
+        # #
+        # #
+        # # except Exception as e:
+        # #     print('except Exception', e)
+        # #     conn.rollback()
+        # #     login_app.conn_cursor_close(cursor, conn)
+        # #     return f'отправка set_approved_payments ❗❗❗ Ошибка \n---{e}'
 
     except Exception as e:
+        print(e)
         return f'set_approved_payments ❗❗❗ Ошибка \n---{e}'
 
 

@@ -14,13 +14,16 @@ function getModal(paymentId = null) {
             document.getElementById('payment_number').textContent = data.payment['payment_number'];
 
             document.getElementById('basis_of_payment').textContent = data.payment['basis_of_payment'];
+            document.getElementById('basis_of_payment').dataset.value = data.payment['basis_of_payment'];
 
             const select = document.getElementById('responsible');
+            document.getElementById('responsible').dataset.value = data.payment['user_id'].toString();
             for (let i = 0; i < select.length; i++) {
                 if (select[i].value === data.payment['user_id'].toString()) select[i].selected = true;
             }
 
             const select2 = document.getElementById('cost_items');
+            document.getElementById('cost_items').dataset.value = data.payment['cost_item_id'].toString();
             for (let i = 0; i < select2.length; i++) {
                 if (select2[i].value.split('-@@@-')[1] === data.payment['cost_item_id'].toString()) {
                     select2[i].selected = true;
@@ -33,37 +36,44 @@ function getModal(paymentId = null) {
                         document.getElementById("objects_name_div").style.display = "none";
                         document.getElementById("objects_name").required = false;
                     }
-
-
                 }
             }
 
             const select3 = document.getElementById('objects_name');
+            document.getElementById('objects_name').dataset.value = data.payment['object_id'].toString();
             for (let i = 0; i < select3.length; i++) {
                 if (select3[i].value === data.payment['object_id'].toString()) select3[i].selected = true;
             }
 
             document.getElementById('payment_description').textContent = data.payment['payment_description'];
+            document.getElementById('payment_description').dataset.value = data.payment['payment_description'];
 
             document.getElementById('partners').value = data.payment['partner'];
+            document.getElementById('partners').dataset.value = data.payment['partner'];
 
             document.getElementById('payment_due_date').value = data.payment['payment_due_date'];
+            document.getElementById('payment_due_date').dataset.value = data.payment['payment_due_date'];
 
             const select4 = document.getElementById('our_company');
+            document.getElementById('our_company').dataset.value = data.payment['contractor_id'].toString();
             for (let i = 0; i < select4.length; i++) {
                 if (select4[i].value === data.payment['contractor_id'].toString()) select4[i].selected = true;
             }
 
             document.getElementById('main_sum').value = data.payment['payment_sum_rub'];
+            document.getElementById('main_sum').dataset.value = data.payment['payment_sum_rub'];
+
+            document.getElementById('sum_approval').value = data.payment['approval_to_pay_sum_rub'];
+            document.getElementById('sum_approval').dataset.value = data.payment['approval_to_pay_sum_rub'];
 
             document.getElementById('sum_remain').value = data.payment['approval_sum_rub'];
-
-            document.getElementById('sum_approval').value = data.payment['historic_approval_sum_rub'];
-            document.getElementById('sum_approval').style.background='grey'
+            document.getElementById('sum_remain').dataset.value = data.payment['approval_sum_rub'];
 
             document.getElementById('payment_sum').value = data.payment['amount_rub'];
+            document.getElementById('payment_sum').dataset.value = data.payment['amount_rub'];
 
             document.getElementById('paymentFullStatus').checked = data.payment['payment_full_agreed_status'];
+            document.getElementById('paymentFullStatus').dataset.value = data.payment['payment_full_agreed_status'];
 
             document.getElementById('historic_approval_sum').textContent = data.payment['historic_approval_sum_rub'];
 
@@ -94,7 +104,31 @@ function getModal(paymentId = null) {
             else {
                 document.getElementById('historic_paid_sum').textContent = '';
             }
-            document.getElementById('logs').textContent = data.logs
+
+            const dialog = document.getElementById("logDPage__content__text");
+            for (var i=0; i<data.logs.length; i++) {
+                const entry = document.createElement("p");
+                entry.innerHTML = `
+                    >> <span class="logTime"><span class="logTimeBold">${data.logs[i][0]}</span> ${data.logs[i][1]}:</span>
+                    ${data.logs[i][2]}. ${data.logs[i][3]}.
+                    <span class="logCash"><span class="logCashPay">${data.logs[i][4]}</span> </span>
+                `;
+                dialog.appendChild(entry);
+            }
+
+            var title = `
+- Заявка закроется,
+- Несогласованный остаток (${data.payment['approval_sum_rub']}) удалится,
+- Неоплаченный согласованный остаток (${data.payment['approval_to_pay_sum_rub']}) останется на листе ОПЛАТА`
+            document.getElementById("annul__edit_btn").setAttribute("title", title)
+
+            var title = `
+- Заявка НЕ закроется,
+- Неоплаченный согласованный остаток (${data.payment['approval_to_pay_sum_rub']}) удалится
+- Остаток к оплате увеличится на (${data.payment['approval_to_pay_sum_rub']})`
+            document.getElementById("annul_approval__edit_btn").setAttribute("title", title)
+
+
         })
         .catch(error => {
             console.error('Error:', error);
