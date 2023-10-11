@@ -1716,6 +1716,8 @@ main .focus_button {
 #payment-approval-list_page #paymentForm table .th_category_i,
 #payment-paid-list_page #paymentForm table .th_category_i,
 #payment-pay_page #paymentForm table .th_category_i {
+  max-width: 170px;
+  min-width: 165px;
   font-weight: bold;
 }
 #payment-approval_page #paymentForm table .th_name_i,
@@ -1723,6 +1725,7 @@ main .focus_button {
 #payment-paid-list_page #paymentForm table .th_name_i,
 #payment-pay_page #paymentForm table .th_name_i {
   max-width: 320px;
+  min-width: 250px;
   color: #242e7b;
   cursor: pointer;
 }
@@ -1731,12 +1734,14 @@ main .focus_button {
 #payment-paid-list_page #paymentForm table .th_description_i,
 #payment-pay_page #paymentForm table .th_description_i {
   max-width: 500px;
+  min-width: 320px;
 }
 #payment-approval_page #paymentForm table .th_object_i,
 #payment-approval-list_page #paymentForm table .th_object_i,
 #payment-paid-list_page #paymentForm table .th_object_i,
 #payment-pay_page #paymentForm table .th_object_i {
-  width: 150px;
+  min-width: 140px;
+  max-width: 215px;
   font-weight: bold;
 }
 #payment-approval_page #paymentForm table .th_responsible_i,

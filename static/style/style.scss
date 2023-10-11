@@ -1371,21 +1371,26 @@ main {
             }
 
             .th_category_i {
+                max-width: 170px;
+                min-width: 165px;
                 font-weight: bold;
             }
 
             .th_name_i {
                 max-width: 320px;
+                min-width: 250px;
                 color: #242e7b;
                 cursor: pointer;
             }
 
             .th_description_i {
                 max-width: 500px;
+                min-width: 320px;
             }
 
             .th_object_i {
-                width: 150px;
+                min-width: 140px;
+                max-width: 215px;
                 font-weight: bold;
             }
 
