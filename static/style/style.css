@@ -246,10 +246,6 @@ body table thead td {
   font-size: 14px;
   font-weight: 900;
 }
-body table .fix_thead {
-  position: sticky;
-  top: 57px;
-}
 body table tr:nth-child(2n) {
   background-color: #d7d5d5;
 }
@@ -504,6 +500,9 @@ main form button {
 main form button:enabled {
   background-color: #000000;
   color: #ffffff;
+}
+main form button:visited {
+  border: none;
 }
 main form select,
 main form input {
@@ -1624,6 +1623,93 @@ main .focus_button {
   cursor: pointer;
   box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
 }
+#payment-approval_page #tableCustom,
+#payment-approval-list_page #tableCustom,
+#payment-paid-list_page #tableCustom,
+#payment-pay_page #tableCustom {
+  width: 314px;
+  height: 680px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+}
+#payment-approval_page #tableCustom h2,
+#payment-approval-list_page #tableCustom h2,
+#payment-paid-list_page #tableCustom h2,
+#payment-pay_page #tableCustom h2 {
+  display: flex;
+  margin: 10px 0px 0px 16px;
+  font-size: 25px;
+  font-weight: 900;
+}
+#payment-approval_page #tableCustom h2 img,
+#payment-approval-list_page #tableCustom h2 img,
+#payment-paid-list_page #tableCustom h2 img,
+#payment-pay_page #tableCustom h2 img {
+  width: 23px;
+  height: 23px;
+  margin: 6px 8px 0px 0px;
+}
+#payment-approval_page #tableCustom form,
+#payment-approval-list_page #tableCustom form,
+#payment-paid-list_page #tableCustom form,
+#payment-pay_page #tableCustom form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: none;
+}
+#payment-approval_page #tableCustom form table,
+#payment-approval-list_page #tableCustom form table,
+#payment-paid-list_page #tableCustom form table,
+#payment-pay_page #tableCustom form table {
+  max-width: 260px;
+  margin: 0 auto;
+}
+#payment-approval_page #tableCustom form table tr .ttdname,
+#payment-approval-list_page #tableCustom form table tr .ttdname,
+#payment-paid-list_page #tableCustom form table tr .ttdname,
+#payment-pay_page #tableCustom form table tr .ttdname {
+  width: 200px;
+  font-weight: bold;
+}
+#payment-approval_page #tableCustom form table tr .ttdcbox,
+#payment-approval-list_page #tableCustom form table tr .ttdcbox,
+#payment-paid-list_page #tableCustom form table tr .ttdcbox,
+#payment-pay_page #tableCustom form table tr .ttdcbox {
+  width: 50px;
+  padding: 0px;
+  text-align: center;
+}
+#payment-approval_page #tableCustom form table tr .ttdcbox input,
+#payment-approval-list_page #tableCustom form table tr .ttdcbox input,
+#payment-paid-list_page #tableCustom form table tr .ttdcbox input,
+#payment-pay_page #tableCustom form table tr .ttdcbox input {
+  zoom: 2;
+}
+#payment-approval_page #tableCustom form #closeBtnTC,
+#payment-approval-list_page #tableCustom form #closeBtnTC,
+#payment-paid-list_page #tableCustom form #closeBtnTC,
+#payment-pay_page #tableCustom form #closeBtnTC {
+  width: 100%;
+  margin: 22px 0px 0px 0px;
+  font-size: 15px;
+  font-weight: bold;
+}
+#payment-approval_page #tableCustom #crossBtnTC,
+#payment-approval-list_page #tableCustom #crossBtnTC,
+#payment-paid-list_page #tableCustom #crossBtnTC,
+#payment-pay_page #tableCustom #crossBtnTC {
+  position: absolute;
+  width: 25px;
+  top: 1.5%;
+  right: 3%;
+  cursor: pointer;
+}
 #payment-approval_page #paymentForm,
 #payment-approval-list_page #paymentForm,
 #payment-paid-list_page #paymentForm,
@@ -1632,197 +1718,260 @@ main .focus_button {
   flex-direction: column;
   width: 100%;
   margin: 0px 0px 30px 0px;
-  align-self: flex-start;
   background-color: rgba(255, 255, 255, 0);
   box-shadow: none;
 }
-#payment-approval_page #paymentForm button,
-#payment-approval-list_page #paymentForm button,
-#payment-paid-list_page #paymentForm button,
-#payment-pay_page #paymentForm button {
+#payment-approval_page #paymentForm .paymentFormBtn,
+#payment-approval-list_page #paymentForm .paymentFormBtn,
+#payment-paid-list_page #paymentForm .paymentFormBtn,
+#payment-pay_page #paymentForm .paymentFormBtn {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px;
+}
+#payment-approval_page #paymentForm .paymentFormBtn button,
+#payment-approval-list_page #paymentForm .paymentFormBtn button,
+#payment-paid-list_page #paymentForm .paymentFormBtn button,
+#payment-pay_page #paymentForm .paymentFormBtn button {
   margin-top: 20px;
   font-weight: bold;
+  cursor: pointer;
 }
-#payment-approval_page #paymentForm table,
-#payment-approval-list_page #paymentForm table,
-#payment-paid-list_page #paymentForm table,
-#payment-pay_page #paymentForm table {
-  max-width: 100%;
-  margin-bottom: 15px;
+#payment-approval_page #paymentForm .paymentFormBtn #visualTable,
+#payment-approval-list_page #paymentForm .paymentFormBtn #visualTable,
+#payment-paid-list_page #paymentForm .paymentFormBtn #visualTable,
+#payment-pay_page #paymentForm .paymentFormBtn #visualTable {
+  width: 242px;
+  display: flex;
+  align-items: center;
+  background-color: #5d5d5d;
+  font-size: 14px;
 }
-#payment-approval_page #paymentForm table .paymentFormBold,
-#payment-approval-list_page #paymentForm table .paymentFormBold,
-#payment-paid-list_page #paymentForm table .paymentFormBold,
-#payment-pay_page #paymentForm table .paymentFormBold {
+#payment-approval_page #paymentForm .paymentFormBtn #visualTable img,
+#payment-approval-list_page #paymentForm .paymentFormBtn #visualTable img,
+#payment-paid-list_page #paymentForm .paymentFormBtn #visualTable img,
+#payment-pay_page #paymentForm .paymentFormBtn #visualTable img {
+  width: 23px;
+  margin-right: 8px;
+}
+#payment-approval_page #paymentForm .tableR,
+#payment-approval-list_page #paymentForm .tableR,
+#payment-paid-list_page #paymentForm .tableR,
+#payment-pay_page #paymentForm .tableR {
+  max-height: calc(100vh - 490px);
+  overflow-x: scroll;
+  margin: 0px 0 5px 0;
+}
+#payment-approval_page #paymentForm .tableR::-webkit-scrollbar,
+#payment-approval-list_page #paymentForm .tableR::-webkit-scrollbar,
+#payment-paid-list_page #paymentForm .tableR::-webkit-scrollbar,
+#payment-pay_page #paymentForm .tableR::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  background-color: #d7d7d7;
+}
+#payment-approval_page #paymentForm .tableR::-webkit-scrollbar-track,
+#payment-approval-list_page #paymentForm .tableR::-webkit-scrollbar-track,
+#payment-paid-list_page #paymentForm .tableR::-webkit-scrollbar-track,
+#payment-pay_page #paymentForm .tableR::-webkit-scrollbar-track {
+  background-color: #d7d7d7;
+}
+#payment-approval_page #paymentForm .tableR::-webkit-scrollbar-thumb,
+#payment-approval-list_page #paymentForm .tableR::-webkit-scrollbar-thumb,
+#payment-paid-list_page #paymentForm .tableR::-webkit-scrollbar-thumb,
+#payment-pay_page #paymentForm .tableR::-webkit-scrollbar-thumb {
+  background-color: #939393;
+}
+#payment-approval_page #paymentForm .tableR table,
+#payment-approval-list_page #paymentForm .tableR table,
+#payment-paid-list_page #paymentForm .tableR table,
+#payment-pay_page #paymentForm .tableR table {
+  width: 100%;
+  height: 100%;
+}
+#payment-approval_page #paymentForm .tableR table .paymentFormBold,
+#payment-approval-list_page #paymentForm .tableR table .paymentFormBold,
+#payment-paid-list_page #paymentForm .tableR table .paymentFormBold,
+#payment-pay_page #paymentForm .tableR table .paymentFormBold {
   font-weight: 900;
 }
-#payment-approval_page #paymentForm table thead tr th,
-#payment-approval-list_page #paymentForm table thead tr th,
-#payment-paid-list_page #paymentForm table thead tr th,
-#payment-pay_page #paymentForm table thead tr th {
+#payment-approval_page #paymentForm .tableR table thead tr th,
+#payment-approval-list_page #paymentForm .tableR table thead tr th,
+#payment-paid-list_page #paymentForm .tableR table thead tr th,
+#payment-pay_page #paymentForm .tableR table thead tr th {
   font-size: 13px;
 }
-#payment-approval_page #paymentForm table tbody tr td,
-#payment-approval-list_page #paymentForm table tbody tr td,
-#payment-paid-list_page #paymentForm table tbody tr td,
-#payment-pay_page #paymentForm table tbody tr td {
+#payment-approval_page #paymentForm .tableR table .fix_thead,
+#payment-approval-list_page #paymentForm .tableR table .fix_thead,
+#payment-paid-list_page #paymentForm .tableR table .fix_thead,
+#payment-pay_page #paymentForm .tableR table .fix_thead {
+  position: sticky;
+  top: 0px;
+}
+#payment-approval_page #paymentForm .tableR table tbody tr td,
+#payment-approval-list_page #paymentForm .tableR table tbody tr td,
+#payment-paid-list_page #paymentForm .tableR table tbody tr td,
+#payment-pay_page #paymentForm .tableR table tbody tr td {
   font-size: 13px;
 }
-#payment-approval_page #paymentForm table input,
-#payment-approval_page #paymentForm table select,
-#payment-approval-list_page #paymentForm table input,
-#payment-approval-list_page #paymentForm table select,
-#payment-paid-list_page #paymentForm table input,
-#payment-paid-list_page #paymentForm table select,
-#payment-pay_page #paymentForm table input,
-#payment-pay_page #paymentForm table select {
+#payment-approval_page #paymentForm .tableR table input,
+#payment-approval_page #paymentForm .tableR table select,
+#payment-approval-list_page #paymentForm .tableR table input,
+#payment-approval-list_page #paymentForm .tableR table select,
+#payment-paid-list_page #paymentForm .tableR table input,
+#payment-paid-list_page #paymentForm .tableR table select,
+#payment-pay_page #paymentForm .tableR table input,
+#payment-pay_page #paymentForm .tableR table select {
   font-size: 11px;
 }
-#payment-approval_page #paymentForm table input[type=checkbox],
-#payment-approval-list_page #paymentForm table input[type=checkbox],
-#payment-paid-list_page #paymentForm table input[type=checkbox],
-#payment-pay_page #paymentForm table input[type=checkbox] {
+#payment-approval_page #paymentForm .tableR table input[type=checkbox],
+#payment-approval-list_page #paymentForm .tableR table input[type=checkbox],
+#payment-paid-list_page #paymentForm .tableR table input[type=checkbox],
+#payment-pay_page #paymentForm .tableR table input[type=checkbox] {
   zoom: 2;
 }
-#payment-approval_page #paymentForm table .th_select_i,
-#payment-approval_page #paymentForm table .th_pay_date_i,
-#payment-approval_page #paymentForm table .th_date_create_i,
-#payment-approval_page #paymentForm table .th_save_pay_i,
-#payment-approval-list_page #paymentForm table .th_select_i,
-#payment-approval-list_page #paymentForm table .th_pay_date_i,
-#payment-approval-list_page #paymentForm table .th_date_create_i,
-#payment-approval-list_page #paymentForm table .th_save_pay_i,
-#payment-paid-list_page #paymentForm table .th_select_i,
-#payment-paid-list_page #paymentForm table .th_pay_date_i,
-#payment-paid-list_page #paymentForm table .th_date_create_i,
-#payment-paid-list_page #paymentForm table .th_save_pay_i,
-#payment-pay_page #paymentForm table .th_select_i,
-#payment-pay_page #paymentForm table .th_pay_date_i,
-#payment-pay_page #paymentForm table .th_date_create_i,
-#payment-pay_page #paymentForm table .th_save_pay_i {
+#payment-approval_page #paymentForm .tableR table .th_select_i,
+#payment-approval_page #paymentForm .tableR table .th_pay_date_i,
+#payment-approval_page #paymentForm .tableR table .th_date_create_i,
+#payment-approval_page #paymentForm .tableR table .th_save_pay_i,
+#payment-approval-list_page #paymentForm .tableR table .th_select_i,
+#payment-approval-list_page #paymentForm .tableR table .th_pay_date_i,
+#payment-approval-list_page #paymentForm .tableR table .th_date_create_i,
+#payment-approval-list_page #paymentForm .tableR table .th_save_pay_i,
+#payment-paid-list_page #paymentForm .tableR table .th_select_i,
+#payment-paid-list_page #paymentForm .tableR table .th_pay_date_i,
+#payment-paid-list_page #paymentForm .tableR table .th_date_create_i,
+#payment-paid-list_page #paymentForm .tableR table .th_save_pay_i,
+#payment-pay_page #paymentForm .tableR table .th_select_i,
+#payment-pay_page #paymentForm .tableR table .th_pay_date_i,
+#payment-pay_page #paymentForm .tableR table .th_date_create_i,
+#payment-pay_page #paymentForm .tableR table .th_save_pay_i {
   text-align: center;
 }
-#payment-approval_page #paymentForm table .th_select,
-#payment-approval_page #paymentForm table .th_select_i,
-#payment-approval-list_page #paymentForm table .th_select,
-#payment-approval-list_page #paymentForm table .th_select_i,
-#payment-paid-list_page #paymentForm table .th_select,
-#payment-paid-list_page #paymentForm table .th_select_i,
-#payment-pay_page #paymentForm table .th_select,
-#payment-pay_page #paymentForm table .th_select_i {
+#payment-approval_page #paymentForm .tableR table .th_select,
+#payment-approval_page #paymentForm .tableR table .th_select_i,
+#payment-approval-list_page #paymentForm .tableR table .th_select,
+#payment-approval-list_page #paymentForm .tableR table .th_select_i,
+#payment-paid-list_page #paymentForm .tableR table .th_select,
+#payment-paid-list_page #paymentForm .tableR table .th_select_i,
+#payment-pay_page #paymentForm .tableR table .th_select,
+#payment-pay_page #paymentForm .tableR table .th_select_i {
   max-width: 73px;
+  width: 73px;
 }
-#payment-approval_page #paymentForm table .th_category_i,
-#payment-approval-list_page #paymentForm table .th_category_i,
-#payment-paid-list_page #paymentForm table .th_category_i,
-#payment-pay_page #paymentForm table .th_category_i {
+#payment-approval_page #paymentForm .tableR table .th_category_i,
+#payment-approval-list_page #paymentForm .tableR table .th_category_i,
+#payment-paid-list_page #paymentForm .tableR table .th_category_i,
+#payment-pay_page #paymentForm .tableR table .th_category_i {
   max-width: 170px;
   min-width: 165px;
   font-weight: bold;
 }
-#payment-approval_page #paymentForm table .th_name_i,
-#payment-approval-list_page #paymentForm table .th_name_i,
-#payment-paid-list_page #paymentForm table .th_name_i,
-#payment-pay_page #paymentForm table .th_name_i {
+#payment-approval_page #paymentForm .tableR table .th_name_i,
+#payment-approval-list_page #paymentForm .tableR table .th_name_i,
+#payment-paid-list_page #paymentForm .tableR table .th_name_i,
+#payment-pay_page #paymentForm .tableR table .th_name_i {
   max-width: 320px;
   min-width: 250px;
   color: #242e7b;
   cursor: pointer;
 }
-#payment-approval_page #paymentForm table .th_description_i,
-#payment-approval-list_page #paymentForm table .th_description_i,
-#payment-paid-list_page #paymentForm table .th_description_i,
-#payment-pay_page #paymentForm table .th_description_i {
+#payment-approval_page #paymentForm .tableR table .th_description_i,
+#payment-approval-list_page #paymentForm .tableR table .th_description_i,
+#payment-paid-list_page #paymentForm .tableR table .th_description_i,
+#payment-pay_page #paymentForm .tableR table .th_description_i {
   max-width: 500px;
   min-width: 320px;
 }
-#payment-approval_page #paymentForm table .th_object_i,
-#payment-approval-list_page #paymentForm table .th_object_i,
-#payment-paid-list_page #paymentForm table .th_object_i,
-#payment-pay_page #paymentForm table .th_object_i {
-  min-width: 140px;
+#payment-approval_page #paymentForm .tableR table .th_object_i,
+#payment-approval-list_page #paymentForm .tableR table .th_object_i,
+#payment-paid-list_page #paymentForm .tableR table .th_object_i,
+#payment-pay_page #paymentForm .tableR table .th_object_i {
   max-width: 215px;
+  min-width: 175px;
   font-weight: bold;
 }
-#payment-approval_page #paymentForm table .th_responsible_i,
-#payment-approval-list_page #paymentForm table .th_responsible_i,
-#payment-paid-list_page #paymentForm table .th_responsible_i,
-#payment-pay_page #paymentForm table .th_responsible_i {
+#payment-approval_page #paymentForm .tableR table .th_responsible_i,
+#payment-approval-list_page #paymentForm .tableR table .th_responsible_i,
+#payment-paid-list_page #paymentForm .tableR table .th_responsible_i,
+#payment-pay_page #paymentForm .tableR table .th_responsible_i {
   width: 150px;
+  min-width: 150px;
 }
-#payment-approval_page #paymentForm table .th_contractor,
-#payment-approval-list_page #paymentForm table .th_contractor,
-#payment-paid-list_page #paymentForm table .th_contractor,
-#payment-pay_page #paymentForm table .th_contractor {
-  width: 160px;
+#payment-approval_page #paymentForm .tableR table .th_contractor,
+#payment-approval-list_page #paymentForm .tableR table .th_contractor,
+#payment-paid-list_page #paymentForm .tableR table .th_contractor,
+#payment-pay_page #paymentForm .tableR table .th_contractor {
+  min-width: 210px;
 }
-#payment-approval_page #paymentForm table .th_main_sum_i,
-#payment-approval-list_page #paymentForm table .th_main_sum_i,
-#payment-paid-list_page #paymentForm table .th_main_sum_i,
-#payment-pay_page #paymentForm table .th_main_sum_i {
-  width: 132px;
+#payment-approval_page #paymentForm .tableR table .th_main_sum_i,
+#payment-approval-list_page #paymentForm .tableR table .th_main_sum_i,
+#payment-paid-list_page #paymentForm .tableR table .th_main_sum_i,
+#payment-pay_page #paymentForm .tableR table .th_main_sum_i {
+  width: 140px;
+  min-width: 140px;
   font-weight: 900;
 }
-#payment-approval_page #paymentForm table .th_sum_remain_i,
-#payment-approval-list_page #paymentForm table .th_sum_remain_i,
-#payment-paid-list_page #paymentForm table .th_sum_remain_i,
-#payment-pay_page #paymentForm table .th_sum_remain_i {
-  width: 132px;
+#payment-approval_page #paymentForm .tableR table .th_sum_remain_i,
+#payment-approval-list_page #paymentForm .tableR table .th_sum_remain_i,
+#payment-paid-list_page #paymentForm .tableR table .th_sum_remain_i,
+#payment-pay_page #paymentForm .tableR table .th_sum_remain_i {
+  width: 140px;
+  min-width: 140px;
   font-weight: bold;
 }
-#payment-approval_page #paymentForm table .th_sum_agreed,
-#payment-approval-list_page #paymentForm table .th_sum_agreed,
-#payment-paid-list_page #paymentForm table .th_sum_agreed,
-#payment-pay_page #paymentForm table .th_sum_agreed {
-  max-width: 160px;
+#payment-approval_page #paymentForm .tableR table .th_sum_agreed,
+#payment-approval-list_page #paymentForm .tableR table .th_sum_agreed,
+#payment-paid-list_page #paymentForm .tableR table .th_sum_agreed,
+#payment-pay_page #paymentForm .tableR table .th_sum_agreed {
+  width: 170px;
 }
-#payment-approval_page #paymentForm table .th_sum_agreed_i input,
-#payment-approval-list_page #paymentForm table .th_sum_agreed_i input,
-#payment-paid-list_page #paymentForm table .th_sum_agreed_i input,
-#payment-pay_page #paymentForm table .th_sum_agreed_i input {
+#payment-approval_page #paymentForm .tableR table .th_sum_agreed_i input,
+#payment-approval-list_page #paymentForm .tableR table .th_sum_agreed_i input,
+#payment-paid-list_page #paymentForm .tableR table .th_sum_agreed_i input,
+#payment-pay_page #paymentForm .tableR table .th_sum_agreed_i input {
   max-width: 135px;
   min-width: 100%;
   padding: 4px 7px;
   font-size: 13px;
 }
-#payment-approval_page #paymentForm table .th_pay_date,
-#payment-approval_page #paymentForm table .th_pay_date_i,
-#payment-approval-list_page #paymentForm table .th_pay_date,
-#payment-approval-list_page #paymentForm table .th_pay_date_i,
-#payment-paid-list_page #paymentForm table .th_pay_date,
-#payment-paid-list_page #paymentForm table .th_pay_date_i,
-#payment-pay_page #paymentForm table .th_pay_date,
-#payment-pay_page #paymentForm table .th_pay_date_i {
-  max-width: 95px;
-}
-#payment-approval_page #paymentForm table .th_date_create,
-#payment-approval_page #paymentForm table .th_date_create,
-#payment-approval-list_page #paymentForm table .th_date_create,
-#payment-approval-list_page #paymentForm table .th_date_create,
-#payment-paid-list_page #paymentForm table .th_date_create,
-#payment-paid-list_page #paymentForm table .th_date_create,
-#payment-pay_page #paymentForm table .th_date_create,
-#payment-pay_page #paymentForm table .th_date_create {
+#payment-approval_page #paymentForm .tableR table .th_pay_date_i,
+#payment-approval-list_page #paymentForm .tableR table .th_pay_date_i,
+#payment-paid-list_page #paymentForm .tableR table .th_pay_date_i,
+#payment-pay_page #paymentForm .tableR table .th_pay_date_i {
   width: 100px;
 }
-#payment-approval_page #paymentForm table .th_status_i select,
-#payment-approval-list_page #paymentForm table .th_status_i select,
-#payment-paid-list_page #paymentForm table .th_status_i select,
-#payment-pay_page #paymentForm table .th_status_i select {
-  width: 122px;
+#payment-approval_page #paymentForm .tableR table .th_date_create,
+#payment-approval-list_page #paymentForm .tableR table .th_date_create,
+#payment-paid-list_page #paymentForm .tableR table .th_date_create,
+#payment-pay_page #paymentForm .tableR table .th_date_create {
+  width: 100px;
+}
+#payment-approval_page #paymentForm .tableR table .th_status_i,
+#payment-approval-list_page #paymentForm .tableR table .th_status_i,
+#payment-paid-list_page #paymentForm .tableR table .th_status_i,
+#payment-pay_page #paymentForm .tableR table .th_status_i {
+  width: 160px;
+  min-width: 160px;
+}
+#payment-approval_page #paymentForm .tableR table .th_status_i select,
+#payment-approval-list_page #paymentForm .tableR table .th_status_i select,
+#payment-paid-list_page #paymentForm .tableR table .th_status_i select,
+#payment-pay_page #paymentForm .tableR table .th_status_i select {
   min-width: 100%;
   background-position: 96% center;
   font-size: 13px;
 }
-#payment-approval_page #paymentForm table .th_save_pay,
-#payment-approval_page #paymentForm table .th_save_pay_i,
-#payment-approval-list_page #paymentForm table .th_save_pay,
-#payment-approval-list_page #paymentForm table .th_save_pay_i,
-#payment-paid-list_page #paymentForm table .th_save_pay,
-#payment-paid-list_page #paymentForm table .th_save_pay_i,
-#payment-pay_page #paymentForm table .th_save_pay,
-#payment-pay_page #paymentForm table .th_save_pay_i {
+#payment-approval_page #paymentForm .tableR table .th_save_pay,
+#payment-approval_page #paymentForm .tableR table .th_save_pay_i,
+#payment-approval-list_page #paymentForm .tableR table .th_save_pay,
+#payment-approval-list_page #paymentForm .tableR table .th_save_pay_i,
+#payment-paid-list_page #paymentForm .tableR table .th_save_pay,
+#payment-paid-list_page #paymentForm .tableR table .th_save_pay_i,
+#payment-pay_page #paymentForm .tableR table .th_save_pay,
+#payment-pay_page #paymentForm .tableR table .th_save_pay_i {
   max-width: 90px;
+  width: 90px;
 }
 
 #payment-approval-list_page .tpages_top_panel {

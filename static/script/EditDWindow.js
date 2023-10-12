@@ -18,7 +18,7 @@ for (var i = 0; i < elements.length; i++) {
         logDPage.innerHTML = ''
         dialog.showModal();
         ;
-        
+
     });
 }
 
@@ -102,11 +102,11 @@ function savePayment() {
     var payment_full_agreed_status = document.getElementById('paymentFullStatus').checked;
     var payment_full_agreed_status_dataset = document.getElementById('paymentFullStatus').dataset.value;
 
-//    Если вид работ не субподрядчики, то удаляем id проекта
-    cost_items_category !== 'Субподрядчики'? objects_name = '': 1;
-console.log(cost_items_category)
-console.log(
-`   paymentId ${paymentId}
+    //    Если вид работ не субподрядчики, то удаляем id проекта
+    cost_items_category !== 'Субподрядчики' ? objects_name = '' : 1;
+    console.log(cost_items_category)
+    console.log(
+        `   paymentId ${paymentId}
    basis_of_payment  ${basis_of_payment}
    responsible  ${responsible}
    cost_items  ${cost_items_id}
@@ -120,49 +120,49 @@ console.log(
    payment_full_agreed_status  ${payment_full_agreed_status}`)
 
     fetch('/save_payment', {
-        "headers" : {
-            'Content-Type' : 'application/json'
+        "headers": {
+            'Content-Type': 'application/json'
         },
         "method": "POST",
-        "body": JSON.stringify( {
-                'payment_id': paymentId,
-                'basis_of_payment': basis_of_payment,
+        "body": JSON.stringify({
+            'payment_id': paymentId,
+            'basis_of_payment': basis_of_payment,
             'basis_of_payment_dataset': basis_of_payment_dataset,
-                'responsible': responsible,
+            'responsible': responsible,
             'responsible_dataset': responsible_dataset,
-                'cost_item_id': cost_items_id,
+            'cost_item_id': cost_items_id,
             'cost_item_id_dataset': cost_items_id_dataset,
-                'object_id': objects_name,
+            'object_id': objects_name,
             'object_id_dataset': objects_name_dataset,
-                'payment_description': payment_description,
+            'payment_description': payment_description,
             'payment_description_dataset': payment_description_dataset,
-                'partners': partners,
+            'partners': partners,
             'partners_dataset': partners_dataset,
-                'payment_due_date': payment_due_date,
+            'payment_due_date': payment_due_date,
             'payment_due_date_dataset': payment_due_date_dataset,
-                'our_company_id': our_company,
+            'our_company_id': our_company,
             'our_company_id_dataset': our_company_dataset,
-                'main_sum': main_sum,
+            'main_sum': main_sum,
             'main_sum_dataset': main_sum_dataset,
-                'sum_approval': sum_approval,
+            'sum_approval': sum_approval,
             'sum_approval_dataset': sum_approval_dataset,
-                'payment_sum': payment_sum,
+            'payment_sum': payment_sum,
             'payment_sum_dataset': payment_sum_dataset,
-                'payment_full_agreed_status': payment_full_agreed_status,
+            'payment_full_agreed_status': payment_full_agreed_status,
             'payment_full_agreed_status_dataset': payment_full_agreed_status_dataset
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('data', data)
-        if (data.status === 'success') {
-            window.location.href = '/payment-approval';
-        } else {
-            window.location.href = '/payment-approval';
-            console.log('   else');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            console.log('data', data)
+            if (data.status === 'success') {
+                window.location.href = '/payment-approval';
+            } else {
+                window.location.href = '/payment-approval';
+                console.log('   else');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
