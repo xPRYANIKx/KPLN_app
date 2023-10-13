@@ -1639,7 +1639,9 @@ main .focus_button {
 #payment-paid-list_page #tableCustom h2,
 #payment-pay_page #tableCustom h2 {
   display: flex;
+  width: 250px;
   margin: 10px 0px 0px 16px;
+  border-bottom: solid 2px #dfdfdf;
   font-size: 25px;
   font-weight: 900;
 }

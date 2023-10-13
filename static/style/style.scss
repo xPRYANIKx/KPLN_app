@@ -1329,7 +1329,9 @@ main {
         box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
         h2 {
             display: flex;
+            width: 250px;
             margin: 10px 0px 0px 16px;
+            border-bottom: solid 2px #dfdfdf;
             font-size: 25px;
             font-weight: 900;
             img {
