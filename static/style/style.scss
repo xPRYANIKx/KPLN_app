@@ -41,6 +41,53 @@
         box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
     }
 }
+
+#verification__dialog {
+    width: 350px;
+    height: 117px;
+    padding: 20px 0px 0px 0px;
+    border: navajowhite;
+    border-radius: 5px;
+    background-color: #e5e5e5;
+    -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+    -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+    box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+    p {
+        font-size: 17px;
+        font-weight: bold;
+        text-align: center;
+    }
+    div {
+        display: flex;
+        justify-content: center;
+    }
+    &_cancel,
+    &_next {
+        margin: 8px 0px 0px 0px;
+        padding: 5px;
+        border: none;
+        border-radius: 5px;
+        font-family: "Montserrat";
+        font-size: 15px;
+        font-weight: bold;
+        color: #f3f3f3;
+        background-color: #393939;
+        -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        cursor: pointer;
+    }
+    &_cancel {
+        width: 100px;
+        margin-right: 20px;
+        background-color: #7d0000;
+    }
+    &_next {
+        width: 130px;
+        background-color: #005500;
+    }
+}
+
 .window.error {
     background-color: #f1d9e1;
 }
@@ -1389,7 +1436,6 @@ main {
         margin: 0px 0px 30px 0px;
         background-color: #ffffff00;
         box-shadow: none;
-
         .paymentFormBtn {
             display: flex;
             justify-content: space-between;

@@ -15,6 +15,7 @@
 <script src="static/script/checkFormNewPayment.js"></script>
 
 <script src="static/script/application_modal.js"></script>
+<script src="static/script/verificationWindow.js" defer></script>
 <!--<script>-->
 <!--    function getModal() {-->
 <!--        $.ajax({-->
@@ -36,6 +37,8 @@
     {% block content %}
 
 
+
+
     <dialog class="window" id="payment-approval__dialog">
         <div id="payment-approval__dialog__menu">
             <div id="payment-approval__dialog__menu__edit">
@@ -46,11 +49,11 @@
                         <span class="name__payment__h">Платёж №:&nbsp;</span><span id="payment_number"></span>
                     </div>
                     <div><label for="basis_of_payment">Наименование платежа:</label>
-                        <textarea name="basis_of_payment" id="basis_of_payment" rows="1" data-value="" required>
+                        <textarea name="basis_of_payment" id="basis_of_payment" rows="1" data-value="">
                 </textarea>
                     </div>
                     <div><label for="responsible">Ответственный:</label>
-                        <select name="responsible" id="responsible" data-value="" required>
+                        <select name="responsible" id="responsible" data-value="">
                             {% for r in responsible %}
                             <option value="{{ r[0] }}">{{ r[1] }} {{ r[2] }}</option>
                             {% endfor %}
@@ -58,7 +61,7 @@
                     </div>
                     <div class="unitedform">
                         <div><label for="cost_items">Тип заявки:</label>
-                            <select name="cost_items" id="cost_items" required onchange="checkFormNewPayment()" data-value="">
+                            <select name="cost_items" id="cost_items" onchange="checkFormNewPayment()" data-value="">
                                 {% for category, names in cost_items.items() %}
                                 <optgroup label="{{ category }}">
                                     {% for name in names %}
@@ -79,7 +82,7 @@
                         </div>
                     </div>
                     <div class="description_p"><label for="payment_description">Описание:</label>
-                        <textarea name="payment_description" id="payment_description" rows="4" data-value="" required></textarea>
+                        <textarea name="payment_description" id="payment_description" rows="4" data-value=""></textarea>
                     </div>
                     <div class="consider_div"><label for="partners">Контрагент:</label>
                         <input type="text" name="partners" id="partners" list="partners_name" value="" data-value="">
@@ -91,18 +94,18 @@
                         </datalist>
                     </div>
                     <div class="consider_div"><label for="payment_due_date">Срок оплаты:</label>
-                        <input type="date" name="payment_due_date" id="payment_due_date" value="" data-value="" required>
+                        <input type="date" name="payment_due_date" id="payment_due_date" value="" data-value="">
                     </div>
                     <div class="consider_div"><label for="our_company">Компания:</label>
-                        <select name="our_company" id="our_company" data-value="" required>
+                        <select name="our_company" id="our_company" data-value="">
                             {% for our_company in our_companies %}
                             <option value="{{ our_company[0] }}">{{ our_company[1] }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div id="payment_main_sum_div"><label for="main_sum">Общая сумма:</label>
-                        <input type="text" placeholder="руб." name="main_sum" id="main_sum" onchange="numberWithSpaces(event, ' руб.')" value="" data-value=""
-                            required />
+                        <input type="text" placeholder="руб." name="main_sum" id="main_sum" onchange="numberWithSpaces(event, ' руб.')" value=""
+                            data-value="" />
                     </div>
                     <div id="payment_sum_approval_div"><label for="sum_approval">Не оплачено из согласованного:</label>
                         <input name="sum_approval" id="sum_approval" value="" data-value="" />
@@ -116,7 +119,7 @@
                         </div>
                         <div id="payment_sum_div__input">
                             <input type="text" placeholder="руб." name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' ₽')" value=""
-                                data-value="" required />
+                                data-value="" />
                             <input type="checkbox" id="paymentFullStatus" name="paymentFullStatus" data-value="">
                         </div>
                     </div>
@@ -274,8 +277,18 @@
 
 
     <form id="paymentForm" action="/payment-approval" method="POST" style="align-self: flex-start">
+
+        <dialog id="verification__dialog">
+            <p>Хотите продолжить?</p>
+            <div>
+                <button type="button" id="verification__dialog_cancel">Отмена</button>
+                <button type="submit" id="verification__dialog_next">Продолжить</button>
+            </div>
+        </dialog>
+
+
         <div class="paymentFormBtn">
-            <button type="submit" id="submitButton">Отправить</button>
+            <button type="button" id="submitButton" onclick="window['verification__dialog'].showModal();">Отправить</button>
             <button type="button" id="visualTable" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
                 таблицы</button>
         </div>
