@@ -1117,7 +1117,6 @@ main {
                         }
                     }
                     #payment_sum_div {
-                        border-bottom: solid 2px #8080802b;
                         &__name {
                             display: flex;
                             flex-direction: row;
@@ -1147,9 +1146,12 @@ main {
                         margin-top: -8px;
                     }
                     .button_group {
+                        position: absolute;
                         flex-direction: row;
-                        justify-content: space-between;
+                        bottom: 5px;
                         margin-top: 5px;
+                        padding-top: 4px;
+                        border-top: solid 2px #8080802b;
                         #annul__edit_btn,
                         #annul_approval__edit_btn {
                             width: 145px;
@@ -1159,6 +1161,7 @@ main {
                             cursor: pointer;
                         }
                         #annul__edit_btn {
+                            margin-right: 6px;
                             background-color: #670000;
                             &:hover {
                                 background-color: #860000;
@@ -1235,7 +1238,7 @@ main {
                 #logBtn {
                     width: 100%;
                     height: 30px;
-                    margin-top: 10px;
+                    margin: 5px 0;
                     color: #f3f3f3;
                     background-color: #414141;
                     border: none;

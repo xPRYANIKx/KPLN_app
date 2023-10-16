@@ -1284,12 +1284,6 @@ main .focus_button {
 #payment-pay_page #payment-approval__dialog__menu__edit form .name__payment__h {
   font-weight: 900;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div,
-#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div {
-  border-bottom: solid 2px rgba(128, 128, 128, 0.168627451);
-}
 #payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__name,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__name,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__name,
@@ -1342,9 +1336,12 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group,
 #payment-pay_page #payment-approval__dialog__menu__edit form .button_group {
+  position: absolute;
   flex-direction: row;
-  justify-content: space-between;
+  bottom: 5px;
   margin-top: 5px;
+  padding-top: 4px;
+  border-top: solid 2px rgba(128, 128, 128, 0.168627451);
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
 #payment-approval_page #payment-approval__dialog__menu__edit form .button_group #annul_approval__edit_btn,
@@ -1364,6 +1361,7 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn,
 #payment-pay_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn {
+  margin-right: 6px;
   background-color: #670000;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form .button_group #annul__edit_btn:hover,
@@ -1495,7 +1493,7 @@ main .focus_button {
 #payment-pay_page #payment-approval__dialog__menu__list #logBtn {
   width: 100%;
   height: 30px;
-  margin-top: 10px;
+  margin: 5px 0;
   color: #f3f3f3;
   background-color: #414141;
   border: none;
