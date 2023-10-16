@@ -1117,6 +1117,7 @@ main {
                         }
                     }
                     #payment_sum_div {
+                        border-bottom: solid 2px #8080802b;
                         &__name {
                             display: flex;
                             flex-direction: row;
@@ -1150,8 +1151,7 @@ main {
                         flex-direction: row;
                         bottom: 5px;
                         margin-top: 5px;
-                        padding-top: 4px;
-                        border-top: solid 2px #8080802b;
+                        padding-top: 5px;
                         #annul__edit_btn,
                         #annul_approval__edit_btn {
                             width: 145px;
