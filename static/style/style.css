@@ -1045,6 +1045,7 @@ main .focus_button {
 }
 #new-payment_page #new_payment #submitBtn {
   margin-top: 10px;
+  font-weight: bold;
 }
 #new-payment_page .select2-results__group {
   font-size: 15px;
