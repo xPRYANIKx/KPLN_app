@@ -5,6 +5,7 @@
 <script src="static/script/numberWithSpaces.js"></script>
 
 <script src="static/script/EditDWindow.js" defer></script>
+<script src="static/script/tableCustom.js" defer></script>
 
 <script src="static/script/paymentApprovalSaveChanges.js"></script>
 <script src="static/script/paymentApprovalRecalcCards.js"></script>
@@ -14,6 +15,7 @@
 <script src="static/script/checkFormNewPayment.js"></script>
 
 <script src="static/script/application_modal.js"></script>
+<script src="static/script/verificationWindow.js" defer></script>
 
 <body id="payment-approval_page">
 
@@ -31,11 +33,11 @@
                         <span class="name__payment__h">Платёж №:&nbsp;</span><span id="payment_number"></span>
                     </div>
                     <div><label for="basis_of_payment">Наименование платежа:</label>
-                        <textarea name="basis_of_payment" id="basis_of_payment" rows="1" data-value="" required>
+                        <textarea name="basis_of_payment" id="basis_of_payment" rows="1" data-value="">
                 </textarea>
                     </div>
                     <div><label for="responsible">Ответственный:</label>
-                        <select name="responsible" id="responsible" data-value="" required>
+                        <select name="responsible" id="responsible" data-value="">
                             {% for r in responsible %}
                             <option value="{{ r[0] }}">{{ r[1] }} {{ r[2] }}</option>
                             {% endfor %}
@@ -43,7 +45,7 @@
                     </div>
                     <div class="unitedform">
                         <div><label for="cost_items">Тип заявки:</label>
-                            <select name="cost_items" id="cost_items" required onchange="checkFormNewPayment()" data-value="">
+                            <select name="cost_items" id="cost_items" onchange="checkFormNewPayment()" data-value="">
                                 {% for category, names in cost_items.items() %}
                                 <optgroup label="{{ category }}">
                                     {% for name in names %}
@@ -64,7 +66,7 @@
                         </div>
                     </div>
                     <div class="description_p"><label for="payment_description">Описание:</label>
-                        <textarea name="payment_description" id="payment_description" rows="4" data-value="" required></textarea>
+                        <textarea name="payment_description" id="payment_description" rows="4" data-value=""></textarea>
                     </div>
                     <div class="consider_div"><label for="partners">Контрагент:</label>
                         <input type="text" name="partners" id="partners" list="partners_name" value="" data-value="">
@@ -76,10 +78,10 @@
                         </datalist>
                     </div>
                     <div class="consider_div"><label for="payment_due_date">Срок оплаты:</label>
-                        <input type="date" name="payment_due_date" id="payment_due_date" value="" data-value="" required>
+                        <input type="date" name="payment_due_date" id="payment_due_date" value="" min="1980-01-01" max="2070-01-01" data-value="">
                     </div>
                     <div class="consider_div"><label for="our_company">Компания:</label>
-                        <select name="our_company" id="our_company" data-value="" required>
+                        <select name="our_company" id="our_company" data-value="">
                             {% for our_company in our_companies %}
                             <option value="{{ our_company[0] }}">{{ our_company[1] }}</option>
                             {% endfor %}
@@ -87,7 +89,7 @@
                     </div>
                     <div id="sum_payment_div"><label for="payment_sum">Общая сумма:</label>
                         <input type="text" placeholder="₽" name="payment_sum" id="payment_sum"
-                               onchange="numberWithSpaces(event, ' ₽')" value="" data-value="" required />
+                               onchange="numberWithSpaces(event, ' ₽')" value="" data-value=""  />
                     </div>
                     <div id="payment_sum_unapproved_div"><label for="sum_unapproved">Не согласованно:</label>
                         <input name="sum_unapproved" id="sum_unapproved" value="" data-value="" readonly="readonly" />
@@ -99,7 +101,7 @@
                         </div>
                         <div id="sum_approval_div__input">
                             <input type="text" placeholder="₽" name="sum_approval" id="sum_approval"
-                                   onchange="numberWithSpaces(event, ' ₽')" value="" data-value="" required />
+                                   onchange="numberWithSpaces(event, ' ₽')" value="" data-value=""  />
                             <input type="checkbox" id="paymentFullStatus" name="paymentFullStatus" data-value="">
                         </div>
                     </div>
@@ -134,7 +136,6 @@
                 </div>
                 <div id="payment-approval__dialog__menu__list__button">
                     <button id="closeBtn">Отмена</button>
-<!--                    <button id="submitBtn">Сохранить</button>-->
                     <button id="save__edit_btn">Сохранить</button>
                 </div>
             </div>
@@ -148,12 +149,74 @@
             <img id="crossBtnInside" src="static/img/interface/close.png">
             <h2><img src="static/img/h1/history.png">История изменений</h2>
             <div id="logDPage__content__text">
-
-
-
             </div>
             <div id="logDPage__content__action"><button id="closeBtnInside">Выход</button></div>
         </div>
+    </dialog>
+
+
+
+
+    <dialog id="tableCustom">
+        <h2><img src="static/img/h1/edit_pay.png">Столбцы</H2>
+        <form>
+            <table>
+                <tr>
+                    <td class="ttdname">Статья затрат</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Наименовакние платежа</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Описание</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Объект</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Ответственный</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Контрагент</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Общая сумма</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Остаток к оплате</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Согласованная сумма</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Срок оплаты</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Статус</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Дата создания</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">До полной оплаты</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+            </table>
+            <button id="closeBtnTC">Сохранить</button>
+        </form>
+        <img id="crossBtnTC" src="static/img/interface/close.png">
     </dialog>
 
 
@@ -194,80 +257,96 @@
 
 
     <form id="paymentForm" action="/payment-approval" method="POST" style="align-self: flex-start">
-        <button type="submit" id="submitButton">Отправить</button>
 
-        <table id="payment-table" name="payment_table" class="display">
-            <thead class="fix_thead">
-                <tr>
-                    <th class="th_select">ВЫБОР</th>
-                    <th class="th_category">СТАТЬЯ ЗАТРАТ</th>
-                    <th class="th_name">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
-                    <th class="th_description">ОПИСАНИЕ</th>
-                    <th class="th_object">ОБЪЕКТ</th>
-                    <th class="th_responsible">ОТВЕТСТВЕННЫЙ</th>
-                    <th class="th_contractor">КОНТРАГЕНТ</th>
-                    <th class="th_main_sum">ОБЩАЯ СУММА</th>
-                    <th class="th_sum_remain">ОСТАТОК К ОПЛАТЕ</th>
-                    <th class="th_sum_agreed">СОГЛАСОВАННАЯ СУММА</th>
-                    <th class="th_pay_date">СРОК ОПЛАТЫ</th>
-                    <th class="th_status">СТАТУС</th>
-                    <th class="th_date_create">ДАТА СОЗДАНИЯ</th>
-                    <th class="th_save_pay">ДО ПОЛНОЙ ОПЛАТЫ</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for application in applications %}
-                <tr id="row-{{ loop.index }}">
-                    <td class="th_select_i" data-sort="{{ loop.index }}">
-                        <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
-                            onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }})">
-                    </td>
-                    <td class="th_category_i" id="category-{{ loop.index }}" data-sort="{{ application.cost_item_name }}" onclick="getModal({{ application.payment_id }})">
-                        <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{
-                        application.cost_item_name }}
-                    </td>
-                    <td class="th_name_i showModalId" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}"
-                        onclick="getModal({{ application.payment_id }})">{{
-                        application.basis_of_payment }}</td>
-                    <td class="th_description_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}"><span
-                            class="paymentFormBold">{{ application.contractor_name }}: </span>{{
-                        application.payment_description }}</td>
-                    <td class="th_object_i" data-sort="{{application.object_name}}">{{ application.object_name
-                        }}
-                    </td>
-                    <td class="th_responsible_i">{{ application.last_name }} {{ application.first_name[0] }}.</td>
-                    <td class="th_contractor_i">{{ application.partner }}</td>
-                    <td class="th_main_sum_i">{{ application.payment_sum_rub }}</td>
-                    <td class="th_sum_remain_i">
-                        <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>
-                        {{ application.approval_sum_rub}}
-                    </td>
-                    <td class="th_sum_agreed_i">
-                        <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}" data-amount=0
-                            onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
-                    </td>
-                    <td class="th_pay_date_i">{{ application.payment_due_date }}</td>
-                    <td class="th_status_i" id="status-{{ loop.index }}">
-                        <select id="status_id-{{ loop.index }}" name="status_id" data-amount="{{ 444 if application.status_id==4 else 33333}}"
-                            onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
-                            {% for s in approval_statuses %}
-                            <option {% if application.status_id==s.payment_agreed_status_id %} selected {% endif %}>
-                                {{ s.payment_agreed_status_name }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                    <td class="th_date_create_i">{{ application.payment_at }}</td>
-                    <td class="th_save_pay_i">
-                        <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if
-                            application.payment_full_agreed_status %}checked{% endif %}
-                            onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }})">
-                    </td>
-                </tr>
+        <dialog id="verification__dialog">
+            <p>Хотите продолжить?</p>
+            <div>
+                <button type="button" id="verification__dialog_cancel">Отмена</button>
+                <button type="submit" id="verification__dialog_next">Продолжить</button>
+            </div>
+        </dialog>
 
-                {% endfor %}
-            </tbody>
-        </table>
+
+        <div class="paymentFormBtn">
+            <button type="button" id="submitButton" onclick="window['verification__dialog'].showModal();">Отправить</button>
+            <button type="button" id="visualTable" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
+                таблицы</button>
+        </div>
+        <div class="tableR">
+            <table id="payment-table" name="payment_table" class="display">
+                <thead class="fix_thead">
+                    <tr>
+                        <th class="th_select">ВЫБОР</th>
+                        <th class="th_category">СТАТЬЯ ЗАТРАТ</th>
+                        <th class="th_name">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
+                        <th class="th_description">ОПИСАНИЕ</th>
+                        <th class="th_object">ОБЪЕКТ</th>
+                        <th class="th_responsible">ОТВЕТСТВЕННЫЙ</th>
+                        <th class="th_contractor">КОНТРАГЕНТ</th>
+                        <th class="th_main_sum">ОБЩАЯ СУММА</th>
+                        <th class="th_sum_remain">ОСТАТОК К ОПЛАТЕ</th>
+                        <th class="th_sum_agreed">СОГЛАСОВАННАЯ СУММА</th>
+                        <th class="th_pay_date">СРОК ОПЛАТЫ</th>
+                        <th class="th_status">СТАТУС</th>
+                        <th class="th_date_create">ДАТА СОЗДАНИЯ</th>
+                        <th class="th_save_pay">ДО ПОЛНОЙ ОПЛАТЫ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                    <tr id="row-{{ loop.index }}">
+                        <td class="th_select_i" data-sort="{{ loop.index }}">
+                            <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }})">
+                        </td>
+                        <td class="th_category_i" id="category-{{ loop.index }}" data-sort="{{ application.cost_item_name }}"
+                            onclick="getModal({{ application.payment_id }})">
+                            <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{
+                            application.cost_item_name }}
+                        </td>
+                        <td class="th_name_i showModalId" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}"
+                            onclick="getModal({{ application.payment_id }})">{{
+                            application.basis_of_payment }}</td>
+                        <td class="th_description_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}"><span
+                                class="paymentFormBold">{{ application.contractor_name }}: </span>{{
+                            application.payment_description }}</td>
+                        <td class="th_object_i" data-sort="{{application.object_name}}">{{ application.object_name
+                            }}
+                        </td>
+                        <td class="th_responsible_i">{{ application.last_name }} {{ application.first_name[0] }}.</td>
+                        <td class="th_contractor_i">{{ application.partner }}</td>
+                        <td class="th_main_sum_i">{{ application.payment_sum_rub }}</td>
+                        <td class="th_sum_remain_i">
+                            <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>
+                            {{ application.approval_sum_rub}}
+                        </td>
+                        <td class="th_sum_agreed_i">
+                            <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}" data-amount=0
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
+                        </td>
+                        <td class="th_pay_date_i">{{ application.payment_due_date }}</td>
+                        <td class="th_status_i" id="status-{{ loop.index }}">
+                            <select id="status_id-{{ loop.index }}" name="status_id" data-amount="{{ 444 if application.status_id==4 else 33333}}"
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
+                                {% for s in approval_statuses %}
+                                <option {% if application.status_id==s.payment_agreed_status_id %} selected {% endif %}>
+                                    {{ s.payment_agreed_status_name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td class="th_date_create_i">{{ application.payment_at }}</td>
+                        <td class="th_save_pay_i">
+                            <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if
+                                application.payment_full_agreed_status %}checked{% endif %}
+                                onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }})">
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </form>
     {% endblock %}
 
