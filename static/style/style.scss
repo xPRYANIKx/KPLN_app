@@ -1117,7 +1117,7 @@ main {
                             font-weight: 900;
                         }
                     }
-                    #sum_approval_div {
+                    #payment_sum_approval_div {
                         border-bottom: solid 2px #8080802b;
                         &__name {
                             display: flex;
@@ -1135,12 +1135,12 @@ main {
                             input {
                                 height: 28px;
                             }
-                            #payment_sum {
-                                max-width: 260px;
+                            #sum_approval {
+                                max-width: 230px;
                                 margin-right: 25px;
                             }
                             #paymentFullStatus {
-                                max-width: 28px;
+                                max-width: 20px;
                             }
                         }
                     }
@@ -1184,7 +1184,7 @@ main {
                 border-left: solid 2px #e5e5e5;
                 #unpaid_approval_sum_div_h {
                     margin-bottom: 3px;
-                    font-size: 15px;
+                    font-size: 14px;
                     font-weight: 900;
                 }
                 #unpaid_approval_sum_div {
@@ -1213,8 +1213,8 @@ main {
                     height: 82.3%;
                     margin: 10px 0px 0px 0px;
                     .paid_history-table__response {
-                        min-height: 630px;
-                        max-height: 630px;
+                        min-height: 580px;
+                        max-height: 580px;
                         overflow-y: scroll;
                         table {
                             width: 100%;
