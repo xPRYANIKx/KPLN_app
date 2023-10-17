@@ -30,7 +30,9 @@
         </div>
     </div>
 
-    <div class="help_info"><img src="static/img/interface/warning.png"> Отображается сумма всех платежей по одной заявке, а не каждый платёж отдельно</div>
+    <br>
+
+<!--    <div class="help_info"><img src="static/img/interface/warning.png"> Отображается сумма всех платежей по одной заявке, а не каждый платёж отдельно</div>-->
 
 
 
@@ -72,7 +74,7 @@
                 <td data-sort="{{ application.approval_sum }}">{{ application.approval_sum_rub}} </td>
                 <td data-sort="{{ application.paid_sum }}">{{ application.paid_sum_rub}} </td>
                 <td data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
-                <td data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
+                <td data-sort="{{ application.payment_at }}">{{ application.paid_at }}</td>
                 <td data-sort="{{ application.status_name }}">{{ application.status_name }}</td>
             </tr>
             {% endfor %}

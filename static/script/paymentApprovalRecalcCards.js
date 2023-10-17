@@ -16,12 +16,23 @@ function paymentApprovalRecalcCards(rowId) {
         var amount_value = document.getElementById('amount-' + rowId).value;
         var amount_dataset = document.getElementById('amount-' + rowId).dataset.amount
 
-        amount_value = parseFloat(amount_value.replace('₽', '').replace(' руб.', '').replace(/ /g, "").replace(",", "."))
+        amount_value = parseFloat(amount_value.replaceAll(' ', '').replaceAll(' ', '').replace('₽', '').replace(",", "."));
+//
+//        amount_value = amount_value.replaceAll(' ', '');
+//
+//        amount_value = amount_value.replaceAll(' ', '');
+//
+//        amount_value = amount_value.replace('₽', '');
+//
+//        amount_value = amount_value.replace(",", ".");
+//
+//        amount_value = parseFloat(amount_value);
+
 
         s_f_a_p ? s_f_a_p = parseFloat(s_f_a_p.replace(',', '.')).toFixed(2) * 1.00 : s_f_a_p = 0;
         a_m_v ? a_m_v = parseFloat(a_m_v.replace(',', '.')).toFixed(2) * 1.00 : a_m_v = 0;
         approvalSum ? approvalSum = parseFloat(approvalSum.replace(',', '.')).toFixed(2) * 1.00 : approvalSum = 0;
-        !amount_value ? amount_value = approvalSum : 0;
+        isNaN(amount_value)? amount_value = approvalSum : 0;
         amount_dataset ? amount_dataset = parseFloat(amount_dataset.replace(',', '.')).toFixed(2) * 1.00 : amount_dataset = 0;
 
         if (statusId) {
@@ -40,13 +51,13 @@ function paymentApprovalRecalcCards(rowId) {
                     s_f_a_p -= amount_dataset;
                     a_m_v += amount_dataset;
 
-                    amount_value < 0 ? amount_value = 0 : 0;
+                    amount_value <= 0 ? amount_value = 0 : 0;
                     amount_value > approvalSum ? amount_value = approvalSum : 0;
                     amount_value > a_m_v ? amount_value = a_m_v : 0;
 
                     s_f_a_p += amount_value;
                     a_m_v -= amount_value;
-                    document.getElementById('amount-' + rowId).value = amount_value;
+                    document.getElementById('amount-' + rowId).value = amount_value.toLocaleString() + ' ₽';
                     document.getElementById('amount-' + rowId).dataset.amount = amount_value;
                 }
             }
@@ -54,13 +65,13 @@ function paymentApprovalRecalcCards(rowId) {
                 s_f_a_p -= amount_dataset;
                 a_m_v += amount_dataset;
 
-                amount_value < 0 ? amount_value = 0 : 0;
+                amount_value <= 0 ? amount_value = 0 : 0;
                 amount_value > approvalSum ? amount_value = approvalSum : 0;
                 amount_value > a_m_v ? amount_value = a_m_v : 0;
 
                 s_f_a_p += amount_value;
                 a_m_v -= amount_value;
-                document.getElementById('amount-' + rowId).value = amount_value;
+                document.getElementById('amount-' + rowId).value = amount_value.toLocaleString() + ' ₽';
                 document.getElementById('amount-' + rowId).dataset.amount = amount_value;
             }
         }
@@ -115,3 +126,5 @@ function paymentApprovalRecalcCards(rowId) {
         document.getElementById('card_available_money_value').innerHTML = a_m_v;
     }
 }
+
+

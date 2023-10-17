@@ -60,22 +60,19 @@ function getModal(paymentId = null) {
                 if (select4[i].value === data.payment['contractor_id'].toString()) select4[i].selected = true;
             }
 
-            document.getElementById('main_sum').value = data.payment['payment_sum_rub'];
-            document.getElementById('main_sum').dataset.value = data.payment['payment_sum_rub'];
+            document.getElementById('payment_sum').value = data.payment['payment_sum_rub'];
+            document.getElementById('payment_sum').dataset.value = data.payment['payment_sum_rub'];
 
-            document.getElementById('sum_approval').value = data.payment['approval_to_pay_sum_rub'];
-            document.getElementById('sum_approval').dataset.value = data.payment['approval_to_pay_sum_rub'];
+            document.getElementById('sum_unapproved').value = data.payment['unapproved_sum_rub'];
+            document.getElementById('sum_unapproved').dataset.value = data.payment['unapproved_sum'];
 
-            document.getElementById('sum_remain').value = data.payment['approval_sum_rub'];
-            document.getElementById('sum_remain').dataset.value = data.payment['approval_sum_rub'];
-
-            document.getElementById('payment_sum').value = data.payment['amount_rub'];
-            document.getElementById('payment_sum').dataset.value = data.payment['amount_rub'];
+            document.getElementById('sum_approval').value = data.payment['unpaid_approval_sum_rub'];
+            document.getElementById('sum_approval').dataset.value = data.payment['unpaid_approval_sum'];
 
             document.getElementById('paymentFullStatus').checked = data.payment['payment_full_agreed_status'];
             document.getElementById('paymentFullStatus').dataset.value = data.payment['payment_full_agreed_status'];
 
-            document.getElementById('historic_approval_sum').textContent = data.payment['historic_approval_sum_rub'];
+            document.getElementById('unpaid_approval_sum').textContent = data.payment['approval_to_pay_sum_rub'];
 
             if (data.paid.length) {
                 let history_table = document.getElementById('history_tb');
@@ -102,7 +99,7 @@ function getModal(paymentId = null) {
                 document.getElementById('historic_paid_sum').textContent = data.paid[0][6];
             }
             else {
-                document.getElementById('historic_paid_sum').textContent = '';
+                document.getElementById('historic_paid_sum').textContent = 0;
             }
 
             const dialog = document.getElementById("logDPage__content__text");
@@ -118,7 +115,7 @@ function getModal(paymentId = null) {
 
             var title = `
 - Заявка закроется,
-- Несогласованный остаток (${data.payment['approval_sum_rub']}) удалится,
+- Несогласованный остаток (${data.payment['unapproved_sum_rub']}) удалится,
 - Неоплаченный согласованный остаток (${data.payment['approval_to_pay_sum_rub']}) останется на листе ОПЛАТА`
             document.getElementById("annul__edit_btn").setAttribute("title", title)
 

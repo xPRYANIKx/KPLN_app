@@ -11,5 +11,8 @@ function paymentApprovalNoSelect(rowId) {
         if (!paymentSelectedRows) {
             document.getElementById('amount-' + rowId).value = '';
         }
+//        if (paymentSelectedRows && !document.getElementById('amount-' + rowId).value ) {
+//            document.getElementById('amount-' + rowId).value = '';
+//        }
     }
 }

@@ -88,7 +88,7 @@
                     <td><input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>{{
                         application.approval_sum_rub}}</td>
                     <td><input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}"
-                            onchange="saveData({{ loop.index }}, '{{ page }}')" oninput="paymentApprovalRecalcCards({{ loop.index }})"></td>
+                            onchange="saveData({{ loop.index }}, '{{ page }}'), paymentApprovalRecalcCards({{ loop.index }})"></td>
                     <td>{{ application.payment_due_date }}</td>
                     <td class="th_save_pay_i">
                         <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if

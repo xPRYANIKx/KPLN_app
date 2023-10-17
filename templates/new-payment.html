@@ -94,7 +94,7 @@
             </select>
         </div>
         <div><label for="payment_sum">Сумма оплаты: *</label>
-            <input type="text" placeholder="руб." name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' руб.')"
+            <input type="text" placeholder="₽" name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' ₽')"
                 value="{{not_save_val.get('p_s') if not_save_val.get('p_s') else '' }}" required oninput="checkFormNewPayment()" />
         </div>
         <div class="help_p">* - поля обязательные для заполнения</div>

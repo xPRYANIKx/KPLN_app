@@ -1054,8 +1054,8 @@ main {
                         input::placeholder {
                             padding-left: 0px;
                         }
-                        #sum_remain,
-                        #sum_remain:active {
+                        #sum_unapproved,
+                        #sum_unapproved:active {
                             background-color: #c9c9c9;
                             cursor: auto;
                             outline: none;
@@ -1070,7 +1070,7 @@ main {
                             font-weight: 900;
                         }
                     }
-                    #payment_sum_div {
+                    #sum_approval_div {
                         border-bottom: solid 2px #8080802b;
                         &__name {
                             display: flex;
@@ -1132,12 +1132,12 @@ main {
                 margin: 15px;
                 padding: 0px 5px 0px 20px;
                 border-left: solid 2px #e5e5e5;
-                #historic_approval_sum_div_h {
+                #unpaid_approval_sum_div_h {
                     margin-bottom: 3px;
                     font-size: 15px;
                     font-weight: 900;
                 }
-                #historic_approval_sum_div {
+                #unpaid_approval_sum_div {
                     margin-bottom: 10px;
                     padding-bottom: 8px;
                     border-bottom: solid 2px #dddddd;
@@ -1401,7 +1401,7 @@ main {
                 width: 132px;
                 font-weight: 900;
             }
-            .th_sum_remain_i {
+            .th_sum_unapproved_i {
                 width: 132px;
                 font-weight: bold;
             }

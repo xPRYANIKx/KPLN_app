@@ -78,8 +78,8 @@
                 </select>
             </div>
             <div><label class="cash_inflow_sum_label" for="cash_inflow_sum">Сумма поступления:</label>
-                <input class="money_input" type="text" placeholder="руб." name="cash_inflow_sum" id="cash_inflow_sum"
-                    onchange="numberWithSpaces(event, ' руб.')" value="{{not_save_val.get('c_i_s') if not_save_val.get('c_i_s') else '' }}" required
+                <input class="money_input" type="text" placeholder="₽" name="cash_inflow_sum" id="cash_inflow_sum"
+                    onchange="numberWithSpaces(event, ' ₽')" value="{{not_save_val.get('c_i_s') if not_save_val.get('c_i_s') else '' }}" required
                     oninput="checkFormCashInflow()" />
             </div>
             <div class="hidden_label" id="taker_company_div">

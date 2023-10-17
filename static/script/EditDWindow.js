@@ -3,7 +3,8 @@ const element = document.querySelector(".showModalId");
 const crossButton = document.querySelector("#crossBtn");
 const closeButton = document.querySelector("#closeBtn");
 const dialog = document.querySelector("#payment-approval__dialog");
-const annulButton = document.querySelector("#annul__edit_btn");
+const annulPaymentButton = document.querySelector("#annul__edit_btn");
+const annulApprovalButton = document.querySelector("#annul_approval__edit_btn");
 //const saveButton = document.querySelector("#submitBtn");
 const saveButton = document.querySelector("#save__edit_btn");
 
@@ -31,7 +32,7 @@ function closeDialog() {
     dialog.close();
 }
 
-annulButton.addEventListener("click", annulPayment);
+annulPaymentButton.addEventListener("click", annulPayment);
 function annulPayment() {
     var paymentId = document.getElementById('payment_id').textContent;
     console.log(paymentId);
@@ -56,7 +57,34 @@ function annulPayment() {
         .catch(error => {
             console.error('Error:', error);
         });
-}
+    }
+
+annulApprovalButton.addEventListener("click", annulApproval);
+function annulApproval() {
+    var paymentId = document.getElementById('payment_id').textContent;
+    console.log(paymentId);
+    fetch('/annul_approval_payment', {
+        "headers": {
+            'Content-Type': 'application/json'
+        },
+        "method": "POST",
+        "body": JSON.stringify({
+            'paymentId': paymentId
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('data', data)
+            if (data.status === 'success') {
+                window.location.href = '/payment-approval';
+            } else {
+                window.location.href = '/payment-approval';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
 
 const crossButtonInside = document.querySelector("#crossBtnInside");
 const closeButtonInside = document.querySelector("#closeBtnInside");
@@ -93,10 +121,8 @@ function savePayment() {
     var payment_due_date_dataset = document.getElementById('payment_due_date').dataset.value;
     var our_company = document.getElementById('our_company').value;
     var our_company_dataset = document.getElementById('our_company').dataset.value;
-    var main_sum = document.getElementById('main_sum').value;
-    var main_sum_dataset = document.getElementById('main_sum').dataset.value;
-    var payment_sum = document.getElementById('payment_sum').value;
-    var payment_sum_dataset = document.getElementById('payment_sum').dataset.value;
+    var sum_payment = document.getElementById('payment_sum').value;
+    var sum_payment_dataset = document.getElementById('payment_sum').dataset.value;
     var sum_approval = document.getElementById('sum_approval').value;
     var sum_approval_dataset = document.getElementById('sum_approval').dataset.value;
     var payment_full_agreed_status = document.getElementById('paymentFullStatus').checked;
@@ -115,8 +141,8 @@ console.log(
    partners  ${partners}
    payment_due_date  ${payment_due_date}
    our_company  ${our_company}
-   main_sum  ${main_sum}
-   payment_sum  ${payment_sum}
+   sum_payment  ${sum_payment}
+   sum_approval  ${sum_approval}
    payment_full_agreed_status  ${payment_full_agreed_status}`)
 
     fetch('/save_payment', {
@@ -142,14 +168,12 @@ console.log(
             'payment_due_date_dataset': payment_due_date_dataset,
                 'our_company_id': our_company,
             'our_company_id_dataset': our_company_dataset,
-                'main_sum': main_sum,
-            'main_sum_dataset': main_sum_dataset,
+                'payment_sum': sum_payment,
+            'payment_sum_dataset': sum_payment_dataset,
                 'sum_approval': sum_approval,
             'sum_approval_dataset': sum_approval_dataset,
-                'payment_sum': payment_sum,
-            'payment_sum_dataset': payment_sum_dataset,
                 'payment_full_agreed_status': payment_full_agreed_status,
-            'payment_full_agreed_status_dataset': payment_full_agreed_status_dataset
+            'p_full_agreed_s_dataset': payment_full_agreed_status_dataset
         })
     })
     .then(response => response.json())

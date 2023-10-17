@@ -1217,14 +1217,14 @@ main .focus_button {
 #payment-pay_page #payment-approval__dialog__menu__edit form div input::placeholder {
   padding-left: 0px;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form div #sum_remain,
-#payment-approval_page #payment-approval__dialog__menu__edit form div #sum_remain:active,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form div #sum_remain,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form div #sum_remain:active,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form div #sum_remain,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form div #sum_remain:active,
-#payment-pay_page #payment-approval__dialog__menu__edit form div #sum_remain,
-#payment-pay_page #payment-approval__dialog__menu__edit form div #sum_remain:active {
+#payment-approval_page #payment-approval__dialog__menu__edit form div #sum_unapproved,
+#payment-approval_page #payment-approval__dialog__menu__edit form div #sum_unapproved:active,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form div #sum_unapproved,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form div #sum_unapproved:active,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form div #sum_unapproved,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form div #sum_unapproved:active,
+#payment-pay_page #payment-approval__dialog__menu__edit form div #sum_unapproved,
+#payment-pay_page #payment-approval__dialog__menu__edit form div #sum_unapproved:active {
   background-color: #c9c9c9;
   cursor: auto;
   outline: none;
@@ -1244,52 +1244,52 @@ main .focus_button {
 #payment-pay_page #payment-approval__dialog__menu__edit form .name__payment__h {
   font-weight: 900;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div,
-#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div {
+#payment-approval_page #payment-approval__dialog__menu__edit form #sum_approval_div,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #sum_approval_div,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #sum_approval_div,
+#payment-pay_page #payment-approval__dialog__menu__edit form #sum_approval_div {
   border-bottom: solid 2px rgba(128, 128, 128, 0.168627451);
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__name,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__name,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__name,
-#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__name {
+#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div__name,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div__name,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div__name,
+#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div__name {
   display: flex;
   flex-direction: row;
   margin-bottom: -1px;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__name__i,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__name__i,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__name__i,
-#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__name__i {
+#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div__name__i,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div__name__i,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div__name__i,
+#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div__name__i {
   text-align: end;
   margin-right: 4px;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__input,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input,
-#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__input {
+#payment-approval_page #payment-approval__dialog__menu__edit form #sum_approval_div__input,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #sum_approval_div__input,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #sum_approval_div__input,
+#payment-pay_page #payment-approval__dialog__menu__edit form #sum_approval_div__input {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__input input,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input input,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input input,
-#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__input input {
+#payment-approval_page #payment-approval__dialog__menu__edit form #sum_approval_div__input input,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #sum_approval_div__input input,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #sum_approval_div__input input,
+#payment-pay_page #payment-approval__dialog__menu__edit form #sum_approval_div__input input {
   height: 28px;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #payment_sum,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #payment_sum,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #payment_sum,
-#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #payment_sum {
+#payment-approval_page #payment-approval__dialog__menu__edit form #sum_approval_div__input #payment_sum,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #sum_approval_div__input #payment_sum,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #sum_approval_div__input #payment_sum,
+#payment-pay_page #payment-approval__dialog__menu__edit form #sum_approval_div__input #payment_sum {
   max-width: 260px;
   margin-right: 25px;
 }
-#payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #paymentFullStatus,
-#payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #paymentFullStatus,
-#payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #paymentFullStatus,
-#payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_div__input #paymentFullStatus {
+#payment-approval_page #payment-approval__dialog__menu__edit form #sum_approval_div__input #paymentFullStatus,
+#payment-approval-list_page #payment-approval__dialog__menu__edit form #sum_approval_div__input #paymentFullStatus,
+#payment-paid-list_page #payment-approval__dialog__menu__edit form #sum_approval_div__input #paymentFullStatus,
+#payment-pay_page #payment-approval__dialog__menu__edit form #sum_approval_div__input #paymentFullStatus {
   max-width: 28px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form .description_p,
@@ -1353,27 +1353,27 @@ main .focus_button {
   padding: 0px 5px 0px 20px;
   border-left: solid 2px #e5e5e5;
 }
-#payment-approval_page #payment-approval__dialog__menu__list #historic_approval_sum_div_h,
-#payment-approval-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div_h,
-#payment-paid-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div_h,
-#payment-pay_page #payment-approval__dialog__menu__list #historic_approval_sum_div_h {
+#payment-approval_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div_h,
+#payment-approval-list_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div_h,
+#payment-paid-list_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div_h,
+#payment-pay_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div_h {
   margin-bottom: 3px;
   font-size: 15px;
   font-weight: 900;
 }
-#payment-approval_page #payment-approval__dialog__menu__list #historic_approval_sum_div,
-#payment-approval-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div,
-#payment-paid-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div,
-#payment-pay_page #payment-approval__dialog__menu__list #historic_approval_sum_div {
+#payment-approval_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div,
+#payment-approval-list_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div,
+#payment-paid-list_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div,
+#payment-pay_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div {
   margin-bottom: 10px;
   padding-bottom: 8px;
   border-bottom: solid 2px #dddddd;
   font-size: 14px;
 }
-#payment-approval_page #payment-approval__dialog__menu__list #historic_approval_sum_div label,
-#payment-approval-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div label,
-#payment-paid-list_page #payment-approval__dialog__menu__list #historic_approval_sum_div label,
-#payment-pay_page #payment-approval__dialog__menu__list #historic_approval_sum_div label {
+#payment-approval_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div label,
+#payment-approval-list_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div label,
+#payment-paid-list_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div label,
+#payment-pay_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div label {
   color: #001953;
   font-weight: bold;
 }
