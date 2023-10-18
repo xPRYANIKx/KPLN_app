@@ -43,17 +43,18 @@
 }
 
 #verification__dialog {
-    width: 350px;
-    height: 117px;
+    width: 290px;
+    height: 100px;
     padding: 20px 0px 0px 0px;
-    border: navajowhite;
+    border: solid 1px #00000009;
     border-radius: 5px;
-    background-color: #e5e5e5;
+    background-color: #f1eee7;
     -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
     -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
     box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
     p {
-        font-size: 17px;
+        margin-bottom: 6px;
+        font-size: 15px;
         font-weight: bold;
         text-align: center;
     }
@@ -68,7 +69,7 @@
         border: none;
         border-radius: 5px;
         font-family: "Montserrat";
-        font-size: 15px;
+        font-size: 13px;
         font-weight: bold;
         color: #f3f3f3;
         background-color: #393939;
@@ -78,12 +79,12 @@
         cursor: pointer;
     }
     &_cancel {
-        width: 100px;
+        width: 110px;
         margin-right: 20px;
         background-color: #7d0000;
     }
     &_next {
-        width: 130px;
+        width: 120px;
         background-color: #005500;
     }
 }
@@ -1153,22 +1154,22 @@ main {
                         bottom: 5px;
                         margin-top: 5px;
                         padding-top: 5px;
-                        #annul__edit_btn,
-                        #annul_approval__edit_btn {
+                        #annul__edit_btn_i,
+                        #annul_approval__edit_btn_i {
                             width: 145px;
                             margin-bottom: 0px;
                             font-size: 12px;
                             font-weight: bold;
                             cursor: pointer;
                         }
-                        #annul__edit_btn {
+                        #annul__edit_btn_i {
                             margin-right: 6px;
                             background-color: #670000;
                             &:hover {
                                 background-color: #860000;
                             }
                         }
-                        #annul_approval__edit_btn {
+                        #annul_approval__edit_btn_i {
                             background-color: #670000;
                             &:hover {
                                 background-color: #860000;
@@ -1277,7 +1278,7 @@ main {
                         }
                     }
                 }
-                #save__edit_btn {
+                #save__edit_btn_i {
                     background-color: #0e4d1a;
                     &:hover {
                         background-color: #016114;
