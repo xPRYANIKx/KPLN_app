@@ -22,9 +22,6 @@ const showDialogDSB = () => {
     paragraphQuestion.id = 'pqDSB'
 };
 dSubmitBtn.addEventListener('click', showDialogDSB);
-
-
-
 const showDialogAEB = () => {
     verificationDialog.showModal();
     paragraphQuestion.id = 'pqAEB'
@@ -40,7 +37,6 @@ const showDialogSEB = () => {
     paragraphQuestion.id = 'pqSEB'
 };
 saveEditBtn.addEventListener('click', showDialogSEB);
-
 
 
 nextDialogBtn.addEventListener('click', function () {

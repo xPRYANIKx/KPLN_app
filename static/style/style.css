@@ -1169,6 +1169,7 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog,
 #payment-paid-list_page #payment-approval__dialog,
 #payment-pay_page #payment-approval__dialog {
+  height: 850px;
   border: none;
   border-radius: 7px;
   background-color: #f3f5f5;
@@ -1232,7 +1233,7 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__edit form div textarea,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form div textarea,
 #payment-pay_page #payment-approval__dialog__menu__edit form div textarea {
-  height: 40px;
+  height: 51px;
   font-size: 11.4px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form div select,
@@ -1291,6 +1292,7 @@ main .focus_button {
 #payment-paid-list_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div,
 #payment-pay_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div {
   border-bottom: solid 2px rgba(128, 128, 128, 0.168627451);
+  padding-bottom: 3px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div__name,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form #payment_sum_approval_div__name,
@@ -1454,8 +1456,8 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__list__content .paid_history-table__response,
 #payment-paid-list_page #payment-approval__dialog__menu__list__content .paid_history-table__response,
 #payment-pay_page #payment-approval__dialog__menu__list__content .paid_history-table__response {
-  min-height: 580px;
-  max-height: 580px;
+  min-height: 610px;
+  max-height: 610px;
   overflow-y: scroll;
 }
 #payment-approval_page #payment-approval__dialog__menu__list__content .paid_history-table__response table,
@@ -1500,7 +1502,7 @@ main .focus_button {
 #payment-pay_page #payment-approval__dialog__menu__list #logBtn {
   width: 100%;
   height: 30px;
-  margin: 5px 0;
+  margin: 10px 0 5px 0;
   color: #f3f3f3;
   background-color: #414141;
   border: none;
@@ -1520,9 +1522,9 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__list__button,
 #payment-paid-list_page #payment-approval__dialog__menu__list__button,
 #payment-pay_page #payment-approval__dialog__menu__list__button {
-  display: flex;
+  position: absolute;
+  bottom: 15px;
   padding-top: 2px;
-  justify-content: space-between;
   border-top: solid 2px #dddddd;
 }
 #payment-approval_page #payment-approval__dialog__menu__list__button button,
@@ -1552,6 +1554,7 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__list #save__edit_btn_i,
 #payment-paid-list_page #payment-approval__dialog__menu__list #save__edit_btn_i,
 #payment-pay_page #payment-approval__dialog__menu__list #save__edit_btn_i {
+  margin-left: 4px;
   background-color: #0e4d1a;
 }
 #payment-approval_page #payment-approval__dialog__menu__list #save__edit_btn_i:hover,
