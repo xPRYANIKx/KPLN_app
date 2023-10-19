@@ -1,0 +1,368 @@
+{% extends "layout-main.html" %}
+{% block head %}
+{{ super() }}
+
+<script src="static/script/numberWithSpaces.js"></script>
+
+<script src="static/script/EditDWindow.js" defer></script>
+<script src="static/script/tableCustom.js" defer></script>
+
+<script src="static/script/paymentApprovalSaveChanges.js"></script>
+<script src="static/script/paymentApprovalRecalcCards.js"></script>
+<script src="static/script/paymentApprovalColorize.js"></script>
+<script src="static/script/paymentApprovalClearAmountWhenNoSelect.js"></script>
+
+<script src="static/script/checkFormNewPayment.js"></script>
+
+<script src="static/script/application_modal.js"></script>
+<script src="static/script/verificationWindow.js" defer></script>
+
+
+
+<script src="static/script/paymentPagination.js"></script>
+
+
+
+
+
+<body id="payment-approval_page">
+
+    {% endblock %}
+    {% block content %}
+
+
+    <dialog class="window" id="payment-approval__dialog">
+        <div id="payment-approval__dialog__menu">
+            <div id="payment-approval__dialog__menu__edit">
+                <h1><img src="static/img/h1/edit_pay.png"> Редактировать платёж</h1>
+                <!--                <form id="new_payment" method="POST" action="/new-payment2">-->
+                <form id="new_payment">
+                    <div class="name__payment"><span id="payment_id" hidden="hidden"></span>
+                        <span class="name__payment__h">Платёж №:&nbsp;</span><span id="payment_number"></span>
+                    </div>
+                    <div><label for="basis_of_payment">Наименование платежа:</label>
+                        <textarea name="basis_of_payment" id="basis_of_payment" rows="1" data-value="">
+                </textarea>
+                    </div>
+                    <div><label for="responsible">Ответственный:</label>
+                        <select name="responsible" id="responsible" data-value="">
+                            {% for r in responsible %}
+                            <option value="{{ r[0] }}">{{ r[1] }} {{ r[2] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="unitedform">
+                        <div><label for="cost_items">Тип заявки:</label>
+                            <select name="cost_items" id="cost_items" onchange="checkFormNewPayment()" data-value="">
+                                {% for category, names in cost_items.items() %}
+                                <optgroup label="{{ category }}">
+                                    {% for name in names %}
+                                    <option value="{{ category }}-@@@-{{ name[1] }}">{{ name[0] }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="hidden_label" id="objects_name_div">
+                            <label for="objects_name" id="objects_name_label">Объект:</label>
+                            <select name="objects_name" id="objects_name" onchange="checkFormNewPayment()" data-value="">
+                                <option value=""></option>
+                                {% for object_name in objects_name %}
+                                <option value="{{ object_name[0] }}">{{ object_name[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="description_p"><label for="payment_description">Описание:</label>
+                        <textarea name="payment_description" id="payment_description" rows="4" data-value=""></textarea>
+                    </div>
+                    <div class="consider_div"><label for="partners">Контрагент:</label>
+                        <input type="text" name="partners" id="partners" list="partners_name" value="" data-value="">
+                        <datalist id="partners_name">
+                            <option></option>
+                            {% for partner in partners %}
+                            <option value="{{ partner[0] }}">{{ partner[0] }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="consider_div"><label for="payment_due_date">Срок оплаты:</label>
+                        <input type="date" name="payment_due_date" id="payment_due_date" value="" min="1980-01-01" max="2070-01-01" data-value="">
+                    </div>
+                    <div class="consider_div"><label for="our_company">Компания:</label>
+                        <select name="our_company" id="our_company" data-value="">
+                            {% for our_company in our_companies %}
+                            <option value="{{ our_company[0] }}">{{ our_company[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div id="sum_payment_div"><label for="payment_sum">Общая сумма:</label>
+                        <input type="text" placeholder="₽" name="payment_sum" id="payment_sum"
+                               onchange="numberWithSpaces(event, ' ₽')" value="" data-value=""  />
+                    </div>
+                    <div id="payment_sum_unapproved_div"><label for="sum_unapproved">Не согласованно:</label>
+                        <input name="sum_unapproved" id="sum_unapproved" value="" data-value="" readonly="readonly" />
+                    </div>
+                    <div id="sum_approval_div">
+                        <div id="payment_sum_approval_div__name"> <label for="sum_approval" title="Сумма всех согласований">Согласовано:</label>
+                            <label id="payment_sum_approval_div__name__i" for="paymentFullStatus"
+                                   title="Сохранить до полной оплаты">До ПО:</label>
+                        </div>
+                        <div id="sum_approval_div__input">
+                            <input type="text" placeholder="₽" name="sum_approval" id="sum_approval"
+                                   onchange="numberWithSpaces(event, ' ₽')" value="" data-value=""  />
+                            <input type="checkbox" id="paymentFullStatus" name="paymentFullStatus" data-value="">
+                        </div>
+                    </div>
+
+
+                    <div class="button_group">
+                        <button id="annul__edit_btn">Аннулировать остаток</button>
+                        <button id="annul_approval__edit_btn">Аннулировать согласованное</button>
+                    </div>
+                </form>
+            </div>
+            <div id="payment-approval__dialog__menu__list">
+
+                <div id="unpaid_approval_sum_div_h">Не оплачено из согласованного:</div>
+                <div id="unpaid_approval_sum_div">
+                    <label id="unpaid_approval_sum"></label>
+                </div>
+
+                <h2><img src="static/img/h1/history.png">Платежи:&nbsp;<span id="historic_paid_sum"></span></h2>
+                <div id="payment-approval__dialog__menu__list__content">
+                    <div class="paid_history-table__response">
+                        <table id="paid_history-table" name="paid_history" class="display">
+                            <thead>
+                                <th class="th_date">ДАТА</th>
+                                <th class="th_stat">СТАТУС</th>
+                                <th class="th_sum">СУММА</th>
+                            </thead>
+                            <tbody id="history_tb"></tbody>
+                        </table>
+                    </div>
+                    <button id="logBtn" onclick="window['logDPage'].showModal();">История изменений</button>
+                </div>
+                <div id="payment-approval__dialog__menu__list__button">
+                    <button id="closeBtn">Отмена</button>
+                    <button id="save__edit_btn">Сохранить</button>
+                </div>
+            </div>
+        </div>
+        <img id="crossBtn" src="static/img/interface/close.png">
+    </dialog>
+
+
+    <dialog id="logDPage">
+        <div id="logDPage__content">
+            <img id="crossBtnInside" src="static/img/interface/close.png">
+            <h2><img src="static/img/h1/history.png">История изменений</h2>
+            <div id="logDPage__content__text">
+            </div>
+            <div id="logDPage__content__action"><button id="closeBtnInside">Выход</button></div>
+        </div>
+    </dialog>
+
+
+
+
+    <dialog id="tableCustom">
+        <h2><img src="static/img/h1/edit_pay.png">Столбцы</H2>
+        <form>
+            <table>
+                <tr>
+                    <td class="ttdname">Статья затрат</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Наименовакние платежа</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Описание</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Объект</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Ответственный</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Контрагент</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Общая сумма</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Остаток к оплате</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Согласованная сумма</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Срок оплаты</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Статус</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Дата создания</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">До полной оплаты</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+            </table>
+            <button id="closeBtnTC">Сохранить</button>
+        </form>
+        <img id="crossBtnTC" src="static/img/interface/close.png">
+    </dialog>
+
+
+    <div class="tpages_top_panel">
+        <h1><img src="static/img/h1/payment-approval.png"> {{title}}</h1>
+        <div class="cards-container">
+            <div class="card" id="card_selected_for_approval">
+                <div class="cards_h1_border">
+                    <h2 class="card-title" id="card_selected_for_approval_value">&nbsp;</h2>
+                </div>
+                <div>
+                    <p class="card-cost">Выбрано для одобрения</p>
+                </div>
+            </div>
+            <div class="card" id="card_available_money">
+                <div class="cards_h1_border">
+                    <h2 class="card-title" id="card_available_money_value" data-value="{{ money['available_money'] }}">{{ money['available_money_rub'] }}</h2>
+                </div>
+                <div>
+                    <p class="card-cost">Доступные к распределению</p>
+                </div>
+            </div>
+            <div class="card" id="card_account_money">
+                <div class="cards_h1_border">
+                    <h2 class="card-title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
+                </div>
+                <div>
+                    <p class="card-cost">На счету</p>
+                </div>
+            </div>
+        </div>
+        <div id="payment-approval__menu">
+            <div class="not_form_button focus_button">Согласование платежей</div>
+            <div class="not_form_button"><a href="payment-approval-list">Согласованные платежи</a> </div>
+            <div class="not_form_button"><a href="payment-paid-list">Оплаченные платежи</a></div>
+        </div>
+    </div>
+
+    <div id="sortCol-1" hidden>{{ sort_col['col_1'][0] }}#{{ sort_col['col_1'][1] }}</div>
+    <div id="sortCol-1_val" hidden>{{ sort_col['col_1'][2] }}</div>
+    <div id="sortCol-2" hidden>{{ sort_col['col_2'][0] }}#{{ sort_col['col_2'][1] }}</div>
+    <div id="sortCol-2_val" hidden>{{ sort_col['col_2'][2] }}</div>
+    <div id="sortCol-id" hidden>{{ sort_col['col_id'][0] }}#{{ sort_col['col_id'][1] }}</div>
+    <div id="sortCol-id_val" hidden>{{ sort_col['col_id'][2] }}</div>
+
+    <form id="paymentForm" action="/payment-approval2" method="POST" style="align-self: flex-start">
+
+
+        <dialog id="verification__dialog">
+            <p>Хотите продолжить?</p>
+            <div>
+                <button type="button" id="verification__dialog_cancel">Отмена</button>
+                <button type="submit" id="verification__dialog_next">Продолжить</button>
+            </div>
+        </dialog>
+
+
+        <div class="paymentFormBtn">
+            <button type="button" id="submitButton" onclick="window['verification__dialog'].showModal();">Отправить</button>
+            <button type="button" id="visualTable" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
+                таблицы</button>
+        </div>
+        <div class="tableR">
+            <table id="payment-table" name="payment_table" class="display">
+                <thead class="fix_thead">
+                    <tr>
+                        <th class="th_select">ВЫБОР</th>
+                        <th class="th_category">СТАТЬЯ ЗАТРАТ</th>
+                        <th class="th_name">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
+                        <th class="th_description">ОПИСАНИЕ</th>
+                        <th class="th_object">ОБЪЕКТ</th>
+                        <th class="th_responsible">ОТВЕТСТВЕННЫЙ</th>
+                        <th class="th_contractor">КОНТРАГЕНТ</th>
+                        <th class="th_main_sum">ОБЩАЯ СУММА</th>
+                        <th class="th_sum_remain">ОСТАТОК К ОПЛАТЕ</th>
+                        <th class="th_sum_agreed">СОГЛАСОВАННАЯ СУММА</th>
+                        <th class="th_pay_date">СРОК ОПЛАТЫ</th>
+                        <th class="th_status">СТАТУС</th>
+                        <th class="th_date_create">ДАТА СОЗДАНИЯ</th>
+                        <th class="th_save_pay">ДО ПОЛНОЙ ОПЛАТЫ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                    <tr id="row-{{ loop.index }}">
+                        <td class="th_select_i" data-sort="{{ loop.index }}">
+                            <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }})">
+                        </td>
+                        <td class="th_category_i" id="category-{{ loop.index }}" data-sort="{{ application.cost_item_name }}"
+                            onclick="getModal({{ application.payment_id }})">
+                            <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{
+                            application.cost_item_name }}
+                        </td>
+                        <td class="th_name_i showModalId" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}"
+                            onclick="getModal({{ application.payment_id }})">{{
+                            application.basis_of_payment }}</td>
+                        <td class="th_description_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}"><span
+                                class="paymentFormBold">{{ application.contractor_name }}: </span>{{
+                            application.payment_description }}</td>
+                        <td class="th_object_i" data-sort="{{application.object_name}}">{{ application.object_name
+                            }}
+                        </td>
+                        <td class="th_responsible_i">{{ application.last_name }} {{ application.first_name[0] }}.</td>
+                        <td class="th_contractor_i">{{ application.partner }}</td>
+                        <td class="th_main_sum_i">{{ application.payment_sum_rub }}</td>
+                        <td class="th_sum_remain_i">
+                            <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>
+                            {{ application.approval_sum_rub}}
+                        </td>
+                        <td class="th_sum_agreed_i">
+                            <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}" data-amount=0
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
+                        </td>
+                        <td class="th_pay_date_i">{{ application.payment_due_date }}</td>
+                        <td class="th_status_i" id="status-{{ loop.index }}">
+                            <select id="status_id-{{ loop.index }}" name="status_id" data-amount="{{ 444 if application.status_id==4 else 33333}}"
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
+                                {% for s in approval_statuses %}
+                                <option {% if application.status_id==s.payment_agreed_status_id %} selected {% endif %}>
+                                    {{ s.payment_agreed_status_name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td class="th_date_create_i">{{ application.payment_at }}</td>
+                        <td class="th_save_pay_i">
+                            <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if
+                                application.payment_full_agreed_status %}checked{% endif %}
+                                onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }})">
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+    {% endblock %}
+
+</body>

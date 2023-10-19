@@ -1,3 +1,67 @@
+$(document).ready(function() {
+    var limit = 10; // Number of contracts to load per request
+//    var offset = 0; // Starting offset for loading contracts
+
+    var sortCol_1 = document.getElementById('sortCol-1').textContent
+    var sortCol_1_val = document.getElementById('sortCol-1_val').textContent
+    var sortCol_2 = document.getElementById('sortCol-2').textContent
+    var sortCol_2_val = document.getElementById('sortCol-2_val').textContent
+    var sortCol_id = document.getElementById('sortCol-2').textContent
+    var sortCol_id_val = document.getElementById('sortCol-2_val').textContent
+    console.log(sortCol_1)
+    console.log(sortCol_1_val)
+    console.log(sortCol_2)
+    console.log(sortCol_2_val)
+    console.log(sortCol_id)
+    console.log(sortCol_id_val)
+
+    function loadContracts() {
+        $.ajax({
+            url: '/get_contracts',
+            type: 'POST',
+            data: {
+                'limit': limit,
+                'sort_col_1': sortCol_1,
+                'sort_col_1_val': sortCol_1_val,
+                'sort_col_2': sortCol_2,
+                'sort_col_2_val': sortCol_2_val,
+                'sort_col_id': sortCol_2,
+                'sort_col_id_val': sortCol_2_val,
+            },
+            success: function(response) {
+                if (response.length > 0) {
+                    // Append contracts to the table
+                    for (var i = 0; i < response.length; i++) {
+                        var contract = response[i];
+                        // Append contract data to the table rows
+                        $('#contracts-table').append('<tr><td>' + contract[0] + '</td><td>' + contract[1] + '</td><td>' + contract[2] + '</td></tr>');
+                    }
+//                    offset += limit; // Increase offset for the next request
+                }
+//            for (let i = 0; i < 20; i++) {
+//                let row = table.insertRow(-1);
+//                row.insertCell(0).innerHTML =
+//                  firstName[Math.floor(Math.random() * firstName.length)];
+//                row.insertCell(1).innerHTML =
+//                  lastName[Math.floor(Math.random() * lastName.length)];
+//                row.insertCell(2).innerHTML = Math.floor(Math.random() * 101);
+//            }
+            }
+        });
+    }
+
+    // Load initial contracts
+    loadContracts();
+
+    // Load more contracts when reaching the bottom of the table
+    $('#contracts-table').scroll(function() {
+        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+            loadContracts();
+        }
+    });
+});
+
+
 function getModal(paymentId = null) {
     fetch('/get_card_payment/' + paymentId)
         .then(response => response.json())
