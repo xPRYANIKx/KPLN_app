@@ -5,7 +5,6 @@ const closeButton = document.querySelector("#closeBtn");
 const dialog = document.querySelector("#payment-approval__dialog");
 const annulPaymentButton = document.querySelector("#annul__edit_btn");
 const annulApprovalButton = document.querySelector("#annul_approval__edit_btn");
-//const saveButton = document.querySelector("#submitBtn");
 const saveButton = document.querySelector("#save__edit_btn");
 
 
@@ -32,7 +31,7 @@ function closeDialog() {
     dialog.close();
 }
 
-annulPaymentButton.addEventListener("click", annulPayment);
+
 function annulPayment() {
     var paymentId = document.getElementById('payment_id').textContent;
     fetch('/annul_payment', {
@@ -55,9 +54,8 @@ function annulPayment() {
         .catch(error => {
             console.error('Error:', error);
         });
-    }
+}
 
-annulApprovalButton.addEventListener("click", annulApproval);
 function annulApproval() {
     var paymentId = document.getElementById('payment_id').textContent;
     fetch('/annul_approval_payment', {
@@ -80,7 +78,7 @@ function annulApproval() {
         .catch(error => {
             console.error('Error:', error);
         });
-    }
+}
 
 const crossButtonInside = document.querySelector("#crossBtnInside");
 const closeButtonInside = document.querySelector("#closeBtnInside");
@@ -96,7 +94,6 @@ function closeDialogInside() {
     dialogInside.close();
 }
 
-saveButton.addEventListener("click", savePayment);
 function savePayment() {
     var paymentId = document.getElementById('payment_id').textContent;
     var basis_of_payment = document.getElementById('basis_of_payment').value;
@@ -134,7 +131,7 @@ function savePayment() {
         "method": "POST",
         "body": JSON.stringify({
             'payment_id': paymentId,
-                'basis_of_payment': basis_of_payment,
+            'basis_of_payment': basis_of_payment,
             'basis_of_payment_dataset': basis_of_payment_dataset,
             'responsible': responsible,
             'responsible_dataset': responsible_dataset,
@@ -169,4 +166,4 @@ function savePayment() {
         .catch(error => {
             console.error('Error:', error);
         });
-    }
+}

@@ -83,7 +83,7 @@ function getModal(paymentId = null) {
                     newCell1.innerHTML = data.paid[i][1];
 
                     let newCell2 = document.createElement("td");
-//                    newCell2.innerHTML = data.paid[i][3].split(' ')[0];
+                    //                    newCell2.innerHTML = data.paid[i][3].split(' ')[0];
                     newCell2.innerHTML = data.paid[i][3];
 
                     let newCell3 = document.createElement("td");
@@ -103,7 +103,7 @@ function getModal(paymentId = null) {
             }
 
             const dialog = document.getElementById("logDPage__content__text");
-            for (var i=0; i<data.logs.length; i++) {
+            for (var i = 0; i < data.logs.length; i++) {
                 const entry = document.createElement("p");
                 entry.innerHTML = `
                     >> <span class="logTime"><span class="logTimeBold">${data.logs[i][0]}</span> ${data.logs[i][1]}:</span>
@@ -117,13 +117,13 @@ function getModal(paymentId = null) {
 - Заявка закроется,
 - Несогласованный остаток (${data.payment['unapproved_sum_rub']}) удалится,
 - Неоплаченный согласованный остаток (${data.payment['approval_to_pay_sum_rub']}) останется на листе ОПЛАТА`
-            document.getElementById("annul__edit_btn").setAttribute("title", title)
+            document.getElementById("annul__edit_btn_i").setAttribute("title", title)
 
             var title = `
 - Заявка НЕ закроется,
 - Неоплаченный согласованный остаток (${data.payment['approval_to_pay_sum_rub']}) удалится
 - Остаток к оплате увеличится на (${data.payment['approval_to_pay_sum_rub']})`
-            document.getElementById("annul_approval__edit_btn").setAttribute("title", title)
+            document.getElementById("annul_approval__edit_btn_i").setAttribute("title", title)
 
             console.log(document.getElementById('save__edit_btn').disabled)
 
