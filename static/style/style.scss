@@ -1051,7 +1051,6 @@ main {
     }
 
     #payment-approval__dialog {
-        height: 850px;
         border: none;
         border-radius: 7px;
         background-color: #f3f5f5;
@@ -1061,7 +1060,6 @@ main {
         &__menu {
             display: flex;
             &__edit {
-                max-width: 300px;
                 h1 {
                     width: 100%;
                     font-size: 20px;
@@ -1151,9 +1149,7 @@ main {
                         margin-top: -8px;
                     }
                     .button_group {
-                        position: absolute;
                         flex-direction: row;
-                        bottom: 5px;
                         margin-top: 5px;
                         padding-top: 5px;
                         #annul__edit_btn_i,
@@ -1182,7 +1178,7 @@ main {
             }
             &__list {
                 width: 300px;
-                margin: 15px;
+                margin: 15px 15px 0 15px;
                 padding: 0px 5px 0px 20px;
                 border-left: solid 2px #e5e5e5;
                 #unpaid_approval_sum_div_h {
@@ -1213,11 +1209,10 @@ main {
                     }
                 }
                 &__content {
-                    height: 82.3%;
                     margin: 10px 0px 0px 0px;
                     .paid_history-table__response {
-                        min-height: 610px;
-                        max-height: 610px;
+                        min-height: 600px;
+                        max-height: 600px;
                         overflow-y: scroll;
                         table {
                             width: 100%;
@@ -1256,9 +1251,9 @@ main {
                     }
                 }
                 &__button {
-                    position: absolute;
-                    bottom: 15px;
-                    padding-top: 2px;
+                    display: flex;
+                    margin-top: 8px;
+                    padding-top: 4px;
                     border-top: solid 2px #dddddd;
                     button {
                         width: 134px;
@@ -1564,7 +1559,7 @@ main {
                     min-width: 140px;
                     font-weight: 900;
                 }
-                .th_sum_unapproved_i {
+                .th_sum_remain_i {
                     width: 140px;
                     min-width: 140px;
                     font-weight: bold;
