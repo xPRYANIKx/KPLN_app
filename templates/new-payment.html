@@ -3,102 +3,128 @@
 {{ super() }}
 
 <script src="static/script/checkFormNewPayment.js"></script>
-
 <script src="static/script/numberWithSpaces.js"></script>
 
 
 {% endblock %}
 {% block content %}
-<body id="new-payment_page">
+<body id="new_payment_page">
 
-    <form id="new_payment" method="POST" action="/new-payment">
-        <h1><img src="static/img/h1/new-payment.png"> {{title}}</h1>
-        <p><label for="basis_of_payment">Наименование платежа: *</label>
-            <textarea name="basis_of_payment" id="basis_of_payment" rows="1" required
-                oninput="checkFormNewPayment()">{{ not_save_val.get('b_o_p') if not_save_val.get('b_o_p') }}</textarea>
-        <p class="form_description">* Аванс по договору № с субподрядчиком (наименование субподрядчика в контрагенты) или
-            оплата по акту по договору</p>
-        </p>
-        <div><label for="responsible">Ответственный: *</label>
-            <select class="selectSearch2" name="responsible" id="responsible" required onchange="checkFormNewPayment()">
-                {% if not_save_val.get('resp') %}
-                <option value="{{ not_save_val.get('resp')[0] }}-@@@-{{ not_save_val.get('resp')[1] }}">{{ not_save_val.get('resp')[1] }}</option>
-                {% else %}
-                <option value="" disabled selected hidden>Выберите ответственного</option>
-                {% endif %}
-                {% for r in responsible %}
-                <option value="{{ r[0] }}-@@@-{{ r[1] }} {{ r[2] }}">{{ r[1] }} {{ r[2] }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="unitedform">
-            <div class="type_app"><label for="cost_items">Тип заявки: *</label>
-                <select class="selectSearch2" name="cost_items" id="cost_items" required onchange="checkFormNewPayment()">
-                    {% if not_save_val.get('c_i') %}
-                    <option value="{{ not_save_val.get('c_i')[0] }}-@@@-{{ not_save_val.get('c_i')[1] }}-@@@-{{ not_save_val.get('c_i')[2] }}">{{
-                        not_save_val.get('c_i')[2] }}</option>
+
+    <div class="window_form_in_page">
+        <form class="flex_form" id="new_payment_form" method="POST" action="/new-payment">
+            <h1><img src="static/img/h1/newpayment.png"> {{title}}</h1>
+
+
+            <div class="textarea_npp"><label for="basis_of_payment">Наименование платежа: *</label>
+                <textarea id="basis_of_payment" name="basis_of_payment" rows="1" required
+                    oninput="checkFormNewPayment()">{{ not_save_val.get('b_o_p') if not_save_val.get('b_o_p') }}</textarea>
+                <p class="form_p__description">* Аванс по договору № с субподрядчиком (наименование субподрядчика в контрагенты) или
+                    оплата по акту по договору</p>
+            </div>
+
+
+            <div><label for="responsible">Ответственный: *</label>
+                <select class="selectSearch2" id="responsible" name="responsible___" required onchange="checkFormNewPayment()">
+                    {% if not_save_val.get('resp') %}
+                    <option value="{{ not_save_val.get('resp')[0] }}-@@@-{{ not_save_val.get('resp')[1] }}">{{ not_save_val.get('resp')[1] }}</option>
                     {% else %}
-                    <option value="" disabled selected hidden>Выберите тип заявки</option>
+                    <option value="" disabled selected hidden>Выберите ответственного</option>
                     {% endif %}
-                    {% for category, names in cost_items.items() %}
-                    <optgroup label="{{ category }}">
-                        {% for name in names %}
-                        <option value="{{ category }}-@@@-{{ name[1] }}-@@@-{{ name[0] }}">{{ name[0] }}</option>
+                    {% for r in responsible %}
+                    <option value="{{ r[0] }}-@@@-{{ r[1] }} {{ r[2] }}">{{ r[1] }} {{ r[2] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+            <div class="unitedform">
+                <div class="type_app"><label for="cost_items">Тип заявки: *</label>
+                    <select class="selectSearch2" id="cost_items" name="cost_items" required onchange="checkFormNewPayment()">
+                        {% if not_save_val.get('c_i') %}
+                        <option value="{{ not_save_val.get('c_i')[0] }}-@@@-{{ not_save_val.get('c_i')[1] }}-@@@-{{ not_save_val.get('c_i')[2] }}">{{
+                            not_save_val.get('c_i')[2] }}</option>
+                        {% else %}
+                        <option value="" disabled selected hidden>Выберите тип заявки</option>
+                        {% endif %}
+                        {% for category, names in cost_items.items() %}
+                        <optgroup label="{{ category }}">
+                            {% for name in names %}
+                            <option value="{{ category }}-@@@-{{ name[1] }}-@@@-{{ name[0] }}">{{ name[0] }}</option>
+                            {% endfor %}
+                        </optgroup>
                         {% endfor %}
-                    </optgroup>
-                    {% endfor %}
-                </select>
+                    </select>
+                </div>
+
+
+                <div id="objects_name_div" class="hidden_label">
+                    <label id="objects_name_label" for="objects_name">Объект: *</label>
+                    <select class="selectSearch2" id="objects_name" name="objects_name" onchange="checkFormNewPayment()">
+                        {% if not_save_val.get('obj_n') %}
+                        <option value="{{ not_save_val.get('obj_n')[0] }}-@@@-{{ not_save_val.get('obj_n')[1] }}">{{ not_save_val.get('obj_n')[1] }}</option>
+                        {% else %}
+                        <option class="select2_exception" value="" disabled selected hidden>Выберите объект</option>
+                        {% endif %}
+                        {% for object_name in objects_name %}
+                        <option value="{{ object_name[0] }}-@@@-{{ object_name[1] }}">{{ object_name[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-            <div class="hidden_label" id="objects_name_div">
-                <label for="objects_name" id="objects_name_label">Объект: *</label>
-                <select class="selectSearch2" name="objects_name" id="objects_name" onchange="checkFormNewPayment()">
-                    {% if not_save_val.get('obj_n') %}
-                    <option value="{{ not_save_val.get('obj_n')[0] }}-@@@-{{ not_save_val.get('obj_n')[1] }}">{{ not_save_val.get('obj_n')[1] }}</option>
+
+
+            <div class="textarea_npp"><label for="payment_description">Описание: *</label>
+                <textarea id="payment_description" name="payment_description" rows="4"
+                    placeholder="Укажите:&#10;- Наименование работ (ООС, техрегламент, ПОС и т.п.)&#10;- Статус (работы выполнены, аванс, работы приняты заказчиком)"
+                    required oninput="checkFormNewPayment()">{{ not_save_val.get('p_d') if not_save_val.get('p_d') }}</textarea>
+            </div>
+
+
+            <div><label for="partners">Контрагент:</label>
+                <input type="text" id="partners" name="partners" list="partners_name" value="{{ not_save_val.get('part') if not_save_val.get('part') }}">
+                <datalist id="partners_name">
+                    <option></option>
+                    {% for partner in partners %}
+                    <option value="{{ partner[0] }}">{{ partner[0] }}</option>
+                    {% endfor %}
+                </datalist>
+            </div>
+
+
+            <div><label for="payment_due_date">Срок оплаты: *</label>
+                <input type="date" id="payment_due_date" name="payment_due_date" onload="getDate()"
+                    value="{{not_save_val.get('p_d_d') if not_save_val.get('p_d_d') }}" required oninput="checkFormNewPayment()" min="1980-01-01"
+                    max="2070-01-01">
+            </div>
+
+
+            <div><label for="our_company">Компания: *</label>
+                <select class="selectSearch2" id="our_company" name="our_company" required onchange="checkFormNewPayment()">
+                    {% if not_save_val.get('o_c') %}
+                    <option value="{{ not_save_val.get('o_c')[0] }}-@@@-{{ not_save_val.get('o_c')[1] }}">{{ not_save_val.get('o_c')[1] }}</option>
                     {% else %}
-                    <option class="select2_exception" value="" disabled selected hidden>Выберите объект</option>
+                    <option value="" disabled selected hidden>Выберите компанию</option>
                     {% endif %}
-                    {% for object_name in objects_name %}
-                    <option value="{{ object_name[0] }}-@@@-{{ object_name[1] }}">{{ object_name[1] }}</option>
+                    {% for our_company in our_companies %}
+                    <option value="{{ our_company[0] }}-@@@-{{ our_company[1] }}">{{ our_company[1] }}</option>
                     {% endfor %}
                 </select>
             </div>
-        </div>
-        <p><label for="payment_description">Описание: *</label>
-            <textarea name="payment_description" id="payment_description" rows="4"
-                placeholder="Укажите:&#10;- Наименование работ (ООС, техрегламент, ПОС и т.п.)&#10;- Статус (работы выполнены, аванс, работы приняты заказчиком)"
-                required oninput="checkFormNewPayment()">{{ not_save_val.get('p_d') if not_save_val.get('p_d') }}</textarea>
-        </p>
-        <div><label for="partners">Контрагент:</label>
-            <input type="text" name="partners" id="partners" list="partners_name" value="{{ not_save_val.get('part') if not_save_val.get('part') }}">
-            <datalist id="partners_name">
-                <option></option>
-                {% for partner in partners %}
-                <option value="{{ partner[0] }}">{{ partner[0] }}</option>
-                {% endfor %}
-            </datalist>
-        </div>
-        <div><label for="payment_due_date">Срок оплаты: *</label>
-            <input type="date" onload="getDate()" name="payment_due_date" id="payment_due_date"
-                value="{{not_save_val.get('p_d_d') if not_save_val.get('p_d_d') }}" required oninput="checkFormNewPayment()" min="1980-01-01" max="2070-01-01">
-        </div>
-        <div><label for="our_company">Компания: *</label>
-            <select class="selectSearch2" name="our_company" id="our_company" required onchange="checkFormNewPayment()">
-                {% if not_save_val.get('o_c') %}
-                <option value="{{ not_save_val.get('o_c')[0] }}-@@@-{{ not_save_val.get('o_c')[1] }}">{{ not_save_val.get('o_c')[1] }}</option>
-                {% else %}
-                <option value="" disabled selected hidden>Выберите компанию</option>
-                {% endif %}
-                {% for our_company in our_companies %}
-                <option value="{{ our_company[0] }}-@@@-{{ our_company[1] }}">{{ our_company[1] }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div><label for="payment_sum">Сумма оплаты: *</label>
-            <input type="text" placeholder="₽" name="payment_sum" id="payment_sum" onchange="numberWithSpaces(event, ' ₽')"
-                value="{{not_save_val.get('p_s') if not_save_val.get('p_s') else '' }}" required oninput="checkFormNewPayment()" />
-        </div>
-        <div class="help_p">* - поля обязательные для заполнения</div>
-        <button type="submit" id="submitBtn" onclick="this.form.submit(); this.disabled=true;" disabled>Сохранить</button>
-    </form>
+
+
+            <div><label for="payment_sum">Сумма оплаты: *</label>
+                <input type="text" id="payment_sum" name="payment_sum" placeholder="₽" onchange="numberWithSpaces(event, ' ₽')"
+                    value="{{not_save_val.get('p_s') if not_save_val.get('p_s') else '' }}" required oninput="checkFormNewPayment()" />
+            </div>
+
+
+            <div class="help_p">* - поля обязательные для заполнения</div>
+
+            <button type="submit" id="submit_button_in_form" onclick="this.form.submit(); this.disabled=true;" disabled>Сохранить</button>
+        </form>
+
+    </div>
+
 </body>
 {% endblock %}

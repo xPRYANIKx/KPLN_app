@@ -114,7 +114,7 @@ def set_new_payment():
 
             # Get the form data from the request
             basis_of_payment = request.form.get('basis_of_payment')  # Наименование платежа
-            responsible = request.form.get('responsible').split('-@@@-')[0]  # Ответственный
+            responsible = request.form.get('responsible___').split('-@@@-')[0]  # Ответственный
             cost_items = request.form.get('cost_items').split('-@@@-')[1]  # Тип заявки
             try:
                 object_id = request.form.get('objects_name').split('-@@@-')[0]  # id объекта
@@ -1203,19 +1203,19 @@ def set_cash_inflow():
     try:
         if request.method == 'POST':
             # Список выделенных столбцов
-            inflow_company_id = int(request.form.get('our_company').split('-@@@-')[0])  # id компании
-            inflow_company = request.form.get('our_company').split('-@@@-')[1]  # Название компания
-            inflow_type_id = int(request.form.get('inflow_type').split('-@@@-')[0])  # id типа поступления
-            inflow_type = request.form.get('inflow_type').split('-@@@-')[1]  # Название типа поступления
-            inflow_sum = convert_amount(request.form['cash_inflow_sum'])  # Сумма поступления
+            inflow_company_id = int(request.form.get('company_ci').split('-@@@-')[0])  # id компании
+            inflow_company = request.form.get('company_ci').split('-@@@-')[1]  # Название компания
+            inflow_type_id = int(request.form.get('type_ci').split('-@@@-')[0])  # id типа поступления
+            inflow_type = request.form.get('type_ci').split('-@@@-')[1]  # Название типа поступления
+            inflow_sum = convert_amount(request.form['money_ci'])  # Сумма поступления
             try:
-                taker_company_id = int(request.form.get('taker_company').split('-@@@-')[0])  # id компании
-                taker_company = request.form.get('taker_company').split('-@@@-')[1]  # Название компания
+                transfer_company_id = int(request.form.get('transfer_company_ci').split('-@@@-')[0])  # id компании
+                transfer_company = request.form.get('transfer_company_ci').split('-@@@-')[1]  # Название компания
             except:
-                taker_company_id = None
-                taker_company = None
+                transfer_company_id = None
+                transfer_company = None
             try:
-                inflow_description = request.form['cash_inflow_description']  # Комментарий
+                inflow_description = request.form['description_ci']  # Комментарий
             except:
                 inflow_description = None
 
@@ -1285,14 +1285,14 @@ def set_cash_inflow():
                     # Запись в таблицу payments_inflow_history
                     inflow_description = f"из {inflow_company} {inflow_sum} ₽"
                     query_i_h = get_db_dml_query(action=action_i_h, table=table_i_h, columns=columns_i_h)
-                    values_i_h = [[taker_company_id, inflow_description, inflow_type_id, inflow_sum, user_id]]
+                    values_i_h = [[transfer_company_id, inflow_description, inflow_type_id, inflow_sum, user_id]]
                     execute_values(cursor, query_i_h, values_i_h)
 
                     # Запись в таблицу payments_balance
                     # Генерируем выражение: к текущему значению всех колонок добавляем новое. Прибавляем у taker_comp
                     expr_set = ', '.join([f"{col} = t1.{col} + EXCLUDED.{col}" for col in columns_b[:-1]])
                     query_b = get_db_dml_query(action=action_b, table=table_b, columns=columns_b, expr_set=expr_set)
-                    values_b = [[inflow_sum, taker_company_id]]
+                    values_b = [[inflow_sum, transfer_company_id]]
                     execute_values(cursor, query_b, values_b)
                     # Генерируем выражение: из тек. знач. вычитаем (прибалвяем отрицательную inflow_sum. Вычитание у inflow_company
                     expr_set = ', '.join([f"{col} = t1.{col} + EXCLUDED.{col}" for col in columns_b[:-1]])
@@ -1317,10 +1317,10 @@ def set_cash_inflow():
                 session['n_s_v_cash_inflow'] = {
                     'o_c': [inflow_company_id, inflow_company],
                     'i_t': [inflow_type_id, inflow_type],
-                    'c_i_s': request.form.get('cash_inflow_sum'),
+                    'c_i_s': request.form.get('money_ci'),
                 }
-                if taker_company_id:
-                    session['n_s_v_cash_inflow']['t_c'] = [taker_company_id, taker_company]
+                if transfer_company_id:
+                    session['n_s_v_cash_inflow']['t_c'] = [transfer_company_id, transfer_company]
                 if inflow_description:
                     session['n_s_v_cash_inflow']['i_d'] = inflow_description
 

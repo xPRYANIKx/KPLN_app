@@ -173,78 +173,227 @@ table {
   font-weight: 400;
   font-style: normal;
 }
-#logInfo {
-  position: absolute;
+.select2-selection__rendered,
+.select2-results__option--selectable {
+  font-size: 13px;
+  line-height: 26.5px !important;
+}
+
+.select2-results__options {
+  font-size: 13px;
+}
+
+.select2-results__option--disabled {
+  display: none;
+}
+
+.select2-results__option--selectable {
+  border-top: solid 1px rgba(128, 128, 128, 0.1764705882);
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #444;
+}
+
+*,
+body {
+  font-family: "Montserrat";
+}
+
+body {
+  width: 100%;
+  background-color: #f6f3f3;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+
+main {
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  justify-content: center;
+  align-self: center;
+  width: 92%;
+  padding: 80px 40px 30px 40px;
+  background-color: #ffffff;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  border-bottom: solid 2px rgba(173, 173, 173, 0.24);
+  font-weight: 900;
+}
+h1 img {
+  display: inline;
+  width: 35px;
+  margin: 0px 10px 0px 0px;
+}
+
+.window_form_in_page {
+  display: flex;
+  align-self: center;
+  border-radius: 5px;
+  background-color: rgba(203, 203, 203, 0.3294117647);
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+form {
+  align-self: center;
+  margin: 15px 0px 15px 0px;
+  padding: 0px 20px 0px 20px;
+  border-radius: 5px;
+}
+form div {
+  display: flex;
+  flex-direction: row;
+}
+form label {
+  flex: 1;
+  align-self: center;
+  font-weight: bold;
+}
+form select,
+form input {
+  flex: 2;
+  max-width: 320px;
+  padding: 4px 3px 4px 7px;
+  border: solid 1px #aaa;
+  border-radius: 4px;
+  font-size: 13px;
+}
+form select::-moz-placeholder {
+  color: #000000;
+}
+form select,
+form select::placeholder,
+form input,
+form textarea {
+  color: #000000;
+}
+form select {
+  background-image: url("../img/interface/select.png");
+  background-size: 10px;
+  background-position: right 5px center;
+  background-repeat: no-repeat;
+  text-indent: 0.01px;
+  background-color: #ffffff;
+  appearance: none !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+}
+form select ::-ms-expand {
+  display: none;
+}
+form textarea {
+  resize: none;
+  width: 100%;
+  padding: 6px 8px 6px 8px;
+  border-radius: 3px;
+  font-size: 13px;
+  border-color: rgba(0, 0, 0, 0.3607843137);
+}
+
+button,
+.input__button {
+  cursor: pointer;
+  text-align: center;
+  padding: 5px 5px 5px 5px;
+  font-weight: bold;
+  color: #f3f3f3;
+  background-color: #2d2d2d;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.2);
+  -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.2);
+}
+button:hover,
+.input__button:hover {
+  color: #f3f3f3;
+  background-color: #3b3b3b;
+}
+button:disabled,
+.input__button:disabled {
+  color: #bbbbbb;
+  background-color: #dddddd;
+  box-shadow: none;
+}
+
+table thead {
+  color: #ffffff;
+  background-color: #4e4f4f;
+}
+table thead th,
+table thead td {
+  font-size: 14px;
+  font-weight: 900;
+}
+table tr:nth-child(2n) {
+  background-color: #d7d5d5;
+}
+table tbody tr:nth-child(2n+1) {
+  background-color: #eaedec;
+}
+table th,
+table td {
+  cursor: default;
+  vertical-align: middle;
+  padding: 10px 10px 10px 10px;
+  border-right: solid 2px rgba(255, 255, 255, 0.3411764706);
+  font-size: 13px;
+}
+
+.cards_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flex_form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+dialog {
   top: 40%;
-  min-width: 260px;
-  max-width: 300px;
-  z-index: 6;
+  bottom: 50%;
+  right: 15px;
+  left: 15px;
+  min-width: 220px;
+  max-width: 400px;
   border: solid 1px rgba(213, 213, 213, 0.2784313725);
   border-radius: 5px;
-  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.29);
-  font-family: "FS Elliot";
+  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.3);
+  -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.3);
+  -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.3);
 }
-#logInfo span {
-  font-size: 23px;
-  font-weight: bold;
+
+#logInfo {
+  z-index: 6;
+  font-family: "FS Elliot";
 }
 #logInfo div {
   font-size: 14px;
 }
 #logInfo button {
-  margin-top: 8px;
-  width: 80px;
-  padding: 3px;
   float: right;
-  border: none;
+  width: 80px;
+  margin: 10px 0px 0px 0px;
+  padding: 3px 3px 3px 3px;
   border-radius: 5px;
-  font-family: "Montserrat";
   font-size: 15px;
-  color: #f3f3f3;
-  background-color: #393939;
-  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
-}
-
-#verification__dialog {
-  width: 290px;
-  height: 100px;
-  padding: 20px 0px 0px 0px;
-  border: solid 1px rgba(0, 0, 0, 0.0352941176);
-  border-radius: 5px;
-  background-color: #f1eee7;
-  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
-}
-#verification__dialog p {
-  margin-bottom: 6px;
-  font-size: 15px;
-  font-weight: bold;
-  text-align: center;
-}
-#verification__dialog div {
-  display: flex;
-  justify-content: center;
-}
-#verification__dialog_cancel, #verification__dialog_next {
-  margin: 8px 0px 0px 0px;
-  padding: 5px;
-  border: none;
-  border-radius: 5px;
-  font-family: "Montserrat";
-  font-size: 13px;
-  font-weight: bold;
-  color: #f3f3f3;
-  background-color: #393939;
-  box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
-  cursor: pointer;
-}
-#verification__dialog_cancel {
-  width: 110px;
-  margin-right: 20px;
-  background-color: #7d0000;
-}
-#verification__dialog_next {
-  width: 120px;
-  background-color: #005500;
 }
 
 .window.error {
@@ -255,105 +404,67 @@ table {
   background-color: #cdf1cd;
 }
 
-body {
-  width: 100%;
-  background-color: #f6f3f3;
-  font-family: "Montserrat";
-  font-size: 16px;
+#verification_dialog {
+  max-width: 290px;
+  background-color: #f1eee7;
 }
-body h1 {
+#verification_dialog p {
+  text-align: center;
+  margin: 0px 0px 6px 0px;
+  font-size: 15px;
+  font-weight: bold;
+}
+#verification_dialog div {
   display: flex;
-  align-items: center;
-  font-size: 38px;
-  line-height: 99%;
-  font-weight: 900;
-}
-body h1 img {
-  display: inline;
-  width: 35px;
-  margin-right: 10px;
-}
-body a {
-  color: #130042;
-}
-body a:hover {
-  color: #1680a3;
-}
-body table thead {
-  background-color: #4e4f4f;
-  color: #ffffff;
-}
-body table thead th,
-body table thead td {
-  font-size: 14px;
-  font-weight: 900;
-}
-body table tr:nth-child(2n) {
-  background-color: #d7d5d5;
-}
-body table tbody tr:nth-child(2n+1) {
-  background-color: #eaedec;
-}
-body table th,
-body table td {
-  padding: 10px;
-  vertical-align: middle;
-  border-right: solid 2px rgba(255, 255, 255, 0.3411764706);
-  font-size: 13px;
-  cursor: default;
-}
-body .select2-selection__rendered,
-body .select2-results__option--selectable {
-  font-size: 13px;
-  line-height: 26.5px !important;
-}
-body .select2-results__option--disabled {
-  display: none;
-}
-body .select2-results__option--selectable {
-  border-top: solid 1px rgba(128, 128, 128, 0.1764705882);
-}
-body .select2-results__options {
-  font-size: 13px;
-}
-
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-}
-
-.cards-container {
-  display: flex;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+  margin: 8px 0px 0px 0px;
+}
+#verification_dialog__cancel, #verification_dialog__next {
+  padding: 5px 5px 5px 5px;
+  font-size: 13px;
+  color: #f3f3f3;
+}
+#verification_dialog__cancel {
+  width: 110px;
+  margin: 0px 20px 0px 0px;
+  background-color: #7d0000;
+}
+#verification_dialog__cancel:hover {
+  background-color: #920000;
+}
+#verification_dialog__next {
+  width: 120px;
+  background-color: #005500;
+}
+#verification_dialog__next:hover {
+  background-color: #006500;
 }
 
 header {
-  display: flex;
-  position: fixed;
-  width: 100%;
-  height: 55px;
   z-index: 10;
+  position: fixed;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
+  height: 55px;
   background-color: #000000;
 }
-header .header__pic {
+header .header_pic {
   display: flex;
 }
-header .header__pic__menu img {
+header .header_pic__menu img {
   width: 40px;
   margin: 14.5px 0px 5px 25px;
 }
-header .header__pic__menu #menuImage {
+header .header_pic__menu #image_menu {
   cursor: pointer;
 }
 header #header__auth__label {
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  margin: 0px 20px 0px 0px;
   font-size: 15px;
   color: #ffffff;
 }
@@ -365,78 +476,83 @@ header a:hover {
 }
 
 #menu {
+  z-index: 8;
   display: none;
   position: absolute;
-  width: 400px;
-  z-index: 8;
   top: 55px;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.81);
+  width: 400px;
+  background-color: rgba(0, 0, 0, 0.8117647059);
   color: #ffffff;
-  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.4);
+  -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.4);
+  -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.4);
   animation-name: slideInLeft;
-  animation-duration: 0.6s;
+  animation-duration: 0.5s;
   animation-fill-mode: both;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
 }
 @keyframes slideInLeft {
   0% {
-    transform: translateX(-100%);
     visibility: visible;
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
   }
   100% {
     transform: translateX(0);
+    -webkit-transform: translateX(0);
   }
 }
-#menu .menu_content {
+#menu__content {
   display: flex;
-  padding-bottom: 13px;
-  margin-left: -50px;
+  padding: 0px 0px 13px 0px;
   font-size: 17px;
   font-weight: bold;
 }
-#menu .menu_content ul {
-  padding: 18px 15px 30px 20px;
+#menu__content ul {
+  padding: 18px 15px 23px 0px;
 }
-#menu .menu_content ul .mainmenu_h {
-  margin-left: 0px;
+#menu__content ul #menu__content__h {
+  margin: 0px 0px -10px 0px;
+  padding: 0px 0px 0px 0px;
   border-left: 0px;
-  padding-left: 0px;
-  margin-bottom: -7px;
+  border-bottom: none;
   font-size: 25px;
   font-weight: 900;
-  border-bottom: none;
 }
-#menu .menu_content ul ul {
+#menu__content ul ul {
+  padding: 15px 15px 2px 0px;
   font-size: 22px;
-  padding: 18px 15px 2px 0px;
+  font-weight: 900;
   color: #bdbdbd;
 }
-#menu .menu_content ul li {
+#menu__content ul li {
   margin: 5px 0px 0px 15px;
+  padding: 0px 0px 0px 5px;
   border-bottom: solid 2px #8f8f8f;
   border-left: dashed 2px #8f8f8f;
-  padding-left: 5px;
 }
-#menu .menu_content ul li a {
+#menu__content ul li a {
   color: #fafdff;
   text-decoration: none;
 }
-#menu .menu_content ul li a:hover {
+#menu__content ul li a:hover {
   color: #ffc24d;
 }
 
 footer {
-  height: 55px;
-  width: 100%;
   z-index: 4;
   flex: 0 0 auto;
+  width: 100%;
+  height: 55px;
   background-color: #000000;
   color: #ffffff;
 }
 footer a {
-  color: #ebc592;
-  font-weight: bold;
+  font-weight: 900;
   text-decoration: none;
+  color: #ebc592;
 }
 footer a:hover {
   color: #5ab1ce;
@@ -450,128 +566,435 @@ footer .footer_company__href {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 7.5px;
-  margin-bottom: -4px;
+  margin: 7.5px 0px -3px 0px;
   font-size: 15px;
 }
-footer .footer_company__href_bitrix24 {
-  margin-right: 8px;
+footer .footer_company__href__line {
+  margin: 0px 5px 0px 5px;
 }
 footer .footer_company__copyright {
   display: flex;
   justify-content: center;
   font-size: 12px;
+  font-family: "FS Elliot";
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  z-index: 4;
-  width: 92%;
-  flex: 1 0 auto;
-  justify-content: center;
-  align-self: center;
-  padding: 60px 40px 0px 40px;
-  background-color: #ffffff;
+#login_page .window_form_in_page {
+  width: 330px;
 }
-main form {
-  width: 550px;
-  margin: 20px 0px;
-  padding: 0px 20px;
-  border-radius: 5px;
-  background-color: #ededed;
-  align-self: center;
-  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.3);
+#login_page .window_form_in_page #auth_form h1 {
+  padding: 0px 0px 9px 0px;
+  font-size: 24px;
 }
-main form div {
-  display: flex;
-  flex-direction: row;
-  margin: 13px 0 5px 0;
+#login_page .window_form_in_page #auth_form h1 img {
+  width: 30px;
 }
-main form label {
-  flex: 1;
-  font-weight: bold;
+#login_page .window_form_in_page #auth_form__email, #login_page .window_form_in_page #auth_form__password {
+  margin: 14px 3px 0px 7px;
 }
-main form input[type=date] {
-  padding-right: 3px;
+#login_page .window_form_in_page #auth_form__email label, #login_page .window_form_in_page #auth_form__password label {
+  font-size: 14px;
 }
-main form select {
+#login_page .window_form_in_page #auth_form__email input, #login_page .window_form_in_page #auth_form__password input {
+  max-width: 240px;
+}
+#login_page .window_form_in_page #auth_form #checkbox_auth {
+  justify-content: end;
+  margin: 10px 5px 8px 0px;
+  font-size: 13px;
+}
+#login_page .window_form_in_page #auth_form #checkbox_auth div input {
+  flex: 0;
+}
+#login_page .window_form_in_page #auth_form #checkbox_auth__label {
+  margin: 2px 0px 1px 5px;
+}
+#login_page .window_form_in_page #auth_form__submit {
+  padding: 11px 0px 0px 0px;
+  border-top: solid 1px rgba(173, 173, 173, 0.2392156863);
+}
+#login_page .window_form_in_page #auth_form__submit #auth_form__button {
+  height: 30px;
+  margin: 0px 0px 4px 0px;
+  font-size: 14px;
+}
+
+#register_page #logInfo {
+  max-width: 95%;
+}
+#register_page .window_form_in_page {
+  width: 345px;
+}
+#register_page .window_form_in_page #register_form h1 {
+  margin: 0px 0px 5px 0px;
+  padding: 0px 0px 10px 0px;
+  font-size: 20px;
+}
+#register_page .window_form_in_page #register_form h1 img {
+  width: 38px;
+  margin: 0px 10px 0px 5px;
+}
+#register_page .window_form_in_page #register_form .register_form__field_wrapper {
+  margin: 10px 5px 0px 10px;
+}
+#register_page .window_form_in_page #register_form .register_form__field_wrapper label {
+  font-size: 14px;
+}
+#register_page .window_form_in_page #register_form .register_form__field_wrapper input,
+#register_page .window_form_in_page #register_form .register_form__field_wrapper select {
+  max-width: 180px;
+}
+#register_page .window_form_in_page #register_form__submit {
+  margin: 14px 2px 5px 2px;
+  padding: 14px 0px 0px 0px;
+  border-top: solid 1px rgba(173, 173, 173, 0.2392156863);
+}
+#register_page .window_form_in_page #register_form__submit #register_form__button {
   width: 100%;
-  min-height: 28px;
-  margin-top: 1px;
-  padding-left: 8px;
-  -webkit-appearance: none;
-  background-image: url("../img/interface/select.png");
-  background-size: 10px;
-  background-position: 98.7% center;
-  background-repeat: no-repeat;
-  line-height: 1em;
-  -moz-appearance: none;
-  text-indent: 0.01px;
-  appearance: none !important;
-  background-color: #ffffff;
+  padding: 8px 15px;
+  font-size: 14.5px;
 }
-main form select option {
-  font-family: "Montserrat";
-}
-main form select ::-ms-expand {
+
+.error_page #logInfo {
   display: none;
 }
-main form textarea {
-  width: 100%;
-  height: 100px;
-  resize: none;
-  padding: 6px 8px;
-  border-radius: 3px;
-  border-color: rgba(0, 0, 0, 0.3607843137);
-  font-family: "Montserrat";
-  font-size: 13px;
+.error_page .error_page_wrapper {
+  padding: 20px;
+  margin: auto;
 }
-main form button {
-  float: right;
-  margin-top: 5px;
-  margin-bottom: 20px;
-  width: 160px;
-  padding: 10px 20px;
-  border: none;
+.error_page .error_page_wrapper img {
+  width: 170px;
+  margin: 9px auto 8px auto;
+}
+.error_page .error_page_wrapper p {
+  text-align: center;
+  line-height: 110%;
+}
+.error_page .error_page_wrapper p a {
+  color: #265af3;
+  font-weight: 900;
+}
+.error_page .error_page_wrapper p a:hover {
+  color: #587ef0;
+}
+.error_page .error_page_wrapper__name {
+  font-size: 25px;
+  font-weight: 900;
+}
+.error_page .error_page_wrapper__main_page {
+  font-size: 16.8px;
+  font-weight: bold;
+}
+
+#main_page #index_main_menu {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+#main_page #index_main_menu .cards_container__category {
+  width: 400px;
+  margin: 12px 0px 12px 0px;
+  padding: 10px 20px 10px 20px;
+  background-color: #ebebeb;
   border-radius: 5px;
-  font-family: "Montserrat";
-  font-size: 19px;
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
-main form button:enabled {
-  background-color: #000000;
+#main_page #index_main_menu .cards_container__category__name {
+  margin: 0px 0px 9px -7px;
+  font-size: 17px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #225479;
+}
+#main_page #index_main_menu .cards_container__category a {
+  text-decoration: none;
+  color: #000;
+}
+#main_page #index_main_menu .cards_container__category a .card {
+  display: flex;
+  align-items: center;
+  margin: 0px 0px 10px 0px;
+  padding: 8px 10px 8px 10px;
+  border-radius: 6px;
+  background-color: rgba(197, 191, 209, 0.2392156863);
+}
+#main_page #index_main_menu .cards_container__category a .card__pic {
+  margin: 0px 18px 0px 0px;
+}
+#main_page #index_main_menu .cards_container__category a .card__pic img {
+  max-width: 46px;
+  max-height: 46px;
+}
+#main_page #index_main_menu .cards_container__category a .card__name {
+  font-size: 16px;
+  font-weight: bold;
+}
+#main_page #index_main_menu .cards_container__category a .card:hover {
+  background-color: rgba(178, 193, 203, 0.5019607843);
+}
+
+#cash_inflow_page .cards_container .card {
+  width: 189px;
+  margin: 4px 2px 4px 2px;
+  padding: 7px 20px 7px 20px;
   color: #ffffff;
+  background-color: #535353;
 }
-main form button:visited {
-  border: none;
+#cash_inflow_page .cards_container .card__title {
+  text-transform: uppercase;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.2117647059);
+  font-size: 32px;
+  font-weight: 900;
 }
-main form select,
-main form input {
-  max-width: 320px;
-  flex: 2;
-  border: solid 1px #aaa;
-  border-radius: 3px;
-  font-family: "Montserrat";
+#cash_inflow_page .cards_container .card__cost {
+  margin: 5px 0px 0px 0px;
+  font-size: 15px;
+}
+#cash_inflow_page .itc_slider {
+  align-self: center;
+  width: 579px;
+  margin: 0px 0px 0px -4px;
+}
+#cash_inflow_page .itc_slider__wrapper .itc_slider__items {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+#cash_inflow_page .itc_slider__wrapper .itc_slider__items .card {
+  margin: 0 auto;
+  max-width: 200px;
+  border-radius: 0px;
+  border-left: solid 4px white;
+  background-color: #9c9c9c;
+  box-shadow: none;
+}
+#cash_inflow_page .itc_slider__wrapper .itc_slider__items .card__title {
+  font-size: 18px;
+}
+#cash_inflow_page .itc_slider__wrapper .itc_slider__items .card__cost {
+  font-size: 11px;
+}
+#cash_inflow_page .itc_slider__btn__prev, #cash_inflow_page .itc_slider__btn__next {
+  padding: 0px 0px 0px 0px;
+  border-radius: 0px;
+  background-color: rgba(57, 57, 57, 0.5215686275);
+  box-shadow: none;
+}
+#cash_inflow_page .itc_slider__btn__prev {
+  margin: 0px 0px 0px 4px;
+}
+#cash_inflow_page .window_form_in_page {
+  width: 575px;
+  margin: 20px 0px 20px 0px;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form {
+  padding: 0px 20px 0px 20px;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form #cash_inflow__hidden_label {
+  display: none;
+  margin: 0px 5px 15px 5px;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form h1 {
+  margin: 0px 0px 20px 0px;
+  padding: 0px 0px 5px 0px;
+  font-size: 25px;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form div {
+  margin: 0px 5px 10px 5px;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form div label {
+  font-size: 14px;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form #cash_inflow__description_wrapper {
+  flex-direction: column;
+  margin: 5px 5px 15px 5px;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form #cash_inflow__description_wrapper label {
+  align-self: start;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form #cash_inflow__description_wrapper textarea {
+  height: 90px;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form .select2-selection--single {
+  width: 320px;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form #cash_inflow__hidden_label .select2-container--default {
+  width: 320px !important;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form .button_wrapper {
+  align-self: end;
+  margin: 0px;
+}
+#cash_inflow_page .window_form_in_page #cash_inflow_form .button_wrapper button {
+  width: 150px;
+  height: 35px;
+  margin: 10px 0px 0px 0px;
+  font-size: 15px;
+}
+#cash_inflow_page #inflow_historical_data_table {
+  margin: 0 auto;
+  max-width: 980px;
+  width: 100%;
+}
+#cash_inflow_page #inflow_historical_data_table th,
+#cash_inflow_page #inflow_historical_data_table td {
+  padding: 2px 2px 2px 10px;
+}
+#cash_inflow_page #inflow_historical_data_table tr {
+  text-align: left;
+}
+#cash_inflow_page #inflow_historical_data_table tr .th_date__i {
+  width: 160px;
+  max-width: 25%;
+  font-weight: 900;
+  color: #00043f;
+}
+#cash_inflow_page #inflow_historical_data_table tr .th_sum__i {
+  width: 160px;
+  font-weight: bold;
+  color: #0d4300;
+}
+#cash_inflow_page #inflow_historical_data_table tr .th_coment__i .th_coment__company {
+  font-weight: 900;
+}
+#cash_inflow_page #inflow_historical_data_table .inflow_historical_data_table_h1 {
+  background-color: #003341;
+}
+#cash_inflow_page #inflow_historical_data_table .inflow_historical_data_table_h1 th {
+  text-align: center;
+  padding: 5px 5px 5px 5px;
+  font-size: 17px;
+}
+#cash_inflow_page #inflow_historical_data_table .inflow_historical_data_table_h2 {
+  background-color: #656565;
+}
+#cash_inflow_page #inflow_historical_data_table .inflow_historical_data_table_h2 th {
+  text-align: center;
+}
+#cash_inflow_page #inflow_historical_data_table__response {
+  display: none;
+}
+#cash_inflow_page #inflow_historical_data_table__response .inflow_historical_data_table_h1__response {
+  color: #ffffff;
+  background-color: #003341;
+}
+#cash_inflow_page #inflow_historical_data_table__response .inflow_historical_data_table_h1__response td {
+  text-align: center;
+  font-weight: 900;
+}
+#cash_inflow_page #inflow_historical_data_table__response td {
+  border-bottom: solid 1px rgb(255, 255, 255);
+  border-right: solid 2px rgb(255, 255, 255);
+}
+#cash_inflow_page #inflow_historical_data_table__response .table__value_head {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 0px 15px 0px;
+}
+#cash_inflow_page #inflow_historical_data_table__response .table__value_head__money {
+  font-size: 16px;
+  font-weight: 900;
+  color: #0d4300;
+}
+#cash_inflow_page #inflow_historical_data_table__response .table__value_head__time {
+  text-align: center;
+  width: 125px;
+  padding: 4px 5px 2px 4px;
+  font-size: 11px;
+  color: #ffffff;
+  background-color: rgba(147, 147, 147, 0.95);
+}
+#cash_inflow_page #inflow_historical_data_table__response .table__info__company {
+  font-weight: 900;
+}
+
+#new_payment_page .select2-results__group {
+  font-size: 15px;
+  font-weight: 900;
+  background-color: rgba(153, 153, 153, 0.2);
+}
+#new_payment_page #new_payment_form {
+  width: 600px;
+  padding: 0px 35px 0px 35px;
+}
+#new_payment_page #new_payment_form h1 {
+  margin: 10px 0px 15px -8px;
+  font-size: 26px;
+  padding: 0px 0px 8px 0px;
+  border-bottom: solid 2px rgba(173, 173, 173, 0.24);
+}
+#new_payment_page #new_payment_form h1 img {
+  margin: 0px 5px 5px 0px;
+}
+#new_payment_page #new_payment_form div {
+  margin: 0px 0px 12px 0px;
+}
+#new_payment_page #new_payment_form label {
+  font-size: 15px;
+}
+#new_payment_page #new_payment_form select optgroup {
+  font-size: 15px;
+  font-weight: 900;
+  background-color: rgba(215, 215, 215, 0.4117647059);
+}
+#new_payment_page #new_payment_form select optgroup option {
   font-size: 13px;
+  background-color: white;
 }
-main form select::-moz-placeholder {
-  color: #000000;
+#new_payment_page #new_payment_form #basis_of_payment {
+  height: 62px;
 }
-main form select,
-main form select::placeholder,
-main form input,
-main form textarea {
-  color: #000000;
+#new_payment_page #new_payment_form .form_p__description {
+  margin: 0px 0px 15px 0px;
+  font-size: 12px;
+  color: #757575;
 }
-main .not_form_button {
+#new_payment_page #new_payment_form .unitedform {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 0px 10px 0px;
+  padding: 10px 0px 0px 15px;
+  border-left: solid 2px rgba(128, 128, 128, 0.2705882353);
+  font-size: 14.5px;
+}
+#new_payment_page #new_payment_form .unitedform #objects_name_div {
+  display: none;
+}
+#new_payment_page #new_payment_form .unitedform #objects_name_div .select2-container--default {
+  width: 320px !important;
+}
+#new_payment_page #new_payment_form #payment_description {
+  margin-bottom: 13px;
+}
+#new_payment_page #new_payment_form .help_p {
+  max-width: 280px;
+  margin: 15px 0px 0px 0px;
+  padding: 5px 8px 5px 8px;
+  border-radius: 3px;
+  font-size: 13px;
+  background-color: rgba(255, 231, 145, 0.5411764706);
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+#new_payment_page #new_payment_form #submit_button_in_form {
+  width: 150px;
+  height: 35px;
+  margin: 15px 0px 18px 0px;
+  align-self: end;
+  font-size: 16px;
+}
+#new_payment_page .textarea_npp {
+  flex-direction: column;
+}
+#new_payment_page .textarea_npp label {
+  align-self: start;
+}
+
+.not_form_button {
   margin-top: 8px;
   padding: 7px 10px;
   float: right;
   border: none;
   border-radius: 5px;
   text-align: center;
-  font-family: "Montserrat";
   font-size: 15px;
   font-weight: bold;
   background-color: #393939;
@@ -581,477 +1004,15 @@ main .not_form_button {
   user-select: none;
   box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
 }
-main .not_form_button a {
+.not_form_button a {
   color: #ffffff;
   font-weight: bold;
   text-decoration: none;
 }
-main .focus_button {
+
+.focus_button {
   background-color: #ababab;
   box-shadow: none;
-}
-
-#login_page .auth_form {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 330px;
-  padding: 0px;
-  border-radius: 8px;
-  background-color: rgba(203, 203, 203, 0.3294117647);
-  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-}
-#login_page .auth_form form {
-  transform: translate(0%, 0%);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 530px;
-  margin: 20px 0px 12px 0px;
-  background-color: rgba(255, 255, 255, 0);
-  box-shadow: none;
-}
-#login_page .auth_form form h1 {
-  margin: 0px 0px 5px 0px;
-  padding: 0px 0px 7px 0px;
-  border-bottom: solid 1px rgba(173, 173, 173, 0.24);
-  border-left: none;
-  font-size: 24px;
-  font-weight: 900;
-}
-#login_page .auth_form form .auth_form__email,
-#login_page .auth_form form .auth_form__password {
-  margin: 10px 3px 2px 0;
-}
-#login_page .auth_form form .auth_form__email label,
-#login_page .auth_form form .auth_form__password label {
-  margin: 1px 0px 0px 7px;
-  font-size: 15px;
-}
-#login_page .auth_form form .auth_form__email input,
-#login_page .auth_form form .auth_form__password input {
-  max-width: 240px;
-  min-height: 24px;
-  padding: 4px 0px 4px 7px;
-}
-#login_page .auth_form form .checkbox_auth {
-  justify-content: end;
-  margin: -3px 5px 0px 0;
-  font-size: 13.5px;
-}
-#login_page .auth_form form .checkbox_auth div input {
-  min-width: 13px;
-  min-height: 13px;
-  flex: 0;
-}
-#login_page .auth_form form .checkbox_auth .checkbox_auth__label {
-  margin-left: 4px;
-}
-#login_page .auth_form form .button_enter {
-  max-width: 100%;
-  height: 30px;
-  font-size: 14px;
-  font-weight: bold;
-  background-color: #212121;
-  color: #ffffff;
-  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-}
-
-#register_page #logInfo {
-  max-width: 95%;
-}
-#register_page #register_form {
-  display: flex;
-  flex-direction: column;
-  max-width: 335px;
-}
-#register_page #register_form h1 {
-  margin: 15px 0px 10px 0px;
-  padding-bottom: 7px;
-  border-bottom: solid 2px rgba(173, 173, 173, 0.24);
-  font-size: 20px;
-}
-#register_page #register_form h1 img {
-  width: 49px;
-}
-#register_page #register_form div {
-  margin: 8px 10px 0px 12px;
-}
-#register_page #register_form div label {
-  margin-top: 3px;
-  margin-left: 3px;
-  font-size: 14px;
-}
-#register_page #register_form div input,
-#register_page #register_form div select {
-  max-width: 170px;
-  min-height: 24px;
-  padding: 4px 0px 4px 7px;
-}
-#register_page #register_form div select {
-  min-height: 27px;
-  background-size: 9px;
-  background-position: 96.9% center;
-}
-#register_page #register_form .btn_div {
-  min-width: 100%;
-  align-self: center;
-  margin: 24px 0px 20px 0px;
-}
-#register_page #register_form .btn_div #regBtn {
-  min-width: 100%;
-  padding: 8px 15px;
-  border-radius: 5px;
-  font-size: 14.5px;
-  font-weight: bold;
-  background-color: #000000;
-  color: #ffffff;
-}
-
-#error_page #logInfo {
-  display: none;
-}
-#error_page .error_page_wrapper {
-  padding: 20px;
-  margin: auto;
-}
-#error_page .error_page_wrapper .error_page_name {
-  font-size: 25px;
-  font-weight: 900;
-}
-#error_page .error_page_wrapper .error_page_name_main_page {
-  font-weight: bold;
-}
-#error_page .error_page_wrapper__info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-#error_page .error_page_wrapper img {
-  width: 170px;
-  margin: auto;
-  margin-top: 9px;
-  margin-bottom: 8px;
-}
-#error_page .error_page_wrapper p {
-  text-align: center;
-  font-size: 16.8px;
-  line-height: 110%;
-}
-#error_page .error_page_wrapper p a {
-  color: #265af3;
-  font-weight: 900;
-}
-#error_page .error_page_wrapper p a:hover {
-  color: #587ef0;
-}
-
-#main_page_page #index_main_menu {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-}
-#main_page_page #index_main_menu .cards_container__category {
-  width: 400px;
-  margin-bottom: 25px;
-  padding: 10px 20px;
-  background-color: #ebebeb;
-  border-radius: 5px;
-  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-}
-#main_page_page #index_main_menu .cards_container__category__name {
-  margin-bottom: 9px;
-  margin-left: -7px;
-  font-size: 17px;
-  font-weight: bold;
-  color: #225479;
-  text-transform: uppercase;
-}
-#main_page_page #index_main_menu .cards_container__category a {
-  text-decoration: none;
-}
-#main_page_page #index_main_menu .cards_container__category .card {
-  background-color: rgba(197, 191, 209, 0.2392156863);
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  padding: 8px 10px;
-  border-radius: 6px;
-}
-#main_page_page #index_main_menu .cards_container__category .card__pic {
-  margin-right: 18px;
-}
-#main_page_page #index_main_menu .cards_container__category .card__pic img {
-  max-width: 46px;
-  max-height: 46px;
-}
-#main_page_page #index_main_menu .cards_container__category .card__name {
-  font-size: 16px;
-  font-weight: bold;
-}
-#main_page_page #index_main_menu .cards_container__category .card:hover {
-  background-color: rgba(178, 193, 203, 0.5019607843);
-}
-
-#cash_inflow_page .money_input {
-  padding-left: 9px;
-}
-#cash_inflow_page .money_input::-moz-placeholder {
-  font-size: 12.5px;
-}
-#cash_inflow_page .money_input::placeholder {
-  font-size: 12.5px;
-}
-#cash_inflow_page .cards-container.cash-inflow {
-  flex-wrap: wrap;
-}
-#cash_inflow_page .cards-container.cash-inflow #cash_inflow__card {
-  width: 189px;
-  padding: 7px 20px;
-  margin: 4px 2px;
-  color: #ffffff;
-  background-color: #535353;
-}
-#cash_inflow_page .cards-container.cash-inflow #cash_inflow__card .card-title {
-  font-size: 32px;
-  font-weight: 900;
-  text-transform: uppercase;
-  border-bottom: solid 1px rgba(0, 0, 0, 0.2117647059);
-}
-#cash_inflow_page .cards-container.cash-inflow #cash_inflow__card .card-cost {
-  margin-top: 5px;
-  font-size: 15px;
-}
-#cash_inflow_page .cash_inflow__static {
-  margin-top: 10px;
-}
-#cash_inflow_page .itc-slider {
-  width: 579px;
-  align-self: center;
-  margin-left: -4px;
-}
-#cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items {
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-}
-#cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card {
-  max-width: 200px;
-  margin: 0 auto;
-  border-radius: 0px;
-  background-color: #9c9c9c;
-  border-left: solid 4px white;
-  box-shadow: none;
-}
-#cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card .card-title {
-  font-size: 18px;
-}
-#cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card .card-cost {
-  font-size: 11px;
-}
-#cash_inflow_page .itc-slider .itc-slider-btn-prev {
-  margin-left: 4px;
-}
-#cash_inflow_page #cash_inflow__form {
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
-  width: 580px;
-  margin: 30px 0px;
-}
-#cash_inflow_page #cash_inflow__form label {
-  font-size: 15px;
-  margin-top: 2px;
-}
-#cash_inflow_page #cash_inflow__form h1 {
-  margin: 25px 0px 0px 0px;
-  font-size: 26px;
-  padding-bottom: 8px;
-  border-bottom: solid 2px rgba(173, 173, 173, 0.24);
-}
-#cash_inflow_page #cash_inflow__form select:after {
-  padding-right: 50px;
-}
-#cash_inflow_page #cash_inflow__form .input_div {
-  flex-direction: column;
-  padding: 0px 18px;
-}
-#cash_inflow_page #cash_inflow__form .input_div #taker_company_div {
-  display: none;
-}
-#cash_inflow_page #cash_inflow__form #cash_inflow_sum {
-  min-height: 28px;
-}
-#cash_inflow_page #cash_inflow__form .cash_inflow_sum_label {
-  margin-bottom: -5px;
-}
-#cash_inflow_page #cash_inflow__form .select2-selection--single {
-  width: 320px;
-}
-#cash_inflow_page #cash_inflow__form .hidden_label .select2-container--default {
-  width: 320px !important;
-}
-#cash_inflow_page #cash_inflow__form textarea {
-  min-width: 450px;
-  margin-top: 4px;
-}
-#cash_inflow_page #cash_inflow__form #cash_inflow_description_div {
-  margin-bottom: -2px;
-}
-#cash_inflow_page #cash_inflow__form .right_button {
-  align-self: end;
-}
-#cash_inflow_page #inflow_historical_data-table {
-  max-width: 755px;
-  width: 100%;
-  margin: 0 auto;
-  margin-bottom: 20px;
-}
-#cash_inflow_page #inflow_historical_data-table th,
-#cash_inflow_page #inflow_historical_data-table td {
-  padding: 2px 2px 2px 10px;
-}
-#cash_inflow_page #inflow_historical_data-table .inflow_historical_data-table_h1 {
-  background-color: #292929;
-}
-#cash_inflow_page #inflow_historical_data-table .inflow_historical_data-table_h1 th {
-  padding: 5px;
-  font-size: 17px;
-}
-#cash_inflow_page #inflow_historical_data-table .inflow_historical_data-table_h2 {
-  background-color: #656565;
-}
-#cash_inflow_page #inflow_historical_data-table .th_date,
-#cash_inflow_page #inflow_historical_data-table .th_date__i {
-  width: 160px;
-  max-width: 25%;
-  text-align: center;
-}
-#cash_inflow_page #inflow_historical_data-table .th_sum,
-#cash_inflow_page #inflow_historical_data-table .th_sum_i {
-  width: 25%;
-  text-align: center;
-}
-#cash_inflow_page #inflow_historical_data-table .th_date__i {
-  text-align: left;
-}
-#cash_inflow_page #inflow_historical_data-table .th_sum {
-  width: 150px;
-}
-#cash_inflow_page #inflow_historical_data-table .th_coment__company {
-  font-weight: 900;
-}
-#cash_inflow_page #inflow_historical_data-table__response {
-  display: none;
-  width: 100%;
-  margin: 0 auto;
-  padding-bottom: 20px;
-}
-#cash_inflow_page #inflow_historical_data-table__response table {
-  width: 100%;
-  max-width: 100%;
-}
-#cash_inflow_page #inflow_historical_data-table__response table .table__value_head {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-#cash_inflow_page #inflow_historical_data-table__response table .table__value_head__money {
-  font-size: 16px;
-  font-weight: 900;
-  color: #0d4300;
-}
-#cash_inflow_page #inflow_historical_data-table__response table .table__value_head__time {
-  width: 125px;
-  padding: 4px 5px 2px 4px;
-  text-align: center;
-  font-size: 11px;
-  background-color: rgba(147, 147, 147, 0.95);
-  color: #ffffff;
-}
-#cash_inflow_page #inflow_historical_data-table__response table .table__info__company {
-  font-weight: 900;
-}
-#cash_inflow_page #inflow_historical_data-table__response table .inflow_historical_data-table_h1__response {
-  background-color: #000000;
-  color: #ffffff;
-}
-#cash_inflow_page #inflow_historical_data-table__response table .inflow_historical_data-table_h1__response td {
-  padding: 5px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 900;
-}
-
-#new-payment_page #new_payment {
-  padding: 0px 35px;
-}
-#new-payment_page #new_payment h1 {
-  margin: 25px 0px 15px -8px;
-  font-size: 26px;
-  padding-bottom: 8px;
-  border-bottom: solid 2px rgba(173, 173, 173, 0.24);
-}
-#new-payment_page #new_payment h1 img {
-  margin-right: 5px;
-  margin-bottom: 5px;
-}
-#new-payment_page #new_payment label {
-  font-size: 15px;
-}
-#new-payment_page #new_payment #basis_of_payment {
-  height: 62px;
-}
-#new-payment_page #new_payment input {
-  min-height: 28px;
-  padding-left: 8px;
-}
-#new-payment_page #new_payment select optgroup {
-  font-size: 15px;
-  font-weight: 900;
-  background-color: rgba(215, 215, 215, 0.4117647059);
-}
-#new-payment_page #new_payment select optgroup option {
-  font-size: 13px;
-  background-color: white;
-}
-#new-payment_page #new_payment .form_description {
-  margin-bottom: 20px;
-  font-size: 12px;
-  color: #757575;
-}
-#new-payment_page #new_payment .unitedform {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 16px;
-  margin-left: 15px;
-  padding: 0px 0px 8px 15px;
-  border-left: solid 2px rgba(128, 128, 128, 0.2705882353);
-  font-size: 14.5px;
-}
-#new-payment_page #new_payment .unitedform .hidden_label {
-  display: none;
-}
-#new-payment_page #new_payment .unitedform .hidden_label .select2-container--default {
-  width: 302px !important;
-}
-#new-payment_page #new_payment .help_p {
-  max-width: 280px;
-  margin-top: 30px;
-  padding: 5px 8px 5px 8px;
-  border-radius: 3px;
-  font-size: 13px;
-  background-color: rgba(255, 231, 145, 0.5411764706);
-  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-}
-#new-payment_page #new_payment #submitBtn {
-  margin-top: 10px;
-  font-weight: bold;
-}
-#new-payment_page .select2-results__group {
-  font-size: 15px;
-  font-weight: 900;
-  background-color: rgba(153, 153, 153, 0.2);
 }
 
 #payment-approval_page main,
@@ -1083,48 +1044,48 @@ main .focus_button {
   border-bottom: solid 2px rgba(221, 217, 217, 0.7215686275);
   font-size: 34px;
 }
-#payment-approval_page .tpages_top_panel .cards-container,
-#payment-approval-list_page .tpages_top_panel .cards-container,
-#payment-paid-list_page .tpages_top_panel .cards-container,
-#payment-pay_page .tpages_top_panel .cards-container {
+#payment-approval_page .tpages_top_panel .cards_container,
+#payment-approval-list_page .tpages_top_panel .cards_container,
+#payment-paid-list_page .tpages_top_panel .cards_container,
+#payment-pay_page .tpages_top_panel .cards_container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
-#payment-approval_page .tpages_top_panel .cards-container .card,
-#payment-approval-list_page .tpages_top_panel .cards-container .card,
-#payment-paid-list_page .tpages_top_panel .cards-container .card,
-#payment-pay_page .tpages_top_panel .cards-container .card {
+#payment-approval_page .tpages_top_panel .cards_container .card,
+#payment-approval-list_page .tpages_top_panel .cards_container .card,
+#payment-paid-list_page .tpages_top_panel .cards_container .card,
+#payment-pay_page .tpages_top_panel .cards_container .card {
   padding: 10px 15px;
   margin: 10px;
   max-width: 300px;
   background-color: #ebebeb;
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
-#payment-approval_page .tpages_top_panel .cards-container .card .card-title,
-#payment-approval-list_page .tpages_top_panel .cards-container .card .card-title,
-#payment-paid-list_page .tpages_top_panel .cards-container .card .card-title,
-#payment-pay_page .tpages_top_panel .cards-container .card .card-title {
+#payment-approval_page .tpages_top_panel .cards_container .card .card__title,
+#payment-approval-list_page .tpages_top_panel .cards_container .card .card__title,
+#payment-paid-list_page .tpages_top_panel .cards_container .card .card__title,
+#payment-pay_page .tpages_top_panel .cards_container .card .card__title {
   border-bottom: solid 1px #d5d5d5;
   font-weight: bold;
   font-size: 27px;
 }
-#payment-approval_page .tpages_top_panel .cards-container .card .card-cost,
-#payment-approval-list_page .tpages_top_panel .cards-container .card .card-cost,
-#payment-paid-list_page .tpages_top_panel .cards-container .card .card-cost,
-#payment-pay_page .tpages_top_panel .cards-container .card .card-cost {
+#payment-approval_page .tpages_top_panel .cards_container .card .card__cost,
+#payment-approval-list_page .tpages_top_panel .cards_container .card .card__cost,
+#payment-paid-list_page .tpages_top_panel .cards_container .card .card__cost,
+#payment-pay_page .tpages_top_panel .cards_container .card .card__cost {
   margin-top: 5px;
   color: #808080;
   font-size: 13px;
 }
-#payment-approval_page .tpages_top_panel .cards-container #card_available_money_alp,
-#payment-approval_page .tpages_top_panel .cards-container #card_account_money_alp,
-#payment-approval-list_page .tpages_top_panel .cards-container #card_available_money_alp,
-#payment-approval-list_page .tpages_top_panel .cards-container #card_account_money_alp,
-#payment-paid-list_page .tpages_top_panel .cards-container #card_available_money_alp,
-#payment-paid-list_page .tpages_top_panel .cards-container #card_account_money_alp,
-#payment-pay_page .tpages_top_panel .cards-container #card_available_money_alp,
-#payment-pay_page .tpages_top_panel .cards-container #card_account_money_alp {
+#payment-approval_page .tpages_top_panel .cards_container #card_available_money_alp,
+#payment-approval_page .tpages_top_panel .cards_container #card_account_money_alp,
+#payment-approval-list_page .tpages_top_panel .cards_container #card_available_money_alp,
+#payment-approval-list_page .tpages_top_panel .cards_container #card_account_money_alp,
+#payment-paid-list_page .tpages_top_panel .cards_container #card_available_money_alp,
+#payment-paid-list_page .tpages_top_panel .cards_container #card_account_money_alp,
+#payment-pay_page .tpages_top_panel .cards_container #card_available_money_alp,
+#payment-pay_page .tpages_top_panel .cards_container #card_account_money_alp {
   min-width: 340px;
 }
 #payment-approval_page .tpages_top_panel #payment-approval__menu,
@@ -1169,6 +1130,8 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog,
 #payment-paid-list_page #payment-approval__dialog,
 #payment-pay_page #payment-approval__dialog {
+  top: 50%;
+  min-width: 650px;
   border: none;
   border-radius: 7px;
   background-color: #f3f5f5;
@@ -1218,6 +1181,7 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__edit form div label,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form div label,
 #payment-pay_page #payment-approval__dialog__menu__edit form div label {
+  align-self: start;
   margin-bottom: 2px;
   margin-left: -1px;
   font-size: 13px;
@@ -1234,14 +1198,11 @@ main .focus_button {
 #payment-paid-list_page #payment-approval__dialog__menu__edit form div select,
 #payment-pay_page #payment-approval__dialog__menu__edit form div select {
   font-size: 11.4px;
-  padding-top: 2px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form div input,
 #payment-approval-list_page #payment-approval__dialog__menu__edit form div input,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form div input,
 #payment-pay_page #payment-approval__dialog__menu__edit form div input {
-  min-height: 28px;
-  padding-left: 8px;
   font-size: 11.4px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit form div input::-moz-placeholder, #payment-approval-list_page #payment-approval__dialog__menu__edit form div input::-moz-placeholder, #payment-paid-list_page #payment-approval__dialog__menu__edit form div input::-moz-placeholder, #payment-pay_page #payment-approval__dialog__menu__edit form div input::-moz-placeholder {
@@ -1568,6 +1529,7 @@ main .focus_button {
 #payment-paid-list_page #logDPage,
 #payment-pay_page #logDPage {
   width: 780px;
+  max-width: 780px;
   height: 300px;
   border: none;
   border-radius: 5px;
@@ -1662,10 +1624,14 @@ main .focus_button {
   cursor: pointer;
   box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
 }
-#payment-approval_page #tableCustom,
-#payment-approval-list_page #tableCustom,
-#payment-paid-list_page #tableCustom,
-#payment-pay_page #tableCustom {
+#payment-approval_page #tableCustomPA,
+#payment-approval_page #tableCustomPAL,
+#payment-approval-list_page #tableCustomPA,
+#payment-approval-list_page #tableCustomPAL,
+#payment-paid-list_page #tableCustomPA,
+#payment-paid-list_page #tableCustomPAL,
+#payment-pay_page #tableCustomPA,
+#payment-pay_page #tableCustomPAL {
   width: 314px;
   height: 680px;
   border: none;
@@ -1673,10 +1639,14 @@ main .focus_button {
   background-color: #f7f7f7;
   box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
 }
-#payment-approval_page #tableCustom h2,
-#payment-approval-list_page #tableCustom h2,
-#payment-paid-list_page #tableCustom h2,
-#payment-pay_page #tableCustom h2 {
+#payment-approval_page #tableCustomPA h2,
+#payment-approval_page #tableCustomPAL h2,
+#payment-approval-list_page #tableCustomPA h2,
+#payment-approval-list_page #tableCustomPAL h2,
+#payment-paid-list_page #tableCustomPA h2,
+#payment-paid-list_page #tableCustomPAL h2,
+#payment-pay_page #tableCustomPA h2,
+#payment-pay_page #tableCustomPAL h2 {
   display: flex;
   width: 250px;
   margin: 10px 0px 0px 16px;
@@ -1684,18 +1654,26 @@ main .focus_button {
   font-size: 25px;
   font-weight: 900;
 }
-#payment-approval_page #tableCustom h2 img,
-#payment-approval-list_page #tableCustom h2 img,
-#payment-paid-list_page #tableCustom h2 img,
-#payment-pay_page #tableCustom h2 img {
+#payment-approval_page #tableCustomPA h2 img,
+#payment-approval_page #tableCustomPAL h2 img,
+#payment-approval-list_page #tableCustomPA h2 img,
+#payment-approval-list_page #tableCustomPAL h2 img,
+#payment-paid-list_page #tableCustomPA h2 img,
+#payment-paid-list_page #tableCustomPAL h2 img,
+#payment-pay_page #tableCustomPA h2 img,
+#payment-pay_page #tableCustomPAL h2 img {
   width: 23px;
   height: 23px;
   margin: 6px 8px 0px 0px;
 }
-#payment-approval_page #tableCustom form,
-#payment-approval-list_page #tableCustom form,
-#payment-paid-list_page #tableCustom form,
-#payment-pay_page #tableCustom form {
+#payment-approval_page #tableCustomPA form,
+#payment-approval_page #tableCustomPAL form,
+#payment-approval-list_page #tableCustomPA form,
+#payment-approval-list_page #tableCustomPAL form,
+#payment-paid-list_page #tableCustomPA form,
+#payment-paid-list_page #tableCustomPAL form,
+#payment-pay_page #tableCustomPA form,
+#payment-pay_page #tableCustomPAL form {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -1704,47 +1682,71 @@ main .focus_button {
   background-color: rgba(255, 255, 255, 0);
   box-shadow: none;
 }
-#payment-approval_page #tableCustom form table,
-#payment-approval-list_page #tableCustom form table,
-#payment-paid-list_page #tableCustom form table,
-#payment-pay_page #tableCustom form table {
+#payment-approval_page #tableCustomPA form table,
+#payment-approval_page #tableCustomPAL form table,
+#payment-approval-list_page #tableCustomPA form table,
+#payment-approval-list_page #tableCustomPAL form table,
+#payment-paid-list_page #tableCustomPA form table,
+#payment-paid-list_page #tableCustomPAL form table,
+#payment-pay_page #tableCustomPA form table,
+#payment-pay_page #tableCustomPAL form table {
   max-width: 260px;
   margin: 0 auto;
 }
-#payment-approval_page #tableCustom form table tr .ttdname,
-#payment-approval-list_page #tableCustom form table tr .ttdname,
-#payment-paid-list_page #tableCustom form table tr .ttdname,
-#payment-pay_page #tableCustom form table tr .ttdname {
+#payment-approval_page #tableCustomPA form table tr .ttdname,
+#payment-approval_page #tableCustomPAL form table tr .ttdname,
+#payment-approval-list_page #tableCustomPA form table tr .ttdname,
+#payment-approval-list_page #tableCustomPAL form table tr .ttdname,
+#payment-paid-list_page #tableCustomPA form table tr .ttdname,
+#payment-paid-list_page #tableCustomPAL form table tr .ttdname,
+#payment-pay_page #tableCustomPA form table tr .ttdname,
+#payment-pay_page #tableCustomPAL form table tr .ttdname {
   width: 200px;
   font-weight: bold;
 }
-#payment-approval_page #tableCustom form table tr .ttdcbox,
-#payment-approval-list_page #tableCustom form table tr .ttdcbox,
-#payment-paid-list_page #tableCustom form table tr .ttdcbox,
-#payment-pay_page #tableCustom form table tr .ttdcbox {
+#payment-approval_page #tableCustomPA form table tr .ttdcbox,
+#payment-approval_page #tableCustomPAL form table tr .ttdcbox,
+#payment-approval-list_page #tableCustomPA form table tr .ttdcbox,
+#payment-approval-list_page #tableCustomPAL form table tr .ttdcbox,
+#payment-paid-list_page #tableCustomPA form table tr .ttdcbox,
+#payment-paid-list_page #tableCustomPAL form table tr .ttdcbox,
+#payment-pay_page #tableCustomPA form table tr .ttdcbox,
+#payment-pay_page #tableCustomPAL form table tr .ttdcbox {
   width: 50px;
   padding: 0px;
   text-align: center;
 }
-#payment-approval_page #tableCustom form table tr .ttdcbox input,
-#payment-approval-list_page #tableCustom form table tr .ttdcbox input,
-#payment-paid-list_page #tableCustom form table tr .ttdcbox input,
-#payment-pay_page #tableCustom form table tr .ttdcbox input {
+#payment-approval_page #tableCustomPA form table tr .ttdcbox input,
+#payment-approval_page #tableCustomPAL form table tr .ttdcbox input,
+#payment-approval-list_page #tableCustomPA form table tr .ttdcbox input,
+#payment-approval-list_page #tableCustomPAL form table tr .ttdcbox input,
+#payment-paid-list_page #tableCustomPA form table tr .ttdcbox input,
+#payment-paid-list_page #tableCustomPAL form table tr .ttdcbox input,
+#payment-pay_page #tableCustomPA form table tr .ttdcbox input,
+#payment-pay_page #tableCustomPAL form table tr .ttdcbox input {
   zoom: 2;
 }
-#payment-approval_page #tableCustom form #closeBtnTC,
-#payment-approval-list_page #tableCustom form #closeBtnTC,
-#payment-paid-list_page #tableCustom form #closeBtnTC,
-#payment-pay_page #tableCustom form #closeBtnTC {
+#payment-approval_page #tableCustomPA form #closeBtnTC,
+#payment-approval_page #tableCustomPAL form #closeBtnTC,
+#payment-approval-list_page #tableCustomPA form #closeBtnTC,
+#payment-approval-list_page #tableCustomPAL form #closeBtnTC,
+#payment-paid-list_page #tableCustomPA form #closeBtnTC,
+#payment-paid-list_page #tableCustomPAL form #closeBtnTC,
+#payment-pay_page #tableCustomPA form #closeBtnTC,
+#payment-pay_page #tableCustomPAL form #closeBtnTC {
   width: 100%;
   margin: 22px 0px 0px 0px;
   font-size: 15px;
   font-weight: bold;
 }
-#payment-approval_page #tableCustom #crossBtnTC,
-#payment-approval-list_page #tableCustom #crossBtnTC,
-#payment-paid-list_page #tableCustom #crossBtnTC,
-#payment-pay_page #tableCustom #crossBtnTC {
+#payment-approval_page #tableCustomPA #crossBtnTC,
+#payment-approval_page #tableCustomPAL #crossBtnTC,
+#payment-approval-list_page #tableCustomPA #crossBtnTC,
+#payment-approval-list_page #tableCustomPAL #crossBtnTC,
+#payment-paid-list_page #tableCustomPA #crossBtnTC,
+#payment-paid-list_page #tableCustomPAL #crossBtnTC,
+#payment-pay_page #tableCustomPA #crossBtnTC,
+#payment-pay_page #tableCustomPAL #crossBtnTC {
   position: absolute;
   width: 25px;
   top: 1.5%;
@@ -1762,255 +1764,188 @@ main .focus_button {
   background-color: rgba(255, 255, 255, 0);
   box-shadow: none;
 }
-#payment-approval_page #paymentForm .paymentFormBtn,
-#payment-approval-list_page #paymentForm .paymentFormBtn,
-#payment-paid-list_page #paymentForm .paymentFormBtn,
-#payment-pay_page #paymentForm .paymentFormBtn {
+
+.paymentFormBtn {
   display: flex;
   justify-content: space-between;
-  margin: 0px;
+  margin: 0px 0px 20px 0px;
+  border-top: solid 2px rgba(167, 167, 167, 0.1411764706);
+  margin-top: 15px;
 }
-#payment-approval_page #paymentForm .paymentFormBtn button,
-#payment-approval-list_page #paymentForm .paymentFormBtn button,
-#payment-paid-list_page #paymentForm .paymentFormBtn button,
-#payment-pay_page #paymentForm .paymentFormBtn button {
+.paymentFormBtn button {
   margin-top: 20px;
   font-weight: bold;
   cursor: pointer;
 }
-#payment-approval_page #paymentForm .paymentFormBtn #visualTable,
-#payment-approval-list_page #paymentForm .paymentFormBtn #visualTable,
-#payment-paid-list_page #paymentForm .paymentFormBtn #visualTable,
-#payment-pay_page #paymentForm .paymentFormBtn #visualTable {
+.paymentFormBtn #visualTablePA,
+.paymentFormBtn #submitButton {
+  justify-content: center;
   width: 242px;
   display: flex;
   align-items: center;
   background-color: #5d5d5d;
   font-size: 14px;
 }
-#payment-approval_page #paymentForm .paymentFormBtn #visualTable img,
-#payment-approval-list_page #paymentForm .paymentFormBtn #visualTable img,
-#payment-paid-list_page #paymentForm .paymentFormBtn #visualTable img,
-#payment-pay_page #paymentForm .paymentFormBtn #visualTable img {
+.paymentFormBtn #visualTablePA img,
+.paymentFormBtn #submitButton img {
   width: 23px;
   margin-right: 8px;
 }
-#payment-approval_page #paymentForm .tableR,
-#payment-approval-list_page #paymentForm .tableR,
-#payment-paid-list_page #paymentForm .tableR,
-#payment-pay_page #paymentForm .tableR {
-  max-height: calc(100vh - 490px);
+.paymentFormBtn #visualTablePA {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-family: "Montserrat";
+  color: #ffffff;
+}
+
+.tableR {
+  max-height: calc(100vh - 510px);
   overflow-x: scroll;
   margin: 0px 0 5px 0;
 }
-#payment-approval_page #paymentForm .tableR::-webkit-scrollbar,
-#payment-approval-list_page #paymentForm .tableR::-webkit-scrollbar,
-#payment-paid-list_page #paymentForm .tableR::-webkit-scrollbar,
-#payment-pay_page #paymentForm .tableR::-webkit-scrollbar {
+.tableR::-webkit-scrollbar {
   height: 6px;
   width: 6px;
   background-color: #d7d7d7;
 }
-#payment-approval_page #paymentForm .tableR::-webkit-scrollbar-track,
-#payment-approval-list_page #paymentForm .tableR::-webkit-scrollbar-track,
-#payment-paid-list_page #paymentForm .tableR::-webkit-scrollbar-track,
-#payment-pay_page #paymentForm .tableR::-webkit-scrollbar-track {
+.tableR::-webkit-scrollbar-track {
   background-color: #d7d7d7;
 }
-#payment-approval_page #paymentForm .tableR::-webkit-scrollbar-thumb,
-#payment-approval-list_page #paymentForm .tableR::-webkit-scrollbar-thumb,
-#payment-paid-list_page #paymentForm .tableR::-webkit-scrollbar-thumb,
-#payment-pay_page #paymentForm .tableR::-webkit-scrollbar-thumb {
+.tableR::-webkit-scrollbar-thumb {
   background-color: #939393;
 }
-#payment-approval_page #paymentForm .tableR table,
-#payment-approval-list_page #paymentForm .tableR table,
-#payment-paid-list_page #paymentForm .tableR table,
-#payment-pay_page #paymentForm .tableR table {
+.tableR table {
   width: 100%;
   height: 100%;
 }
-#payment-approval_page #paymentForm .tableR table .paymentFormBold,
-#payment-approval-list_page #paymentForm .tableR table .paymentFormBold,
-#payment-paid-list_page #paymentForm .tableR table .paymentFormBold,
-#payment-pay_page #paymentForm .tableR table .paymentFormBold {
+.tableR table .paymentFormBold {
   font-weight: 900;
 }
-#payment-approval_page #paymentForm .tableR table thead tr th,
-#payment-approval-list_page #paymentForm .tableR table thead tr th,
-#payment-paid-list_page #paymentForm .tableR table thead tr th,
-#payment-pay_page #paymentForm .tableR table thead tr th {
-  font-size: 13px;
+.tableR table thead tr th {
+  font-size: 10px;
 }
-#payment-approval_page #paymentForm .tableR table .fix_thead,
-#payment-approval-list_page #paymentForm .tableR table .fix_thead,
-#payment-paid-list_page #paymentForm .tableR table .fix_thead,
-#payment-pay_page #paymentForm .tableR table .fix_thead {
+.tableR table .fix_thead {
   position: sticky;
   top: 0px;
 }
-#payment-approval_page #paymentForm .tableR table tbody tr td,
-#payment-approval-list_page #paymentForm .tableR table tbody tr td,
-#payment-paid-list_page #paymentForm .tableR table tbody tr td,
-#payment-pay_page #paymentForm .tableR table tbody tr td {
+.tableR table .fix_thead tr th div {
+  justify-content: center;
+}
+.tableR table .fix_thead tr th .arrow_sort {
+  justify-content: right;
+  margin: -8px 0px 5px 0px;
+  font-size: 18px;
+  color: #dfcb7c;
+}
+.tableR table tbody tr td {
   font-size: 13px;
 }
-#payment-approval_page #paymentForm .tableR table input,
-#payment-approval_page #paymentForm .tableR table select,
-#payment-approval-list_page #paymentForm .tableR table input,
-#payment-approval-list_page #paymentForm .tableR table select,
-#payment-paid-list_page #paymentForm .tableR table input,
-#payment-paid-list_page #paymentForm .tableR table select,
-#payment-pay_page #paymentForm .tableR table input,
-#payment-pay_page #paymentForm .tableR table select {
+.tableR table input,
+.tableR table select {
   font-size: 11px;
 }
-#payment-approval_page #paymentForm .tableR table input[type=checkbox],
-#payment-approval-list_page #paymentForm .tableR table input[type=checkbox],
-#payment-paid-list_page #paymentForm .tableR table input[type=checkbox],
-#payment-pay_page #paymentForm .tableR table input[type=checkbox] {
+.tableR table input[type=checkbox] {
   zoom: 2;
 }
-#payment-approval_page #paymentForm .tableR table .th_select_i,
-#payment-approval_page #paymentForm .tableR table .th_pay_date_i,
-#payment-approval_page #paymentForm .tableR table .th_date_create_i,
-#payment-approval_page #paymentForm .tableR table .th_save_pay_i,
-#payment-approval-list_page #paymentForm .tableR table .th_select_i,
-#payment-approval-list_page #paymentForm .tableR table .th_pay_date_i,
-#payment-approval-list_page #paymentForm .tableR table .th_date_create_i,
-#payment-approval-list_page #paymentForm .tableR table .th_save_pay_i,
-#payment-paid-list_page #paymentForm .tableR table .th_select_i,
-#payment-paid-list_page #paymentForm .tableR table .th_pay_date_i,
-#payment-paid-list_page #paymentForm .tableR table .th_date_create_i,
-#payment-paid-list_page #paymentForm .tableR table .th_save_pay_i,
-#payment-pay_page #paymentForm .tableR table .th_select_i,
-#payment-pay_page #paymentForm .tableR table .th_pay_date_i,
-#payment-pay_page #paymentForm .tableR table .th_date_create_i,
-#payment-pay_page #paymentForm .tableR table .th_save_pay_i {
+.tableR table .th_select_i,
+.tableR table .th_pay_date_i,
+.tableR table .th_date_create_i,
+.tableR table .th_save_pay_i {
   text-align: center;
 }
-#payment-approval_page #paymentForm .tableR table .th_select,
-#payment-approval_page #paymentForm .tableR table .th_select_i,
-#payment-approval-list_page #paymentForm .tableR table .th_select,
-#payment-approval-list_page #paymentForm .tableR table .th_select_i,
-#payment-paid-list_page #paymentForm .tableR table .th_select,
-#payment-paid-list_page #paymentForm .tableR table .th_select_i,
-#payment-pay_page #paymentForm .tableR table .th_select,
-#payment-pay_page #paymentForm .tableR table .th_select_i {
+.tableR table .th_select,
+.tableR table .th_select_i {
   max-width: 73px;
   width: 73px;
 }
-#payment-approval_page #paymentForm .tableR table .th_category_i,
-#payment-approval-list_page #paymentForm .tableR table .th_category_i,
-#payment-paid-list_page #paymentForm .tableR table .th_category_i,
-#payment-pay_page #paymentForm .tableR table .th_category_i {
+.tableR table .th_company,
+.tableR table .th_company_i {
+  min-width: 80px;
+  width: 80px;
+  max-width: 85px;
+  text-align: center;
+}
+.tableR table .th_company_i {
+  color: #ffffff;
+  background-color: #757575;
+  font-weight: 900;
+}
+.tableR table .th_category_i {
   max-width: 170px;
   min-width: 165px;
   font-weight: bold;
 }
-#payment-approval_page #paymentForm .tableR table .th_name_i,
-#payment-approval-list_page #paymentForm .tableR table .th_name_i,
-#payment-paid-list_page #paymentForm .tableR table .th_name_i,
-#payment-pay_page #paymentForm .tableR table .th_name_i {
+.tableR table .th_paynumber,
+.tableR table .th_paynumber_i {
+  min-width: 172px;
+  width: 230px;
+}
+.tableR table .th_name_i {
   max-width: 320px;
   min-width: 250px;
   color: #242e7b;
   cursor: pointer;
 }
-#payment-approval_page #paymentForm .tableR table .th_description_i,
-#payment-approval-list_page #paymentForm .tableR table .th_description_i,
-#payment-paid-list_page #paymentForm .tableR table .th_description_i,
-#payment-pay_page #paymentForm .tableR table .th_description_i {
+.tableR table .th_name_i2 {
+  max-width: 320px;
+  min-width: 250px;
+}
+.tableR table .th_description_i {
   max-width: 500px;
   min-width: 320px;
 }
-#payment-approval_page #paymentForm .tableR table .th_object_i,
-#payment-approval-list_page #paymentForm .tableR table .th_object_i,
-#payment-paid-list_page #paymentForm .tableR table .th_object_i,
-#payment-pay_page #paymentForm .tableR table .th_object_i {
+.tableR table .th_object_i {
   max-width: 215px;
   min-width: 175px;
   font-weight: bold;
 }
-#payment-approval_page #paymentForm .tableR table .th_responsible_i,
-#payment-approval-list_page #paymentForm .tableR table .th_responsible_i,
-#payment-paid-list_page #paymentForm .tableR table .th_responsible_i,
-#payment-pay_page #paymentForm .tableR table .th_responsible_i {
+.tableR table .th_responsible_i {
   width: 150px;
   min-width: 150px;
 }
-#payment-approval_page #paymentForm .tableR table .th_contractor,
-#payment-approval-list_page #paymentForm .tableR table .th_contractor,
-#payment-paid-list_page #paymentForm .tableR table .th_contractor,
-#payment-pay_page #paymentForm .tableR table .th_contractor {
+.tableR table .th_contractor {
   min-width: 210px;
 }
-#payment-approval_page #paymentForm .tableR table .th_main_sum_i,
-#payment-approval-list_page #paymentForm .tableR table .th_main_sum_i,
-#payment-paid-list_page #paymentForm .tableR table .th_main_sum_i,
-#payment-pay_page #paymentForm .tableR table .th_main_sum_i {
+.tableR table .th_main_sum_i {
   width: 140px;
   min-width: 140px;
   font-weight: 900;
 }
-#payment-approval_page #paymentForm .tableR table .th_sum_remain_i,
-#payment-approval-list_page #paymentForm .tableR table .th_sum_remain_i,
-#payment-paid-list_page #paymentForm .tableR table .th_sum_remain_i,
-#payment-pay_page #paymentForm .tableR table .th_sum_remain_i {
+.tableR table .th_sum_remain_i {
   width: 140px;
   min-width: 140px;
   font-weight: bold;
 }
-#payment-approval_page #paymentForm .tableR table .th_sum_agreed,
-#payment-approval-list_page #paymentForm .tableR table .th_sum_agreed,
-#payment-paid-list_page #paymentForm .tableR table .th_sum_agreed,
-#payment-pay_page #paymentForm .tableR table .th_sum_agreed {
+.tableR table .th_sum_agreed {
   width: 170px;
 }
-#payment-approval_page #paymentForm .tableR table .th_sum_agreed_i input,
-#payment-approval-list_page #paymentForm .tableR table .th_sum_agreed_i input,
-#payment-paid-list_page #paymentForm .tableR table .th_sum_agreed_i input,
-#payment-pay_page #paymentForm .tableR table .th_sum_agreed_i input {
+.tableR table .th_sum_agreed_i input {
   max-width: 135px;
   min-width: 100%;
-  padding: 4px 7px;
   font-size: 13px;
 }
-#payment-approval_page #paymentForm .tableR table .th_pay_date_i,
-#payment-approval-list_page #paymentForm .tableR table .th_pay_date_i,
-#payment-paid-list_page #paymentForm .tableR table .th_pay_date_i,
-#payment-pay_page #paymentForm .tableR table .th_pay_date_i {
+.tableR table .th_pay_date_i {
   width: 100px;
 }
-#payment-approval_page #paymentForm .tableR table .th_date_create,
-#payment-approval-list_page #paymentForm .tableR table .th_date_create,
-#payment-paid-list_page #paymentForm .tableR table .th_date_create,
-#payment-pay_page #paymentForm .tableR table .th_date_create {
+.tableR table .th_date_create {
   width: 100px;
 }
-#payment-approval_page #paymentForm .tableR table .th_status_i,
-#payment-approval-list_page #paymentForm .tableR table .th_status_i,
-#payment-paid-list_page #paymentForm .tableR table .th_status_i,
-#payment-pay_page #paymentForm .tableR table .th_status_i {
+.tableR table .th_due_date,
+.tableR table .th_due_date_i {
+  width: 100px;
+  text-align: center;
+}
+.tableR table .th_status_i {
   width: 160px;
   min-width: 160px;
 }
-#payment-approval_page #paymentForm .tableR table .th_status_i select,
-#payment-approval-list_page #paymentForm .tableR table .th_status_i select,
-#payment-paid-list_page #paymentForm .tableR table .th_status_i select,
-#payment-pay_page #paymentForm .tableR table .th_status_i select {
+.tableR table .th_status_i select {
   min-width: 100%;
-  background-position: 96% center;
   font-size: 13px;
 }
-#payment-approval_page #paymentForm .tableR table .th_save_pay,
-#payment-approval_page #paymentForm .tableR table .th_save_pay_i,
-#payment-approval-list_page #paymentForm .tableR table .th_save_pay,
-#payment-approval-list_page #paymentForm .tableR table .th_save_pay_i,
-#payment-paid-list_page #paymentForm .tableR table .th_save_pay,
-#payment-paid-list_page #paymentForm .tableR table .th_save_pay_i,
-#payment-pay_page #paymentForm .tableR table .th_save_pay,
-#payment-pay_page #paymentForm .tableR table .th_save_pay_i {
+.tableR table .th_save_pay,
+.tableR table .th_save_pay_i {
   max-width: 90px;
   width: 90px;
 }
@@ -2037,7 +1972,7 @@ main .focus_button {
   #payment-paid-list_page .tpages_top_panel,
   #payment-pay_page .tpages_top_panel {
     width: 500px;
-    padding-left: 15px;
+    padding: 0px 0px 0px 15px;
   }
   #payment-approval_page .tpages_top_panel h1,
   #payment-approval-list_page .tpages_top_panel h1,
@@ -2046,16 +1981,16 @@ main .focus_button {
     width: 100%;
     font-size: 29px;
   }
-  #payment-approval_page .tpages_top_panel .cards-container,
-  #payment-approval-list_page .tpages_top_panel .cards-container,
-  #payment-paid-list_page .tpages_top_panel .cards-container,
-  #payment-pay_page .tpages_top_panel .cards-container {
+  #payment-approval_page .tpages_top_panel .cards_container,
+  #payment-approval-list_page .tpages_top_panel .cards_container,
+  #payment-paid-list_page .tpages_top_panel .cards_container,
+  #payment-pay_page .tpages_top_panel .cards_container {
     flex-direction: column;
   }
-  #payment-approval_page .tpages_top_panel .cards-container .card,
-  #payment-approval-list_page .tpages_top_panel .cards-container .card,
-  #payment-paid-list_page .tpages_top_panel .cards-container .card,
-  #payment-pay_page .tpages_top_panel .cards-container .card {
+  #payment-approval_page .tpages_top_panel .cards_container .card,
+  #payment-approval-list_page .tpages_top_panel .cards_container .card,
+  #payment-paid-list_page .tpages_top_panel .cards_container .card,
+  #payment-pay_page .tpages_top_panel .cards_container .card {
     max-width: 100%;
   }
   #payment-approval_page .tpages_top_panel #payment-approval__menu,
@@ -2076,113 +2011,100 @@ main .focus_button {
   header #menu {
     width: 100%;
   }
-  header #menu .menu_content {
-    margin-left: -30px;
-  }
-  main {
+  body main {
     width: 100%;
   }
-  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card {
+  #cash_inflow_page .cards_container .card {
     width: 126px;
   }
-  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card .card-title {
+  #cash_inflow_page .cards_container .card__title {
     font-size: 19px;
     font-weight: 900;
   }
-  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card .card-cost {
-    font-size: 12px;
+  #cash_inflow_page .cards_container .card__cost {
+    font-size: 11px;
   }
-  #cash_inflow_page .itc-slider {
+  #cash_inflow_page .itc_slider {
     width: 390px;
   }
-  #cash_inflow_page #cash_inflow__form {
-    width: 520px;
+  #cash_inflow_page .window_form_in_page {
+    width: 385px;
+  }
+  #cash_inflow_page .window_form_in_page #cash_inflow_form {
     flex-direction: column;
   }
-  #cash_inflow_page #cash_inflow__form h1 {
-    font-size: 23.5px;
+  #cash_inflow_page .window_form_in_page #cash_inflow_form h1 {
+    margin: 0px 0px 15px 0px;
+    font-size: 22px;
   }
-  #cash_inflow_page #cash_inflow__form .input_div {
-    margin: 5px 0px 5px 0px;
+  #cash_inflow_page .window_form_in_page #cash_inflow_form h1 img {
+    width: 55px;
   }
-  #cash_inflow_page #cash_inflow__form .input_div div {
+  #cash_inflow_page .window_form_in_page #cash_inflow_form div {
     flex-direction: column;
   }
-  #cash_inflow_page #cash_inflow__form .input_div select,
-  #cash_inflow_page #cash_inflow__form .input_div input,
-  #cash_inflow_page #cash_inflow__form .input_div textarea {
-    max-width: 100%;
+  #cash_inflow_page .window_form_in_page #cash_inflow_form div label {
+    align-self: start;
+    font-size: 13px;
+  }
+  #cash_inflow_page .window_form_in_page #cash_inflow_form select,
+  #cash_inflow_page .window_form_in_page #cash_inflow_form input,
+  #cash_inflow_page .window_form_in_page #cash_inflow_form textarea {
     min-width: 100%;
   }
-  #cash_inflow_page #cash_inflow__form .input_div textarea {
-    margin-top: 1px;
+  #cash_inflow_page .window_form_in_page #cash_inflow_form #cash_inflow__description_wrapper {
+    margin: 0px 5px 10px 5px;
   }
-  #cash_inflow_page #cash_inflow__form .input_div .cash_inflow_sum_label {
-    margin-bottom: 0px;
+  #cash_inflow_page .window_form_in_page #cash_inflow_form .button_wrapper {
+    margin: 5px 0px 0px 0px;
   }
-  #cash_inflow_page #cash_inflow__form .input_div #taker_company_div {
-    margin-bottom: 20px;
-  }
-  #cash_inflow_page #inflow_historical_data-table {
+  #cash_inflow_page #inflow_historical_data_table {
     display: none;
   }
-  #cash_inflow_page #inflow_historical_data-table__response {
-    display: flex;
+  #cash_inflow_page #inflow_historical_data_table__response {
+    display: table;
   }
-  #new-payment_page #new_payment {
-    width: 100%;
-    min-width: 490px;
+  #new_payment_page .window_form_in_page {
+    width: 490px;
   }
-  #new-payment_page #new_payment .form_description {
+  #new_payment_page .window_form_in_page #new_payment_form .form_p__description {
     margin-bottom: 15px;
   }
-  #new-payment_page #new_payment div {
+  #new_payment_page .window_form_in_page #new_payment_form div {
     flex-direction: column;
   }
-  #new-payment_page #new_payment div select,
-  #new-payment_page #new_payment div input {
+  #new_payment_page .window_form_in_page #new_payment_form div label {
+    align-self: start;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form div select,
+  #new_payment_page .window_form_in_page #new_payment_form div input {
     min-width: 100%;
   }
-  #new-payment_page #new_payment .unitedform {
+  #new_payment_page .window_form_in_page #new_payment_form .unitedform {
     margin-left: 2px;
+    padding: 0px 0px 0px 15px;
   }
-  #new-payment_page #new_payment .unitedform .type_app {
+  #new_payment_page .window_form_in_page #new_payment_form .unitedform .type_app {
     margin-top: 5px;
   }
-  #new-payment_page #new_payment .help_p {
-    margin-top: 20px;
+  #new_payment_page .window_form_in_page #new_payment_form .help_p {
+    margin-top: 5px;
   }
-  #new-payment_page #new_payment #submitBtn {
+  #new_payment_page .window_form_in_page #new_payment_form #submit_button_in_form {
     margin-top: 20px;
   }
 }
 @media (max-width: 570px) {
-  #cash_inflow_page #cash_inflow__form {
-    width: 420px;
+  #new_payment_page .window_form_in_page {
+    width: 430px;
   }
-  #cash_inflow_page #cash_inflow__form h1 {
-    font-size: 26px;
-    padding-bottom: 18px;
-  }
-  #cash_inflow_page #cash_inflow__form h1 img {
-    margin-right: 15px;
-  }
-  #cash_inflow_page #cash_inflow__form .input_div .cash_inflow_sum_label {
-    margin-bottom: 0px;
-  }
-  #cash_inflow_page #cash_inflow__form .input_div select {
-    background-position: 97.78% center;
-  }
-  #new-payment_page #new_payment {
-    min-width: 430px;
-  }
-  #new-payment_page #new_payment h1 {
+  #new_payment_page .window_form_in_page #new_payment_form h1 {
     font-size: 25px;
   }
-  #new-payment_page #new_payment h1 img {
-    margin-right: 9px;
+  #new_payment_page .window_form_in_page #new_payment_form h1 img {
+    margin: 0px 9px 0px 0px;
   }
-  #new-payment_page #new_payment .form_description {
+  #new_payment_page .window_form_in_page #new_payment_form .form_p__description {
     margin-bottom: 5px;
   }
   #payment-approval_page main,
@@ -2203,26 +2125,26 @@ main .focus_button {
   #payment-pay_page main .tpages_top_panel h1 {
     font-size: 24px;
   }
-  #payment-approval_page main .tpages_top_panel .cards-container .card,
-  #payment-approval-list_page main .tpages_top_panel .cards-container .card,
-  #payment-paid-list_page main .tpages_top_panel .cards-container .card,
-  #payment-pay_page main .tpages_top_panel .cards-container .card {
+  #payment-approval_page main .tpages_top_panel .cards_container .card,
+  #payment-approval-list_page main .tpages_top_panel .cards_container .card,
+  #payment-paid-list_page main .tpages_top_panel .cards_container .card,
+  #payment-pay_page main .tpages_top_panel .cards_container .card {
     min-width: 100% !important;
   }
-  #payment-approval_page main .tpages_top_panel .cards-container .card .cards_h1_border .card-title,
-  #payment-approval_page main .tpages_top_panel .cards-container .card .card-title,
-  #payment-approval-list_page main .tpages_top_panel .cards-container .card .cards_h1_border .card-title,
-  #payment-approval-list_page main .tpages_top_panel .cards-container .card .card-title,
-  #payment-paid-list_page main .tpages_top_panel .cards-container .card .cards_h1_border .card-title,
-  #payment-paid-list_page main .tpages_top_panel .cards-container .card .card-title,
-  #payment-pay_page main .tpages_top_panel .cards-container .card .cards_h1_border .card-title,
-  #payment-pay_page main .tpages_top_panel .cards-container .card .card-title {
+  #payment-approval_page main .tpages_top_panel .cards_container .card .cards_h1_border .card__title,
+  #payment-approval_page main .tpages_top_panel .cards_container .card .card__title,
+  #payment-approval-list_page main .tpages_top_panel .cards_container .card .cards_h1_border .card__title,
+  #payment-approval-list_page main .tpages_top_panel .cards_container .card .card__title,
+  #payment-paid-list_page main .tpages_top_panel .cards_container .card .cards_h1_border .card__title,
+  #payment-paid-list_page main .tpages_top_panel .cards_container .card .card__title,
+  #payment-pay_page main .tpages_top_panel .cards_container .card .cards_h1_border .card__title,
+  #payment-pay_page main .tpages_top_panel .cards_container .card .card__title {
     font-size: 23px;
   }
-  #payment-approval_page main .tpages_top_panel .cards-container .card .card-cost,
-  #payment-approval-list_page main .tpages_top_panel .cards-container .card .card-cost,
-  #payment-paid-list_page main .tpages_top_panel .cards-container .card .card-cost,
-  #payment-pay_page main .tpages_top_panel .cards-container .card .card-cost {
+  #payment-approval_page main .tpages_top_panel .cards_container .card .card__cost,
+  #payment-approval-list_page main .tpages_top_panel .cards_container .card .card__cost,
+  #payment-paid-list_page main .tpages_top_panel .cards_container .card .card__cost,
+  #payment-pay_page main .tpages_top_panel .cards_container .card .card__cost {
     font-size: 11px;
   }
   #payment-approval_page main .tpages_top_panel #payment-approval__menu .not_form_button,
@@ -2234,253 +2156,275 @@ main .focus_button {
   }
 }
 @media (max-width: 470px) {
-  header .header__pic__menu img {
+  header .header_pic__menu img {
     width: 35px;
     margin: 16px 0px 5px 15px;
   }
+  header #menu #menu__content #menu__content__h {
+    font-size: 23px;
+  }
+  header #menu #menu__content ul {
+    font-size: 20px;
+  }
+  header #menu #menu__content li {
+    font-size: 16px;
+  }
   footer {
-    height: 40px;
+    height: 45px;
   }
   footer .footer_company__href {
-    margin-top: 6px;
+    margin: 6px 0px 0px 0px;
     font-size: 11px;
-  }
-  footer .footer_company__href_bitrix24 {
-    margin-right: 4px;
   }
   footer .footer_company__copyright {
     font-size: 9px;
   }
-  #login_page .auth_form {
-    width: 100%;
-    max-width: 280px;
+  #login_page .window_form_in_page {
+    width: 280px;
   }
-  #login_page .auth_form .auth_form__status__form .auth_form__email,
-  #login_page .auth_form .auth_form__status__form .auth_form__password {
+  #login_page .window_form_in_page #auth_form div {
+    margin: 8px 0px 0px 0px;
+  }
+  #login_page .window_form_in_page #auth_form__email, #login_page .window_form_in_page #auth_form__password {
     flex-direction: column;
   }
-  #login_page .auth_form .auth_form__status__form .auth_form__email label,
-  #login_page .auth_form .auth_form__status__form .auth_form__password label {
+  #login_page .window_form_in_page #auth_form__email label, #login_page .window_form_in_page #auth_form__password label {
     margin: 1px 0px 2px 0px;
+    align-self: start;
+    font-size: 12px;
   }
-  #login_page .auth_form .auth_form__status__form .auth_form__email {
-    margin: 5px 3px 2px 0;
-  }
-  #login_page .auth_form .auth_form__status__form .checkbox_auth {
+  #login_page .window_form_in_page #auth_form #checkbox_auth {
     justify-content: start;
+    margin: 10px 0px 0px -2px;
   }
-  #register_page #register_form {
-    max-width: 310px;
+  #login_page .window_form_in_page #auth_form #checkbox_auth__input {
+    margin: 0px;
   }
-  #register_page #register_form h1 {
-    margin: 15px 0px 6px 0px;
-    font-size: 19px;
-  }
-  #register_page #register_form h1 img {
-    width: 50px;
-  }
-  #register_page #register_form div {
-    flex-direction: column;
-    margin: 5px 12px 4px 12px;
-  }
-  #register_page #register_form div label {
-    margin-left: 0px;
-    margin-bottom: 1px;
-    font-size: 13px;
-  }
-  #register_page #register_form div input,
-  #register_page #register_form div select {
-    min-width: 100%;
-  }
-  #error_page .error_page_wrapper .error_page_name {
-    font-size: 18px;
-  }
-  #error_page .error_page_wrapper .error_page_name_main_page {
-    font-size: 14.3px;
-  }
-  #main_page_page #index_main_menu .cards_container__category {
+  #register_page .window_form_in_page {
     width: 310px;
   }
-  #main_page_page #index_main_menu .cards_container__category .card__pic img {
+  #register_page .window_form_in_page #register_form h1 {
+    margin: 0px;
+  }
+  #register_page .window_form_in_page #register_form .register_form__field_wrapper {
+    flex-direction: column;
+    margin: 5px 12px 0px 12px;
+  }
+  #register_page .window_form_in_page #register_form .register_form__field_wrapper label {
+    margin: 3px 0px 1px 0px;
+    align-self: start;
+    font-size: 12px;
+  }
+  #register_page .window_form_in_page #register_form .register_form__field_wrapper input,
+  #register_page .window_form_in_page #register_form .register_form__field_wrapper select {
+    min-width: 100%;
+  }
+  #register_page .window_form_in_page #register_form__submit {
+    margin: 20px 0px 5px 0px;
+    padding: 15px 0px 0px 0px;
+  }
+  .error_page .error_page_wrapper__name {
+    font-size: 18px;
+  }
+  .error_page .error_page_wrapper__main_page {
+    font-size: 14.3px;
+  }
+  #main_page #index_main_menu .cards_container__category {
+    width: 310px;
+  }
+  #main_page #index_main_menu .cards_container__category a .card__pic img {
     max-width: 38px;
     max-height: 38px;
   }
-  #main_page_page #index_main_menu .cards_container__category .card__name {
+  #main_page #index_main_menu .cards_container__category a .card__name {
     font-size: 14px;
   }
-  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card {
+  #cash_inflow_page .cards_container .card {
     width: 267px;
-    margin: 2px 2px;
-    padding: 2px 12px;
+    margin: 2px 2px 2px 2px;
+    padding: 2px 10px 2px 10px;
   }
-  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card .card-title {
+  #cash_inflow_page .cards_container .card__title {
     font-size: 14px;
   }
-  #cash_inflow_page .itc-slider {
+  #cash_inflow_page .itc_slider {
     width: 267px;
-    margin-top: 2px;
-    margin-left: 0px;
+    margin: 2px 0px 0px 0px;
   }
-  #cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card {
+  #cash_inflow_page .itc_slider__wrapper .itc_slider__items .card {
     max-width: 270px;
     border-left: none;
   }
-  #cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card .card-title {
+  #cash_inflow_page .itc_slider__wrapper .itc_slider__items .card__title {
     font-size: 14px;
   }
-  #cash_inflow_page .itc-slider .itc-slider-btn {
-    height: 48px;
+  #cash_inflow_page .itc_slider .itc_slider__btn {
+    height: 46.3px;
   }
-  #cash_inflow_page .itc-slider .itc-slider-btn-prev {
-    margin-left: 0px;
+  #cash_inflow_page .itc_slider .itc_slider__btn__prev {
+    margin: 0px;
   }
-  #cash_inflow_page #cash_inflow__form {
-    width: 315px;
+  #cash_inflow_page .window_form_in_page {
+    width: 265px;
   }
-  #cash_inflow_page #cash_inflow__form h1 {
-    font-size: 21px;
+  #cash_inflow_page .window_form_in_page #cash_inflow_form h1 {
+    font-size: 16px;
   }
-  #cash_inflow_page #cash_inflow__form h1 img {
-    margin-right: 12px;
+  #cash_inflow_page .window_form_in_page #cash_inflow_form h1 img {
+    width: 40px;
   }
-  #cash_inflow_page #cash_inflow__form .input_div #taker_company_div {
-    margin-bottom: 14px;
-  }
-  #cash_inflow_page #cash_inflow__form .input_div .right_button {
-    margin-top: 23px;
-  }
-  #cash_inflow_page #cash_inflow__form .right_button {
+  #cash_inflow_page .window_form_in_page #cash_inflow_form .button_wrapper {
     align-self: auto;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 0px 0px 0px;
+    border-top: solid 1px #dfdfdf;
   }
-  #cash_inflow_page #cash_inflow__form .right_button button {
+  #cash_inflow_page .window_form_in_page #cash_inflow_form .button_wrapper button {
     width: 100%;
   }
-  #new-payment_page #new_payment {
-    min-width: 320px;
+  #cash_inflow_page #inflow_historical_data_table__response .table__value_head__money {
+    font-size: 15px;
   }
-  #new-payment_page #new_payment h1 {
-    font-size: 23px;
+  #new_payment_page .window_form_in_page {
+    width: 320px;
   }
-  #new-payment_page #new_payment h1 img {
-    width: 47px;
+  #new_payment_page .window_form_in_page #new_payment_form {
+    width: 100%;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form h1 {
+    font-size: 20px;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form h1 img {
+    width: 40px;
     margin-right: 9px;
   }
-  #new-payment_page #new_payment .form_description {
+  #new_payment_page .window_form_in_page #new_payment_form .form_p__description {
     font-size: 10px;
   }
-  #new-payment_page #new_payment select {
-    padding-top: 2px;
-  }
-  #new-payment_page #new_payment select optgroup option {
+  #new_payment_page .window_form_in_page #new_payment_form select optgroup option {
     font-size: 12px;
   }
-  #new-payment_page #new_payment textarea::-moz-placeholder {
+  #new_payment_page .window_form_in_page #new_payment_form textarea::-moz-placeholder {
     font-size: 12px;
   }
-  #new-payment_page #new_payment textarea::placeholder {
+  #new_payment_page .window_form_in_page #new_payment_form textarea::placeholder {
     font-size: 12px;
   }
-  #new-payment_page #new_payment .help_p {
+  #new_payment_page .window_form_in_page #new_payment_form .help_p {
     font-size: 11px;
   }
-  #new-payment_page #new_payment button {
+  #new_payment_page .window_form_in_page #new_payment_form button {
     width: 100%;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form .textarea_npp {
+    margin: 0px 0px 2px 0px;
   }
 }
 @media (max-width: 350px) {
   header #header__auth__label {
     font-size: 13.5px;
   }
-  header #menu .menu_content {
-    margin-left: -22px;
-  }
-  header #menu .menu_content .mainmenu_h {
-    font-size: 23px;
-  }
-  header #menu .menu_content ul {
+  header #menu #menu__content ul {
     font-size: 19px;
   }
-  header #menu .menu_content li {
+  header #menu #menu__content li {
     font-size: 15px;
   }
-  #login_page .auth_form {
+  #login_page .window_form_in_page {
     max-width: 240px;
   }
-  #login_page .auth_form .auth_form__status__form h1 {
+  #login_page .window_form_in_page #auth_form h1 {
     font-size: 20px;
   }
-  #register_page #register_form {
-    max-width: 270px;
+  #login_page .window_form_in_page #auth_form h1 img {
+    padding: 0px 0px 2px 0px;
   }
-  #error_page .error_page_wrapper .error_page_name {
-    font-size: 15px;
-  }
-  #error_page .error_page_wrapper .error_page_name_main_page {
-    font-size: 11.7px;
-  }
-  #main_page_page #index_main_menu .cards_container__category {
+  #register_page .window_form_in_page {
     width: 270px;
   }
-  #main_page_page #index_main_menu .cards_container__category__name {
+  .error_page .error_page_wrapper__name {
+    font-size: 15px;
+  }
+  .error_page .error_page_wrapper__main_page {
+    font-size: 11.7px;
+  }
+  #main_page #index_main_menu .cards_container__category {
+    width: 270px;
+  }
+  #main_page #index_main_menu .cards_container__category__name {
     font-size: 14px;
     font-weight: 900;
   }
-  #main_page_page #index_main_menu .cards_container__category .card__name {
-    font-size: 13.5px;
+  #main_page #index_main_menu .cards_container__category a .card {
+    padding: 8px 45px 8px 10px;
   }
-  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card {
-    width: 220px;
+  #cash_inflow_page main {
+    padding: 70px 0px 20px 0px;
   }
-  #cash_inflow_page .itc-slider {
-    width: 220px;
+  #cash_inflow_page main .cards_container .card {
+    width: 260px;
   }
-  #cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card {
-    max-width: 220px;
+  #cash_inflow_page main .itc_slider {
+    width: 260px;
   }
-  #cash_inflow_page #cash_inflow__form {
-    width: 270px;
+  #cash_inflow_page main .itc_slider__wrapper .itc_slider__items .card {
+    max-width: 260px;
   }
-  #cash_inflow_page #cash_inflow__form h1 {
-    font-size: 16.5px;
+  #cash_inflow_page main .window_form_in_page {
+    width: 260px;
   }
-  #cash_inflow_page #cash_inflow__form .input_div #taker_company_div {
-    margin-bottom: 10px;
+  #cash_inflow_page main .window_form_in_page #cash_inflow_form h1 {
+    font-size: 14px;
   }
-  #cash_inflow_page #cash_inflow__form .input_div label {
-    font-size: 12px;
+  #cash_inflow_page main .window_form_in_page #cash_inflow_form h1 img {
+    width: 33px;
   }
-  #cash_inflow_page #cash_inflow__form .input_div .cash_inflow_sum_label {
-    margin-bottom: 1px;
+  #cash_inflow_page main .window_form_in_page #cash_inflow_form div input::-moz-placeholder {
+    font-size: 11px;
   }
-  #cash_inflow_page #cash_inflow__form #submitBtn {
-    font-size: 15px;
+  #cash_inflow_page main .window_form_in_page #cash_inflow_form div label,
+  #cash_inflow_page main .window_form_in_page #cash_inflow_form div input,
+  #cash_inflow_page main .window_form_in_page #cash_inflow_form div input::placeholder,
+  #cash_inflow_page main .window_form_in_page #cash_inflow_form div select,
+  #cash_inflow_page main .window_form_in_page #cash_inflow_form div textarea {
+    font-size: 11px;
   }
-  #cash_inflow_page #inflow_historical_data-table__response table .table__value_head {
+  #cash_inflow_page main .window_form_in_page #cash_inflow_form #submit_button_in_form {
+    height: 30px;
+    font-size: 14px;
+  }
+  #cash_inflow_page main #inflow_historical_data_table__response {
+    margin: 0px 20px 0px 20px;
+  }
+  #cash_inflow_page main #inflow_historical_data_table__response .inflow_historical_data_table_h1__response td {
+    font-size: 11px;
+  }
+  #cash_inflow_page main #inflow_historical_data_table__response .table__value_head {
     flex-direction: column;
-    margin-bottom: 8px;
+    margin: 0px 0px 8px 0px;
   }
-  #cash_inflow_page #inflow_historical_data-table__response table .table__value_head__time {
-    width: 120px;
-    background-color: rgba(195, 195, 195, 0.61);
+  #cash_inflow_page main #inflow_historical_data_table__response .table__value_head__time {
+    text-align: left;
+    width: 100%;
     color: #000000;
+    background-color: rgba(195, 195, 195, 0.61);
   }
-  #new-payment_page #new_payment {
-    min-width: 280px;
+  #new_payment_page .window_form_in_page {
+    width: 280px;
   }
-  #new-payment_page #new_payment h1 {
+  #new_payment_page .window_form_in_page #new_payment_form h1 {
     font-size: 21px;
   }
-  #new-payment_page #new_payment select {
-    background-position: 97% center;
+  #new_payment_page .window_form_in_page #new_payment_form select {
     font-size: 12px;
   }
-  #new-payment_page #new_payment textarea::-moz-placeholder {
+  #new_payment_page .window_form_in_page #new_payment_form textarea::-moz-placeholder {
     font-size: 11px;
   }
-  #new-payment_page #new_payment textarea::placeholder {
+  #new_payment_page .window_form_in_page #new_payment_form textarea::placeholder {
     font-size: 11px;
   }
-  #new-payment_page #new_payment .help_p {
+  #new_payment_page .window_form_in_page #new_payment_form .help_p {
     font-size: 9.4px;
   }
 }
@@ -2488,106 +2432,80 @@ main .focus_button {
   header #header__auth__label {
     font-size: 12.8px;
   }
-  header #menu .menu_content {
-    margin-left: -12px;
-  }
-  header #menu .mainmenu_h {
+  header #menu #menu__content #menu__content__h {
     font-size: 20px;
   }
-  header #menu ul {
-    font-size: 15px;
+  header #menu #menu__content ul {
+    font-size: 17px;
   }
-  header #menu li {
+  header #menu #menu__content li {
     font-size: 13px;
   }
-  #register_page #register_form {
-    max-width: 250px;
-  }
-  #register_page #register_form h1 {
+  #login_page .window_form_in_page #auth_form h1 {
     font-size: 16px;
   }
-  #register_page #register_form div label {
-    font-size: 12px;
+  #login_page .window_form_in_page #auth_form h1 img {
+    width: 25px;
   }
-  #error_page .error_page_wrapper .error_page_name {
+  #register_page .window_form_in_page {
+    width: 250px;
+  }
+  .error_page .error_page_wrapper__name {
     font-size: 12.7px;
   }
-  #error_page .error_page_wrapper .error_page_name_main_page {
+  .error_page .error_page_wrapper__main_page {
     font-size: 9.9px;
   }
-  #main_page_page #index_main_menu .cards_container__category {
+  #main_page #index_main_menu .cards_container__category {
     width: 240px;
   }
-  #cash_inflow_page .cards-container.cash-inflow #cash_inflow__card {
-    width: 190px;
+  #main_page #index_main_menu .cards_container__category a .card {
+    padding: 8px 15px 8px 10px;
   }
-  #cash_inflow_page .itc-slider {
-    width: 190px;
+  #cash_inflow_page main .cards_container .card {
+    width: 245px;
   }
-  #cash_inflow_page .itc-slider .itc-slider-wrapper .itc-slider-items #cash_inflow__card {
-    max-width: 190px;
+  #cash_inflow_page main .itc_slider {
+    width: 245px;
   }
-  #cash_inflow_page #cash_inflow__form {
-    width: 235px;
+  #cash_inflow_page main .itc_slider__wrapper .itc_slider__items .card {
+    max-width: 245px;
   }
-  #cash_inflow_page #cash_inflow__form h1 {
-    margin-left: 10px;
+  #cash_inflow_page main .window_form_in_page {
+    width: 245px;
   }
-  #cash_inflow_page #cash_inflow__form .input_div div {
-    margin: 9px 0 5px 0;
+  #cash_inflow_page main #inflow_historical_data_table__response {
+    margin: 0px 15px 0px 15px;
   }
-  #cash_inflow_page #cash_inflow__form .input_div div select {
-    font-size: 11px;
-  }
-  #cash_inflow_page #cash_inflow__form .input_div div select option {
-    font-size: 10px;
-  }
-  #cash_inflow_page #cash_inflow__form .input_div div input::-moz-placeholder {
-    font-size: 11px;
-  }
-  #cash_inflow_page #cash_inflow__form .input_div div textarea,
-  #cash_inflow_page #cash_inflow__form .input_div div input,
-  #cash_inflow_page #cash_inflow__form .input_div div input::placeholder {
-    font-size: 11px;
-  }
-  #cash_inflow_page #inflow_historical_data-table__response table .table__value_head__money {
-    font-size: 14px;
-  }
-  #cash_inflow_page #inflow_historical_data-table__response table .table__info {
+  #cash_inflow_page main #inflow_historical_data_table__response .table__info {
     font-size: 12px;
   }
-  #new-payment_page #new_payment {
-    min-width: 250px;
+  #new_payment_page .window_form_in_page {
+    width: 250px;
   }
-  #new-payment_page #new_payment div {
-    margin: 9px 0 5px 0;
-  }
-  #new-payment_page #new_payment h1 {
+  #new_payment_page .window_form_in_page #new_payment_form h1 {
     font-size: 19px;
   }
-  #new-payment_page #new_payment h1 img {
+  #new_payment_page .window_form_in_page #new_payment_form h1 img {
     width: 40px;
   }
-  #new-payment_page #new_payment textarea,
-  #new-payment_page #new_payment input {
+  #new_payment_page .window_form_in_page #new_payment_form textarea,
+  #new_payment_page .window_form_in_page #new_payment_form input {
     font-size: 11px;
   }
-  #new-payment_page #new_payment input[type=date] {
-    padding-top: 1px;
-  }
-  #new-payment_page #new_payment textarea::-moz-placeholder {
+  #new_payment_page .window_form_in_page #new_payment_form textarea::-moz-placeholder {
     font-size: 10px;
   }
-  #new-payment_page #new_payment textarea::placeholder {
+  #new_payment_page .window_form_in_page #new_payment_form textarea::placeholder {
     font-size: 10px;
   }
-  #new-payment_page #new_payment label {
+  #new_payment_page .window_form_in_page #new_payment_form label {
     font-size: 13px;
   }
-  #new-payment_page #new_payment select {
+  #new_payment_page .window_form_in_page #new_payment_form select {
     font-size: 11px;
   }
-  #new-payment_page #new_payment .help_p {
+  #new_payment_page .window_form_in_page #new_payment_form .help_p {
     font-size: 8px;
   }
   #payment-approval_page main .tpages_top_panel h1,
@@ -2596,20 +2514,20 @@ main .focus_button {
   #payment-pay_page main .tpages_top_panel h1 {
     font-size: 20px;
   }
-  #payment-approval_page main .tpages_top_panel .cards-container .card .cards_h1_border .card-title,
-  #payment-approval_page main .tpages_top_panel .cards-container .card .card-title,
-  #payment-approval-list_page main .tpages_top_panel .cards-container .card .cards_h1_border .card-title,
-  #payment-approval-list_page main .tpages_top_panel .cards-container .card .card-title,
-  #payment-paid-list_page main .tpages_top_panel .cards-container .card .cards_h1_border .card-title,
-  #payment-paid-list_page main .tpages_top_panel .cards-container .card .card-title,
-  #payment-pay_page main .tpages_top_panel .cards-container .card .cards_h1_border .card-title,
-  #payment-pay_page main .tpages_top_panel .cards-container .card .card-title {
+  #payment-approval_page main .tpages_top_panel .cards_container .card .cards_h1_border .card__title,
+  #payment-approval_page main .tpages_top_panel .cards_container .card .card__title,
+  #payment-approval-list_page main .tpages_top_panel .cards_container .card .cards_h1_border .card__title,
+  #payment-approval-list_page main .tpages_top_panel .cards_container .card .card__title,
+  #payment-paid-list_page main .tpages_top_panel .cards_container .card .cards_h1_border .card__title,
+  #payment-paid-list_page main .tpages_top_panel .cards_container .card .card__title,
+  #payment-pay_page main .tpages_top_panel .cards_container .card .cards_h1_border .card__title,
+  #payment-pay_page main .tpages_top_panel .cards_container .card .card__title {
     font-size: 20px;
   }
-  #payment-approval_page main .tpages_top_panel .cards-container .card .card-cost,
-  #payment-approval-list_page main .tpages_top_panel .cards-container .card .card-cost,
-  #payment-paid-list_page main .tpages_top_panel .cards-container .card .card-cost,
-  #payment-pay_page main .tpages_top_panel .cards-container .card .card-cost {
+  #payment-approval_page main .tpages_top_panel .cards_container .card .card__cost,
+  #payment-approval-list_page main .tpages_top_panel .cards_container .card .card__cost,
+  #payment-paid-list_page main .tpages_top_panel .cards_container .card .card__cost,
+  #payment-pay_page main .tpages_top_panel .cards_container .card .card__cost {
     font-size: 9.5px;
   }
   #payment-approval_page main .tpages_top_panel #payment-approval__menu .not_form_button,
@@ -2620,18 +2538,3 @@ main .focus_button {
     margin: 0px 0px 8px 9px;
   }
 }/*# sourceMappingURL=style.css.map */
-
-.progress-bar {
-  width: 100%;
-  height: 4px;
-  background-color: #f0f0f0;
-  border-radius: 2px;
-  margin-bottom: 10px;
-}
-
-.progress {
-  height: 100%;
-  background-color: #0075FF;
-  border-radius: 2px;
-  width: 0;
-}

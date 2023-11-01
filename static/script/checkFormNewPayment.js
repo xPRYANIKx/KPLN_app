@@ -21,7 +21,7 @@ function checkFormNewPayment() {
         document.getElementById("objects_name_div").style.display = "none";
         document.getElementById("objects_name").required = false;
     }
-    var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
+    var page_url = document.URL.substring(document.URL.lastIndexOf('/') + 1);
 
     field8_1 = parseFloat(field8.replaceAll('₽', '').replaceAll(" ", "").replaceAll(" ", "").replaceAll(",", "."))
 
@@ -32,14 +32,14 @@ function checkFormNewPayment() {
             document.getElementById('save__edit_btn_i').disabled = false
         }
         else {
-            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('submit_button_in_form').disabled = false;
         }
     } else {
         if (page_url === 'payment-approval') {
             document.getElementById('save__edit_btn_i').disabled = true
         }
         else {
-            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submit_button_in_form').disabled = true;
         }
     }
 }

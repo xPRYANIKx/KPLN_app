@@ -6,6 +6,8 @@
 <script src="static/script/paymentApprovalSort.js"></script>
 <script src="static/script/paymentFilter.js"></script>
 
+<script src="static/script/tableCustom.js" defer></script>
+
 <body id="payment-approval-list_page">
 
     {% endblock %}
@@ -23,25 +25,25 @@
     <div id="sortCol-id_val" hidden>{{ sort_col['col_id'][2] }}</div>
 
     <div class="tpages_top_panel">
-        <h1><img src="static/img/h1/payment-approval-list.png"> {{title}}</h1>
-<!--        <div class="cards-container">-->
-<!--            <div class="card" id="card_available_money_alp">-->
-<!--                <div class="cards_h1_border">-->
-<!--                    <h2 class="card-title" id="card_available_money_value" data-value="{{ available_money }}">{{ available_money }} ₽</h2>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <p class="card-cost">ДС доступные к распределению</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="card" id="card_account_money_alp">-->
-<!--                <div class="cards_h1_border">-->
-<!--                    <h2 class="card-title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <p class="card-cost">ДС на счету</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <h1><img src="static/img/h1/paymentapprovallist.png"> {{title}}</h1>
+        <!--        <div class="cards-container">-->
+        <!--            <div class="card" id="card_available_money_alp">-->
+        <!--                <div class="cards_h1_border">-->
+        <!--                    <h2 class="card__title" id="card_available_money_value" data-value="{{ available_money }}">{{ available_money }} ₽</h2>-->
+        <!--                </div>-->
+        <!--                <div>-->
+        <!--                    <p class="card__cost">ДС доступные к распределению</p>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="card" id="card_account_money_alp">-->
+        <!--                <div class="cards_h1_border">-->
+        <!--                    <h2 class="card__title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>-->
+        <!--                </div>-->
+        <!--                <div>-->
+        <!--                    <p class="card__cost">ДС на счету</p>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div id="payment-approval__menu">
             <div class="not_form_button"><a href="payment-approval">Согласование платежей</a></div>
             <div class="not_form_button focus_button">Согласованные платежи</div>
@@ -52,67 +54,82 @@
     <br>
 
 
-<!--    <div class="help_info"><img src="static/img/interface/warning.png"> Каждое согласование отображается отдельной строкой</div>-->
+    <!--    <div class="help_info"><img src="static/img/interface/warning.png"> Каждое согласование отображается отдельной строкой</div>-->
 
     <form id="paymentForm" style="align-self: flex-start">
-    <div class="tableR">
-    <table id="payment-table" name="payment_table" class="display">
-        <thead class="fix_thead">
-            <tr>
-                <th class="th_category" onclick="sortTable(0, 'num')">№ ПЛАТЕЖА<br>
-                    <input type="text" id="filter-input-0" oninput="filterTable()"></th>
-                <th class="th_category" onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ<br>
-                    <input type="text" id="filter-input-1" oninput="filterTable()"></th>
-                <th class="th_name" onclick="sortTable(2, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА<br>
-                    <input type="text" id="filter-input-2" oninput="filterTable()"></th>
-                <th class="th_description" onclick="sortTable(3, 'str')">ОПИСАНИЕ<br>
-                    <input type="text" id="filter-input-3" oninput="filterTable()"></th>
-                <th class="th_object" onclick="sortTable(4, 'str')">ОБЪЕКТ<br>
-                    <input type="text" id="filter-input-4" oninput="filterTable()"></th>
-                <th class="th_responsible" onclick="sortTable(5, 'str')">ОТВЕТСТВЕННЫЙ<br>
-                    <input type="text" id="filter-input-5" oninput="filterTable()"></th>
-                <th class="th_contractor" onclick="sortTable(6, 'str')">КОНТРАГЕНТ<br>
-                    <input type="text" id="filter-input-6" oninput="filterTable()"></th>
-                <th class="th_main_sum" onclick="sortTable(7, 'num')">ОБЩАЯ СУММА<br>
-                    <input type="text" id="filter-input-7" oninput="filterTable()"></th>
-                <th class="th_sum_agreed" onclick="sortTable(8, 'num')">СОГЛАСОВАННАЯ СУММА<br>
-                    <input type="text" id="filter-input-8" oninput="filterTable()"></th>
-                <th class="th_sum_paid" onclick="sortTable(9, 'num')">ОПЛАЧЕННАЯ СУММА<br>
-                    <input type="text" id="filter-input-9" oninput="filterTable()"></th>
-                <th class="th_pay_date" onclick="sortTable(10, 'str')">СРОК ОПЛАТЫ<br>
-                    <input type="text" id="filter-input-10" oninput="filterTable()"></th>
-                <th class="th_date_create" onclick="sortTable(11, 'str')">ДАТА СОЗДАНИЯ<br>
-                    <input type="text" id="filter-input-11" oninput="filterTable()"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for application in applications %}
-            <tr id="row-{{ loop.index }}" data-sort="{{ loop.index }}">
-                <td data-sort="{{ application.payment_id }}">
-                    {{ application.payment_number }}
-                </td>
-                <td class="th_category_i" data-sort="{{ application.cost_item_name }}">
-                    {{ application.cost_item_name }}
-                </td>
-                <td data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}">
-                    {{ application.basis_of_payment_short }}
-                </td>
-                <td class="th_description_i" data-sort="{{ application.basis_of_payment }}: {{ application.basis_of_payment }}" title="{{ application.payment_description }}">
-                    <span class="paymentFormBold">{{ application.contractor_name }}: </span>
-                    {{ application.payment_description_short }}</td>
-                <td class="th_object_i" data-sort="{{ application.object_name }}">{{ application.object_name }}</td>
-                <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}">{{ application.last_name }} {{ application.first_name[0] }}.</td>
-                <td class="th_contractor_i" data-sort="{{ application.partner }}">{{ application.partner }}</td>
-                <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
-                <td data-sort="{{ application.approval_sum }}">{{ application.approval_sum_rub }} </td>
-                <td class="th_sum_remain_i" data-sort="{{ application.paid_sum }}">{{ application.paid_sum_rub}} </td>
-                <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
-                <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    </div>
+        <div class="tableR">
+            <table id="payment-table" name="payment_table" class="display">
+                <thead class="fix_thead">
+                    <tr>
+                        <th class="th_category" onclick="sortTable(0, 'num')">№ ПЛАТЕЖА<br>
+                            <input type="text" id="filter-input-0" oninput="filterTable()">
+                        </th>
+                        <th class="th_category" onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ<br>
+                            <input type="text" id="filter-input-1" oninput="filterTable()">
+                        </th>
+                        <th class="th_name" onclick="sortTable(2, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА<br>
+                            <input type="text" id="filter-input-2" oninput="filterTable()">
+                        </th>
+                        <th class="th_description" onclick="sortTable(3, 'str')">ОПИСАНИЕ<br>
+                            <input type="text" id="filter-input-3" oninput="filterTable()">
+                        </th>
+                        <th class="th_object" onclick="sortTable(4, 'str')">ОБЪЕКТ<br>
+                            <input type="text" id="filter-input-4" oninput="filterTable()">
+                        </th>
+                        <th class="th_responsible" onclick="sortTable(5, 'str')">ОТВЕТСТВЕННЫЙ<br>
+                            <input type="text" id="filter-input-5" oninput="filterTable()">
+                        </th>
+                        <th class="th_contractor" onclick="sortTable(6, 'str')">КОНТРАГЕНТ<br>
+                            <input type="text" id="filter-input-6" oninput="filterTable()">
+                        </th>
+                        <th class="th_main_sum" onclick="sortTable(7, 'num')">ОБЩАЯ СУММА<br>
+                            <input type="text" id="filter-input-7" oninput="filterTable()">
+                        </th>
+                        <th class="th_sum_agreed" onclick="sortTable(8, 'num')">СОГЛАСОВАННАЯ СУММА<br>
+                            <input type="text" id="filter-input-8" oninput="filterTable()">
+                        </th>
+                        <th class="th_sum_paid" onclick="sortTable(9, 'num')">ОПЛАЧЕННАЯ СУММА<br>
+                            <input type="text" id="filter-input-9" oninput="filterTable()">
+                        </th>
+                        <th class="th_pay_date" onclick="sortTable(10, 'str')">СРОК ОПЛАТЫ<br>
+                            <input type="text" id="filter-input-10" oninput="filterTable()">
+                        </th>
+                        <th class="th_date_create" onclick="sortTable(11, 'str')">ДАТА СОЗДАНИЯ<br>
+                            <input type="text" id="filter-input-11" oninput="filterTable()">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                    <tr id="row-{{ loop.index }}" data-sort="{{ loop.index }}">
+                        <td data-sort="{{ application.payment_id }}">
+                            {{ application.payment_number }}
+                        </td>
+                        <td class="th_category_i" data-sort="{{ application.cost_item_name }}">
+                            {{ application.cost_item_name }}
+                        </td>
+                        <td data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}">
+                            {{ application.basis_of_payment_short }}
+                        </td>
+                        <td class="th_description_i" data-sort="{{ application.basis_of_payment }}: {{ application.basis_of_payment }}"
+                            title="{{ application.payment_description }}">
+                            <span class="paymentFormBold">{{ application.contractor_name }}: </span>
+                            {{ application.payment_description_short }}
+                        </td>
+                        <td class="th_object_i" data-sort="{{ application.object_name }}">{{ application.object_name }}</td>
+                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}">{{ application.last_name }} {{
+                            application.first_name[0] }}.</td>
+                        <td class="th_contractor_i" data-sort="{{ application.partner }}">{{ application.partner }}</td>
+                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
+                        <td data-sort="{{ application.approval_sum }}">{{ application.approval_sum_rub }} </td>
+                        <td class="th_sum_remain_i" data-sort="{{ application.paid_sum }}">{{ application.paid_sum_rub}} </td>
+                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
+                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </form>
 
     {% endblock %}

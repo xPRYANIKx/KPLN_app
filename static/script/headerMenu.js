@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     var menu = document.getElementById("menu");
-    var image = document.getElementById("menuImage");
+    var image = document.getElementById("image_menu");
 
     document.addEventListener("click", (event) => {
         const menuClick = event.target == menu || menu.contains(event.target)
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
             image.src = '/static/img/interface/menu.png'
         } else {
             menu.style.display = "flex";
-            image.src = '/static/img/interface/menu_end.png'
+            image.src = '/static/img/interface/menuend.png'
         }
     });
 });

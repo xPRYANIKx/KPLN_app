@@ -46,7 +46,7 @@
     <dialog class="window" id="payment-approval__dialog">
         <div id="payment-approval__dialog__menu">
             <div id="payment-approval__dialog__menu__edit">
-                <h1><img src="static/img/h1/edit_pay.png"> Редактировать платёж</h1>
+                <h1><img src="static/img/h1/editpay.png"> Редактировать платёж</h1>
                 <!--                <form id="new_payment" method="POST" action="/new-payment2">-->
                 <form id="payment_card">
                     <div class="name__payment"><span id="payment_id" hidden="hidden"></span>
@@ -176,8 +176,8 @@
 
 
 
-    <dialog id="tableCustom">
-        <h2><img src="static/img/h1/edit_pay.png">Столбцы</H2>
+    <dialog id="tableCustomPA">
+        <h2><img src="static/img/h1/editpay.png">Столбцы</H2>
         <form>
             <table>
                 <tr>
@@ -238,11 +238,11 @@
         <img id="crossBtnTC" src="static/img/interface/close.png">
     </dialog>
 
-    <dialog id="verification__dialog">
+    <dialog id="verification_dialog">
         <p id="paragraph_question">Хотите продолжить?</p>
         <div>
-            <button type="button" id="verification__dialog_cancel">Отмена</button>
-            <button type="button" id="verification__dialog_next">Продолжить</button>
+            <button type="button" id="verification_dialog__cancel">Отмена</button>
+            <button type="button" id="verification_dialog__next">Продолжить</button>
         </div>
     </dialog>
 
@@ -251,30 +251,30 @@
 
 
     <div class="tpages_top_panel">
-        <h1><img src="static/img/h1/payment-approval.png"> {{title}}</h1>
-        <div class="cards-container">
+        <h1><img src="static/img/h1/paymentapproval.png"> {{title}}</h1>
+        <div class="cards_container">
             <div class="card" id="card_selected_for_approval">
                 <div class="cards_h1_border">
-                    <h2 class="card-title" id="card_selected_for_approval_value">&nbsp;</h2>
+                    <h2 class="card__title" id="card_selected_for_approval_value">&nbsp;</h2>
                 </div>
                 <div>
-                    <p class="card-cost">Выбрано для одобрения</p>
+                    <p class="card__cost">Выбрано для одобрения</p>
                 </div>
             </div>
             <div class="card" id="card_available_money" onclick="paymentMyCharts('available_money')">
                 <div class="cards_h1_border">
-                    <h2 class="card-title" id="card_available_money_value" data-value="{{ money['available_money'] }}">{{ money['available_money_rub'] }}</h2>
+                    <h2 class="card__title" id="card_available_money_value" data-value="{{ money['available_money'] }}">{{ money['available_money_rub'] }}</h2>
                 </div>
                 <div>
-                    <p class="card-cost">Доступные к распределению</p>
+                    <p class="card__cost">Доступные к распределению</p>
                 </div>
             </div>
             <div class="card" id="card_account_money" onclick="paymentMyCharts('account_money')">
                 <div class="cards_h1_border">
-                    <h2 class="card-title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
+                    <h2 class="card__title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
                 </div>
                 <div>
-                    <p class="card-cost">На счету</p>
+                    <p class="card__cost">На счету</p>
                 </div>
             </div>
         </div>
@@ -296,42 +296,81 @@
 
 
         <div class="paymentFormBtn">
-            <button type="button" id="submitButton" onclick="window['verification__dialog'].showModal();">Отправить</button>
-            <button type="button" id="visualTable" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
+            <button type="button" id="submitButton" onclick="window['verification_dialog'].showModal();">Отправить</button>
+            <button type="button" id="visualTablePA" onclick="window['tableCustomPA'].showModal();"><img src="static/img/interface/setting.png"> Отображение
                 таблицы</button>
         </div>
         <div class="tableR">
             <table id="payment-table" name="payment_table" class="display">
                 <thead class="fix_thead">
                     <tr>
-                        <th class="th_select" onclick="sortTable(0, 'num')">ВЫБОР<br>
-                            <input type="text" id="filter-input-0" hidden readonly></th>
-                        <th class="th_category" onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ<br>
-                            <input type="text" id="filter-input-1" oninput="filterTable()"></th>
-                        <th class="th_name" onclick="sortTable(2, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА<br>
-                            <input type="text" id="filter-input-2" oninput="filterTable()"></th>
-                        <th class="th_description" onclick="sortTable(3, 'str')">ОПИСАНИЕ<br>
-                            <input type="text" id="filter-input-3" oninput="filterTable()"></th>
-                        <th class="th_object" onclick="sortTable(4, 'str')">ОБЪЕКТ<br>
-                            <input type="text" id="filter-input-4" oninput="filterTable()"></th>
-                        <th class="th_responsible" onclick="sortTable(5, 'str')">ОТВЕТСТВЕННЫЙ<br>
-                            <input type="text" id="filter-input-5" oninput="filterTable()"></th>
-                        <th class="th_contractor" onclick="sortTable(6, 'str')">КОНТРАГЕНТ<br>
-                            <input type="text" id="filter-input-6" oninput="filterTable()"></th>
-                        <th class="th_main_sum" onclick="sortTable(7, 'num')">ОБЩАЯ СУММА<br>
-                            <input type="text" id="filter-input-7" oninput="filterTable()"></th>
-                        <th class="th_sum_remain" onclick="sortTable(8, 'num')">ОСТАТОК К ОПЛАТЕ<br>
-                            <input type="text" id="filter-input-8" oninput="filterTable()"></th>
-                        <th class="th_sum_agreed" onclick="sortTable(9, 'num')">СОГЛАСОВАННАЯ СУММА<br>
-                            <input type="text" id="filter-input-9" oninput="filterTable()"></th>
-                        <th class="th_pay_date" onclick="sortTable(10, 'str')">СРОК ОПЛАТЫ<br>
-                            <input type="text" id="filter-input-10" oninput="filterTable()"></th>
-                        <th class="th_status" onclick="sortTable(11, 'num')">СТАТУС<br>
-                            <input type="text" id="filter-input-11" hidden readonly></th>
-                        <th class="th_date_create" onclick="sortTable(12, 'str')">ДАТА СОЗДАНИЯ<br>
-                            <input type="date" id="filter-input-12" oninput="filterTable()"></th>
-                        <th class="th_save_pay" onclick="sortTable(13, 'num')">ДО ПОЛНОЙ ОПЛАТЫ<br>
-                            <input type="text" id="filter-input-13" hidden readonly></th>
+                        <th class="th_select" onclick="sortTable(0, 'num')">
+                            <div>ВЫБОР</div>
+                            <input type="text" id="filter-input-0" hidden readonly>
+                        </th>
+                        <th class="th_category">
+                            <div class="arrow_sort" onclick="sortTable(1, 'str')">⇅</div>
+                            <div>СТАТЬЯ ЗАТРАТ</div>
+                            <input type="text" id="filter-input-1" oninput="filterTable()">
+                        </th>
+                        <th class="th_name">
+                            <div class="arrow_sort" onclick="sortTable(2, 'str')">⇅</div>
+                            <div>НАИМЕНОВАНИЕ ПЛАТЕЖА</div>
+                            <input type="text" id="filter-input-2" oninput="filterTable()">
+                        </th>
+                        <th class="th_description">
+                            <div class="arrow_sort" onclick="sortTable(3, 'str')">⇅</div>
+                            <div>ОПИСАНИЕ</div>
+                            <input type="text" id="filter-input-3" oninput="filterTable()">
+                        </th>
+                        <th class="th_object">
+                            <div class="arrow_sort" onclick="sortTable(4, 'str')">⇅</div>
+                            <div>ОБЪЕКТ</div>
+                            <input type="text" id="filter-input-4" oninput="filterTable()">
+                        </th>
+                        <th class="th_responsible">
+                            <div class="arrow_sort" onclick="sortTable(5, 'str')">⇅</div>
+                            <div>ОТВЕТСТВЕННЫЙ</div>
+                            <input type="text" id="filter-input-5" oninput="filterTable()">
+                        </th>
+                        <th class="th_contractor">
+                            <div class="arrow_sort" onclick="sortTable(6, 'str')">⇅</div>
+                            <div>КОНТРАГЕНТ</div>
+                            <input type="text" id="filter-input-6" oninput="filterTable()">
+                        </th>
+                        <th class="th_main_sum">
+                            <div class="arrow_sort" onclick="sortTable(7, 'num')">⇅</div>
+                            <div>ОБЩАЯ СУММА</div>
+                            <input type="text" id="filter-input-7" oninput="filterTable()">
+                        </th>
+                        <th class="th_sum_remain">
+                            <div class="arrow_sort" onclick="sortTable(8, 'num')">⇅</div>
+                            <div>ОСТАТОК К ОПЛАТЕ</div>
+                            <input type="text" id="filter-input-8" oninput="filterTable()">
+                        </th>
+                        <th class="th_sum_agreed">
+                            <div class="arrow_sort" onclick="sortTable(9, 'num')">⇅</div>
+                            <div>СОГЛАСОВАННАЯ СУММА</div>
+                            <input type="text" id="filter-input-9" oninput="filterTable()">
+                        </th>
+                        <th class="th_pay_date">
+                            <div class="arrow_sort" onclick="sortTable(10, 'str')">⇅</div>
+                            <div>СРОК ОПЛАТЫ</div>
+                            <input type="text" id="filter-input-10" oninput="filterTable()">
+                        </th>
+                        <th class="th_status" onclick="sortTable(11, 'num')">
+                            <div>СТАТУС</div>
+                            <input type="text" id="filter-input-11" hidden readonly>
+                        </th>
+                        <th class="th_date_create">
+                            <div class="arrow_sort" onclick="sortTable(12, 'str')">⇅</div>
+                            <div>ДАТА СОЗДАНИЯ</div>
+                            <input type="date" id="filter-input-12" oninput="filterTable()">
+                        </th>
+                        <th class="th_save_pay" onclick="sortTable(13, 'num')">
+                            <div>ДО ПОЛНОЙ ОПЛАТЫ</div>
+                            <input type="text" id="filter-input-13" hidden readonly>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -349,11 +388,13 @@
                         <td class="th_name_i showModalId" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}"
                             onclick="getModal({{ application.payment_id }})">{{ application.basis_of_payment }}
                         </td>
-                        <td class="th_description_i" data-sort="{{ application.contractor_name }}: {{ application.payment_description }}" title="{{ application.payment_description }}">
+                        <td class="th_description_i" data-sort="{{ application.contractor_name }}: {{ application.payment_description }}"
+                            title="{{ application.payment_description }}">
                             <span class="paymentFormBold">{{ application.contractor_name }}: </span>{{ application.payment_description }}
                         </td>
                         <td class="th_object_i" data-sort="{{application.object_name}}">{{ application.object_name}}</td>
-                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name }}">{{ application.last_name }} {{ application.first_name[0] }}.</td>
+                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name }}">{{ application.last_name }} {{
+                            application.first_name[0] }}.</td>
                         <td class="th_contractor_i" data-sort="{{ application.partner }}">{{ application.partner }}</td>
                         <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
                         <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}">

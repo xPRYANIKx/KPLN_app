@@ -192,7 +192,7 @@ def profile():
         # Create profile name dict
         hlink_menu, hlink_profile = func_hlink_profile()
 
-        return render_template("_profile.html", title="Профиль", menu=hlink_menu,
+        return render_template("__profile.html", title="Профиль", menu=hlink_menu,
                                menu_profile=hlink_profile, name=name)
     except Exception as e:
         return f'profile ❗❗❗ Ошибка \n---{e}'
@@ -273,20 +273,20 @@ def func_hlink_profile():
                 {"menu_item": "Платежи", "sub_item":
                     [
                         {"name": "Добавить поступления", "url": "cash-inflow",
-                         "img": "/static/img/menu/cash-inflow.png"},
+                         "img": "/static/img/mainpage/cashinflow.png"},
                         {"name": "Новая заявка на оплату", "url": "new-payment",
-                         "img": "/static/img/menu/new-payment.png"},
+                         "img": "/static/img/mainpage/newpayment.png"},
                         {"name": "Согласование платежей", "url": "payment-approval",
-                         "img": "/static/img/menu/payment-approval.png"},
+                         "img": "/static/img/mainpage/paymentapproval.png"},
                         {"name": "Оплата платежей", "url": "payment-pay",
-                         "img": "/static/img/menu/payment-pay.png"},
+                         "img": "/static/img/mainpage/paymentpay.png"},
                         {"name": "Список платежей", "url": "payment-list",
-                         "img": "/static/img/menu/payment-list.png"},
+                         "img": "/static/img/mainpage/paymentlist.png"},
                     ]
                  },
                 {"menu_item": "Администрирование", "sub_item":
                     [{"name": "Регистрация пользователей", "url": "register",
-                      "img": "/static/img/menu/register.png"}, ]
+                      "img": "/static/img/mainpage/register.png"}, ]
                  },
             ]
 
@@ -297,11 +297,11 @@ def func_hlink_profile():
                 {"menu_item": "Платежи", "sub_item":
                     [
                         {"name": "Новая заявка на оплату", "url": "new-payment",
-                         "img": "/static/img/menu/new-payment.png"},
+                         "img": "/static/img/mainpage/newpayment.png"},
                         {"name": "Согласование платежей", "url": "payment-approval",
-                         "img": "/static/img/menu/payment-approval.png"},
+                         "img": "/static/img/mainpage/paymentapproval.png"},
                         {"name": "Список платежей", "url": "payment-list",
-                         "img": "/static/img/menu/payment-list.png"},
+                         "img": "/static/img/mainpage/paymentlist.png"},
                     ]
                  },
             ]
@@ -313,15 +313,15 @@ def func_hlink_profile():
                 {"menu_item": "Платежи", "sub_item":
                     [
                         {"name": "Добавить поступления", "url": "cash-inflow",
-                         "img": "/static/img/menu/cash-inflow.png"},
+                         "img": "/static/img/mainpage/cashinflow.png"},
                         {"name": "Новая заявка на оплату", "url": "new-payment",
-                         "img": "/static/img/menu/new-payment.png"},
+                         "img": "/static/img/mainpage/newpayment.png"},
                         {"name": "Согласование платежей", "url": "payment-approval",
-                         "img": "/static/img/menu/payment-approval.png"},
+                         "img": "/static/img/mainpage/paymentapproval.png"},
                         {"name": "Оплата платежей", "url": "payment-pay",
-                         "img": "/static/img/menu/payment-pay.png"},
+                         "img": "/static/img/mainpage/paymentpay.png"},
                         {"name": "Список платежей", "url": "payment-list",
-                         "img": "/static/img/menu/payment-list.png"},
+                         "img": "/static/img/mainpage/paymentlist.png"},
                     ]
                  },
             ]
@@ -330,9 +330,9 @@ def func_hlink_profile():
             hlink_menu = [
                 {"menu_item": "Платежи", "sub_item":
                     [{"name": "Новая заявка на оплату", "url": "new-payment",
-                      "img": "/static/img/menu/new-payment.png"},
+                      "img": "/static/img/mainpage/newpayment.png"},
                      {"name": "Список платежей", "url": "payment-list",
-                      "img": "/static/img/menu/payment-list.png"}, ]
+                      "img": "/static/img/mainpage/paymentlist.png"}, ]
                  },
             ]
 

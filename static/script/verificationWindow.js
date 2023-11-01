@@ -1,10 +1,10 @@
-const verificationDialog = document.getElementById('verification__dialog');
+const verificationDialog = document.getElementById('verification_dialog');
 const paragraphQuestion = document.getElementById('paragraph_question');
-const cancelDialogBtn = document.getElementById('verification__dialog_cancel');
-const nextDialogBtn = document.getElementById('verification__dialog_next');
+const cancelDialogBtn = document.getElementById('verification_dialog__cancel');
+const nextDialogBtn = document.getElementById('verification_dialog__next');
 
 const paymentForm = document.getElementById('paymentForm');
-const dSubmitBtn = document.getElementById('submitButton');
+const dsubmit_button_in_form = document.getElementById('submitButton');
 
 const annulEditBtn = document.getElementById('annul__edit_btn_i');
 const annulApprovalEditBtn = document.getElementById('annul_approval__edit_btn_i');
@@ -21,7 +21,7 @@ const showDialogDSB = () => {
     verificationDialog.showModal();
     paragraphQuestion.id = 'pqDSB'
 };
-dSubmitBtn.addEventListener('click', showDialogDSB);
+dsubmit_button_in_form.addEventListener('click', showDialogDSB);
 const showDialogAEB = () => {
     verificationDialog.showModal();
     paragraphQuestion.id = 'pqAEB'
