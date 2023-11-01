@@ -21,7 +21,7 @@ function checkFormNewPayment() {
         document.getElementById("objects_name_div").style.display = "none";
         document.getElementById("objects_name").required = false;
     }
-    var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
+    var page_url = document.URL.substring(document.URL.lastIndexOf('/') + 1);
     if (page_url === 'payment-approval') {
         field8 = 'payment-approval'
     }
@@ -30,18 +30,18 @@ function checkFormNewPayment() {
         field7 !== '' && field8 !== '') {
         if (page_url === 'payment-approval') {
             document.getElementById('save__edit_btn').disabled = false;
-            document.getElementById('save__edit_btn').style.background='green';
+            document.getElementById('save__edit_btn').style.background = 'green';
         }
         else {
-            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('submit_button_in_form').disabled = false;
         }
     } else {
         if (page_url === 'payment-approval') {
             document.getElementById('save__edit_btn').disabled = true;
-            document.getElementById('save__edit_btn').style.background='grey';
+            document.getElementById('save__edit_btn').style.background = 'grey';
         }
         else {
-            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submit_button_in_form').disabled = true;
         }
     }
 }

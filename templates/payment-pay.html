@@ -1,4 +1,4 @@
-{% extends "layout-main.html" %}
+{% extends "_layout-main.html" %}
 {% block head %}
 {{ super() }}
 
@@ -16,19 +16,19 @@
 
 
     <div class="tpages_top_panel">
-        <h1><img src="static/img/h1/payment-pay.png"> {{title}}</h1>
-        <div class="cards-container">
+        <h1><img src="static/img/h1/paymentpay.png"> {{title}}</h1>
+        <div class="cards_container">
             <div class="card" id="card_selected_for_approval">
-                <h2 class="card-title" id="card_selected_for_approval_value">&nbsp;</h2>
-                <p class="card-cost">Выбрано для одобрения</p>
+                <h2 class="card__title" id="card_selected_for_approval_value">&nbsp;</h2>
+                <p class="card__cost">Выбрано для одобрения</p>
             </div>
             <div class="card" id="card_available_money">
-                <h2 class="card-title" id="card_available_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
-                <p class="card-cost">ДС доступные к распределению</p>
+                <h2 class="card__title" id="card_available_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
+                <p class="card__cost">ДС доступные к распределению</p>
             </div>
             <div class="card" id="card_account_money">
-                <h2 class="card-title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
-                <p class="card-cost">ДС на счету</p>
+                <h2 class="card__title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
+                <p class="card__cost">ДС на счету</p>
             </div>
         </div>
     </div>

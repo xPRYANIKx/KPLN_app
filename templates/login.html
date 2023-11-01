@@ -1,19 +1,19 @@
-{% extends "layout-login.html" %}
+{% extends "_layout-login.html" %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
 
-<div class="auth_form">
-    <form class="auth_form__status__form" action="" method="post" class="form-contact">
+<div class="window_form_in_page">
+    <form class="flex_form" id="auth_form" action="" method="post" class="form-contact">
         <h1><img src="static/img/h1/auth.png"> {{title}}</h1>
-        <div class="auth_form__email"><label>E-mail:</label> <input type="text" name="email" value="" required /></div>
-        <div class="auth_form__password"><label>Пароль:</label> <input type="password" name="password" value="" required /></div>
-        <div class="checkbox_auth">
-            <div class="checkbox_auth__input"><input type="checkbox" name="remainme" /></div>
-            <div class="checkbox_auth__label"><label>Запомнить меня</label></div>
+        <div id="auth_form__email"><label>E-mail:</label> <input type="text" name="email" value="" required /></div>
+        <div id="auth_form__password"><label>Пароль:</label> <input type="password" name="password" value="" required /></div>
+        <div id="checkbox_auth">
+            <div id="checkbox_auth__input"><input type="checkbox" name="remainme" /></div>
+            <div id="checkbox_auth__label"><label>Запомнить меня</label></div>
         </div>
-        <div><input class="button_enter" type="submit" value="Войти" /></div>
+        <div id="auth_form__submit"><input id="auth_form__button" class="input__button" type="submit" value="Войти" /></div>
     </form>
 </div>
 

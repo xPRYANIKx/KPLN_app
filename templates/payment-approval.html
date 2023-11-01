@@ -1,4 +1,4 @@
-{% extends "layout-main.html" %}
+{% extends "_layout-main.html" %}
 {% block head %}
 {{ super() }}
 
@@ -25,7 +25,7 @@
     <dialog class="window" id="payment-approval__dialog">
         <div id="payment-approval__dialog__menu">
             <div id="payment-approval__dialog__menu__edit">
-                <h1><img src="static/img/h1/edit_pay.png"> Редактировать платёж</h1>
+                <h1><img src="static/img/h1/editpay.png"> Редактировать платёж</h1>
                 <!--                <form id="new_payment" method="POST" action="/new-payment2">-->
                 <form id="new_payment">
                     <div class="name__payment"><span id="payment_id" hidden="hidden"></span>
@@ -155,8 +155,8 @@
 
 
 
-    <dialog id="tableCustom">
-        <h2><img src="static/img/h1/edit_pay.png">Столбцы</H2>
+    <dialog id="tableCustomPA">
+        <h2><img src="static/img/h1/editpay.png">Столбцы</H2>
         <form>
             <table>
                 <tr>
@@ -217,40 +217,40 @@
         <img id="crossBtnTC" src="static/img/interface/close.png">
     </dialog>
 
-    <dialog id="verification__dialog">
+    <dialog id="verification_dialog">
         <p id="paragraph_question">Хотите продолжить?</p>
         <div>
-            <button type="button" id="verification__dialog_cancel">Отмена</button>
-            <button type="button" id="verification__dialog_next">Продолжить</button>
+            <button type="button" id="verification_dialog__cancel">Отмена</button>
+            <button type="button" id="verification_dialog__next">Продолжить</button>
         </div>
     </dialog>
 
 
     <div class="tpages_top_panel">
-        <h1><img src="static/img/h1/payment-approval.png"> {{title}}</h1>
-        <div class="cards-container">
+        <h1><img src="static/img/h1/paymentapproval.png"> {{title}}</h1>
+        <div class="cards_container">
             <div class="card" id="card_selected_for_approval">
                 <div class="cards_h1_border">
-                    <h2 class="card-title" id="card_selected_for_approval_value">&nbsp;</h2>
+                    <h2 class="card__title" id="card_selected_for_approval_value">&nbsp;</h2>
                 </div>
                 <div>
-                    <p class="card-cost">Выбрано для одобрения</p>
+                    <p class="card__cost">Выбрано для одобрения</p>
                 </div>
             </div>
             <div class="card" id="card_available_money">
                 <div class="cards_h1_border">
-                    <h2 class="card-title" id="card_available_money_value" data-value="{{ money['available_money'] }}">{{ money['available_money_rub'] }}</h2>
+                    <h2 class="card__title" id="card_available_money_value" data-value="{{ money['available_money'] }}">{{ money['available_money_rub'] }}</h2>
                 </div>
                 <div>
-                    <p class="card-cost">Доступные к распределению</p>
+                    <p class="card__cost">Доступные к распределению</p>
                 </div>
             </div>
             <div class="card" id="card_account_money">
                 <div class="cards_h1_border">
-                    <h2 class="card-title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
+                    <h2 class="card__title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
                 </div>
                 <div>
-                    <p class="card-cost">На счету</p>
+                    <p class="card__cost">На счету</p>
                 </div>
             </div>
         </div>
@@ -266,8 +266,8 @@
 
 
         <div class="paymentFormBtn">
-            <button type="button" id="submitButton" onclick="window['verification__dialog'].showModal();">Отправить</button>
-            <button type="button" id="visualTable" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
+            <button type="button" id="submitButton" onclick="window['verification_dialog'].showModal();">Отправить</button>
+            <button type="button" id="visualTablePA" onclick="window['tableCustomPA'].showModal();"><img src="static/img/interface/setting.png"> Отображение
                 таблицы</button>
         </div>
         <div class="tableR">
@@ -282,7 +282,7 @@
                         <th class="th_responsible">ОТВЕТСТВЕННЫЙ</th>
                         <th class="th_contractor">КОНТРАГЕНТ</th>
                         <th class="th_main_sum">ОБЩАЯ СУММА</th>
-                        <th class="th_sum_remain">ОСТАТОК К ОПЛАТЕ</th>
+                        <th class="th_sum_agreed">ОСТАТОК К ОПЛАТЕ</th>
                         <th class="th_sum_agreed">СОГЛАСОВАННАЯ СУММА</th>
                         <th class="th_pay_date">СРОК ОПЛАТЫ</th>
                         <th class="th_status">СТАТУС</th>

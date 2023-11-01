@@ -1,31 +1,33 @@
-{% extends "layout-main.html" %}
+{% extends "_layout-main.html" %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
 
 <body id="register_page"></body>
-<form id="register_form" action="" method="post" class="form-contact">
-    <h1><img src="static/img/h1/register.png"> {{title}}</h1>
-    <div><label>Фамилия*: </label> <input type="text" name="last_name" value="" required /></div>
-    <div><label>Имя*: </label> <input type="text" name="first_name" value="" required /></div>
-    <div><label>Отчество: </label> <input type="text" name="surname" value="" required /></div>
-    <div><label>Логин*: </label> <input type="text" name="email" value="" required /></div>
-    <div><label>Пароль*: </label> <input type="password" name="password" value="" required /></div>
-    <div><label>Роль*: </label>
 
-        <select id="user_role" name="user_role" required>
-            <option> Выберите пункт </option>
-            {% for s in roles %}
-            <option value="{{ s.role_id }}">
-                {{ s.role_name }}
-            </option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <div><label>Приоритет*: </label> <input type="number" step="1" name="user_priority" value="100" required /></div>
-    <div class="btn_div"><input id="regBtn" type="submit" value="Зарегистрировать" /></div>
-</form>
+<div class="window_form_in_page">
+    <form class="flex_form" id="register_form" action="" method="post" class="form-contact">
+        <h1><img src="static/img/h1/register.png"> Регистрация</h1>
+        <div class="register_form__field_wrapper"><label>Фамилия: </label> <input type="text" name="last_name" value="" required /></div>
+        <div class="register_form__field_wrapper"><label>Имя: </label> <input type="text" name="first_name" value="" required /></div>
+        <div class="register_form__field_wrapper"><label>Отчество: </label> <input type="text" name="surname" value="" required /></div>
+        <div class="register_form__field_wrapper"><label>Логин: </label> <input type="text" name="email" value="" required /></div>
+        <div class="register_form__field_wrapper"><label>Пароль: </label> <input type="password" name="password" value="" required /></div>
+        <div class="register_form__field_wrapper"><label>Роль: </label>
+            <select id="user_role" name="user_role" required>
+                <option> Выберите пункт </option>
+                {% for s in roles %}
+                <option value="{{ s.role_id }}">
+                    {{ s.role_name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="register_form__field_wrapper"><label>Приоритет: </label> <input type="number" step="1" name="user_priority" value="100" required /></div>
+        <div id="register_form__submit"><input id="register_form__button" class="input__button" type="submit" value="Зарегистрировать" /></div>
+    </form>
+</div>
 {% endblock %}
+
 </body>

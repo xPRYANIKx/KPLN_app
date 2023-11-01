@@ -1,35 +1,34 @@
 function checkFormCashInflow() {
-    var field1 = document.getElementById('our_company').value;
-    var field2 = document.getElementById('inflow_type').value.split('-@@@-')[0];
-    var field3 = document.getElementById('cash_inflow_sum').value;
-    var field4 = document.getElementById('cash_inflow_description').value;
-    var field5 = document.getElementById('taker_company').value;
+    var CICompany = document.getElementById('cash_inflow__company').value;
+    var CIType = document.getElementById('cash_inflow__type').value.split('-@@@-')[0];
+    var CIMoney = document.getElementById('cash_inflow__money').value;
+    var CIDescription = document.getElementById('cash_inflow__description').value;
+    var CITransferCompany = document.getElementById('cash_inflow__transfer_company').value;
 
-    //Внутренний платёж
-    if (field2 == 4) {
-        document.getElementById("taker_company_div").style.display = "flex";
-        document.getElementById("taker_company").required = true;
-        document.getElementById("cash_inflow_description_div").style.display = "none";
-        document.getElementById("cash_inflow_description").required = false;
-        $("#our_company_label").text("Откуда переводим")
+    if (CIType == 4) {
+        document.getElementById("cash_inflow__hidden_label").style.display = "flex";
+        document.getElementById("cash_inflow__transfer_company").required = true;
+        document.getElementById("cash_inflow__description_wrapper").style.display = "none";
+        document.getElementById("cash_inflow__description").required = false;
+        $("#cash_inflow__company_label").text("Откуда переводим")
     }
-    else if (!field5) {
-        field5 = "пусто"
+    else if (!CITransferCompany) {
+        CITransferCompany = "пусто"
     }
-    if (field2 != 4) {
-        document.getElementById("taker_company_div").style.display = "none";
-        document.getElementById("taker_company").required = false;
-        document.getElementById("cash_inflow_description_div").style.display = "flex";
-        document.getElementById("cash_inflow_description").required = true;
-        $("#our_company_label").text("Компания")
+    if (CIType != 4) {
+        document.getElementById("cash_inflow__hidden_label").style.display = "none";
+        document.getElementById("cash_inflow__transfer_company").required = false;
+        document.getElementById("cash_inflow__description_wrapper").style.display = "flex";
+        document.getElementById("cash_inflow__description").required = true;
+        $("#cash_inflow__company_label").text("Компания")
     }
-    else if (!field4) {
-        field4 = "пусто"
+    else if (!CIDescription) {
+        CIDescription = "пусто"
     }
 
-    if (field1 !== '' && field2 !== '' && field3 !== '' && field4 !== '' && field5 !== '') {
-        document.getElementById('submitBtn').disabled = false;
+    if (CICompany !== '' && CIType !== '' && CIMoney !== '' && CIDescription !== '' && CITransferCompany !== '') {
+        document.getElementById('submit_button_in_form').disabled = false;
     } else {
-        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('submit_button_in_form').disabled = true;
     }
 }

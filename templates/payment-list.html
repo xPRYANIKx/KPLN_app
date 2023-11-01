@@ -1,4 +1,4 @@
-{% extends "layout-main.html" %}
+{% extends "_layout-main.html" %}
 {% block head %}
 {{ super() }}
 
@@ -38,7 +38,8 @@
                         application.basis_of_payment_short }}</td>
                     <td class="th_description_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}">
                         <span class="paymentFormBold">{{ application.contractor_name }}: </span>
-                        {{ application.payment_description_short }}</td>
+                        {{ application.payment_description_short }}
+                    </td>
                     <td class="th_object_i" data-sort="{{application.object_name}}">{{ application.object_name }}</td>
                     <td class="th_responsible_i">{{ application.last_name }} {{ application.first_name[0] }}.</td>
                     <td class="th_contractor_i">{{ application.partner }}</td>

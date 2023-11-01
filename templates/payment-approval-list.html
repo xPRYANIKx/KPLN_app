@@ -1,32 +1,32 @@
-{% extends "layout-main.html" %}
+{% extends "_layout-main.html" %}
 {% block head %}
 {{ super() }}
 
-
+<script src="static/script/tableCustom.js" defer></script>
 <body id="payment-approval-list_page">
 
     {% endblock %}
     {% block content %}
     <div class="tpages_top_panel">
-        <h1><img src="static/img/h1/payment-approval-list.png"> {{title}}</h1>
-<!--        <div class="cards-container">-->
-<!--            <div class="card" id="card_available_money_alp">-->
-<!--                <div class="cards_h1_border">-->
-<!--                    <h2 class="card-title" id="card_available_money_value" data-value="{{ available_money }}">{{ available_money }} ₽</h2>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <p class="card-cost">ДС доступные к распределению</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="card" id="card_account_money_alp">-->
-<!--                <div class="cards_h1_border">-->
-<!--                    <h2 class="card-title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <p class="card-cost">ДС на счету</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <h1><img src="static/img/h1/paymentapprovallist.png"> {{title}}</h1>
+        <!--        <div class="cards-container">-->
+        <!--            <div class="card" id="card_available_money_alp">-->
+        <!--                <div class="cards_h1_border">-->
+        <!--                    <h2 class="card__title" id="card_available_money_value" data-value="{{ available_money }}">{{ available_money }} ₽</h2>-->
+        <!--                </div>-->
+        <!--                <div>-->
+        <!--                    <p class="card__cost">ДС доступные к распределению</p>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="card" id="card_account_money_alp">-->
+        <!--                <div class="cards_h1_border">-->
+        <!--                    <h2 class="card__title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>-->
+        <!--                </div>-->
+        <!--                <div>-->
+        <!--                    <p class="card__cost">ДС на счету</p>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div id="payment-approval__menu">
             <div class="not_form_button"><a href="payment-approval">Согласование платежей</a></div>
             <div class="not_form_button focus_button">Согласованные платежи</div>
@@ -37,52 +37,60 @@
     <br>
 
 
-<!--    <div class="help_info"><img src="static/img/interface/warning.png"> Каждое согласование отображается отдельной строкой</div>-->
+    <!--    <div class="help_info"><img src="static/img/interface/warning.png"> Каждое согласование отображается отдельной строкой</div>-->
 
+    <div class="paymentFormBtn">
+        <button type="button" id="visualTablePAL" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
+            таблицы</button>
+    </div>
+    <div class="tableR">
 
+        <table id="payment-table" name="payment_table" class="display">
+            <thead class="fix_thead">
+                <tr>
+                    <th class="th_company">-</th>
+                    <th class="th_category">СТАТЬЯ ЗАТРАТ</th>
+                    <th class="th_paynumber">№ ПЛАТЕЖА</th>
+                    <th class="th_name">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
+                    <th class="th_description">ОПИСАНИЕ</th>
+                    <th class="th_object">ОБЪЕКТ</th>
+                    <th class="th_responsible">ОТВЕТСТВЕННЫЙ</th>
+                    <th class="th_contractor">КОНТРАГЕНТ</th>
+                    <th class="th_main_sum">ОБЩАЯ СУММА</th>
+                    <th class="th_sum_remain">СОГЛАСОВАННАЯ СУММА</th>
+                    <th class="th_sum_remain">ОБЩАЯ ОПЛАТА</th>
+                    <th class="th_due_date">СРОК ОПЛАТЫ</th>
+                    <th class="th_date_create">ДАТА СОЗДАНИЯ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applications %}
+                <tr id="row-{{ loop.index }}">
+                    <td class="th_company_i" data-sort="{{ application.contractor_name }}">{{ application.contractor_name }}</td>
+                    <td class="th_category_i" data-sort="{{ application.cost_item_name }}">{{ application.cost_item_name }}</td>
+                    <td class="th_paynumber_i" data-sort="{{ application.payment_id }}">{{ application.payment_number }}</td>
+                    <td class="th_name_i2" data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}">{{
+                        application.basis_of_payment }}</td>
+                    <td class="th_description_i" data-sort="{{ application.payment_description }}" title="{{ application.payment_description }}">{{
+                        application.payment_description
+                        }}
+                    </td>
+                    <td class="th_object_i" data-sort="{{ application.object_name }}">{{ application.object_name }}</td>
+                    <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}.">{{ application.last_name }} {{
+                        application.first_name[0] }}.
+                    </td>
+                    <td class="th_contractor_i" data-sort="{{ application.partner }}">{{ application.partner }}</td>
+                    <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
+                    <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}">{{ application.approval_sum_rub }} </td>
+                    <td class="th_sum_remain_i" data-sort="{{ application.paid_sum_rub }}">{{ application.paid_sum_rub }} </td>
+                    <td class="th_due_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date}} </td>
+                    <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <table id="payment-table" name="payment_table" class="display">
-        <thead class="fix_thead">
-            <tr>
-                <th>№</th>
-                <th>СИП/КПЛН</th>
-                <th>СТАТЬЯ ЗАТРАТ</th>
-                <th>№ ПЛАТЕЖА</th>
-                <th>НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
-                <th>ОПИСАНИЕ</th>
-                <th>ОБЪЕКТ</th>
-                <th>ОТВЕТСТВЕННЫЙ</th>
-                <th>КОНТРАГЕНТ</th>
-                <th>ОБЩАЯ СУММА</th>
-
-                <th>СОГЛАСОВАННАЯ СУММА</th>
-                <th>ОБЩАЯ ОПЛАТА</th>
-                <th>СРОК ОПЛАТЫ</th>
-                <th>ДАТА СОЗДАНИЯ</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for application in applications %}
-            <tr id="row-{{ loop.index }}">
-                <td data-sort="{{ loop.index }}">{{loop.index}}</td>
-                <td data-sort="{{ application.contractor_name }}">{{ application.contractor_name }}</td>
-                <td data-sort="{{ application.cost_item_name }}">{{ application.cost_item_name }}</td>
-                <td data-sort="{{ application.payment_id }}">{{ application.payment_number }}</td>
-                <td data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}">{{ application.basis_of_payment_short }}</td>
-                <td data-sort="{{ application.payment_description }}" title="{{ application.payment_description }}">{{ application.payment_description_short }}
-                </td>
-                <td data-sort="{{ application.object_name }}">{{ application.object_name }}</td>
-                <td data-sort="{{ application.last_name }} {{ application.first_name[0] }}.">{{ application.last_name }} {{ application.first_name[0] }}.</td>
-                <td data-sort="{{ application.partner }}">{{ application.partner }}</td>
-                <td data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
-                <td data-sort="{{ application.approval_sum }}">{{ application.approval_sum_rub }} </td>
-                <td data-sort="{{ application.paid_sum_rub }}">{{ application.paid_sum_rub }} </td>
-                <td data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date}} </td>
-                <td data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 
     {% endblock %}
 </body>

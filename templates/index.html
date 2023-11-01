@@ -1,12 +1,13 @@
-{% extends "layout-main.html" %}
+{% extends "_layout-main.html" %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
 
 
-<body id="main_page_page">
-    <div id="index_main_menu" class="cards-container">
+<body id="main_page">
+
+    <div id="index_main_menu" class="cards_container">
         {% for m in menu %}
         <div class="cards_container__category">
             <div class="cards_container__category__name">{{m.menu_item}}</div>

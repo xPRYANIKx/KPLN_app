@@ -2,12 +2,12 @@ class ItcSlider {
   static #EL_WRAPPER = 'wrapper';
   static #EL_ITEMS = 'items';
   static #EL_ITEM = 'item';
-  static #EL_ITEM_ACTIVE = 'item-active';
+  static #EL_ITEM_ACTIVE = 'item_active';
   static #EL_INDICATOR = 'indicator';
-  static #EL_INDICATOR_ACTIVE = 'indicator-active';
-  static #BTN_PREV = 'btn-prev';
-  static #BTN_NEXT = 'btn-next';
-  static #BTN_HIDE = 'btn-hide';
+  static #EL_INDICATOR_ACTIVE = 'indicator__active';
+  static #BTN_PREV = 'btn__prev';
+  static #BTN_NEXT = 'btn__next';
+  static #BTN_HIDE = 'btn__hide';
   static #TRANSITION_NONE = 'transition-none';
   static #SWIPE_THRESHOLD = 20;
 
@@ -37,7 +37,7 @@ class ItcSlider {
    * @param {Object} config
    * @param {String} prefix
    */
-  constructor(el, config = {}, prefix = 'itc-slider-') {
+  constructor(el, config = {}, prefix = 'itc_slider__') {
     this.#state = {
       prefix, // префикс для классов
       el, // элемент который нужно активировать как ItcSlider
@@ -86,7 +86,7 @@ class ItcSlider {
    * @param {Object} config
    * @param {String} prefix
    */
-  static getOrCreateInstance(target, config = {}, prefix = 'itc-slider-') {
+  static getOrCreateInstance(target, config = {}, prefix = 'itc_slider__') {
     const elSlider = typeof target === 'string' ? document.querySelector(target) : target;
     const result = this.getInstance(elSlider);
     if (result) {
@@ -99,7 +99,7 @@ class ItcSlider {
 
   // статический метод для активирования элементов как ItcSlider на основе data-атрибутов
   static createInstances() {
-    document.querySelectorAll('[data-slider="itc-slider"]').forEach((el) => {
+    document.querySelectorAll('[data-slider="itc_slider"]').forEach((el) => {
       const { dataset } = el;
       const params = {};
       Object.keys(dataset).forEach((key) => {
@@ -174,7 +174,7 @@ class ItcSlider {
     if (this.#state.isMoving) {
       e.preventDefault();
     }
-    if (!(e.target.closest('.itc-slider-btn') || e.target.closest('.itc-slider-indicators'))) {
+    if (!(e.target.closest('.itc_slider__btn') || e.target.closest('.itc_slider__indicators'))) {
       return;
     }
     const classBtnPrev = this.#state.prefix + this.constructor.#BTN_PREV;

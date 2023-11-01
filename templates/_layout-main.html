@@ -16,7 +16,7 @@
 
     <script src="static/script/removeLogInfo.js"></script>
     <script src="static/script/todayYear.js" defer></script>
-    <script src="static/script/menuNav.js" defer></script>
+    <script src="static/script/headerMenu.js" defer></script>
 
     <link rel="stylesheet" href="static/style/style.css">
     {% endblock %}
@@ -25,14 +25,14 @@
 
 
 
-{% include "flash.html" %}
+{% include "_flash.html" %}
 <div class="wrapper">
 
 
     <header>
-        <div class="header__pic">
-            <div class="header__pic__menu">
-                <img src="static/img/interface/menu.png" alt="kpln_menu" id="menuImage">
+        <div class="header_pic">
+            <div class="header_pic__menu">
+                <img src="static/img/interface/menu.png" alt="kpln_menu" id="image_menu">
             </div>
         </div>
         <div id="header__auth__label">{{menu_profile[0].name[0]}}&nbsp;
@@ -40,9 +40,9 @@
             <a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a>
         </div>
         <div id="menu">
-            <div class="menu_content">
+            <div id="menu__content">
                 <ul>
-                    <li class="mainmenu_h"><a href="/">Главная страница</a></li>
+                    <li id="menu__content__h"><a href="/">Главная страница</a></li>
                     {% for m in menu %}
                     <ul>{{m.menu_item}}</ul>
                     {% for p in m.sub_item %}
@@ -62,12 +62,13 @@
 
 
     <footer>
-        <div class=" footer_company">
+        <div class="footer_company">
             <div class="footer_company__href">
-                <div class="footer_company__href_bitrix24"><a href="https://kpln.bitrix24.ru/" target="blank">Битрикс24</a></div>
-                <div class="footer_company__href_moodle"><a href="http://moodle/" target="blank">Учебный центр</a></div>
+                <div><a href="https://kpln.bitrix24.ru/" target="blank">Битрикс24</a></div>
+                <div class="footer_company__href__line">|</div>
+                <div><a href="http://moodle/" target="blank">Учебный центр</a></div>
             </div>
-            <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbsp Проектное бюро "Крупный план"</div>
+            <div class="footer_company__copyright">Copyright &copy; <div id="yearToday"></div>&nbspПроектное бюро "Крупный план"</div>
         </div>
     </footer>
 
