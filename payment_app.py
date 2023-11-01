@@ -429,39 +429,6 @@ def get_unapproved_payments():
         cursor.execute("SELECT contractor_id, contractor_name FROM our_companies")
         our_companies = cursor.fetchall()
 
-        # Данные для графика изменения баланса
-        cursor.execute(
-            f"""WITH
-                    t1 AS (SELECT 
-                            inflow_sum AS balance_sum,
-                            inflow_at AS create_at,
-                            inflow_description AS description,
-                            'inflow' AS status
-                        FROM payments_inflow_history
-                        WHERE inflow_type_id != 4
-                        LIMIT 40
-                    ),
-                    t2 AS (SELECT 
-                            paid_sum*-1 AS balance_sum,
-                            create_at AS create_at,
-                            payment_id::text AS description,
-                            'paid' AS status
-                        FROM payments_paid_history
-                        LIMIT 40
-                    )
-                SELECT
-                    *
-                FROM t1
-                UNION ALL 
-                SELECT
-                    *
-                FROM t2
-                ORDER BY create_at DESC
-                LIMIT 10;
-                        """
-        )
-        inflow_history = cursor.fetchall()
-
         login_app.conn_cursor_close(cursor, conn)
 
         # Create profile name dict
@@ -481,7 +448,6 @@ def get_unapproved_payments():
             applications=all_payments, approval_statuses=approval_statuses, money=money, responsible=responsible,
             cost_items=cost_items, objects_name=objects_name, partners=partners, our_companies=our_companies,
             sort_col=sort_col, tab_rows=tab_rows, page=request.path[1:],
-            inflow_history=inflow_history,
             title='Согласование платежей')
     # except Exception as e:
     #     pprint(e)
@@ -3626,3 +3592,95 @@ def conv_data_to_db(col, val, all_col_types):
     elif col_type == 'boolean':
         pass
     return val
+
+
+@payment_app_bp.route('/get-paymentMyCharts', methods=['POST'])
+@login_required
+def get_payment_my_charts():
+    """Постраничная выгрузка списка несогласованных платежей"""
+
+    try:
+        chart_type = request.get_json()['chart_type']
+
+        print(chart_type)
+
+        # Connect to the database
+        conn, cursor = login_app.conn_cursor_init_dict()
+
+        # Данные для графика изменения баланса
+        cursor.execute(
+                """WITH
+    t11 AS (
+    
+    WITH
+            t1 AS (SELECT 
+                    inflow_sum AS balance_sum,
+                    inflow_at AS create_at,
+                    inflow_description AS description,
+                    'inflow' AS status
+                FROM payments_inflow_history
+                WHERE inflow_type_id != 4 AND inflow_sum != 0
+                LIMIT 40
+            ),
+            t2 AS (SELECT 
+                    paid_sum*-1 AS balance_sum,
+                    create_at AS create_at,
+                    payment_id::text AS description,
+                    'paid' AS status
+                FROM payments_paid_history
+                WHERE paid_sum != 0
+                LIMIT 40
+            ),
+            t3 AS (SELECT 
+                    COALESCE(SUM(balance_sum), 0) AS all_sum
+                FROM payments_balance
+            )
+        SELECT
+            *
+        FROM t1
+        JOIN t3 ON true
+        UNION ALL 
+        SELECT
+            *
+        FROM t2
+        JOIN t3 ON true
+        ORDER BY create_at DESC
+        LIMIT 40
+    
+    )
+    
+    SELECT 
+        balance_sum::text AS balance_sum,
+        date_trunc('second', timezone('UTC-3', create_at)::timestamp)::text AS create_at,
+        LAG(balance_sum) OVER(ORDER BY create_at DESC)::text AS previous_balance,
+        (all_sum - balance_sum + LAG(balance_sum) OVER(ORDER BY create_at DESC))::text AS cur_bal,
+        status,
+        all_sum
+    FROM t11
+    """
+        )
+        inflow_history = cursor.fetchall()
+        pprint(inflow_history)
+
+        if not len(inflow_history):
+            return jsonify({
+                'inflow_history': 0,
+                'status': 'success',
+                'description': 'Data not finding',
+            })
+
+        for i in range(len(inflow_history)):
+            inflow_history[i] = dict(inflow_history[i])
+
+        # Return the updated data as a response
+        return jsonify({
+            'inflow_history': inflow_history,
+            'status': 'success'
+        })
+    except Exception as e:
+        return jsonify({
+            'inflow_history': 0,
+            'status': 'error',
+            'description': e,
+        })
+

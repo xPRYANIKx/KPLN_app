@@ -30,6 +30,8 @@
 <script src="static/script/paymentApprovalSort.js"></script>
 <script src="static/script/paymentFilter.js"></script>
 
+<script src="static/script/paymentMyCharts.js"></script>
+
 <body id="payment-approval_page">
 
     {% endblock %}
@@ -41,70 +43,12 @@
 
 
 
-
-    <canvas id="myChart"></canvas>
-
-    <script>
-var labels = [];
-var values = [];
-
-inflow_history.forEach(function(entry) {
-  labels.push(entry.create_at);
-  values.push(entry.balance_sum);
-});
-
-    // Get the canvas element
-var ctx = document.getElementById('myChart').getContext('2d');
-
-// Create the chart
-var chart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: labels,
-    datasets: [{
-      label: 'Balance Sum',
-      data: values,,
-      backgroundColor: 'rgba(0, 123, 255, 0.5)',
-      borderColor: 'rgba(0, 123, 255, 1)',
-      borderWidth: 1,
-      tension: 0.1
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Chart.js Line Chart'
-      }
-    },
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  }
-});
-    </script>
-
-
-
-
-
-
-
-
-
-
     <dialog class="window" id="payment-approval__dialog">
         <div id="payment-approval__dialog__menu">
             <div id="payment-approval__dialog__menu__edit">
                 <h1><img src="static/img/h1/edit_pay.png"> Редактировать платёж</h1>
                 <!--                <form id="new_payment" method="POST" action="/new-payment2">-->
-                <form id="new_payment">
+                <form id="payment_card">
                     <div class="name__payment"><span id="payment_id" hidden="hidden"></span>
                         <span class="name__payment__h">Платёж №:&nbsp;</span><span id="payment_number"></span>
                     </div>
@@ -303,6 +247,9 @@ var chart = new Chart(ctx, {
     </dialog>
 
 
+    <canvas id="myChart" hidden="hidden"></canvas>
+
+
     <div class="tpages_top_panel">
         <h1><img src="static/img/h1/payment-approval.png"> {{title}}</h1>
         <div class="cards-container">
@@ -314,7 +261,7 @@ var chart = new Chart(ctx, {
                     <p class="card-cost">Выбрано для одобрения</p>
                 </div>
             </div>
-            <div class="card" id="card_available_money">
+            <div class="card" id="card_available_money" onclick="paymentMyCharts('available_money')">
                 <div class="cards_h1_border">
                     <h2 class="card-title" id="card_available_money_value" data-value="{{ money['available_money'] }}">{{ money['available_money_rub'] }}</h2>
                 </div>
@@ -322,7 +269,7 @@ var chart = new Chart(ctx, {
                     <p class="card-cost">Доступные к распределению</p>
                 </div>
             </div>
-            <div class="card" id="card_account_money">
+            <div class="card" id="card_account_money" onclick="paymentMyCharts('account_money')">
                 <div class="cards_h1_border">
                     <h2 class="card-title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
                 </div>
