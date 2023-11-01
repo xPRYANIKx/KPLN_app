@@ -4,7 +4,7 @@ function checkFormCashInflow() {
     var CIMoney = document.getElementById('cash_inflow__money').value;
     var CIDescription = document.getElementById('cash_inflow__description').value;
     var CITransferCompany = document.getElementById('cash_inflow__transfer_company').value;
-    var field3_1 = parseFloat(field3.replaceAll('₽', '').replaceAll(" ", "").replaceAll(" ", "").replaceAll(",", "."))
+    var field3_1 = parseFloat(CIMoney.replaceAll('₽', '').replaceAll(" ", "").replaceAll(" ", "").replaceAll(",", "."))
 
     if (CIType == 4) {
         document.getElementById("cash_inflow__hidden_label").style.display = "flex";
