@@ -1169,7 +1169,6 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog,
 #payment-paid-list_page #payment-approval__dialog,
 #payment-pay_page #payment-approval__dialog {
-  height: 850px;
   border: none;
   border-radius: 7px;
   background-color: #f3f5f5;
@@ -1180,12 +1179,6 @@ main .focus_button {
 #payment-paid-list_page #payment-approval__dialog__menu,
 #payment-pay_page #payment-approval__dialog__menu {
   display: flex;
-}
-#payment-approval_page #payment-approval__dialog__menu__edit,
-#payment-approval-list_page #payment-approval__dialog__menu__edit,
-#payment-paid-list_page #payment-approval__dialog__menu__edit,
-#payment-pay_page #payment-approval__dialog__menu__edit {
-  max-width: 300px;
 }
 #payment-approval_page #payment-approval__dialog__menu__edit h1,
 #payment-approval-list_page #payment-approval__dialog__menu__edit h1,
@@ -1346,9 +1339,7 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__edit form .button_group,
 #payment-paid-list_page #payment-approval__dialog__menu__edit form .button_group,
 #payment-pay_page #payment-approval__dialog__menu__edit form .button_group {
-  position: absolute;
   flex-direction: row;
-  bottom: 5px;
   margin-top: 5px;
   padding-top: 5px;
 }
@@ -1396,7 +1387,7 @@ main .focus_button {
 #payment-paid-list_page #payment-approval__dialog__menu__list,
 #payment-pay_page #payment-approval__dialog__menu__list {
   width: 300px;
-  margin: 15px;
+  margin: 15px 15px 0 15px;
   padding: 0px 5px 0px 20px;
   border-left: solid 2px #e5e5e5;
 }
@@ -1449,15 +1440,14 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__list__content,
 #payment-paid-list_page #payment-approval__dialog__menu__list__content,
 #payment-pay_page #payment-approval__dialog__menu__list__content {
-  height: 82.3%;
   margin: 10px 0px 0px 0px;
 }
 #payment-approval_page #payment-approval__dialog__menu__list__content .paid_history-table__response,
 #payment-approval-list_page #payment-approval__dialog__menu__list__content .paid_history-table__response,
 #payment-paid-list_page #payment-approval__dialog__menu__list__content .paid_history-table__response,
 #payment-pay_page #payment-approval__dialog__menu__list__content .paid_history-table__response {
-  min-height: 610px;
-  max-height: 610px;
+  min-height: 600px;
+  max-height: 600px;
   overflow-y: scroll;
 }
 #payment-approval_page #payment-approval__dialog__menu__list__content .paid_history-table__response table,
@@ -1522,9 +1512,9 @@ main .focus_button {
 #payment-approval-list_page #payment-approval__dialog__menu__list__button,
 #payment-paid-list_page #payment-approval__dialog__menu__list__button,
 #payment-pay_page #payment-approval__dialog__menu__list__button {
-  position: absolute;
-  bottom: 15px;
-  padding-top: 2px;
+  display: flex;
+  margin-top: 8px;
+  padding-top: 4px;
   border-top: solid 2px #dddddd;
 }
 #payment-approval_page #payment-approval__dialog__menu__list__button button,
@@ -1963,10 +1953,10 @@ main .focus_button {
   min-width: 140px;
   font-weight: 900;
 }
-#payment-approval_page #paymentForm .tableR table .th_sum_unapproved_i,
-#payment-approval-list_page #paymentForm .tableR table .th_sum_unapproved_i,
-#payment-paid-list_page #paymentForm .tableR table .th_sum_unapproved_i,
-#payment-pay_page #paymentForm .tableR table .th_sum_unapproved_i {
+#payment-approval_page #paymentForm .tableR table .th_sum_remain_i,
+#payment-approval-list_page #paymentForm .tableR table .th_sum_remain_i,
+#payment-paid-list_page #paymentForm .tableR table .th_sum_remain_i,
+#payment-pay_page #paymentForm .tableR table .th_sum_remain_i {
   width: 140px;
   min-width: 140px;
   font-weight: bold;
