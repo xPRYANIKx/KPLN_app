@@ -1829,6 +1829,15 @@ footer .footer_company__copyright {
   position: sticky;
   top: 0px;
 }
+.tableR table .fix_thead tr th div {
+  justify-content: center;
+}
+.tableR table .fix_thead tr th .arrow_sort {
+  justify-content: right;
+  margin: -8px 0px 5px 0px;
+  font-size: 18px;
+  color: #dfcb7c;
+}
 .tableR table tbody tr td {
   font-size: 13px;
 }

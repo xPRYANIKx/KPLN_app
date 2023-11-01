@@ -1477,6 +1477,19 @@ footer {
         .fix_thead {
             position: sticky;
             top: 0px;
+            tr {
+                th {
+                    div {
+                        justify-content: center;
+                    }
+                    .arrow_sort {
+                        justify-content: right;
+                        margin: -8px 0px 5px 0px;
+                        font-size: 18px;
+                        color: #dfcb7c;
+                    }
+                }
+            }
         }
         tbody {
             tr {
