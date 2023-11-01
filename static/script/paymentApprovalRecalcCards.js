@@ -17,17 +17,6 @@ function paymentApprovalRecalcCards(rowId) {
         var amount_dataset = document.getElementById('amount-' + rowId).dataset.amount
 
         amount_value = parseFloat(amount_value.replaceAll(' ', '').replaceAll(' ', '').replace('₽', '').replace(",", "."));
-//
-//        amount_value = amount_value.replaceAll(' ', '');
-//
-//        amount_value = amount_value.replaceAll(' ', '');
-//
-//        amount_value = amount_value.replace('₽', '');
-//
-//        amount_value = amount_value.replace(",", ".");
-//
-//        amount_value = parseFloat(amount_value);
-
 
         s_f_a_p ? s_f_a_p = parseFloat(s_f_a_p.replace(',', '.')).toFixed(2) * 1.00 : s_f_a_p = 0;
         a_m_v ? a_m_v = parseFloat(a_m_v.replace(',', '.')).toFixed(2) * 1.00 : a_m_v = 0;

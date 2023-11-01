@@ -6,6 +6,19 @@ function saveData(rowId, page='') {
     var statusId = document.getElementById('status_id-' + rowId);
     var paymentFullStatus = document.getElementById('paymentFullStatus-' + rowId).checked;
 
+//    // Для сортировки. обновляем значение
+//    if (paymentSelectedRows) {
+//        document.getElementById('row-' + rowId).getElementsByTagName('td')[0].dataset.sort=1;
+//        console.log(1)
+//    }
+//    else {
+//        document.getElementById('row-' + rowId).getElementsByTagName('td')[0].dataset.sort=0;
+//        console.log(0)
+//    }
+
+
+
+
     if (statusId) {
         statusId = document.getElementById('status_id-' + rowId).value
     }
@@ -18,6 +31,8 @@ function saveData(rowId, page='') {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/save_quick_changes_approved_payments', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//    console.log(`'row_id=' ${rowId} \n'&payment_number=' + ${paymentNumber} \n'&amount=' + ${amount} \n'&status_id=' + ${statusId}
+//'&payment_full_agreed_status=' + ${paymentFullStatus} \n'&page=' + ${page}`)
 
     xhr.send('row_id=' + rowId + '&payment_number=' + paymentNumber + '&amount=' + amount + '&status_id=' + statusId +
              '&payment_full_agreed_status=' + paymentFullStatus + '&page=' + page);

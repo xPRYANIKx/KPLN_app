@@ -8,12 +8,18 @@
 <script src="static/script/paymentApprovalRecalcCards.js"></script>
 <script src="static/script/paymentApprovalColorize.js"></script>
 <script src="static/script/paymentApprovalClearAmountWhenNoSelect.js"></script>
+<script src="static/script/paymentPagination.js" defer></script>
+<script src="static/script/paymentFilter.js"></script>
 
 
 <body id="payment-pay_page">
+
     {% endblock %}
     {% block content %}
 
+    <div class="progress-bar">
+        <div class="progress" style="width: {{(applications|length/ tab_rows ) * 100}}%"></div>
+    </div>
 
     <div class="tpages_top_panel">
         <h1><img src="static/img/h1/paymentpay.png"> {{title}}</h1>
@@ -23,83 +29,100 @@
                 <p class="card__cost">Выбрано для одобрения</p>
             </div>
             <div class="card" id="card_available_money">
-                <h2 class="card__title" id="card_available_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
-                <p class="card__cost">ДС доступные к распределению</p>
+                <h2 class="card-title" id="card_available_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
+                <p class="card-cost">ДС доступные к распределению</p>
             </div>
             <div class="card" id="card_account_money">
-                <h2 class="card__title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>
-                <p class="card__cost">ДС на счету</p>
+                <h2 class="card-title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
+                <p class="card-cost">ДС на счету</p>
             </div>
         </div>
     </div>
 
-
+    <div id="sortCol-1" hidden>{{ sort_col['col_1'][0] }}#{{ sort_col['col_1'][1] }}</div>
+    <div id="sortCol-1_val" hidden>{{ sort_col['col_1'][2] }}</div>
+    <div id="sortCol-2" hidden>{{ sort_col['col_2'][0] }}#{{ sort_col['col_2'][1] }}</div>
+    <div id="sortCol-2_val" hidden>{{ sort_col['col_2'][2] }}</div>
+    <div id="sortCol-id" hidden>{{ sort_col['col_id'][0] }}#{{ sort_col['col_id'][1] }}</div>
+    <div id="sortCol-id_val" hidden>{{ sort_col['col_id'][2] }}</div>
 
 
     <form id="paymentForm" action="/payment-pay" method="POST">
         <button type="submit">Отправить</button>
-        <table id="payment-table" name="payment_table" class="display">
-            <thead class="fix_thead">
-                <tr>
-                    <th>ВЫБОР</th>
-                    <th onclick="sortTable(2, 'str')">СИП/КПЛН</th>
-                    <th onclick="sortTable(3, 'str')">СТАТЬЯ ЗАТРАТ</th>
-                    <th onclick="sortTable(4, 'str')">№ ПЛАТЕЖА</th>
-                    <th onclick="sortTable(5, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
-                    <th onclick="sortTable(6, 'str')">ОПИСАНИЕ</th>
-                    <th onclick="sortTable(7, 'str')">ОБЪЕКТ</th>
-                    <th onclick="sortTable(8, 'str')">ОТВЕТСТВЕННЫЙ</th>
-                    <th onclick="sortTable(9, 'str')">КОНТРАГЕНТ</th>
-                    <th onclick="sortTable(10, 'num')">ОБЩАЯ СУММА</th>
-                    <th onclick="sortTable(11, 'num')">ОПЛАЧЕНО</th>
-                    <th onclick="sortTable(12, 'num')">СОГЛАСОВАННАЯ СУММА</th>
-                    <th onclick="sortTable(13, 'num')">СУММА К ОПЛАТЕ</th>
-                    <th onclick="sortTable(14, 'str')">СРОК ОПЛАТЫ</th>
-                    <!--                <th onclick="sortTable(14, 'str')">СТАТУС</th>-->
-                    <th onclick="sortTable(15, 'str')">ДО ПОЛНОЙ ОПЛАТЫ</th>
-                    <th onclick="sortTable(16, 'str')">ДАТА СОЗДАНИЯ</th>
-                    <!--                <th onclick="sortTable(16, 'str')">СОХРАНИТЬ ДО ПОЛНОЙ ОПЛАТЫ</th>-->
-                </tr>
-            </thead>
-            <tbody>
-                {% for application in applications %}
-                <tr id="row-{{ loop.index }}">
-                    <td class="th_select_i" data-sort="{{ loop.index }}">
-                        <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
-                            onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }})">
-                    </td>
-                    <td data-sort="{{application.contractor_id}}">
-                        <input name="contractor_id" value="{{application.contractor_id}}" hidden readonly>
-                        {{ application.contractor_name }}
-                    </td>
-                    <td data-sort="{{application.cost_item_name}}">{{ application.cost_item_name }}</td>
-                    <td data-sort="{application.payment_id}}">
-                        <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>
-                        {{application.payment_number}}
-                    </td>
-                    <td data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}">{{ application.basis_of_payment_short }}</td>
-                    <td data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}">{{ application.payment_description_short }}
-                    </td>
-                    <td data-sort="{{application.object_name}}">{{ application.object_name }}</td>
-                    <td>{{ application.last_name }} {{ application.first_name[0] }}.</td>
-                    <td>{{ application.partner }}</td>
-                    <td>{{ application.payment_sum_rub }}</td>
-                    <td>{{ application.paid_sum_rub }}</td>
-                    <td><input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>{{
-                        application.approval_sum_rub}}</td>
-                    <td><input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}"
-                            onchange="saveData({{ loop.index }}, '{{ page }}'), paymentApprovalRecalcCards({{ loop.index }})"></td>
-                    <td>{{ application.payment_due_date }}</td>
-                    <td class="th_save_pay_i">
-                        <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if
-                            application.payment_full_agreed_status %}checked{% endif %}
-                            onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }})">
-                    </td>
-                    <td>{{ application.payment_at }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="tableR">
+            <table id="payment-table" name="payment_table" class="display">
+                <thead class="fix_thead">
+                    <tr>
+                        <th class="th_select" onclick="sortTable(0, 'num')">ВЫБОР</th>
+                        <th class="th_category" onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ</th>
+                        <th onclick="sortTable(2, 'num')">№ ПЛАТЕЖА</th>
+                        <th class="th_name" onclick="sortTable(3, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
+                        <th class="th_description" onclick="sortTable(4, 'str')">ОПИСАНИЕ</th>
+                        <th class="th_object" onclick="sortTable(5, 'str')">ОБЪЕКТ</th>
+                        <th class="th_responsible" onclick="sortTable(6, 'str')">ОТВЕТСТВЕННЫЙ</th>
+                        <th class="th_contractor" onclick="sortTable(7, 'str')">КОНТРАГЕНТ</th>
+                        <th class="th_main_sum" onclick="sortTable(8, 'num')">ОБЩАЯ СУММА</th>
+                        <th onclick="sortTable(9, 'num')">ОПЛАЧЕНО</th>
+                        <th class="th_sum_agreed" onclick="sortTable(10, 'num')">СОГЛАСОВАННАЯ СУММА</th>
+                        <th onclick="sortTable(11, 'num')">СУММА К ОПЛАТЕ</th>
+                        <th class="th_pay_date" onclick="sortTable(12, 'str')">СРОК ОПЛАТЫ</th>
+                        <th class="th_date_create" onclick="sortTable(13, 'str')">ДАТА СОЗДАНИЯ</th>
+                        <th class="th_save_pay" onclick="sortTable(14, 'num')">ДО ПОЛНОЙ ОПЛАТЫ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                    <tr id="row-{{ loop.index }}">
+                        <td class="th_select_i" data-sort="0">
+                            <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{ loop.index }}"
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }})">
+                        </td>
+                        <td class="th_category_i" id="category-{{ loop.index }}" data-sort="{{ application.cost_item_name }}"
+                            onclick="getModal({{ application.payment_id }})">
+                            <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>
+                            {{ application.cost_item_name }}
+                        </td>
+                        <td data-sort="{{ application.payment_id }}">{{application.payment_number}}</td>
+                        <td class="th_name_i showModalId" data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}"
+                            onclick="getModal({{ application.payment_id }})">{{ application.basis_of_payment }}
+                        </td>
+                        <td class="th_description_i" data-sort="{{ application.contractor_name }}: {{ application.payment_description }}"
+                            title="{{ application.payment_description }}">
+                            <input name="contractor_id" value="{{ application.contractor_id }}" hidden readonly>
+                            <span class="paymentFormBold">{{ application.contractor_name }}: </span>{{ application.payment_description }}
+                        </td>
+                        <td class="th_object_i" data-sort="{{ application.object_name }}">{{ application.object_name}}</td>
+                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name }}">{{ application.last_name }} {{
+                            application.first_name[0] }}.</td>
+                        <td class="th_contractor_i" data-sort="{{ application.partner }}">{{ application.partner }}</td>
+                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
+
+
+                        <td data-sort="{{ application.paid_sum }}">{{ application.paid_sum_rub }}</td>
+                        <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}">
+                            <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{ application.approval_sum }}" hidden readonly>
+                            {{ application.approval_sum_rub }}
+                        </td>
+                        <td data-sort="{{ application.amount }}">
+                            <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}"
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
+                        </td>
+
+
+
+                        <td data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
+                        <td data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
+                        <td class="th_save_pay_i" data-sort="{% if application.payment_full_agreed_status %}1{% else %}0{% endif %}">
+                            <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{ loop.index }}" {% if
+                                application.payment_full_agreed_status %}checked{% endif %}
+                                onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }})">
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </form>
 
     {% endblock %}
