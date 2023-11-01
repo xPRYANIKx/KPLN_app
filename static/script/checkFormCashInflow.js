@@ -4,6 +4,8 @@ function checkFormCashInflow() {
     var field3 = document.getElementById('cash_inflow_sum').value;
     var field4 = document.getElementById('cash_inflow_description').value;
     var field5 = document.getElementById('taker_company').value;
+    var field3_1 = parseFloat(field3.replaceAll('₽', '').replaceAll(" ", "").replaceAll(" ", "").replaceAll(",", "."))
+
 
     //Внутренний платёж
     if (field2 == 4) {
@@ -27,7 +29,7 @@ function checkFormCashInflow() {
         field4 = "пусто"
     }
 
-    if (field1 !== '' && field2 !== '' && field3 !== '' && field4 !== '' && field5 !== '') {
+    if (field1 !== '' && field2 !== '' && field3 !== '' && field4 !== '' && field5 !== '' && field3_1) {
         document.getElementById('submitBtn').disabled = false;
     } else {
         document.getElementById('submitBtn').disabled = true;

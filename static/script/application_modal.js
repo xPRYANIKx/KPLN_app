@@ -2,6 +2,7 @@ function getModal(paymentId = null) {
     fetch('/get_card_payment/' + paymentId)
         .then(response => response.json())
         .then(data => {
+            console.log(data.payment['payment_id'])
             //            console.log(data)
             //            console.log(data.payment)
             //            console.log(data.paid)
@@ -124,9 +125,6 @@ function getModal(paymentId = null) {
 - Неоплаченный согласованный остаток (${data.payment['approval_to_pay_sum_rub']}) удалится
 - Остаток к оплате увеличится на (${data.payment['approval_to_pay_sum_rub']})`
             document.getElementById("annul_approval__edit_btn_i").setAttribute("title", title)
-
-            console.log(document.getElementById('save__edit_btn').disabled)
-
 
         })
         .catch(error => {

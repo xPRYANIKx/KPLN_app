@@ -1,10 +1,10 @@
-{% extends "layout-error.html" %}
+{% extends "_layout-error.html" %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
 <body id="error_page">
-  {% include "flash.html" %}
+  {% include "_flash.html" %}
   <div class="error_page_wrapper">
     <div class="wrapperError__info"><a href="/"><img src="/static/img/403.png" alt="Ошибка 404"></a></div>
     <p class="error_page_name">Доступ ограничен</p>

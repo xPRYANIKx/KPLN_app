@@ -22,9 +22,6 @@ function checkFormNewPayment() {
         document.getElementById("objects_name").required = false;
     }
     var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
-    if (page_url === 'payment-approval') {
-        field8 = 1
-    }
 
     field8_1 = parseFloat(field8.replaceAll('₽', '').replaceAll(" ", "").replaceAll(" ", "").replaceAll(",", "."))
 
@@ -32,16 +29,14 @@ function checkFormNewPayment() {
     if (field1 !== '' && field2 !== '' && field3 !== '' && field4 !== '' && field5 !== '' && field6 !== '' &&
         field7 !== '' && field8 !== '' && !isNaN(field8_1) && field8_1) {
         if (page_url === 'payment-approval') {
-//            document.getElementById('save__edit_btn').disabled = false;
-//            document.getElementById('save__edit_btn').style.background='green';
+            document.getElementById('save__edit_btn_i').disabled = false
         }
         else {
             document.getElementById('submitBtn').disabled = false;
         }
     } else {
         if (page_url === 'payment-approval') {
-//            document.getElementById('save__edit_btn').disabled = true;
-//            document.getElementById('save__edit_btn').style.background='grey';
+            document.getElementById('save__edit_btn_i').disabled = true
         }
         else {
             document.getElementById('submitBtn').disabled = true;

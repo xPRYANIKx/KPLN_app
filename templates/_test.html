@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Всё, что выше можно смело удалять */
+
+
+
+
+
+        .progress_button {
+            position: relative;
+            width: 320px;
+            height: 50px;
+            padding: 10px 20px;
+            overflow: hidden;
+            z-index: 1;
+            border-radius: 3px;
+            border: none;
+            color: #ffffff;
+            background-color: #1e1e1e;
+            font-weight: bold;
+        }
+
+        .progress_button-text {
+            transition: opacity 0.5s;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .progress_button-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background-color: #456be6;
+            transition: width 0.3s;
+            z-index: -1;
+        }
+
+        .dialog-progress_button {
+            margin-top: 10px;
+        }
+    </style>
+
+
+
+
+</head>
+<body>
+
+    <a href="/">Главная страница</a><br><br><br><br>
+
+    <button class="progress_button" onpointerdown="startButtonAnimation(event)" onpointerup="stopButtonAnimation(event)"
+        onpointerleave="stopButtonAnimation(event)" ontouchend="stopButtonAnimation(event)" ontouchstart="startButtonAnimation(event)"
+        ontouchcancel="stopButtonAnimation(event)">
+        <div class="progress_button-overlay"></div>
+        <span class="progress_button-text">Отправить</span>
+    </button>
+    <dialog id="random_dialog">
+        <p>Это диалоговое окно вызывается при зажатии кнопки "Отправить".</p>
+        <p>По нажатию кнопки "Закрыть" происходит перерендер всей страницы, чтобы очистить DOM-дерево</p>
+        <button onclick="closeDialog()" class="dialog-progress_button">Закрыть</button>
+    </dialog>
+
+
+
+
+
+    <script>
+        let dialog = document.getElementById('random_dialog');
+        let button = document.querySelector('.progress_button');
+        let overlay = document.querySelector('.progress_button-overlay');
+        let buttonText = document.querySelector('.progress_button-text');
+        let buttonAnimationInterval;
+        let buttonHoldTimeout;
+
+        function startButtonAnimation(e) {
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && !e?.pointerType) {
+                return;
+            }
+            buttonText.innerText = 'Удерживайте для подтверждения';
+            buttonAnimationInterval = setInterval(function () {
+                let width = parseInt(overlay.style.width) || 0;
+                width += 1;
+                overlay.style.width = width + '%';
+            }, 10);
+
+            buttonHoldTimeout = setTimeout(function () {
+                clearInterval(buttonAnimationInterval);
+                dialog.showModal();
+            }, 2000);
+        }
+        function stopButtonAnimation(e) {
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && !e?.pointerType) {
+                return;
+            }
+            buttonText.innerText = 'Отправить';
+            clearInterval(buttonAnimationInterval);
+            clearTimeout(buttonHoldTimeout);
+            overlay.style.width = '0%';
+        }
+        function closeDialog() {
+            dialog.close();
+            overlay.style.width = '0%';
+            buttonText.innerText = 'Отправить';
+            reloadPage();
+        }
+        function reloadPage() {
+            location.reload();
+        }
+    </script>
+
+
+
+</body>
+</html>

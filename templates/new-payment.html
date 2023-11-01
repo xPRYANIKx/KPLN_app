@@ -1,4 +1,4 @@
-{% extends "layout-main.html" %}
+{% extends "_layout-main.html" %}
 {% block head %}
 {{ super() }}
 
@@ -98,7 +98,7 @@
                 value="{{not_save_val.get('p_s') if not_save_val.get('p_s') else '' }}" required oninput="checkFormNewPayment()" />
         </div>
         <div class="help_p">* - поля обязательные для заполнения</div>
-        <button type="submit" id="submitBtn" onclick="window['logInfo'].showModal();" disabled>Сохранить</button>
+        <button type="submit" id="submitBtn" onclick="this.form.submit(); this.disabled=true;" disabled>Сохранить</button>
     </form>
 </body>
 {% endblock %}

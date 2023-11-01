@@ -6,13 +6,9 @@ function paymentApprovalNoSelect(rowId) {
     }
     else{
         var paymentSelectedRows = document.getElementById('selectedRows-' + rowId).checked;
-        var amount_value = document.getElementById('amount-' + rowId).value;
 
         if (!paymentSelectedRows) {
             document.getElementById('amount-' + rowId).value = '';
         }
-//        if (paymentSelectedRows && !document.getElementById('amount-' + rowId).value ) {
-//            document.getElementById('amount-' + rowId).value = '';
-//        }
     }
 }

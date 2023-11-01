@@ -1,6 +1,15 @@
-{% extends "layout-main.html" %}
+{% extends "_layout-main.html" %}
 {% block head %}
 {{ super() }}
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.js"-->
+<!--        integrity="sha512-6LKCH7i2+zMNczKuCT9ciXgFCKFp3MevWTZUXDlk7azIYZ2wF5LRsrwZqO7Flt00enUI+HwzzT5uhOvy6MNPiA=="-->
+<!--        crossorigin="anonymous"-->
+<!--        referrerpolicy="no-referrer"></script>-->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 
 <script src="static/script/numberWithSpaces.js"></script>
 
@@ -16,11 +25,79 @@
 
 <script src="static/script/application_modal.js"></script>
 <script src="static/script/verificationWindow.js" defer></script>
+<script src="static/script/paymentPagination.js" defer></script>
+<script src="static/script/paymentApprovalRefreshSortValueCheckbox.js"></script>
+<script src="static/script/paymentApprovalSort.js"></script>
+<script src="static/script/paymentFilter.js"></script>
 
 <body id="payment-approval_page">
 
     {% endblock %}
     {% block content %}
+
+    <div class="progress-bar">
+        <div class="progress" style="width: {{(applications|length/ tab_rows ) * 100}}%"></div>
+    </div>
+
+
+
+
+    <canvas id="myChart"></canvas>
+
+    <script>
+var labels = [];
+var values = [];
+
+inflow_history.forEach(function(entry) {
+  labels.push(entry.create_at);
+  values.push(entry.balance_sum);
+});
+
+    // Get the canvas element
+var ctx = document.getElementById('myChart').getContext('2d');
+
+// Create the chart
+var chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Balance Sum',
+      data: values,,
+      backgroundColor: 'rgba(0, 123, 255, 0.5)',
+      borderColor: 'rgba(0, 123, 255, 1)',
+      borderWidth: 1,
+      tension: 0.1
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart'
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+    </script>
+
+
+
+
+
+
+
+
+
 
     <dialog class="window" id="payment-approval__dialog">
         <div id="payment-approval__dialog__menu">
@@ -262,6 +339,12 @@
     </div>
 
 
+    <div id="sortCol-1" hidden>{{ sort_col['col_1'][0] }}#{{ sort_col['col_1'][1] }}</div>
+    <div id="sortCol-1_val" hidden>{{ sort_col['col_1'][2] }}</div>
+    <div id="sortCol-2" hidden>{{ sort_col['col_2'][0] }}#{{ sort_col['col_2'][1] }}</div>
+    <div id="sortCol-2_val" hidden>{{ sort_col['col_2'][2] }}</div>
+    <div id="sortCol-id" hidden>{{ sort_col['col_id'][0] }}#{{ sort_col['col_id'][1] }}</div>
+    <div id="sortCol-id_val" hidden>{{ sort_col['col_id'][2] }}</div>
     <form id="paymentForm" action="/payment-approval" method="POST" style="align-self: flex-start">
 
 
@@ -274,57 +357,69 @@
             <table id="payment-table" name="payment_table" class="display">
                 <thead class="fix_thead">
                     <tr>
-                        <th class="th_select">ВЫБОР</th>
-                        <th class="th_category">СТАТЬЯ ЗАТРАТ</th>
-                        <th class="th_name">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
-                        <th class="th_description">ОПИСАНИЕ</th>
-                        <th class="th_object">ОБЪЕКТ</th>
-                        <th class="th_responsible">ОТВЕТСТВЕННЫЙ</th>
-                        <th class="th_contractor">КОНТРАГЕНТ</th>
-                        <th class="th_main_sum">ОБЩАЯ СУММА</th>
-                        <th class="th_sum_remain">ОСТАТОК К ОПЛАТЕ</th>
-                        <th class="th_sum_agreed">СОГЛАСОВАННАЯ СУММА</th>
-                        <th class="th_pay_date">СРОК ОПЛАТЫ</th>
-                        <th class="th_status">СТАТУС</th>
-                        <th class="th_date_create">ДАТА СОЗДАНИЯ</th>
-                        <th class="th_save_pay">ДО ПОЛНОЙ ОПЛАТЫ</th>
+                        <th class="th_select" onclick="sortTable(0, 'num')">ВЫБОР<br>
+                            <input type="text" id="filter-input-0" hidden readonly></th>
+                        <th class="th_category" onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ<br>
+                            <input type="text" id="filter-input-1" oninput="filterTable()"></th>
+                        <th class="th_name" onclick="sortTable(2, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА<br>
+                            <input type="text" id="filter-input-2" oninput="filterTable()"></th>
+                        <th class="th_description" onclick="sortTable(3, 'str')">ОПИСАНИЕ<br>
+                            <input type="text" id="filter-input-3" oninput="filterTable()"></th>
+                        <th class="th_object" onclick="sortTable(4, 'str')">ОБЪЕКТ<br>
+                            <input type="text" id="filter-input-4" oninput="filterTable()"></th>
+                        <th class="th_responsible" onclick="sortTable(5, 'str')">ОТВЕТСТВЕННЫЙ<br>
+                            <input type="text" id="filter-input-5" oninput="filterTable()"></th>
+                        <th class="th_contractor" onclick="sortTable(6, 'str')">КОНТРАГЕНТ<br>
+                            <input type="text" id="filter-input-6" oninput="filterTable()"></th>
+                        <th class="th_main_sum" onclick="sortTable(7, 'num')">ОБЩАЯ СУММА<br>
+                            <input type="text" id="filter-input-7" oninput="filterTable()"></th>
+                        <th class="th_sum_remain" onclick="sortTable(8, 'num')">ОСТАТОК К ОПЛАТЕ<br>
+                            <input type="text" id="filter-input-8" oninput="filterTable()"></th>
+                        <th class="th_sum_agreed" onclick="sortTable(9, 'num')">СОГЛАСОВАННАЯ СУММА<br>
+                            <input type="text" id="filter-input-9" oninput="filterTable()"></th>
+                        <th class="th_pay_date" onclick="sortTable(10, 'str')">СРОК ОПЛАТЫ<br>
+                            <input type="text" id="filter-input-10" oninput="filterTable()"></th>
+                        <th class="th_status" onclick="sortTable(11, 'num')">СТАТУС<br>
+                            <input type="text" id="filter-input-11" hidden readonly></th>
+                        <th class="th_date_create" onclick="sortTable(12, 'str')">ДАТА СОЗДАНИЯ<br>
+                            <input type="date" id="filter-input-12" oninput="filterTable()"></th>
+                        <th class="th_save_pay" onclick="sortTable(13, 'num')">ДО ПОЛНОЙ ОПЛАТЫ<br>
+                            <input type="text" id="filter-input-13" hidden readonly></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for application in applications %}
                     <tr id="row-{{ loop.index }}">
-                        <td class="th_select_i" data-sort="{{ loop.index }}">
+                        <td class="th_select_i" data-sort="0">
                             <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
-                                onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }})">
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }}), refreshSortValChb({{ loop.index }})">
                         </td>
                         <td class="th_category_i" id="category-{{ loop.index }}" data-sort="{{ application.cost_item_name }}"
                             onclick="getModal({{ application.payment_id }})">
-                            <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>{{
-                            application.cost_item_name }}
+                            <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>
+                            {{ application.cost_item_name }}
                         </td>
                         <td class="th_name_i showModalId" data-sort="{{application.basis_of_payment}}" title="{{ application.basis_of_payment }}"
-                            onclick="getModal({{ application.payment_id }})">{{
-                            application.basis_of_payment }}</td>
-                        <td class="th_description_i" data-sort="{{application.basis_of_payment}}" title="{{ application.payment_description }}"><span
-                                class="paymentFormBold">{{ application.contractor_name }}: </span>{{
-                            application.payment_description }}</td>
-                        <td class="th_object_i" data-sort="{{application.object_name}}">{{ application.object_name
-                            }}
+                            onclick="getModal({{ application.payment_id }})">{{ application.basis_of_payment }}
                         </td>
-                        <td class="th_responsible_i">{{ application.last_name }} {{ application.first_name[0] }}.</td>
-                        <td class="th_contractor_i">{{ application.partner }}</td>
-                        <td class="th_main_sum_i">{{ application.payment_sum_rub }}</td>
-                        <td class="th_sum_remain_i">
+                        <td class="th_description_i" data-sort="{{ application.contractor_name }}: {{ application.payment_description }}" title="{{ application.payment_description }}">
+                            <span class="paymentFormBold">{{ application.contractor_name }}: </span>{{ application.payment_description }}
+                        </td>
+                        <td class="th_object_i" data-sort="{{application.object_name}}">{{ application.object_name}}</td>
+                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name }}">{{ application.last_name }} {{ application.first_name[0] }}.</td>
+                        <td class="th_contractor_i" data-sort="{{ application.partner }}">{{ application.partner }}</td>
+                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
+                        <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}">
                             <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>
                             {{ application.approval_sum_rub}}
                         </td>
-                        <td class="th_sum_agreed_i">
+                        <td class="th_sum_agreed_i" data-sort="{{ application.amount }}">
                             <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}" data-amount=0
-                                onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}'), refreshSortValAmount({{ loop.index }})">
                         </td>
-                        <td class="th_pay_date_i">{{ application.payment_due_date }}</td>
-                        <td class="th_status_i" id="status-{{ loop.index }}">
-                            <select id="status_id-{{ loop.index }}" name="status_id" data-amount="{{ 444 if application.status_id==4 else 33333}}"
+                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
+                        <td class="th_status_i" id="status-{{ loop.index }}" data-sort="{{ application.status_id }}">
+                            <select id="status_id-{{ loop.index }}" name="status_id"
                                 onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
                                 {% for s in approval_statuses %}
                                 <option {% if application.status_id==s.payment_agreed_status_id %} selected {% endif %}>
@@ -333,11 +428,11 @@
                                 {% endfor %}
                             </select>
                         </td>
-                        <td class="th_date_create_i">{{ application.payment_at }}</td>
-                        <td class="th_save_pay_i">
+                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
+                        <td class="th_save_pay_i" data-sort="{% if application.payment_full_agreed_status %}1{% else %}0{% endif %}">
                             <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if
                                 application.payment_full_agreed_status %}checked{% endif %}
-                                onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }})">
+                                onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }}), refreshSortValChb({{ loop.index }})">
                         </td>
                     </tr>
 

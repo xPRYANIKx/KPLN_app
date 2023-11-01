@@ -168,7 +168,6 @@ tmp.py
 # Файл для тестирования sql-запросов
 tst_query_to_bd.py
 wsgi.py
-/templates/payment-approval2.html
 # :)
 app.py
 db_data_conf.py

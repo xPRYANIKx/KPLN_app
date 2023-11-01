@@ -11,14 +11,11 @@ const saveButton = document.querySelector("#save__edit_btn");
 var elements = document.getElementsByClassName("showModalId");
 for (var i = 0; i < elements.length; i++) {
     elements[i].addEventListener("click", function () {
-        var dialog = document.getElementById("payment-approval__dialog");
         var bodyRef = document.getElementById('paid_history-table').getElementsByTagName('tbody')[0];
         bodyRef.innerHTML = ''
         var logDPage = document.getElementById('logDPage__content__text');
         logDPage.innerHTML = ''
         dialog.showModal();
-        ;
-
     });
 }
 

@@ -192,7 +192,7 @@ def profile():
         # Create profile name dict
         hlink_menu, hlink_profile = func_hlink_profile()
 
-        return render_template("profile.html", title="Профиль", menu=hlink_menu,
+        return render_template("_profile.html", title="Профиль", menu=hlink_menu,
                                menu_profile=hlink_profile, name=name)
     except Exception as e:
         return f'profile ❗❗❗ Ошибка \n---{e}'
@@ -342,12 +342,12 @@ def func_hlink_profile():
             "name": ["Гостевой доступ", '(Войти)'], "url": "login"},
 
         hlink_menu = [
-            {"menu_item": "Платежи", "sub_item":
-                [
-                    {"name": "Новая заявка на оплату", "url": "new-payment",
-                     "img": "/static/img/menu/new-payment.png"},
-                ]
-             },
+            # {"menu_item": "Платежи", "sub_item":
+            #     [
+            #         {"name": "Новая заявка на оплату", "url": "new-payment",
+            #          "img": "/static/img/menu/new-payment.png"},
+            #     ]
+            #  },
         ]
 
     return hlink_menu, hlink_profile
