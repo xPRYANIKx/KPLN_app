@@ -994,7 +994,6 @@ footer {
             #card_available_money,
             #card_account_money {
                 cursor: pointer;
-                background-color: #f9f9bf;
             }
         }
         #payment-approval__menu {
@@ -1552,7 +1551,12 @@ footer {
             min-width: 172px;
             width: 230px;
         }
-
+        .th_name,
+        .th_description {
+            input {
+                width: 100%;
+            }
+        }
         .th_name_i {
             max-width: 320px;
             min-width: 250px;
@@ -1636,23 +1640,28 @@ footer {
     .tpages_top_panel {
         border-left: solid 4px #2c9700;
     }
-    .th_category {
-        max-width: 120px;
-        min-width: 110px;
+    .paymentFormBtn {
+        justify-content: end;
+    }
+    .th_number {
+        min-width: 210px;
+        input {
+            width: 100%;
+        }
     }
     .th_name {
         min-width: 360px;
     }
     .th_pay_date {
-        max-width: 120px;
+        max-width: 130px;
         input {
-            width: 100px;
+            width: 110px;
         }
     }
     .th_date_create {
-        max-width: 120px;
+        max-width: 130px;
         input {
-            width: 100px;
+            width: 110px;
         }
     }
 }

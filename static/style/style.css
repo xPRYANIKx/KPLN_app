@@ -1087,7 +1087,6 @@ footer .footer_company__copyright {
 #payment-pay_page .tpages_top_panel .cards_container #card_available_money,
 #payment-pay_page .tpages_top_panel .cards_container #card_account_money {
   cursor: pointer;
-  background-color: #f9f9bf;
 }
 #payment-approval_page .tpages_top_panel #payment-approval__menu,
 #payment-approval-list_page .tpages_top_panel #payment-approval__menu,
@@ -1854,6 +1853,10 @@ footer .footer_company__copyright {
   min-width: 172px;
   width: 230px;
 }
+.tableR table .th_name input,
+.tableR table .th_description input {
+  width: 100%;
+}
 .tableR table .th_name_i {
   max-width: 320px;
   min-width: 250px;
@@ -1926,24 +1929,29 @@ footer .footer_company__copyright {
 #payment-approval-list_page .tpages_top_panel {
   border-left: solid 4px #2c9700;
 }
-#payment-approval-list_page .th_category {
-  max-width: 120px;
-  min-width: 110px;
+#payment-approval-list_page .paymentFormBtn {
+  justify-content: end;
+}
+#payment-approval-list_page .th_number {
+  min-width: 210px;
+}
+#payment-approval-list_page .th_number input {
+  width: 100%;
 }
 #payment-approval-list_page .th_name {
   min-width: 360px;
 }
 #payment-approval-list_page .th_pay_date {
-  max-width: 120px;
+  max-width: 130px;
 }
 #payment-approval-list_page .th_pay_date input {
-  width: 100px;
+  width: 110px;
 }
 #payment-approval-list_page .th_date_create {
-  max-width: 120px;
+  max-width: 130px;
 }
 #payment-approval-list_page .th_date_create input {
-  width: 100px;
+  width: 110px;
 }
 
 #payment-paid-list_page .tpages_top_panel {
