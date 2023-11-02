@@ -11,7 +11,6 @@ function sortTable(column, type_col = 'str') {
             shouldSwitch = false;
             x = rows[i].getElementsByTagName("td")[column].dataset.sort;
             y = rows[i + 1].getElementsByTagName("td")[column].dataset.sort;
-//            console.log(`${i}    ${x}  -  ${y} ${parseFloat(x)}`);
 
             // Тип данных в колонки - строка
             if (type_col == "str") {
@@ -30,7 +29,6 @@ function sortTable(column, type_col = 'str') {
             }
             // Тип данных в колонки - цифра
             else if (type_col == "num") {
-//                console.log(`${i}    ${x}  >  ${y} ${parseFloat(x) > parseFloat(y)}`);
                 if (dir == "asc") {
                     if (parseFloat(x) > parseFloat(y)) {
                         shouldSwitch = true;
@@ -44,8 +42,6 @@ function sortTable(column, type_col = 'str') {
                     }
                 }
             }
-
-
         }
         if (shouldSwitch) {
             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
@@ -81,4 +77,12 @@ function sortTable(column, type_col = 'str') {
             }
         }
     }
+
+    // Стрелки в шапке таблицы
+    var col_cnt = rows[0].getElementsByTagName("th").length
+    for (var i=0; i<col_cnt; i++) {
+        rows[0].getElementsByTagName("th")[i].getElementsByClassName("arrow_sort")[0].innerText = '⇅'
+    }
+    var symbol = dir == "asc"? '⇧':'⇩'
+    rows[0].getElementsByTagName("th")[column].getElementsByClassName("arrow_sort")[0].innerText = symbol
 }

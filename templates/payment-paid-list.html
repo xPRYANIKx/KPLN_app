@@ -49,111 +49,112 @@
 
 
     <form id="paymentForm" style="align-self: flex-start">
-        <div class="tableR">
-            <table id="payment-table" name="payment_table" class="display">
-                <thead class="fix_thead">
-                    <tr>
-                        <th onclick="sortTable(0, 'num')" id="filter-input-0" oninput="filterTable()">№<br>
-                        <th class="th_category">
-                            <div class="arrow_sort" onclick="sortTable(1, 'num')">⇅</div>
-                            <div>№ ПЛАТЕЖА</div>
-                            <input type="text" id="filter-input-1" oninput="filterTable()">
-                        </th>
-                        <th class="th_category">
-                            <div class="arrow_sort" onclick="sortTable(2, 'str')">⇅</div>
-                            <div>СТАТЬЯ ЗАТРАТ</div>
-                            <input type="text" id="filter-input-2" oninput="filterTable()">
-                        </th>
-                        <th class="th_name">
-                            <div class="arrow_sort" onclick="sortTable(3, 'str')">⇅</div>
-                            <div>НАИМЕНОВАНИЕ ПЛАТЕЖА</div>
-                            <input type="text" id="filter-input-3" oninput="filterTable()">
-                        </th>
-                        <th class="th_description">
-                            <div class="arrow_sort" onclick="sortTable(4, 'str')">⇅</div>
-                            <div>ОПИСАНИЕ</div>
-                            <input type="text" id="filter-input-4" oninput="filterTable()">
-                        </th>
-                        <th class="th_object">
-                            <div class="arrow_sort" onclick="sortTable(5, 'str')">⇅</div>
-                            <div>ОБЪЕКТ</div>
-                            <input type="text" id="filter-input-5" oninput="filterTable()">
-                        </th>
-                        <th class="th_responsible">
-                            <div class="arrow_sort" onclick="sortTable(6, 'str')">⇅</div>
-                            <div>ОТВЕТСТВЕННЫЙ</div>
-                            <input type="text" id="filter-input-6" oninput="filterTable()">
-                        </th>
-                        <th class="th_contractor">
-                            <div class="arrow_sort" onclick="sortTable(7, 'str')">⇅</div>
-                            <div>КОНТРАГЕНТ</div>
-                            <input type="text" id="filter-input-7" oninput="filterTable()">
-                        </th>
-                        <th class="th_main_sum">
-                            <div class="arrow_sort" onclick="sortTable(8, 'num')">⇅</div>
-                            <div>ОБЩАЯ СУММА</div>
-                            <input type="text" id="filter-input-8" oninput="filterTable()">
-                        </th>
-                        <th class="th_sum_agreed">
-                            <div class="arrow_sort" onclick="sortTable(9, 'num')">⇅</div>
-                            <div>СОГЛАСОВАННАЯ СУММА</div>
-                            <input type="text" id="filter-input-9" oninput="filterTable()">
-                        </th>
-                        <th class="th_sum_paid">
-                            <div class="arrow_sort" onclick="sortTable(10, 'num')">⇅</div>
-                            <div>ОПЛАЧЕННАЯ СУММА</div>
-                            <input type="text" id="filter-input-10" oninput="filterTable()">
-                        </th>
-                        <th class="th_pay_date">
-                            <div class="arrow_sort" onclick="sortTable(11, 'str')">⇅</div>
-                            <div>СРОК ОПЛАТЫ</div>
-                            <input type="date" id="filter-input-11" oninput="filterTable()">
-                        </th>
-                        <th class="th_date_create">
-                            <div class="arrow_sort" onclick="sortTable(12, 'str')">⇅</div>
-                            <div>ДАТА СОЗДАНИЯ</div>
-                            <input type="date" id="filter-input-12" oninput="filterTable()">
-                        </th>
-                        <th class="th_last_status">
-                            <div class="arrow_sort" onclick="sortTable(13, 'str')">⇅</div>
-                            <div>СТАТУС ПОСЛЕДНЕЙ ОПЛАТЫ</div>
-                            <input type="text" id="filter-input-13" oninput="filterTable()">
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for application in applications %}
-                    <tr id="row-{{ loop.index }}" data-sort="{{ loop.index }}">
-                        <td data-sort="{{ loop.index }}">{{loop.index}}</td>
-                        <td data-sort="{{ application.payment_id }}">
-                            {{ application.payment_number }}
-                        </td>
-                        <td class="th_category_i" data-sort="{{ application.cost_item_name }}">
-                            {{ application.cost_item_name }}
-                        </td>
-                        <td data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}">
-                            {{ application.basis_of_payment_short }}
-                        </td>
-                        <td class="th_description_i" data-sort="{{ application.basis_of_payment }}: {{ application.basis_of_payment }}"
-                            title="{{ application.payment_description }}">
-                            <span class="paymentFormBold">{{ application.contractor_name }}: </span>
-                            {{ application.payment_description_short }}
-                        </td>
-                        <td class="th_object_i" data-sort="{{ application.object_name }}">{{ application.object_name }}</td>
-                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}">{{ application.last_name }} {{
-                            application.first_name[0] }}.</td>
-                        <td class="th_contractor_i" data-sort="{{ application.partner }}">{{ application.partner }}</td>
-                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
-                        <td data-sort="{{ application.approval_sum }}">{{ application.approval_sum_rub }} </td>
-                        <td class="th_sum_remain_i" data-sort="{{ application.paid_sum }}">{{ application.paid_sum_rub}} </td>
-                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
-                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
-                        <td data-sort="{{ application.status_name }}">{{ application.status_name }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <div class="tableR">
+    <table id="payment-table" name="payment_table" class="display">
+        <thead class="fix_thead">
+            <tr>
+                <th>
+                    <div class="arrow_sort" onclick="sortTable(0, 'num')">⇅</div>
+                    <div>№</div>
+                    <input type="text" id="filter-input-0" oninput="filterTable()">
+                </th>
+                <th class="th_category">
+                    <div class="arrow_sort" onclick="sortTable(1, 'num')">⇅</div>
+                    <div>№ ПЛАТЕЖА</div>
+                    <input type="text" id="filter-input-1" oninput="filterTable()">
+                </th>
+                <th class="th_category">
+                    <div class="arrow_sort" onclick="sortTable(2, 'str')">⇅</div>
+                    <div>СТАТЬЯ ЗАТРАТ</div>
+                    <input type="text" id="filter-input-2" oninput="filterTable()">
+                </th>
+                <th class="th_name">
+                    <div class="arrow_sort" onclick="sortTable(3, 'str')">⇅</div>
+                    <div>НАИМЕНОВАНИЕ ПЛАТЕЖА</div>
+                    <input type="text" id="filter-input-3" oninput="filterTable()">
+                </th>
+                <th class="th_description">
+                    <div class="arrow_sort" onclick="sortTable(4, 'str')">⇅</div>
+                    <div>ОПИСАНИЕ</div>
+                    <input type="text" id="filter-input-4" oninput="filterTable()">
+                </th>
+                <th class="th_object">
+                    <div class="arrow_sort" onclick="sortTable(5, 'str')">⇅</div>
+                    <div>ОБЪЕКТ</div>
+                    <input type="text" id="filter-input-5" oninput="filterTable()">
+                </th>
+                <th class="th_responsible">
+                    <div class="arrow_sort" onclick="sortTable(6, 'str')">⇅</div>
+                    <div>ОТВЕТСТВЕННЫЙ</div>
+                    <input type="text" id="filter-input-6" oninput="filterTable()">
+                </th>
+                <th class="th_contractor">
+                    <div class="arrow_sort" onclick="sortTable(7, 'str')">⇅</div>
+                    <div>КОНТРАГЕНТ</div>
+                    <input type="text" id="filter-input-7" oninput="filterTable()">
+                </th>
+                <th class="th_main_sum">
+                    <div class="arrow_sort" onclick="sortTable(8, 'num')">⇅</div>
+                    <div>ОБЩАЯ СУММА</div>
+                    <input type="text" id="filter-input-8" oninput="filterTable()">
+                </th>
+                <th class="th_sum_agreed">
+                    <div class="arrow_sort" onclick="sortTable(9, 'num')">⇅</div>
+                    <div>СОГЛАСОВАННАЯ СУММА</div>
+                    <input type="text" id="filter-input-9" oninput="filterTable()">
+                </th>
+                <th class="th_sum_paid">
+                    <div class="arrow_sort" onclick="sortTable(10, 'num')">⇅</div>
+                    <div>ОПЛАЧЕННАЯ СУММА</div>
+                    <input type="text" id="filter-input-10" oninput="filterTable()">
+                </th>
+                <th class="th_pay_date">
+                    <div class="arrow_sort" onclick="sortTable(11, 'str')">⇅</div>
+                    <div>СРОК ОПЛАТЫ</div>
+                    <input type="text" id="filter-input-11" oninput="filterTable()">
+                </th>
+                <th class="th_date_create">
+                    <div class="arrow_sort" onclick="sortTable(12, 'str')">⇅</div>
+                    <div>ДАТА СОЗДАНИЯ</div>
+                    <input type="text" id="filter-input-12" oninput="filterTable()">
+                </th>
+                <th>
+                    <div class="arrow_sort" onclick="sortTable(13, 'str')">⇅</div>
+                    <div>СТАТУС ПОСЛЕДНЕЙ ОПЛАТЫ</div>
+                    <input type="text" id="filter-input-13" oninput="filterTable()">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in applications %}
+            <tr id="row-{{ loop.index }}" data-sort="{{ loop.index }}">
+                <td data-sort="{{ loop.index }}">{{loop.index}}</td>
+                <td data-sort="{{ application.payment_id }}">
+                    {{ application.payment_number }}
+                </td>
+                <td class="th_category_i" data-sort="{{ application.cost_item_name }}">
+                    {{ application.cost_item_name }}
+                </td>
+                <td data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}">
+                    {{ application.basis_of_payment_short }}
+                </td>
+                <td class="th_description_i" data-sort="{{ application.basis_of_payment }}: {{ application.basis_of_payment }}" title="{{ application.payment_description }}">
+                    <span class="paymentFormBold">{{ application.contractor_name }}: </span>
+                    {{ application.payment_description_short }}</td>
+                <td class="th_object_i" data-sort="{{ application.object_name }}">{{ application.object_name }}</td>
+                <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}">{{ application.last_name }} {{ application.first_name[0] }}.</td>
+                <td class="th_contractor_i" data-sort="{{ application.partner }}">{{ application.partner }}</td>
+                <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
+                <td data-sort="{{ application.approval_sum }}">{{ application.approval_sum_rub }} </td>
+                <td class="th_sum_remain_i" data-sort="{{ application.paid_sum }}">{{ application.paid_sum_rub}} </td>
+                <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
+                <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
+                <td data-sort="{{ application.status_name }}">{{ application.status_name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
     </form>
 
     {% endblock %}

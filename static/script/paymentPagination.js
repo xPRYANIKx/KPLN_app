@@ -520,13 +520,9 @@ $(document).ready(function() {
 
         // Получили пустые данные - загрузили всю таблицу - ничего не делаем
         if (!sortCol_1) {
-            console.log('                end');
             return
         }
         else {
-
-            console.log(`       sortCol_1-${sortCol_1}\nsortCol_1_val-${sortCol_1_val}\nsortCol_2-${sortCol_2}
-            sortCol_2_val-${sortCol_2_val}\nsortCol_id-${sortCol_id}\nsortCol_id_val-${sortCol_id_val}`)
 
             fetch(fetchFunc, {
                 "headers": {
@@ -547,15 +543,12 @@ $(document).ready(function() {
                 .then(data => {
                     if (data.status === 'success') {
                         if (!data.payment) {return}
-                        console.log('    success')
                         document.getElementById('sortCol-1').textContent = data.sort_col['col_1'][0]
                         document.getElementById('sortCol-1_val').textContent = data.sort_col['col_1'][1]
                         document.getElementById('sortCol-2').textContent = data.sort_col['col_2'][0]
                         document.getElementById('sortCol-2_val').textContent = data.sort_col['col_2'][1]
                         document.getElementById('sortCol-id').textContent = data.sort_col['col_id'][0]
                         document.getElementById('sortCol-id_val').textContent = data.sort_col['col_id'][1]
-
-                        console.log('col_shift ' + col_shift)
 
                         const tab = document.getElementById("payment-table");
                         var tab_tr = tab.getElementsByTagName('tbody')[0];

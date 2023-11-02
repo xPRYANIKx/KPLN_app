@@ -2827,7 +2827,6 @@ def get_payment_list_pagination():
 @payment_app_bp.route('/get_card_payment/<int:payment_id>', methods=['GET'])
 @login_required
 def get_card_payment(payment_id):
-
     data = payment_id
 
     user_id = login_app.current_user.get_id()
@@ -3318,7 +3317,7 @@ def save_payment():
 
             conn.commit()
 
-            # Изменяем запись в таблице payments_summary_tab
+            # Изменяем запись в таблице payments_approval_history
         if approval_sum_p_a_h:
             action_p_a_h = 'INSERT INTO'
             table_p_a_h = 'payments_approval_history'
@@ -3602,85 +3601,116 @@ def get_payment_my_charts():
     try:
         chart_type = request.get_json()['chart_type']
 
-        print(chart_type)
+        query_tab = ''
+        label = ''
+        title = ''
 
         # Connect to the database
         conn, cursor = login_app.conn_cursor_init_dict()
 
-        # Данные для графика изменения баланса
-        cursor.execute(
-                """WITH
-    t11 AS (
-    
-    WITH
-            t1 AS (SELECT 
-                    inflow_sum AS balance_sum,
-                    inflow_at AS create_at,
-                    inflow_description AS description,
-                    'inflow' AS status
-                FROM payments_inflow_history
-                WHERE inflow_type_id != 4 AND inflow_sum != 0
-                LIMIT 40
-            ),
-            t2 AS (SELECT 
-                    paid_sum*-1 AS balance_sum,
-                    create_at AS create_at,
-                    payment_id::text AS description,
-                    'paid' AS status
-                FROM payments_paid_history
-                WHERE paid_sum != 0
-                LIMIT 40
-            ),
-            t3 AS (SELECT 
-                    COALESCE(SUM(balance_sum), 0) AS all_sum
-                FROM payments_balance
-            )
-        SELECT
-            *
-        FROM t1
-        JOIN t3 ON true
-        UNION ALL 
-        SELECT
-            *
-        FROM t2
-        JOIN t3 ON true
-        ORDER BY create_at DESC
-        LIMIT 40
-    
-    )
-    
-    SELECT 
-        balance_sum::text AS balance_sum,
-        date_trunc('second', timezone('UTC-3', create_at)::timestamp)::text AS create_at,
-        LAG(balance_sum) OVER(ORDER BY create_at DESC)::text AS previous_balance,
-        (all_sum - balance_sum + LAG(balance_sum) OVER(ORDER BY create_at DESC))::text AS cur_bal,
-        status,
-        all_sum
-    FROM t11
-    """
-        )
-        inflow_history = cursor.fetchall()
-        pprint(inflow_history)
+        # Данные для графика изменения доступного к распределению
+        if chart_type == 'available_money':
+            query_tab = 't22'
+            title = 'История изменения доступных к распределению средств'
+            label = 'Доступно к распределению'
 
-        if not len(inflow_history):
+        # Данные для графика изменения баланса
+        if chart_type == 'account_money':
+            query_tab = 't11'
+            title = 'История изменения баланса на счету'
+            label = 'Средства на счету'
+
+        cursor.execute(
+            f"""WITH
+                t1 AS (SELECT 
+                        inflow_sum AS balance_sum,
+                        inflow_at AS create_at,
+                        inflow_description AS description,
+                        'inflow' AS status
+                    FROM payments_inflow_history
+                    WHERE inflow_type_id != 4 AND inflow_sum != 0
+                    LIMIT 40
+                ),
+                t2 AS (SELECT 
+                        paid_sum*-1 AS balance_sum,
+                        create_at AS create_at,
+                        payment_id::text AS description,
+                        'paid' AS status
+                    FROM payments_paid_history
+                    WHERE paid_sum != 0
+                    LIMIT 40
+                ),
+                t3 AS (SELECT 
+                        approval_sum AS balance_sum,
+                        create_at AS create_at,
+                        payment_id::text AS description,
+                        'approval' AS status
+                    FROM payments_approval_history
+                    WHERE status_id != 1 AND approval_sum != 0
+                    LIMIT 40
+                ),
+                t4 AS (SELECT 
+                        COALESCE(SUM(balance_sum), 0) AS all_sum
+                    FROM payments_balance
+                ),
+                t11 AS (
+                    SELECT
+                        *
+                    FROM t1
+                    JOIN t4 ON true
+                    UNION ALL 
+                    SELECT
+                        *
+                    FROM t2
+                    JOIN t4 ON true
+                    ORDER BY create_at DESC
+                    LIMIT 40
+                ),
+                t22 AS (
+                    SELECT *
+                    FROM t1
+                    JOIN t4 ON true
+                    UNION ALL 
+                    SELECT
+                        *
+                    FROM t3
+                    JOIN t4 ON true
+                    ORDER BY create_at DESC
+                    LIMIT 40
+                )
+
+                SELECT 
+                    -- balance_sum::text AS balance_sum,
+                    date_trunc('second', timezone('UTC-3', create_at)::timestamp)::text AS create_at,
+                    -- LAG(balance_sum) OVER(ORDER BY create_at DESC)::text AS previous_balance,
+                    COALESCE(all_sum - balance_sum + LAG(balance_sum) OVER(ORDER BY create_at DESC), all_sum)::text AS cur_bal,
+                    status /*,
+                    all_sum*/
+                FROM {query_tab}
+                ORDER BY create_at;
+            """
+        )
+        historic_data = cursor.fetchall()
+
+        if not len(historic_data):
             return jsonify({
-                'inflow_history': 0,
-                'status': 'success',
-                'description': 'Data not finding',
+                'status': 'error',
+                'description': 'Данные не найдены',
             })
 
-        for i in range(len(inflow_history)):
-            inflow_history[i] = dict(inflow_history[i])
+        for i in range(len(historic_data)):
+            historic_data[i] = dict(historic_data[i])
 
         # Return the updated data as a response
         return jsonify({
-            'inflow_history': inflow_history,
+            'historic_data': historic_data,
+            'title': title,
+            'label': label,
             'status': 'success'
         })
     except Exception as e:
         return jsonify({
-            'inflow_history': 0,
+            'historic_data': 0,
             'status': 'error',
             'description': e,
         })
-

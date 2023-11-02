@@ -1,78 +1,94 @@
 function paymentMyCharts(chart_type) {
 
-    fetch('/get-paymentMyCharts', {
-        "headers": {
-            'Content-Type': 'application/json'
-        },
-        "method": "POST",
-        "body": JSON.stringify({
-            'chart_type': chart_type
+        fetch('/get-paymentMyCharts', {
+            "headers": {
+                'Content-Type': 'application/json'
+            },
+            "method": "POST",
+            "body": JSON.stringify({
+                'chart_type': chart_type
+            })
         })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                if (!data.inflow_history) { return }
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    if (!data.historic_data) {return}
 
-                var labels = [];
-                var values = [];
 
-                data.inflow_history.forEach(function (entry) {
-                    labels.push(entry.create_at);
-                    values.push(entry.balance_sum);
-                });
+                    var labels = [];
+                    var values = [];
 
-                document.getElementById('myChart').setAttribute("hidden", "");
+                    data.historic_data.forEach(function(entry) {
+                        labels.push(entry.create_at);
+                        values.push(entry.cur_bal);
+                    });
 
-                // Get the canvas element
-                var ctx = document.getElementById('myChart').getContext('2d');
+//                    document.getElementById('myChart').style.display = "";
+//                    document.getElementById('myChart').setAttribute("hidden", "");
 
-                // Create the chart
-                var chart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Balance Sum',
-                            data: values,
-                            backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                            borderColor: 'rgba(0, 123, 255, 1)',
-                            borderWidth: 1,
-                            tension: 0.1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Chart.js Line Chart'
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
+                    // Get the canvas element
+                    var ctx = document.getElementById('myChart').getContext('2d');
+
+                    var existingChart = Chart.getChart("myChart");
+                    if (existingChart) {
+                      existingChart.destroy();
                     }
-                });
 
+                    // Create the chart
+                    var chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: data.label,
+                                data: values,
+                                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                                borderColor: 'rgba(0, 123, 255, 1)',
+                                borderWidth: 1,
+                                tension: 0.1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                   text: data.title
+                                }
+                            },
+                            scales: {
+//                                x: {
+//                                    ticks: {
+//                                        maxTicksLimit: 8
+//                                    }
+//                                }
+                            },
 
+                        }
+                    });
+//                    chart.options.scales.x.ticks.maxTicksLimit = 3; // Change this value to the desired number of values
+//                    chart.update()
 
-                return
-            }
-            else if (data.status === 'error') {
-                alert(data.description)
-            }
-            else {
-                window.location.href = '/payment-approval';
-            }
+                    var hideChartBtn = document.getElementById('myChart');
+                    hideChartBtn.addEventListener('click', function() {
+                        // Hide the chart
+                        hideChartBtn.style.display="none";
+                    });
+
+                    return
+                }
+                else if (data.status === 'error') {
+                    alert(data.description)
+                }
+                else {
+                    window.location.href = '/payment-approval';
+                }
         })
         .catch(error => {
-            console.error('Error:', error);
-        });
+        console.error('Error:', error);
+    });
 
 };

@@ -23,26 +23,6 @@ $(document).ready(function () {
             }
         }
     }
-
-
-
-//    if (element2.length) {
-//        for (var i = 0; i < element2.length; i++) {
-//            var element2 = document.getElementsByClassName('th_contractor_i');
-//            if (statusId[i].value == 'Черновик') {
-//                document.getElementById('status-' + (i + 1)).style.background = "#e3e33294"
-//            }
-//        }
-//    }
-//
-//    var hidden = element.getAttribute("hidden");
-//    if (hidden) {
-//       element.removeAttribute("hidden");
-//       console.log("Hide table")
-//    } else {
-//       element.setAttribute("hidden", "hidden");
-//       console.log("Show table")
-//    }
 });
 
 
