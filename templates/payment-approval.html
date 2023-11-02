@@ -30,9 +30,6 @@
     {% endblock %}
     {% block content %}
 
-    <div class="progress-bar">
-        <div class="progress" style="width: {{(applications|length/ tab_rows ) * 100}}%"></div>
-    </div>
 
 
     <dialog class="window" id="diagram__dialog">
@@ -100,78 +97,67 @@
             <button type="button" id="visualTablePA" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
                 таблицы</button>
         </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: {{(applications|length/ tab_rows ) * 100}}%"></div>
+        </div>
         <div class="tableR">
             <table id="payment-table" name="payment_table" class="display">
                 <thead class="fix_thead">
                     <tr>
                         <th class="th_select">
-                            <div class="arrow_sort" onclick="sortTable(0, 'num')">⇅</div>
-                            <div>ВЫБОР</div>
+                            <div onclick="sortTable(0, 'num')">ВЫБОР&nbsp;<span class="arrow_sort">▼</span></div>
                             <input type="text" id="filter-input-0" hidden readonly>
                         </th>
                         <th class="th_category">
-                            <div class="arrow_sort" onclick="sortTable(1, 'str')">⇅</div>
-                            <div>СТАТЬЯ ЗАТРАТ</div>
+                            <div onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-1" oninput="filterTable()">
                         </th>
                         <th class="th_name">
-                            <div class="arrow_sort" onclick="sortTable(2, 'str')">⇅</div>
-                            <div>НАИМЕНОВАНИЕ ПЛАТЕЖА</div>
+                            <div onclick="sortTable(2, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-2" oninput="filterTable()">
                         </th>
                         <th class="th_description">
-                            <div class="arrow_sort" onclick="sortTable(3, 'str')">⇅</div>
-                            <div>ОПИСАНИЕ</div>
+                            <div onclick="sortTable(3, 'str')">ОПИСАНИЕ&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-3" oninput="filterTable()">
                         </th>
                         <th class="th_object">
-                            <div class="arrow_sort" onclick="sortTable(4, 'str')">⇅</div>
-                            <div>ОБЪЕКТ</div>
+                            <div onclick="sortTable(4, 'str')">ОБЪЕКТ&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-4" oninput="filterTable()">
                         </th>
                         <th class="th_responsible">
-                            <div class="arrow_sort" onclick="sortTable(5, 'str')">⇅</div>
-                            <div>ОТВЕТСТВЕННЫЙ</div>
+                            <div onclick="sortTable(5, 'str')">ОТВЕТСТВЕННЫЙ&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-5" oninput="filterTable()">
                         </th>
                         <th class="th_contractor">
-                            <div class="arrow_sort" onclick="sortTable(6, 'str')">⇅</div>
-                            <div>КОНТРАГЕНТ</div>
+                            <div onclick="sortTable(6, 'str')">КОНТРАГЕНТ&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-6" oninput="filterTable()">
                         </th>
                         <th class="th_main_sum">
-                            <div class="arrow_sort" onclick="sortTable(7, 'num')">⇅</div>
-                            <div>ОБЩАЯ СУММА</div>
+                            <div onclick="sortTable(7, 'num')">ОБЩАЯ СУММА&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-7" oninput="filterTable()">
                         </th>
                         <th class="th_sum_remain">
-                            <div class="arrow_sort" onclick="sortTable(8, 'num')">⇅</div>
-                            <div>ОСТАТОК К ОПЛАТЕ</div>
+                            <div onclick="sortTable(8, 'num')">ОСТАТОК К ОПЛАТЕ&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-8" oninput="filterTable()">
                         </th>
                         <th class="th_sum_agreed">
-                            <div class="arrow_sort" onclick="sortTable(9, 'num')">⇅</div>
-                            <div>СОГЛАСОВАННАЯ СУММА</div>
+                            <div onclick="sortTable(9, 'num')">СОГЛАСОВАННАЯ СУММА&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-9" oninput="filterTable()">
                         </th>
                         <th class="th_pay_date">
-                            <div class="arrow_sort" onclick="sortTable(10, 'str')">⇅</div>
-                            <div>СРОК ОПЛАТЫ</div>
+                            <div onclick="sortTable(10, 'str')">СРОК ОПЛАТЫ&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-10" oninput="filterTable()">
                         </th>
                         <th class="th_status">
-                            <div class="arrow_sort" onclick="sortTable(11, 'num')">⇅</div>
-                            <div>СТАТУС</div>
+                            <div onclick="sortTable(11, 'num')">СТАТУС&nbsp;<span class="arrow_sort">▼</span></div>
                             <input type="text" id="filter-input-11" hidden readonly>
                         </th>
                         <th class="th_date_create">
-                            <div class="arrow_sort" onclick="sortTable(12, 'str')">⇅</div>
-                            <div>ДАТА СОЗДАНИЯ</div>
+                            <div onclick="sortTable(12, 'str')">ДАТА СОЗДАНИЯ&nbsp;<span class="arrow_sort">▼</span></div>
                             <input type="date" id="filter-input-12" oninput="filterTable()">
                         </th>
                         <th class="th_save_pay">
-                            <div class="arrow_sort" onclick="sortTable(13, 'num')">⇅</div>
-                            <div>ДО ПОЛНОЙ ОПЛАТЫ</div>
+                            <span onclick="sortTable(13, 'num')">ДО ПОЛНОЙ ОПЛАТЫ&nbsp;<span class="arrow_sort">▼</span></span>
                             <input type="text" id="filter-input-13" hidden readonly>
                         </th>
                     </tr>

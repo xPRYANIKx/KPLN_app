@@ -61,9 +61,9 @@ function sortTable(column, type_col = 'str') {
     checkbox_col_num = [];
     for (var i1 = 0; i1 < rows[1].getElementsByTagName("td").length; i1++) {
         try {
-             if (rows[1].getElementsByTagName("td")[i1].getElementsByTagName("input")[0].getAttribute('type') === 'checkbox') {
-                 checkbox_col_num.push(i1);
-             }
+            if (rows[1].getElementsByTagName("td")[i1].getElementsByTagName("input")[0].getAttribute('type') === 'checkbox') {
+                checkbox_col_num.push(i1);
+            }
         }
         catch {
         }
@@ -81,10 +81,10 @@ function sortTable(column, type_col = 'str') {
     // Стрелки в шапке таблицы
     var col_cnt = rows[0].getElementsByTagName("th").length
     console.log(col_cnt)
-    for (var i=0; i<col_cnt; i++) {
+    for (var i = 0; i < col_cnt; i++) {
         console.log('   ' + i)
-        rows[0].getElementsByTagName("th")[i].getElementsByClassName("arrow_sort")[0].innerText = '⇅'
+        rows[0].getElementsByTagName("th")[i].getElementsByClassName("arrow_sort")[0].innerText = '▼'
     }
-    var symbol = dir == "asc"? '⇧':'⇩'
+    var symbol = dir == "asc" ? '▲' : '▼'
     rows[0].getElementsByTagName("th")[column].getElementsByClassName("arrow_sort")[0].innerText = symbol
 }
