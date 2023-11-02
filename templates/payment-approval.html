@@ -104,8 +104,7 @@
             <table id="payment-table" name="payment_table" class="display">
                 <thead class="fix_thead">
                     <tr>
-                        <th class="th_select">
-                            <div class="arrow_sort" onclick="sortTable(0, 'num')">⇅</div>
+                        <th class="th_select" class="arrow_sort" onclick="sortTable(0, 'num')">
                             <div>ВЫБОР</div>
                             <input type="text" id="filter-input-0" hidden readonly>
                         </th>
@@ -159,8 +158,7 @@
                             <div>СРОК ОПЛАТЫ</div>
                             <input placeholder="Поиск по тексту" type="text" id="filter-input-10" oninput="filterTable()">
                         </th>
-                        <th class="th_status">
-                            <div class="arrow_sort" onclick="sortTable(11, 'num')">⇅</div>
+                        <th class="th_status" onclick="sortTable(11, 'num')">
                             <div>СТАТУС</div>
                             <input type="text" id="filter-input-11" hidden readonly>
                         </th>
@@ -169,8 +167,7 @@
                             <div>ДАТА СОЗДАНИЯ</div>
                             <input type="date" id="filter-input-12" oninput="filterTable()">
                         </th>
-                        <th class="th_save_pay">
-                            <div class="arrow_sort" onclick="sortTable(13, 'num')">⇅</div>
+                        <th class="th_save_pay" onclick="sortTable(13, 'num')">
                             <div>ДО ПОЛНОЙ ОПЛАТЫ</div>
                             <input type="text" id="filter-input-13" hidden readonly>
                         </th>
