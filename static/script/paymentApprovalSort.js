@@ -80,7 +80,9 @@ function sortTable(column, type_col = 'str') {
 
     // Стрелки в шапке таблицы
     var col_cnt = rows[0].getElementsByTagName("th").length
+    console.log(col_cnt)
     for (var i=0; i<col_cnt; i++) {
+        console.log('   ' + i)
         rows[0].getElementsByTagName("th")[i].getElementsByClassName("arrow_sort")[0].innerText = '⇅'
     }
     var symbol = dir == "asc"? '⇧':'⇩'
