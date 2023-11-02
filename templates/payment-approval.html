@@ -43,6 +43,13 @@
 
 
 
+    <dialog class="window" id="diagram__dialog">
+        <canvas id="myChart" hidden="hidden"></canvas>
+    </dialog>
+
+
+
+
     <dialog class="window" id="payment-approval__dialog">
         <div id="payment-approval__dialog__menu">
             <div id="payment-approval__dialog__menu__edit">
@@ -163,6 +170,8 @@
     </dialog>
 
 
+
+
     <dialog id="logDPage">
         <div id="logDPage__content">
             <img id="crossBtnInside" src="static/img/interface/close.png">
@@ -176,7 +185,7 @@
 
 
 
-    <dialog id="tableCustomPA">
+    <dialog id="tableCustom">
         <h2><img src="static/img/h1/editpay.png">Столбцы</H2>
         <form>
             <table>
@@ -246,10 +255,6 @@
         </div>
     </dialog>
 
-
-    <canvas id="myChart" hidden="hidden"></canvas>
-
-
     <div class="tpages_top_panel">
         <h1><img src="static/img/h1/paymentapproval.png"> {{title}}</h1>
         <div class="cards_container">
@@ -261,7 +266,7 @@
                     <p class="card__cost">Выбрано для одобрения</p>
                 </div>
             </div>
-            <div class="card" id="card_available_money" onclick="paymentMyCharts('available_money')">
+            <div class="card" id="card_available_money">
                 <div class="cards_h1_border">
                     <h2 class="card__title" id="card_available_money_value" data-value="{{ money['available_money'] }}">{{ money['available_money_rub'] }}</h2>
                 </div>
@@ -269,7 +274,7 @@
                     <p class="card__cost">Доступные к распределению</p>
                 </div>
             </div>
-            <div class="card" id="card_account_money" onclick="paymentMyCharts('account_money')">
+            <div class="card" id="card_account_money" onclick="window['diagram__dialog'].showModal();">
                 <div class="cards_h1_border">
                     <h2 class="card__title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
                 </div>
@@ -297,7 +302,7 @@
 
         <div class="paymentFormBtn">
             <button type="button" id="submitButton" onclick="window['verification_dialog'].showModal();">Отправить</button>
-            <button type="button" id="visualTablePA" onclick="window['tableCustomPA'].showModal();"><img src="static/img/interface/setting.png"> Отображение
+            <button type="button" id="visualTablePA" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
                 таблицы</button>
         </div>
         <div class="tableR">

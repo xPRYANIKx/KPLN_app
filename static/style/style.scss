@@ -991,9 +991,10 @@ footer {
                     font-size: 13px;
                 }
             }
-            #card_available_money_alp,
-            #card_account_money_alp {
-                min-width: 340px;
+            #card_available_money,
+            #card_account_money {
+                cursor: pointer;
+                background-color: #f9f9bf;
             }
         }
         #payment-approval__menu {
@@ -1184,8 +1185,8 @@ footer {
                 &__content {
                     margin: 10px 0px 0px 0px;
                     .paid_history-table__response {
-                        min-height: 600px;
-                        max-height: 600px;
+                        min-height: 560px;
+                        max-height: 560px;
                         overflow-y: scroll;
                         table {
                             width: 100%;
@@ -1340,10 +1341,8 @@ footer {
             }
         }
     }
-    #tableCustomPA,
-    #tableCustomPAL {
+    #tableCustom {
         width: 314px;
-        height: 680px;
         border: none;
         border-radius: 5px;
         background-color: #f7f7f7;
@@ -1414,6 +1413,12 @@ footer {
         box-shadow: none;
     }
 }
+
+#diagram__dialog {
+    min-width: 900px;
+    min-height: 500px;
+}
+
 .paymentFormBtn {
     display: flex;
     justify-content: space-between;
@@ -1487,6 +1492,9 @@ footer {
                         margin: -8px 0px 5px 0px;
                         font-size: 18px;
                         color: #dfcb7c;
+                    }
+                    input {
+                        margin-top: 5px;
                     }
                 }
             }
@@ -1623,6 +1631,25 @@ footer {
     .tpages_top_panel {
         border-left: solid 4px #2c9700;
     }
+    .th_category {
+        max-width: 120px;
+        min-width: 110px;
+    }
+    .th_name {
+        min-width: 360px;
+    }
+    .th_pay_date {
+        max-width: 120px;
+        input {
+            width: 100px;
+        }
+    }
+    .th_date_create {
+        max-width: 120px;
+        input {
+            width: 100px;
+        }
+    }
 }
 #payment-paid-list_page {
     .tpages_top_panel {
@@ -1631,13 +1658,23 @@ footer {
     .help_info {
         width: 800px;
     }
+    .th_name {
+        min-width: 290px;
+    }
+    .th_last_status {
+        min-width: 190px;
+    }
 }
 #payment-pay_page {
     .tpages_top_panel {
         width: 780px;
         border-left: solid 4px #dbdbdb;
     }
+    .th_name_i {
+        color: black;
+    }
 }
+
 ///---------------------------------------------------
 ///---------------------------------------------------
 ///---------------------------------------------------
