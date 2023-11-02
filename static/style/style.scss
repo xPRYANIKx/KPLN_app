@@ -1491,10 +1491,15 @@ footer {
                         justify-content: right;
                         margin: -8px 0px 5px 0px;
                         font-size: 18px;
-                        color: #dfcb7c;
+                        color: #ffffff;
                     }
                     input {
                         margin-top: 5px;
+                        background-color: #ffffff94;
+                        border-radius: 0px;
+                    }
+                    input:focus {
+                        background-color: #ffffff;
                     }
                 }
             }

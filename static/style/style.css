@@ -1801,10 +1801,15 @@ footer .footer_company__copyright {
   justify-content: right;
   margin: -8px 0px 5px 0px;
   font-size: 18px;
-  color: #dfcb7c;
+  color: #ffffff;
 }
 .tableR table .fix_thead tr th input {
   margin-top: 5px;
+  background-color: rgba(255, 255, 255, 0.5803921569);
+  border-radius: 0px;
+}
+.tableR table .fix_thead tr th input:focus {
+  background-color: #ffffff;
 }
 .tableR table tbody tr td {
   font-size: 13px;
