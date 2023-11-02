@@ -11,6 +11,9 @@
 <script src="static/script/paymentPagination.js" defer></script>
 <script src="static/script/paymentFilter.js"></script>
 
+<script src="static/script/tableCustom.js" defer></script>
+
+<script src="static/script/verificationWindow.js" defer></script>
 
 <body id="payment-pay_page">
 
@@ -29,12 +32,12 @@
                 <p class="card__cost">Выбрано для одобрения</p>
             </div>
             <div class="card" id="card_available_money">
-                <h2 class="card-title" id="card_available_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
-                <p class="card-cost">ДС доступные к распределению</p>
+                <h2 class="card__title" id="card_available_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
+                <p class="card__cost">ДС доступные к распределению</p>
             </div>
             <div class="card" id="card_account_money">
-                <h2 class="card-title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
-                <p class="card-cost">ДС на счету</p>
+                <h2 class="card__title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money_rub'] }}</h2>
+                <p class="card__cost">ДС на счету</p>
             </div>
         </div>
     </div>
@@ -47,8 +50,83 @@
     <div id="sortCol-id_val" hidden>{{ sort_col['col_id'][2] }}</div>
 
 
+    <dialog id="tableCustom">
+        <h2><img src="static/img/h1/editpay.png">Столбцы</H2>
+        <form>
+            <table>
+                <tr>
+                    <td class="ttdname">Статья затрат</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Наименовакние платежа</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Описание</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Объект</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Ответственный</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Контрагент</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Общая сумма</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Остаток к оплате</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Согласованная сумма</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Срок оплаты</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Статус</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">Дата создания</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ttdname">До полной оплаты</td>
+                    <td class="ttdcbox"><input type="checkbox"></td>
+                </tr>
+            </table>
+            <button id="closeBtnTC">Сохранить</button>
+        </form>
+        <img id="crossBtnTC" src="static/img/interface/close.png">
+    </dialog>
+
+    <dialog id="verification_dialog">
+        <p id="paragraph_question">Хотите продолжить?</p>
+        <div>
+            <button type="button" id="verification_dialog__cancel">Отмена</button>
+            <button type="button" id="verification_dialog__next">Продолжить</button>
+        </div>
+    </dialog>
+
+
     <form id="paymentForm" action="/payment-pay" method="POST">
-        <button type="submit">Отправить</button>
+        <div class="paymentFormBtn">
+            <button type="button" id="submitButton" onclick="window['verification_dialog'].showModal();">Отправить</button>
+            <button type="button" id="visualTablePA" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
+                таблицы</button>
+        </div>
         <div class="tableR">
             <table id="payment-table" name="payment_table" class="display">
                 <thead class="fix_thead">

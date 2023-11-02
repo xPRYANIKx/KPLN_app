@@ -1,5 +1,5 @@
 const crossButtonTC = document.querySelector("#crossBtnTC");
-const dialogTC = document.querySelector("#tableCustomPA");
+const dialogTC = document.querySelector("#tableCustom");
 
 
 crossButtonTC.addEventListener("click", closeDialogTC);
