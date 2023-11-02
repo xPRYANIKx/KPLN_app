@@ -1718,8 +1718,14 @@ footer {
         width: 780px;
         border-left: solid 4px #dbdbdb;
     }
+    .th_nnumber {
+        min-width: 210px;
+    }
     .th_name_i {
         color: black;
+    }
+    .th_date_create {
+        min-width: 130px;
     }
 }
 

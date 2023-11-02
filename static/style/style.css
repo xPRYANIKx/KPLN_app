@@ -2005,8 +2005,14 @@ footer .footer_company__copyright {
   width: 780px;
   border-left: solid 4px #dbdbdb;
 }
+#payment-pay_page .th_nnumber {
+  min-width: 210px;
+}
 #payment-pay_page .th_name_i {
   color: black;
+}
+#payment-pay_page .th_date_create {
+  min-width: 130px;
 }
 
 @media (max-width: 820px) {
