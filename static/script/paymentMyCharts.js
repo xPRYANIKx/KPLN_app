@@ -12,20 +12,27 @@ function paymentMyCharts(chart_type) {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    if (!data.inflow_history) {return}
+                    if (!data.historic_data) {return}
+
 
                     var labels = [];
                     var values = [];
 
-                    data.inflow_history.forEach(function(entry) {
+                    data.historic_data.forEach(function(entry) {
                         labels.push(entry.create_at);
-                        values.push(entry.balance_sum);
+                        values.push(entry.cur_bal);
                     });
 
-                    document.getElementById('myChart').setAttribute("hidden", "");
+//                    document.getElementById('myChart').style.display = "";
+//                    document.getElementById('myChart').setAttribute("hidden", "");
 
                     // Get the canvas element
                     var ctx = document.getElementById('myChart').getContext('2d');
+
+                    var existingChart = Chart.getChart("myChart");
+                    if (existingChart) {
+                      existingChart.destroy();
+                    }
 
                     // Create the chart
                     var chart = new Chart(ctx, {
@@ -33,7 +40,7 @@ function paymentMyCharts(chart_type) {
                         data: {
                             labels: labels,
                             datasets: [{
-                                label: 'Balance Sum',
+                                label: data.label,
                                 data: values,
                                 backgroundColor: 'rgba(0, 123, 255, 0.5)',
                                 borderColor: 'rgba(0, 123, 255, 1)',
@@ -49,18 +56,27 @@ function paymentMyCharts(chart_type) {
                                 },
                                 title: {
                                     display: true,
-                                   text: 'Chart.js Line Chart'
+                                   text: data.title
                                 }
                             },
                             scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
+//                                x: {
+//                                    ticks: {
+//                                        maxTicksLimit: 8
+//                                    }
+//                                }
+                            },
+
                         }
                     });
+//                    chart.options.scales.x.ticks.maxTicksLimit = 3; // Change this value to the desired number of values
+//                    chart.update()
 
-
+                    var hideChartBtn = document.getElementById('myChart');
+                    hideChartBtn.addEventListener('click', function() {
+                        // Hide the chart
+                        hideChartBtn.style.display="none";
+                    });
 
                     return
                 }

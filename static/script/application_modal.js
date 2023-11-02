@@ -2,14 +2,6 @@ function getModal(paymentId = null) {
     fetch('/get_card_payment/' + paymentId)
         .then(response => response.json())
         .then(data => {
-            console.log(data.payment['payment_id'])
-            //            console.log(data)
-            //            console.log(data.payment)
-            //            console.log(data.paid)
-            //            console.log(data.payment.basis_of_payment)
-            //            console.log(data.payment['basis_of_payment'])
-            //            console.log(typeof data.payment)
-            //            console.log(data.payment['payment_description'])
 
             document.getElementById('payment_id').textContent = data.payment['payment_id'];
             document.getElementById('payment_number').textContent = data.payment['payment_number'];

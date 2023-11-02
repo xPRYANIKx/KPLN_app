@@ -2,14 +2,7 @@
 {% block head %}
 {{ super() }}
 
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.js"-->
-<!--        integrity="sha512-6LKCH7i2+zMNczKuCT9ciXgFCKFp3MevWTZUXDlk7azIYZ2wF5LRsrwZqO7Flt00enUI+HwzzT5uhOvy6MNPiA=="-->
-<!--        crossorigin="anonymous"-->
-<!--        referrerpolicy="no-referrer"></script>-->
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
 
 <script src="static/script/numberWithSpaces.js"></script>
 
@@ -248,6 +241,7 @@
 
 
     <canvas id="myChart" hidden="hidden"></canvas>
+<!--    <canvas id="myChart" hidden="hidden"></canvas>-->
 
 
     <div class="tpages_top_panel">
@@ -304,7 +298,8 @@
             <table id="payment-table" name="payment_table" class="display">
                 <thead class="fix_thead">
                     <tr>
-                        <th class="th_select" onclick="sortTable(0, 'num')">
+                        <th class="th_select">
+                            <div class="arrow_sort" onclick="sortTable(0, 'num')">⇅</div>
                             <div>ВЫБОР</div>
                             <input type="text" id="filter-input-0" hidden readonly>
                         </th>
@@ -358,7 +353,8 @@
                             <div>СРОК ОПЛАТЫ</div>
                             <input type="text" id="filter-input-10" oninput="filterTable()">
                         </th>
-                        <th class="th_status" onclick="sortTable(11, 'num')">
+                        <th class="th_status">
+                            <div class="arrow_sort" onclick="sortTable(11, 'num')">⇅</div>
                             <div>СТАТУС</div>
                             <input type="text" id="filter-input-11" hidden readonly>
                         </th>
@@ -367,7 +363,8 @@
                             <div>ДАТА СОЗДАНИЯ</div>
                             <input type="date" id="filter-input-12" oninput="filterTable()">
                         </th>
-                        <th class="th_save_pay" onclick="sortTable(13, 'num')">
+                        <th class="th_save_pay">
+                            <div class="arrow_sort" onclick="sortTable(13, 'num')">⇅</div>
                             <div>ДО ПОЛНОЙ ОПЛАТЫ</div>
                             <input type="text" id="filter-input-13" hidden readonly>
                         </th>

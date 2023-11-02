@@ -26,24 +26,6 @@
 
     <div class="tpages_top_panel">
         <h1><img src="static/img/h1/paymentapprovallist.png"> {{title}}</h1>
-        <!--        <div class="cards-container">-->
-        <!--            <div class="card" id="card_available_money_alp">-->
-        <!--                <div class="cards_h1_border">-->
-        <!--                    <h2 class="card__title" id="card_available_money_value" data-value="{{ available_money }}">{{ available_money }} ₽</h2>-->
-        <!--                </div>-->
-        <!--                <div>-->
-        <!--                    <p class="card__cost">ДС доступные к распределению</p>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--            <div class="card" id="card_account_money_alp">-->
-        <!--                <div class="cards_h1_border">-->
-        <!--                    <h2 class="card__title" id="card_account_money_value" data-value="{{ account_money }}">{{ account_money }} ₽</h2>-->
-        <!--                </div>-->
-        <!--                <div>-->
-        <!--                    <p class="card__cost">ДС на счету</p>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
         <div id="payment-approval__menu">
             <div class="not_form_button"><a href="payment-approval">Согласование платежей</a></div>
             <div class="not_form_button focus_button">Согласованные платежи</div>
@@ -61,40 +43,64 @@
             <table id="payment-table" name="payment_table" class="display">
                 <thead class="fix_thead">
                     <tr>
-                        <th class="th_category" onclick="sortTable(0, 'num')">№ ПЛАТЕЖА<br>
+                        <th class="th_category">
+                            <div class="arrow_sort" onclick="sortTable(0, 'num')">⇅</div>
+                            <div>№ ПЛАТЕЖА</div>
                             <input type="text" id="filter-input-0" oninput="filterTable()">
                         </th>
-                        <th class="th_category" onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ<br>
+                        <th class="th_category">
+                            <div class="arrow_sort" onclick="sortTable(1, 'str')">⇅</div>
+                            <div>СТАТЬЯ ЗАТРАТ</div>
                             <input type="text" id="filter-input-1" oninput="filterTable()">
                         </th>
-                        <th class="th_name" onclick="sortTable(2, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА<br>
+                        <th class="th_name">
+                            <div class="arrow_sort" onclick="sortTable(2, 'str')">⇅</div>
+                            <div>НАИМЕНОВАНИЕ ПЛАТЕЖА</div>
                             <input type="text" id="filter-input-2" oninput="filterTable()">
                         </th>
-                        <th class="th_description" onclick="sortTable(3, 'str')">ОПИСАНИЕ<br>
+                        <th class="th_description">
+                            <div class="arrow_sort" onclick="sortTable(3, 'str')">⇅</div>
+                            <div>ОПИСАНИЕ</div>
                             <input type="text" id="filter-input-3" oninput="filterTable()">
                         </th>
-                        <th class="th_object" onclick="sortTable(4, 'str')">ОБЪЕКТ<br>
+                        <th class="th_object">
+                            <div class="arrow_sort" onclick="sortTable(4, 'str')">⇅</div>
+                            <div>ОБЪЕКТ</div>
                             <input type="text" id="filter-input-4" oninput="filterTable()">
                         </th>
-                        <th class="th_responsible" onclick="sortTable(5, 'str')">ОТВЕТСТВЕННЫЙ<br>
+                        <th class="th_responsible">
+                            <div class="arrow_sort" onclick="sortTable(5, 'str')">⇅</div>
+                            <div>ОТВЕТСТВЕННЫЙ</div>
                             <input type="text" id="filter-input-5" oninput="filterTable()">
                         </th>
-                        <th class="th_contractor" onclick="sortTable(6, 'str')">КОНТРАГЕНТ<br>
+                        <th class="th_contractor">
+                            <div class="arrow_sort" onclick="sortTable(6, 'str')">⇅</div>
+                            <div>КОНТРАГЕНТ</div>
                             <input type="text" id="filter-input-6" oninput="filterTable()">
                         </th>
-                        <th class="th_main_sum" onclick="sortTable(7, 'num')">ОБЩАЯ СУММА<br>
+                        <th class="th_main_sum">
+                            <div class="arrow_sort" onclick="sortTable(7, 'num')">⇅</div>
+                            <div>ОБЩАЯ СУММА</div>
                             <input type="text" id="filter-input-7" oninput="filterTable()">
                         </th>
-                        <th class="th_sum_agreed" onclick="sortTable(8, 'num')">СОГЛАСОВАННАЯ СУММА<br>
+                        <th class="th_sum_agreed">
+                            <div class="arrow_sort" onclick="sortTable(8, 'num')">⇅</div>
+                            <div>СОГЛАСОВАННАЯ СУММА</div>
                             <input type="text" id="filter-input-8" oninput="filterTable()">
                         </th>
-                        <th class="th_sum_paid" onclick="sortTable(9, 'num')">ОПЛАЧЕННАЯ СУММА<br>
+                        <th class="th_sum_paid">
+                            <div class="arrow_sort" onclick="sortTable(9, 'num')">⇅</div>
+                            <div>ОПЛАЧЕННАЯ СУММА</div>
                             <input type="text" id="filter-input-9" oninput="filterTable()">
                         </th>
-                        <th class="th_pay_date" onclick="sortTable(10, 'str')">СРОК ОПЛАТЫ<br>
+                        <th class="th_pay_date">
+                            <div class="arrow_sort" onclick="sortTable(10, 'str')">⇅</div>
+                            <div>СРОК ОПЛАТЫ</div>
                             <input type="text" id="filter-input-10" oninput="filterTable()">
                         </th>
-                        <th class="th_date_create" onclick="sortTable(11, 'str')">ДАТА СОЗДАНИЯ<br>
+                        <th class="th_date_create">
+                            <div class="arrow_sort" onclick="sortTable(11, 'str')">⇅</div>
+                            <div>ДАТА СОЗДАНИЯ</div>
                             <input type="text" id="filter-input-11" oninput="filterTable()">
                         </th>
                     </tr>

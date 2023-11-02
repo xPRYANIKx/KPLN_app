@@ -53,21 +53,81 @@
             <table id="payment-table" name="payment_table" class="display">
                 <thead class="fix_thead">
                     <tr>
-                        <th class="th_select" onclick="sortTable(0, 'num')">ВЫБОР</th>
-                        <th class="th_category" onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ</th>
-                        <th onclick="sortTable(2, 'num')">№ ПЛАТЕЖА</th>
-                        <th class="th_name" onclick="sortTable(3, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА</th>
-                        <th class="th_description" onclick="sortTable(4, 'str')">ОПИСАНИЕ</th>
-                        <th class="th_object" onclick="sortTable(5, 'str')">ОБЪЕКТ</th>
-                        <th class="th_responsible" onclick="sortTable(6, 'str')">ОТВЕТСТВЕННЫЙ</th>
-                        <th class="th_contractor" onclick="sortTable(7, 'str')">КОНТРАГЕНТ</th>
-                        <th class="th_main_sum" onclick="sortTable(8, 'num')">ОБЩАЯ СУММА</th>
-                        <th onclick="sortTable(9, 'num')">ОПЛАЧЕНО</th>
-                        <th class="th_sum_agreed" onclick="sortTable(10, 'num')">СОГЛАСОВАННАЯ СУММА</th>
-                        <th onclick="sortTable(11, 'num')">СУММА К ОПЛАТЕ</th>
-                        <th class="th_pay_date" onclick="sortTable(12, 'str')">СРОК ОПЛАТЫ</th>
-                        <th class="th_date_create" onclick="sortTable(13, 'str')">ДАТА СОЗДАНИЯ</th>
-                        <th class="th_save_pay" onclick="sortTable(14, 'num')">ДО ПОЛНОЙ ОПЛАТЫ</th>
+                        <th class="th_select">
+                            <div class="arrow_sort" onclick="sortTable(0, 'num')">⇅</div>
+                            <div>ВЫБОР</div>
+                            <input type="text" id="filter-input-0" hidden readonly>
+                        </th>
+                        <th class="th_category">
+                            <div class="arrow_sort" onclick="sortTable(1, 'str')">⇅</div>
+                            <div>СТАТЬЯ ЗАТРАТ</div>
+                            <input type="text" id="filter-input-1" oninput="filterTable()">
+                        </th>
+                        <th>
+                            <div class="arrow_sort" onclick="sortTable(2, 'num')">⇅</div>
+                            <div>№ ПЛАТЕЖА</div>
+                            <input type="text" id="filter-input-2" oninput="filterTable()">
+                        </th>
+                        <th class="th_name">
+                            <div class="arrow_sort" onclick="sortTable(3, 'str')">⇅</div>
+                            <div>НАИМЕНОВАНИЕ ПЛАТЕЖА</div>
+                            <input type="text" id="filter-input-3" oninput="filterTable()">
+                        </th>
+                        <th class="th_description">
+                            <div class="arrow_sort" onclick="sortTable(4, 'str')">⇅</div>
+                            <div>ОПИСАНИЕ</div>
+                            <input type="text" id="filter-input-4" oninput="filterTable()">
+                        </th>
+                        <th class="th_object">
+                            <div class="arrow_sort" onclick="sortTable(5, 'str')">⇅</div>
+                            <div>ОБЪЕКТ</div>
+                            <input type="text" id="filter-input-5" oninput="filterTable()">
+                        </th>
+                        <th class="th_responsible">
+                            <div class="arrow_sort" onclick="sortTable(6, 'str')">⇅</div>
+                            <div>ОТВЕТСТВЕННЫЙ</div>
+                            <input type="text" id="filter-input-6" oninput="filterTable()">
+                        </th>
+                        <th class="th_contractor">
+                            <div class="arrow_sort" onclick="sortTable(7, 'str')">⇅</div>
+                            <div>КОНТРАГЕНТ</div>
+                            <input type="text" id="filter-input-7" oninput="filterTable()">
+                        </th>
+                        <th class="th_main_sum">
+                            <div class="arrow_sort" onclick="sortTable(8, 'num')">⇅</div>
+                            <div>ОБЩАЯ СУММА</div>
+                            <input type="text" id="filter-input-8" oninput="filterTable()">
+                        </th>
+                        <th>
+                            <div class="arrow_sort" onclick="sortTable(9, 'num')">⇅</div>
+                            <div>ОПЛАЧЕНО</div>
+                            <input type="text" id="filter-input-9" oninput="filterTable()">
+                        </th>
+                        <th class="th_sum_agreed">
+                            <div class="arrow_sort" onclick="sortTable(10, 'num')">⇅</div>
+                            <div>СОГЛАСОВАННАЯ СУММА</div>
+                            <input type="text" id="filter-input-10" oninput="filterTable()">
+                        </th>
+                        <th>
+                            <div class="arrow_sort" onclick="sortTable(11, 'num')">⇅</div>
+                            <div>СУММА К ОПЛАТЕ</div>
+                            <input type="text" id="filter-input-11" oninput="filterTable()">
+                        </th>
+                        <th class="th_pay_date">
+                            <div class="arrow_sort" onclick="sortTable(12, 'str')">⇅</div>
+                            <div>СРОК ОПЛАТЫ</div>
+                            <input type="text" id="filter-input-12" oninput="filterTable()">
+                        </th>
+                        <th class="th_date_create">
+                            <div class="arrow_sort" onclick="sortTable(13, 'str')">⇅</div>
+                            <div>ДАТА СОЗДАНИЯ</div>
+                            <input type="text" id="filter-input-13" oninput="filterTable()">
+                        </th>
+                        <th class="th_save_pay">
+                            <div class="arrow_sort" onclick="sortTable(14, 'num')">⇅</div>
+                            <div>ДО ПОЛНОЙ ОПЛАТЫ</div>
+                            <input type="text" id="filter-input-14" oninput="filterTable()">
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

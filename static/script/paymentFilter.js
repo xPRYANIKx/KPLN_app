@@ -21,8 +21,6 @@ function filterTable() {
             var cellVal = rows[i].getElementsByTagName("td")[j].textContent.toUpperCase();
             var filterVal = filterValsList[j];
 
-            console.log(`  ${i}  ${cellVal} / ${filterVal}`)
-
             matchCounter += cellVal.includes(filterVal)
         }
         if (cntColFilter == matchCounter) {
