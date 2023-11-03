@@ -445,41 +445,56 @@ header {
   z-index: 10;
   position: fixed;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 55px;
   background-color: #000000;
 }
-header .header_pic {
+header .header__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px 0px 10px 0px;
+}
+header .header__content .header_pic {
   display: flex;
 }
-header .header_pic__menu img {
+header .header__content .header_pic__menu img {
   width: 40px;
-  margin: 14.5px 0px 5px 25px;
+  margin: 10px 0px 5px 20px;
 }
-header .header_pic__menu #image_menu {
+header .header__content .header_pic__menu #image_menu {
   cursor: pointer;
 }
-header #header__auth__label {
+header .header__content #header__auth__label {
   display: flex;
   align-items: center;
-  margin: 0px 20px 0px 0px;
+  margin: 4px 20px 0px 0px;
   font-size: 15px;
   color: #ffffff;
 }
-header a {
+header .header__content a {
   color: #ebc592;
 }
-header a:hover {
+header .header__content a:hover {
   color: #5ab1ce;
+}
+header .progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: #c3c7c7;
+}
+header .progress {
+  height: 100%;
+  background-color: #7aa0df;
+  width: 0;
 }
 
 #menu {
   z-index: 8;
   display: none;
   position: absolute;
-  top: 55px;
+  top: 51px;
   justify-content: center;
   width: 400px;
   background-color: rgba(0, 0, 0, 0.8117647059);
@@ -944,7 +959,7 @@ footer .footer_company__copyright {
   height: 62px;
 }
 #new_payment_page #new_payment_form .form_p__description {
-  margin: 0px 0px 15px 0px;
+  margin: 4px 0px 15px 0px;
   font-size: 12px;
   color: #757575;
 }
@@ -1747,7 +1762,6 @@ footer .footer_company__copyright {
   width: 242px;
   display: flex;
   align-items: center;
-  background-color: #5d5d5d;
   font-size: 14px;
 }
 .paymentFormBtn #visualTablePA img,
@@ -1764,7 +1778,7 @@ footer .footer_company__copyright {
 }
 
 .tableR {
-  max-height: calc(100vh - 510px);
+  max-height: calc(100vh - 515px);
   overflow-x: scroll;
   margin: 0px 0 5px 0;
 }
@@ -1796,13 +1810,9 @@ footer .footer_company__copyright {
 .tableR table .fix_thead tr th div {
   justify-content: center;
 }
-.tableR table .fix_thead tr th .arrow_sort {
-  justify-content: right;
-  margin: -8px 0px 5px 0px;
-  font-size: 18px;
-  color: #ffffff;
-}
 .tableR table .fix_thead tr th input {
+  width: 100%;
+  max-width: 100%;
   margin-top: 5px;
   background-color: rgba(255, 255, 255, 0.5803921569);
   border-radius: 0px;
@@ -1853,10 +1863,6 @@ footer .footer_company__copyright {
   min-width: 172px;
   width: 230px;
 }
-.tableR table .th_name input,
-.tableR table .th_description input {
-  width: 100%;
-}
 .tableR table .th_name_i {
   max-width: 320px;
   min-width: 250px;
@@ -1894,15 +1900,15 @@ footer .footer_company__copyright {
   font-weight: bold;
 }
 .tableR table .th_sum_agreed {
-  width: 170px;
+  min-width: 180px;
+}
+.tableR table .th_sum_paid {
+  min-width: 170px;
 }
 .tableR table .th_sum_agreed_i input {
   max-width: 135px;
   min-width: 100%;
   font-size: 13px;
-}
-.tableR table .th_pay_date_i {
-  width: 100px;
 }
 .tableR table .th_date_create {
   width: 100px;
@@ -1911,6 +1917,12 @@ footer .footer_company__copyright {
 .tableR table .th_due_date_i {
   width: 100px;
   text-align: center;
+}
+.tableR table .th_pay_date {
+  min-width: 130px;
+}
+.tableR table .th_pay_date input {
+  width: 100%;
 }
 .tableR table .th_status_i {
   width: 160px;
@@ -1926,6 +1938,10 @@ footer .footer_company__copyright {
   width: 90px;
 }
 
+#payment-approval-list_page #paymentForm {
+  margin: 0px;
+  padding: 0px;
+}
 #payment-approval-list_page .tpages_top_panel {
   border-left: solid 4px #2c9700;
 }
@@ -1944,21 +1960,39 @@ footer .footer_company__copyright {
 #payment-approval-list_page .th_pay_date {
   max-width: 130px;
 }
-#payment-approval-list_page .th_pay_date input {
-  width: 110px;
-}
-#payment-approval-list_page .th_date_create {
-  max-width: 130px;
-}
 #payment-approval-list_page .th_date_create input {
   width: 110px;
 }
 
+#payment-paid-list_page #paymentForm {
+  padding: 0px;
+  margin: 0px;
+}
 #payment-paid-list_page .tpages_top_panel {
   border-left: solid 4px #56a3e5;
 }
+#payment-paid-list_page .paymentFormBtn {
+  justify-content: end;
+}
 #payment-paid-list_page .help_info {
   width: 800px;
+}
+#payment-paid-list_page .th_nnumber {
+  min-width: 80px;
+  max-width: 102px;
+}
+#payment-paid-list_page .th_nnumber input {
+  width: 100%;
+}
+#payment-paid-list_page .th_nnumber_i {
+  text-align: center;
+  font-weight: 900;
+}
+#payment-paid-list_page .th_last_pay_status {
+  min-width: 215px;
+}
+#payment-paid-list_page .th_date_create {
+  min-width: 130px;
 }
 #payment-paid-list_page .th_name {
   min-width: 290px;
@@ -1971,8 +2005,14 @@ footer .footer_company__copyright {
   width: 780px;
   border-left: solid 4px #dbdbdb;
 }
+#payment-pay_page .th_nnumber {
+  min-width: 210px;
+}
 #payment-pay_page .th_name_i {
   color: black;
+}
+#payment-pay_page .th_date_create {
+  min-width: 130px;
 }
 
 @media (max-width: 820px) {
@@ -2165,17 +2205,19 @@ footer .footer_company__copyright {
   }
 }
 @media (max-width: 470px) {
-  header .header_pic__menu img {
+  header .header__content .header_pic__menu img {
     width: 35px;
-    margin: 16px 0px 5px 15px;
   }
-  header #menu #menu__content #menu__content__h {
+  header .header__content .header_pic__menu .header__auth__label {
+    margin: 3px 20px 0px 0px;
+  }
+  header .header__content #menu #menu__content #menu__content__h {
     font-size: 23px;
   }
-  header #menu #menu__content ul {
+  header .header__content #menu #menu__content ul {
     font-size: 20px;
   }
-  header #menu #menu__content li {
+  header .header__content #menu #menu__content li {
     font-size: 16px;
   }
   footer {
@@ -2330,13 +2372,14 @@ footer .footer_company__copyright {
   }
 }
 @media (max-width: 350px) {
-  header #header__auth__label {
+  header .header__content #header__auth__label {
+    margin: 2px 20px 0px 0px;
     font-size: 13.5px;
   }
-  header #menu #menu__content ul {
+  header .header__content #menu #menu__content ul {
     font-size: 19px;
   }
-  header #menu #menu__content li {
+  header .header__content #menu #menu__content li {
     font-size: 15px;
   }
   #login_page .window_form_in_page {
@@ -2438,16 +2481,17 @@ footer .footer_company__copyright {
   }
 }
 @media (max-width: 310px) {
-  header #header__auth__label {
+  header .header__content #header__auth__label {
+    margin: 3px 20px 0px 0px;
     font-size: 12.8px;
   }
-  header #menu #menu__content #menu__content__h {
+  header .header__content #menu #menu__content #menu__content__h {
     font-size: 20px;
   }
-  header #menu #menu__content ul {
+  header .header__content #menu #menu__content ul {
     font-size: 17px;
   }
-  header #menu #menu__content li {
+  header .header__content #menu #menu__content li {
     font-size: 13px;
   }
   #login_page .window_form_in_page #auth_form h1 {
@@ -2547,16 +2591,3 @@ footer .footer_company__copyright {
     margin: 0px 0px 8px 9px;
   }
 }/*# sourceMappingURL=style.css.map */
-
-.progress-bar {
-  width: 100%;
-  height: 4px;
-  background-color: #f0f0f0;
-  margin-bottom: 4px;
-}
-
-.progress {
-  height: 100%;
-  background-color: #4285f4;
-  width: 0;
-}

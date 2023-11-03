@@ -282,35 +282,52 @@ header {
     z-index: 10;
     position: fixed;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    height: 55px;
     background-color: #000000;
-    .header_pic {
+
+    .header__content {
         display: flex;
-        &__menu {
-            img {
-                width: 40px;
-                margin: 14.5px 0px 5px 25px;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 5px 0px 10px 0px;
+        .header_pic {
+            display: flex;
+            &__menu {
+                img {
+                    width: 40px;
+                    margin: 10px 0px 5px 20px;
+                }
+                #image_menu {
+                    cursor: pointer;
+                }
             }
-            #image_menu {
-                cursor: pointer;
+        }
+        #header__auth__label {
+            display: flex;
+            align-items: center;
+            margin: 4px 20px 0px 0px;
+            font-size: 15px;
+            color: #ffffff;
+        }
+        a {
+            color: #ebc592;
+            &:hover {
+                color: #5ab1ce;
             }
         }
     }
-    #header__auth__label {
-        display: flex;
-        align-items: center;
-        margin: 0px 20px 0px 0px;
-        font-size: 15px;
-        color: #ffffff;
+
+    .progress-bar {
+        width: 100%;
+        height: 4px;
+        background-color: #c3c7c7;
     }
-    a {
-        color: #ebc592;
-        &:hover {
-            color: #5ab1ce;
-        }
+    .progress {
+        height: 100%;
+        background-color: #7aa0df;
+        width: 0;
     }
 }
 //////
@@ -318,7 +335,7 @@ header {
     z-index: 8;
     display: none;
     position: absolute;
-    top: 55px;
+    top: 51px;
     justify-content: center;
     width: 400px;
     background-color: #000000cf;
@@ -859,7 +876,7 @@ footer {
             height: 62px;
         }
         .form_p__description {
-            margin: 0px 0px 15px 0px;
+            margin: 4px 0px 15px 0px;
             font-size: 12px;
             color: #757575;
         }
@@ -1402,7 +1419,6 @@ footer {
             cursor: pointer;
         }
     }
-
     #paymentForm {
         display: flex;
         flex-direction: column;
@@ -1435,7 +1451,6 @@ footer {
         width: 242px;
         display: flex;
         align-items: center;
-        background-color: #5d5d5d;
         font-size: 14px;
         img {
             width: 23px;
@@ -1451,7 +1466,7 @@ footer {
     }
 }
 .tableR {
-    max-height: calc(100vh - 510px);
+    max-height: calc(100vh - 515px);
     overflow-x: scroll;
     margin: 0px 0 5px 0;
     &::-webkit-scrollbar {
@@ -1486,13 +1501,9 @@ footer {
                     div {
                         justify-content: center;
                     }
-                    .arrow_sort {
-                        justify-content: right;
-                        margin: -8px 0px 5px 0px;
-                        font-size: 18px;
-                        color: #ffffff;
-                    }
                     input {
+                        width: 100%;
+                        max-width: 100%;
                         margin-top: 5px;
                         background-color: #ffffff94;
                         border-radius: 0px;
@@ -1551,12 +1562,6 @@ footer {
             min-width: 172px;
             width: 230px;
         }
-        .th_name,
-        .th_description {
-            input {
-                width: 100%;
-            }
-        }
         .th_name_i {
             max-width: 320px;
             min-width: 250px;
@@ -1599,7 +1604,10 @@ footer {
             font-weight: bold;
         }
         .th_sum_agreed {
-            width: 170px;
+            min-width: 180px;
+        }
+        .th_sum_paid {
+            min-width: 170px;
         }
         .th_sum_agreed_i {
             input {
@@ -1608,19 +1616,20 @@ footer {
                 font-size: 13px;
             }
         }
-        .th_pay_date_i {
-            width: 100px;
-        }
         .th_date_create {
             width: 100px;
         }
-
         .th_due_date,
         .th_due_date_i {
             width: 100px;
             text-align: center;
         }
-
+        .th_pay_date {
+            min-width: 130px;
+            input {
+                width: 100%;
+            }
+        }
         .th_status_i {
             width: 160px;
             min-width: 160px;
@@ -1636,7 +1645,12 @@ footer {
         }
     }
 }
+
 #payment-approval-list_page {
+    #paymentForm {
+        margin: 0px;
+        padding: 0px;
+    }
     .tpages_top_panel {
         border-left: solid 4px #2c9700;
     }
@@ -1654,23 +1668,43 @@ footer {
     }
     .th_pay_date {
         max-width: 130px;
-        input {
-            width: 110px;
-        }
     }
     .th_date_create {
-        max-width: 130px;
         input {
             width: 110px;
         }
     }
 }
 #payment-paid-list_page {
+    #paymentForm {
+        padding: 0px;
+        margin: 0px;
+    }
     .tpages_top_panel {
         border-left: solid 4px #56a3e5;
     }
+    .paymentFormBtn {
+        justify-content: end;
+    }
     .help_info {
         width: 800px;
+    }
+    .th_nnumber {
+        min-width: 80px;
+        max-width: 102px;
+        input {
+            width: 100%;
+        }
+    }
+    .th_nnumber_i {
+        text-align: center;
+        font-weight: 900;
+    }
+    .th_last_pay_status {
+        min-width: 215px;
+    }
+    .th_date_create {
+        min-width: 130px;
     }
     .th_name {
         min-width: 290px;
@@ -1684,8 +1718,14 @@ footer {
         width: 780px;
         border-left: solid 4px #dbdbdb;
     }
+    .th_nnumber {
+        min-width: 210px;
+    }
     .th_name_i {
         color: black;
+    }
+    .th_date_create {
+        min-width: 130px;
     }
 }
 
@@ -1889,23 +1929,27 @@ footer {
 @media (max-width: 470px) {
     ///@MEDIA:470 - ОБЩАЯ КОНТЕНТНАЯ ЧАСТЬ
     header {
-        .header_pic__menu {
-            img {
-                width: 35px;
-                margin: 16px 0px 5px 15px;
+        .header__content {
+            .header_pic__menu {
+                img {
+                    width: 35px;
+                }
+                .header__auth__label {
+                    margin: 3px 20px 0px 0px;
+                }
             }
-        }
-        //////
-        #menu {
-            #menu__content {
-                #menu__content__h {
-                    font-size: 23px;
-                }
-                ul {
-                    font-size: 20px;
-                }
-                li {
-                    font-size: 16px;
+            //////
+            #menu {
+                #menu__content {
+                    #menu__content__h {
+                        font-size: 23px;
+                    }
+                    ul {
+                        font-size: 20px;
+                    }
+                    li {
+                        font-size: 16px;
+                    }
                 }
             }
         }
@@ -2113,17 +2157,20 @@ footer {
 @media (max-width: 350px) {
     ///@MEDIA:350 - ОБЩАЯ КОНТЕНТНАЯ ЧАСТЬ
     header {
-        #header__auth__label {
-            font-size: 13.5px;
-        }
-        //////
-        #menu {
-            #menu__content {
-                ul {
-                    font-size: 19px;
-                }
-                li {
-                    font-size: 15px;
+        .header__content {
+            #header__auth__label {
+                margin: 2px 20px 0px 0px;
+                font-size: 13.5px;
+            }
+            //////
+            #menu {
+                #menu__content {
+                    ul {
+                        font-size: 19px;
+                    }
+                    li {
+                        font-size: 15px;
+                    }
                 }
             }
         }
@@ -2268,20 +2315,23 @@ footer {
 @media (max-width: 310px) {
     ///@MEDIA:310 - ОБЩАЯ КОНТЕНТНАЯ ЧАСТЬ
     header {
-        #header__auth__label {
-            font-size: 12.8px;
-        }
-        //////
-        #menu {
-            #menu__content {
-                #menu__content__h {
-                    font-size: 20px;
-                }
-                ul {
-                    font-size: 17px;
-                }
-                li {
-                    font-size: 13px;
+        .header__content {
+            #header__auth__label {
+                margin: 3px 20px 0px 0px;
+                font-size: 12.8px;
+            }
+            //////
+            #menu {
+                #menu__content {
+                    #menu__content__h {
+                        font-size: 20px;
+                    }
+                    ul {
+                        font-size: 17px;
+                    }
+                    li {
+                        font-size: 13px;
+                    }
                 }
             }
         }

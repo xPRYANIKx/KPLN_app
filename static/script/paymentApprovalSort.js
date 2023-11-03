@@ -80,9 +80,9 @@ function sortTable(column, type_col = 'str') {
 
     // Стрелки в шапке таблицы
     var col_cnt = rows[0].getElementsByTagName("th").length
-    for (var i=0; i<col_cnt; i++) {
-        rows[0].getElementsByTagName("th")[i].getElementsByClassName("arrow_sort")[0].innerText = '⇅'
+    for (var i = 0; i < col_cnt; i++) {
+        rows[0].getElementsByTagName("th")[i].getElementsByClassName("arrow_sort")[0].innerText = ' '
     }
-    var symbol = dir == "asc"? ' ⇧':' ⇩'
+    var symbol = dir == "asc"? ' ▲':' ▼'
     rows[0].getElementsByTagName("th")[column].getElementsByClassName("arrow_sort")[0].innerText = symbol
 }
