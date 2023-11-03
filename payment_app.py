@@ -441,7 +441,7 @@ def get_unapproved_payments():
             'col_id': ['t1.payment_id', 0, all_payments[-1]['payment_id']]  # Третья колонка всегда id - ASC
         }
 
-        pprint(sort_col)
+        # pprint(sort_col)
 
         return render_template(
             'payment-approval.html', menu=hlink_menu, menu_profile=hlink_profile,
@@ -474,7 +474,7 @@ def get_payment_approval_pagination():
             'col_2': [f"{col_2.split('#')[0]}#{col_2.split('#')[1]}"],  # Вторая колонка - ASC
             'col_id': [f"{col_id.split('#')[0]}#{col_id.split('#')[1]}"]  # Третья колонка всегда id - ASC
         }
-        pprint(sort_col)
+        # pprint(sort_col)
 
         user_id = login_app.current_user.get_id()
 
@@ -622,8 +622,8 @@ def get_payment_approval_pagination():
         sort_col['col_1'].append(all_payments[-1][sort_col_1])
         sort_col['col_2'].append(all_payments[-1][sort_col_2])
         sort_col['col_id'].append(all_payments[-1][sort_col_id])
-        pprint(sort_col)
-        print('')
+        # pprint(sort_col)
+        # print('')
 
         for i in range(len(all_payments)):
             all_payments[i] = dict(all_payments[i])
@@ -3083,7 +3083,6 @@ def get_card_payment(payment_id):
 def save_payment():
     """Сохраняем изменения платежа из карточки платежа"""
     try:
-
         payment_id = int(request.get_json()['payment_id'])  # Номера платежей (передаётся id)
 
         basis_of_payment = request.get_json()['basis_of_payment']  # Основание (наименование) платежа
@@ -3315,6 +3314,10 @@ def save_payment():
         )
 
         columns_p_s_t = tuple(columns_p_s_t)
+
+        print('2   values_p_a_h', approval_sum_p_a_h)
+        print(values_p_a_h)
+
 
         # Изменяем запись в таблице payments_summary_tab
         if len(columns_p_s_t) > 1:

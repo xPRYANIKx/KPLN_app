@@ -6,7 +6,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from werkzeug.security import check_password_hash
 from user_login import UserLogin
 from FDataBase import FDataBase
-from db_data_conf import db_data
+from db_data_conf import db_data, recapcha_key
 from flask_wtf.recaptcha import RecaptchaField
 import requests
 
@@ -18,19 +18,12 @@ login_manager.login_view = 'login_app.login'
 login_manager.login_message = ["Недостаточно прав для доступа", '']
 login_manager.login_message_category = "error"
 
-# # reCAPCHA v2
-# RECAPTCHA_PUBLIC_KEY = '6LdOKPAoAAAAAAg3akj2sXnfAtX6uk_pz0wBX3AD'
-# RECAPTCHA_PRIVATE_KEY = '6LdOKPAoAAAAAC6Xgu4j-UbfcD8PUHYIkVvSUA4H'
-# # reCAPCHA v2 - localHost
-# RECAPTCHA_PUBLIC_KEY = '6LeaRfAoAAAAAA61s6JSuRoJIOvH_n-bQuEnREyg'
-# RECAPTCHA_PRIVATE_KEY = '6LeaRfAoAAAAAN9t7zjoc9KXieAgzKVe6Y29sv5Q'
-
 # reCAPCHA v3
-RECAPTCHA_PUBLIC_KEY = '6LfY2O8oAAAAAN53CQ3wP4DJ2gNekK209UgMOB5K'
-RECAPTCHA_PRIVATE_KEY = '6LfY2O8oAAAAAKv7GE2Z3ExkiHIBRYCLtWP-4vTe'
+RECAPTCHA_PUBLIC_KEY = recapcha_key()['RECAPTCHA_PUBLIC_KEY']
+RECAPTCHA_PRIVATE_KEY = recapcha_key()['RECAPTCHA_PRIVATE_KEY']
 # reCAPCHA v3 - localHost
-RECAPTCHA_PUBLIC_KEY_LH = '6LerWPAoAAAAAIlvLStpD-VweCENCOH9PN3xJajC'
-RECAPTCHA_PRIVATE_KEY_LH = '6LerWPAoAAAAAAoPR4FOEmoHNgX6rw5WJB04ibtT'
+RECAPTCHA_PUBLIC_KEY_LH = recapcha_key()['RECAPTCHA_PUBLIC_KEY_LH']
+RECAPTCHA_PRIVATE_KEY_LH = recapcha_key()['RECAPTCHA_PRIVATE_KEY_LH']
 
 RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
 
