@@ -21,15 +21,16 @@
 <script src="static/script/paymentFilter.js"></script>
 
 <script src="static/script/paymentMyCharts.js"></script>
+<!-- <script src="static/script/closeDiagramDialog.js" defer></script> -->
 
 <body id="payment-approval_page">
-
     {% endblock %}
     {% block content %}
 
 
 
     <dialog class="window" id="diagram__dialog">
+        <img id="crossBtnDD" src="static/img/interface/close.png">
         <canvas id="myChart"></canvas>
     </dialog>
 
