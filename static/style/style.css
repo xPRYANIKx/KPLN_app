@@ -2093,11 +2093,16 @@ footer .footer_company__copyright {
   width: 780px;
   border-left: solid 4px #dbdbdb;
 }
+#payment-pay_page .tpages_top_panel .cards_container #card_available_money,
+#payment-pay_page .tpages_top_panel .cards_container #card_account_money {
+  cursor: default;
+}
 #payment-pay_page .th_nnumber {
   min-width: 210px;
 }
 #payment-pay_page .th_name_i {
   color: black;
+  cursor: default;
 }
 #payment-pay_page .th_date_create {
   min-width: 130px;
@@ -2109,11 +2114,6 @@ footer .footer_company__copyright {
   position: absolute;
   top: 10px;
   right: 12px;
-}
-
-#payment-pay_page .tpages_top_panel .cards_container #card_available_money,
-#payment-pay_page .tpages_top_panel .cards_container #card_account_money {
-  cursor: default;
 }
 
 #payment-list_page .tpages_top_panel {
