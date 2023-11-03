@@ -5,60 +5,12 @@
     <h2><img src="static/img/h1/editpay.png">Столбцы</H2>
     <form>
         <table>
-            <tr>
-                <td class="ttdname">Статья затрат</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Наименовакние платежа</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Описание</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Объект</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Ответственный</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Контрагент</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Общая сумма</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Остаток к оплате</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Согласованная сумма</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Срок оплаты</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Статус</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">Дата создания</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
-            <tr>
-                <td class="ttdname">До полной оплаты</td>
-                <td class="ttdcbox"><input type="checkbox"></td>
-            </tr>
+            <tbody id="columns_list">
+
+            </tbody>
         </table>
-        <button id="closeBtnTC">Сохранить</button>
+        <button type="button" id="closeBtnTC" onclick="tableCustomSave()">Сохранить</button>
     </form>
+
     <img id="crossBtnTC" src="static/img/interface/close.png">
 </dialog>

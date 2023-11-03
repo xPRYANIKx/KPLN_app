@@ -11,7 +11,7 @@
 <script src="static/script/paymentPagination.js" defer></script>
 <script src="static/script/paymentFilter.js"></script>
 
-<script src="static/script/tableCustom.js" defer></script>
+<!--<script src="static/script/tableCustom.js" defer></script>-->
 
 <script src="static/script/verificationWindow.js" defer></script>
 
@@ -23,6 +23,8 @@
     <div class="progress-bar">
         <div class="progress" style="width: {{(applications|length/ tab_rows ) * 100}}%"></div>
     </div>
+
+    {% include "_card-tableCustom.html" %}
 
     <div class="tpages_top_panel">
         <h1><img src="static/img/h1/paymentpay.png"> {{title}}</h1>
@@ -48,69 +50,6 @@
     <div id="sortCol-2_val" hidden>{{ sort_col['col_2'][2] }}</div>
     <div id="sortCol-id" hidden>{{ sort_col['col_id'][0] }}#{{ sort_col['col_id'][1] }}</div>
     <div id="sortCol-id_val" hidden>{{ sort_col['col_id'][2] }}</div>
-
-
-    <dialog id="tableCustom">
-        <h2><img src="static/img/h1/editpay.png">Столбцы</H2>
-        <form>
-            <table>
-                <tr>
-                    <td class="ttdname">Статья затрат</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Наименовакние платежа</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Описание</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Объект</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Ответственный</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Контрагент</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Общая сумма</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Остаток к оплате</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Согласованная сумма</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Срок оплаты</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Статус</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">Дата создания</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td class="ttdname">До полной оплаты</td>
-                    <td class="ttdcbox"><input type="checkbox"></td>
-                </tr>
-            </table>
-            <button id="closeBtnTC">Сохранить</button>
-        </form>
-        <img id="crossBtnTC" src="static/img/interface/close.png">
-    </dialog>
 
     <dialog id="verification_dialog">
         <p id="paragraph_question">Хотите продолжить?</p>
@@ -204,7 +143,7 @@
                         <th class="th_save_pay">
                             <div class="arrow_sort" onclick="sortTable(14, 'num')">⇅</div>
                             <div>ДО ПОЛНОЙ ОПЛАТЫ</div>
-                            <input type="text" id="filter-input-14" oninput="filterTable()">
+                            <input type="text" id="filter-input-14" hidden readonly>
                         </th>
                     </tr>
                 </thead>

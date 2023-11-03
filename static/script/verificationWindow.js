@@ -10,6 +10,8 @@ const annulEditBtn = document.getElementById('annul__edit_btn_i');
 const annulApprovalEditBtn = document.getElementById('annul_approval__edit_btn_i');
 const saveEditBtn = document.getElementById('save__edit_btn_i');
 
+console.log(saveEditBtn)
+
 
 const hideDialog = () => {
     verificationDialog.close();
@@ -26,18 +28,32 @@ const showDialogAEB = () => {
     verificationDialog.showModal();
     paragraphQuestion.id = 'pqAEB'
 };
-annulEditBtn.addEventListener('click', showDialogAEB);
-const showDialogAPEB = () => {
-    verificationDialog.showModal();
-    paragraphQuestion.id = 'pqAPEB'
-};
-annulApprovalEditBtn.addEventListener('click', showDialogAPEB);
-const showDialogSEB = () => {
-    verificationDialog.showModal();
-    paragraphQuestion.id = 'pqSEB'
-};
-saveEditBtn.addEventListener('click', showDialogSEB);
+try {
+    annulEditBtn.addEventListener('click', showDialogAEB);
+    const showDialogAPEB = () => {
+        verificationDialog.showModal();
+        paragraphQuestion.id = 'pqAPEB'
+    };
+} catch (err) {
 
+}
+try {
+    annulApprovalEditBtn.addEventListener('click', showDialogAPEB);
+    const showDialogSEB = () => {
+        verificationDialog.showModal();
+        paragraphQuestion.id = 'pqSEB'
+    };
+} catch (err) {
+
+}
+
+try {
+    console.log(22)
+    saveEditBtn.addEventListener('click', showDialogSEB);
+    console.log(12)
+} catch (err) {
+
+}
 
 nextDialogBtn.addEventListener('click', function () {
     if (paragraphQuestion.id === 'pqDSB') {

@@ -23,8 +23,8 @@ function paymentMyCharts(chart_type) {
                         values.push(entry.cur_bal);
                     });
 
-                    document.getElementById('myChart').style.display = "";
-                    document.getElementById('myChart').setAttribute("hidden", "");
+//                    document.getElementById('myChart').style.display = "";
+//                    document.getElementById('myChart').setAttribute("hidden", "");
 
                     // Get the canvas element
                     var ctx = document.getElementById('myChart').getContext('2d');
@@ -75,19 +75,11 @@ function paymentMyCharts(chart_type) {
 
 //                    const modalDialog = document.querySelector("#diagram__dialog");
 //                    modalDialog.addEventListener('click', function() {
-////                        // Hide the chart
-////                        hideChartBtn.style.display="none";
-////                        const modalDialog = document.querySelector("#diagram__dialog");
+//                        // Hide the chart
 //                        chart.destroy();
 //                        modalDialog.close();
 //                    });
-//                    var hideChartBtn = document.getElementById('myChart');
-//                    hideChartBtn.addEventListener('click', function() {
-//                        // Hide the chart
-//                        hideChartBtn.style.display="none";
-//                        const modalDialog = document.querySelector("#diagram__dialog");
-//                        modalDialog.close();
-//                    });
+
 
                     return
                 }
@@ -101,5 +93,4 @@ function paymentMyCharts(chart_type) {
         .catch(error => {
         console.error('Error:', error);
     });
-
 };
