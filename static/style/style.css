@@ -2111,8 +2111,8 @@ footer .footer_company__copyright {
   right: 12px;
 }
 
-#payment-approval_page .tpages_top_panel .cards_container #card_available_money,
-#payment-approval_page .tpages_top_panel .cards_container #card_account_money {
+#payment-pay_page .tpages_top_panel .cards_container #card_available_money,
+#payment-pay_page .tpages_top_panel .cards_container #card_account_money {
   cursor: default;
 }
 
