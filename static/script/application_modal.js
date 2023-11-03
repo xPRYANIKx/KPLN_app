@@ -118,6 +118,33 @@ function getModal(paymentId = null) {
 - Остаток к оплате увеличится на (${data.payment['approval_to_pay_sum_rub']})`
             document.getElementById("annul_approval__edit_btn_i").setAttribute("title", title)
 
+        if (data.user_role == '6') {
+            select.classList.add("input_ro");
+            select.disabled = true;
+            select2.classList.add("input_ro");
+            select2.disabled = true;
+            select3.classList.add("input_ro");
+            select3.disabled = true;
+
+
+            document.getElementById('payment_sum').classList.add("input_ro");
+            document.getElementById('payment_sum').disabled = true;
+
+            document.getElementById('sum_unapproved').classList.add("input_ro");
+
+            document.getElementById('sum_approval').classList.add("input_ro");
+            document.getElementById('sum_approval').disabled = true;
+
+            document.getElementById('paymentFullStatus').classList.add("input_ro");
+            document.getElementById('paymentFullStatus').disabled = true;
+
+            document.getElementById('annul__edit_btn_i').disabled = true;
+            document.getElementById('annul_approval__edit_btn_i').disabled = true;
+            document.getElementById('annul__edit_btn_i').style.visibility = 'hidden';
+            document.getElementById('annul_approval__edit_btn_i').style.visibility = 'hidden';
+
+        }
+
         })
         .catch(error => {
             console.error('Error:', error);

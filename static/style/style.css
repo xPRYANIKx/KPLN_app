@@ -2727,3 +2727,8 @@ footer .footer_company__copyright {
     margin: 0px 0px 8px 9px;
   }
 }/*# sourceMappingURL=style.css.map */
+.input_ro, .input_ro:active {
+    background-color: #c9c9c9;
+    color: grey;
+    outline: none;
+}

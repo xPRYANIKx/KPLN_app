@@ -661,6 +661,11 @@ def set_approved_payments():
     """Сохранение согласованные платежи на оплату в БД"""
     try:
         if request.method == 'POST':
+            # Ограничиваем доступ на изменение для бухгалтерии
+            if login_app.current_user.get_role() not in (1, 4):
+                flash(message=['Запрещено изменять данные', ''], category='error')
+                return redirect(url_for('.get_unapproved_payments'))
+
             # Список выделенных столбцов
             selected_rows = request.form.getlist('selectedRows')  # Выбранные столбцы
             payment_number = request.form.getlist('payment_number')  # Номера платежей (передаётся id)
@@ -2830,6 +2835,7 @@ def get_card_payment(payment_id):
     data = payment_id
 
     user_id = login_app.current_user.get_id()
+    user_role = login_app.current_user.get_role()
     # Connect to the database
     conn, cursor = login_app.conn_cursor_init_dict()
     # payment_id = data['paymentId']
@@ -3067,7 +3073,8 @@ def get_card_payment(payment_id):
         'objects_name': objects_name,
         'partners': partners,
         'our_companies': our_companies,
-        'logs': logs
+        'logs': logs,
+        'user_role': user_role
     })
 
 

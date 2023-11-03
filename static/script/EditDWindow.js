@@ -1,4 +1,3 @@
-
 const element = document.querySelector(".showModalId");
 const crossButton = document.querySelector("#crossBtn");
 const closeButton = document.querySelector("#closeBtn");
