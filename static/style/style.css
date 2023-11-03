@@ -594,6 +594,9 @@ footer .footer_company__copyright {
   font-family: "FS Elliot";
 }
 
+#login_page header .header__content {
+  height: 50px;
+}
 #login_page .window_form_in_page {
   width: 330px;
 }
@@ -632,6 +635,9 @@ footer .footer_company__copyright {
   height: 30px;
   margin: 0px 0px 4px 0px;
   font-size: 14px;
+}
+#login_page footer {
+  z-index: 3;
 }
 
 #register_page #logInfo {
@@ -928,7 +934,7 @@ footer .footer_company__copyright {
   background-color: rgba(153, 153, 153, 0.2);
 }
 #new_payment_page #new_payment_form {
-  width: 600px;
+  width: 560px;
   padding: 0px 35px 0px 35px;
 }
 #new_payment_page #new_payment_form h1 {
@@ -941,7 +947,7 @@ footer .footer_company__copyright {
   margin: 0px 5px 5px 0px;
 }
 #new_payment_page #new_payment_form div {
-  margin: 0px 0px 12px 0px;
+  margin: 0px 0px 10px 0px;
 }
 #new_payment_page #new_payment_form label {
   font-size: 15px;
@@ -959,15 +965,15 @@ footer .footer_company__copyright {
   height: 62px;
 }
 #new_payment_page #new_payment_form .form_p__description {
-  margin: 4px 0px 15px 0px;
-  font-size: 12px;
+  margin: 4px 0px 5px 0px;
+  font-size: 11px;
   color: #757575;
 }
 #new_payment_page #new_payment_form .unitedform {
   display: flex;
   flex-direction: column;
   margin: 0px 0px 10px 0px;
-  padding: 10px 0px 0px 15px;
+  padding: 8px 0px 5px 15px;
   border-left: solid 2px rgba(128, 128, 128, 0.2705882353);
   font-size: 14.5px;
 }
@@ -978,7 +984,7 @@ footer .footer_company__copyright {
   width: 320px !important;
 }
 #new_payment_page #new_payment_form #payment_description {
-  margin-bottom: 13px;
+  margin-bottom: 8px;
 }
 #new_payment_page #new_payment_form .help_p {
   max-width: 280px;
@@ -992,7 +998,7 @@ footer .footer_company__copyright {
 #new_payment_page #new_payment_form #submit_button_in_form {
   width: 150px;
   height: 35px;
-  margin: 15px 0px 18px 0px;
+  margin: 15px 0px 10px 0px;
   align-self: end;
   font-size: 16px;
 }
@@ -2369,10 +2375,8 @@ footer .footer_company__copyright {
   #login_page .window_form_in_page {
     width: 280px;
   }
-  #login_page .window_form_in_page #auth_form div {
-    margin: 8px 0px 0px 0px;
-  }
   #login_page .window_form_in_page #auth_form__email, #login_page .window_form_in_page #auth_form__password {
+    margin: 8px 0px 0px 0px;
     flex-direction: column;
   }
   #login_page .window_form_in_page #auth_form__email label, #login_page .window_form_in_page #auth_form__password label {
@@ -2382,7 +2386,7 @@ footer .footer_company__copyright {
   }
   #login_page .window_form_in_page #auth_form #checkbox_auth {
     justify-content: start;
-    margin: 10px 0px 0px -2px;
+    margin: 10px 0px 5px -2px;
   }
   #login_page .window_form_in_page #auth_form #checkbox_auth__input {
     margin: 0px;

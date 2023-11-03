@@ -453,6 +453,11 @@ footer {
 /// СТРАНИЦА АВТОРИЗАЦИИ
 /////////////////////////////////////////////////////////////////
 #login_page {
+    header {
+        .header__content {
+            height: 50px;
+        }
+    }
     .window_form_in_page {
         width: 330px;
         #auth_form {
@@ -496,6 +501,9 @@ footer {
                 }
             }
         }
+    }
+    footer {
+        z-index: 3;
     }
 }
 ///____________///
@@ -844,7 +852,7 @@ footer {
         background-color: #99999933;
     }
     #new_payment_form {
-        width: 600px;
+        width: 560px;
         padding: 0px 35px 0px 35px;
         h1 {
             margin: 10px 0px 15px -8px;
@@ -856,7 +864,7 @@ footer {
             }
         }
         div {
-            margin: 0px 0px 12px 0px;
+            margin: 0px 0px 10px 0px;
         }
         label {
             font-size: 15px;
@@ -876,15 +884,15 @@ footer {
             height: 62px;
         }
         .form_p__description {
-            margin: 4px 0px 15px 0px;
-            font-size: 12px;
+            margin: 4px 0px 5px 0px;
+            font-size: 11px;
             color: #757575;
         }
         .unitedform {
             display: flex;
             flex-direction: column;
             margin: 0px 0px 10px 0px;
-            padding: 10px 0px 0px 15px;
+            padding: 8px 0px 5px 15px;
             border-left: solid 2px #80808045;
             font-size: 14.5px;
             #objects_name_div {
@@ -895,7 +903,7 @@ footer {
             }
         }
         #payment_description {
-            margin-bottom: 13px;
+            margin-bottom: 8px;
         }
         .help_p {
             max-width: 280px;
@@ -911,7 +919,7 @@ footer {
         #submit_button_in_form {
             width: 150px;
             height: 35px;
-            margin: 15px 0px 18px 0px;
+            margin: 15px 0px 10px 0px;
             align-self: end;
             font-size: 16px;
         }
@@ -2027,11 +2035,9 @@ footer {
         .window_form_in_page {
             width: 280px;
             #auth_form {
-                div {
-                    margin: 8px 0px 0px 0px;
-                }
                 &__email,
                 &__password {
+                    margin: 8px 0px 0px 0px;
                     flex-direction: column;
                     label {
                         margin: 1px 0px 2px 0px;
@@ -2041,7 +2047,7 @@ footer {
                 }
                 #checkbox_auth {
                     justify-content: start;
-                    margin: 10px 0px 0px -2px;
+                    margin: 10px 0px 5px -2px;
                     &__input {
                         margin: 0px;
                     }
