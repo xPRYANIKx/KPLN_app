@@ -905,12 +905,15 @@ footer {
         #payment_description {
             margin-bottom: 8px;
         }
+        #payment_description::placeholder {
+            font-size: 12px;
+        }
         .help_p {
-            max-width: 280px;
+            max-width: 245px;
             margin: 15px 0px 0px 0px;
             padding: 5px 8px 5px 8px;
             border-radius: 3px;
-            font-size: 13px;
+            font-size: 11px;
             background-color: #ffe7918a;
             -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
             -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
@@ -1906,7 +1909,7 @@ footer {
             width: 490px;
             #new_payment_form {
                 .form_p__description {
-                    margin-bottom: 15px;
+                    margin: 4px 0px 0px 0px;
                 }
                 div {
                     flex-direction: column;
@@ -1924,6 +1927,12 @@ footer {
                     .type_app {
                         margin-top: 5px;
                     }
+                }
+                #payment_description {
+                    margin-bottom: 0px;
+                }
+                #payment_description::placeholder {
+                    font-size: 11px;
                 }
                 .help_p {
                     margin-top: 5px;
@@ -1950,7 +1959,10 @@ footer {
                     }
                 }
                 .form_p__description {
-                    margin-bottom: 5px;
+                    font-size: 10px;
+                }
+                #submit_button_in_form {
+                    width: 100%;
                 }
             }
         }
@@ -2180,38 +2192,47 @@ footer {
             #new_payment_form {
                 width: 100%;
                 h1 {
+                    margin: 10px 0px 5px -8px;
                     font-size: 20px;
                     img {
                         width: 40px;
                         margin-right: 9px;
                     }
                 }
-                .form_p__description {
-                    font-size: 10px;
+                .textarea_npp {
+                    margin: 0px 0px 0px 0px;
                 }
-                select {
-                    optgroup {
-                        option {
+                div {
+                    label {
+                        font-size: 12px;
+                    }
+                    select,
+                    input {
+                        font-size: 10px;
+                    }
+                    select {
+                        optgroup {
                             font-size: 12px;
+                            option {
+                                font-size: 10px;
+                            }
                         }
                     }
                 }
-                textarea::placeholder {
-                    font-size: 12px;
+                #payment_description {
+                    margin-bottom: 10px;
                 }
-                .help_p {
-                    font-size: 11px;
+                #payment_description::placeholder {
+                    font-size: 9px;
                 }
-                button {
-                    width: 100%;
-                }
-                .textarea_npp {
-                    margin: 0px 0px 2px 0px;
+                .form_p__description {
+                    margin-bottom: 8px;
                 }
             }
         }
     }
 }
+
 ///---------------------------------------------------
 ///---------------------------------------------------
 ///------------------------------------------------350
@@ -2356,6 +2377,9 @@ footer {
             #new_payment_form {
                 h1 {
                     font-size: 21px;
+                }
+                .form_p__description {
+                    font-size: 9px;
                 }
                 select {
                     font-size: 12px;

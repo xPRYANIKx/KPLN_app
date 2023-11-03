@@ -986,12 +986,18 @@ footer .footer_company__copyright {
 #new_payment_page #new_payment_form #payment_description {
   margin-bottom: 8px;
 }
+#new_payment_page #new_payment_form #payment_description::-moz-placeholder {
+  font-size: 12px;
+}
+#new_payment_page #new_payment_form #payment_description::placeholder {
+  font-size: 12px;
+}
 #new_payment_page #new_payment_form .help_p {
-  max-width: 280px;
+  max-width: 245px;
   margin: 15px 0px 0px 0px;
   padding: 5px 8px 5px 8px;
   border-radius: 3px;
-  font-size: 13px;
+  font-size: 11px;
   background-color: rgba(255, 231, 145, 0.5411764706);
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
@@ -2259,7 +2265,7 @@ footer .footer_company__copyright {
     width: 490px;
   }
   #new_payment_page .window_form_in_page #new_payment_form .form_p__description {
-    margin-bottom: 15px;
+    margin: 4px 0px 0px 0px;
   }
   #new_payment_page .window_form_in_page #new_payment_form div {
     flex-direction: column;
@@ -2277,6 +2283,15 @@ footer .footer_company__copyright {
   }
   #new_payment_page .window_form_in_page #new_payment_form .unitedform .type_app {
     margin-top: 5px;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form #payment_description {
+    margin-bottom: 0px;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form #payment_description::-moz-placeholder {
+    font-size: 11px;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form #payment_description::placeholder {
+    font-size: 11px;
   }
   #new_payment_page .window_form_in_page #new_payment_form .help_p {
     margin-top: 5px;
@@ -2296,7 +2311,10 @@ footer .footer_company__copyright {
     margin: 0px 9px 0px 0px;
   }
   #new_payment_page .window_form_in_page #new_payment_form .form_p__description {
-    margin-bottom: 5px;
+    font-size: 10px;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form #submit_button_in_form {
+    width: 100%;
   }
   #payment-approval_page main,
   #payment-approval-list_page main,
@@ -2483,32 +2501,40 @@ footer .footer_company__copyright {
     width: 100%;
   }
   #new_payment_page .window_form_in_page #new_payment_form h1 {
+    margin: 10px 0px 5px -8px;
     font-size: 20px;
   }
   #new_payment_page .window_form_in_page #new_payment_form h1 img {
     width: 40px;
     margin-right: 9px;
   }
-  #new_payment_page .window_form_in_page #new_payment_form .form_p__description {
+  #new_payment_page .window_form_in_page #new_payment_form .textarea_npp {
+    margin: 0px 0px 0px 0px;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form div label {
+    font-size: 12px;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form div select,
+  #new_payment_page .window_form_in_page #new_payment_form div input {
     font-size: 10px;
   }
-  #new_payment_page .window_form_in_page #new_payment_form select optgroup option {
+  #new_payment_page .window_form_in_page #new_payment_form div select optgroup {
     font-size: 12px;
   }
-  #new_payment_page .window_form_in_page #new_payment_form textarea::-moz-placeholder {
-    font-size: 12px;
+  #new_payment_page .window_form_in_page #new_payment_form div select optgroup option {
+    font-size: 10px;
   }
-  #new_payment_page .window_form_in_page #new_payment_form textarea::placeholder {
-    font-size: 12px;
+  #new_payment_page .window_form_in_page #new_payment_form #payment_description {
+    margin-bottom: 10px;
   }
-  #new_payment_page .window_form_in_page #new_payment_form .help_p {
-    font-size: 11px;
+  #new_payment_page .window_form_in_page #new_payment_form #payment_description::-moz-placeholder {
+    font-size: 9px;
   }
-  #new_payment_page .window_form_in_page #new_payment_form button {
-    width: 100%;
+  #new_payment_page .window_form_in_page #new_payment_form #payment_description::placeholder {
+    font-size: 9px;
   }
-  #new_payment_page .window_form_in_page #new_payment_form .textarea_npp {
-    margin: 0px 0px 2px 0px;
+  #new_payment_page .window_form_in_page #new_payment_form .form_p__description {
+    margin-bottom: 8px;
   }
 }
 @media (max-width: 350px) {
@@ -2606,6 +2632,9 @@ footer .footer_company__copyright {
   }
   #new_payment_page .window_form_in_page #new_payment_form h1 {
     font-size: 21px;
+  }
+  #new_payment_page .window_form_in_page #new_payment_form .form_p__description {
+    font-size: 9px;
   }
   #new_payment_page .window_form_in_page #new_payment_form select {
     font-size: 12px;
