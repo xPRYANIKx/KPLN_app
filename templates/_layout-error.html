@@ -23,23 +23,25 @@
 
 
         <header>
-            <div class="header_pic">
-                <div class="header_pic__menu">
-                    <img src="/static/img/interface/menu.png" alt="kpln_menu" id="image_menu">
+            <div class="header__content">
+                <div class="header_pic">
+                    <div class="header_pic__menu">
+                        <img src="/static/img/interface/menu.png" alt="kpln_menu" id="image_menu">
+                    </div>
                 </div>
-            </div>
-            <div id="header__auth__label"></div>
-            <div id="menu">
-                <div id="menu__content">
-                    <ul>
-                        <li id="menu__content__h"><a href="/">Главная страница</a></li>
-                        {% for m in menu %}
-                        <ul>{{m.menu_item}}</ul>
-                        {% for p in m.sub_item %}
-                        <li><a href="{{p.url}}">{{p.name}}</a></li>
-                        {% endfor %}
-                        {% endfor %}
-                    </ul>
+                <div id="header__auth__label"></div>
+                <div id="menu">
+                    <div id="menu__content">
+                        <ul>
+                            <li id="menu__content__h"><a href="/">Главная страница</a></li>
+                            {% for m in menu %}
+                            <ul>{{m.menu_item}}</ul>
+                            {% for p in m.sub_item %}
+                            <li><a href="{{p.url}}">{{p.name}}</a></li>
+                            {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </header>
