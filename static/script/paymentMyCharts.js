@@ -37,63 +37,70 @@ function paymentMyCharts(chart_type) {
                       existingChart.destroy();
                     }
 
-                    // Create the chart
-                    var chart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: data.label,
-                                data: values,
-                                backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                                borderColor: 'rgba(0, 123, 255, 1)',
-                                borderWidth: 1,
-                                tension: 0.1
-                            }]
+                const crossButtonDD = document.querySelector("#crossBtnDD");
+                const dialogDD = document.querySelector("#diagram__dialog");
+
+                crossButtonDD.addEventListener("click", closeDialogDD);
+
+                function closeDialogDD() {
+                    dialogDD.close();
+                }
+
+                // Create the chart
+                var chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: data.label,
+                            data: values,
+                            backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                            borderColor: 'rgba(0, 123, 255, 1)',
+                            borderWidth: 1,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: data.title
+                            }
                         },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'top',
-                                },
-                                title: {
-                                    display: true,
-                                   text: data.title
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    ticks: {
-                                        maxTicksLimit: 8
-                                    }
-                                }
-                            },
+                        scales: {
+                            //                                x: {
+                            //                                    ticks: {
+                            //                                        maxTicksLimit: 8
+                            //                                    }
+                            //                                }
+                        },
 
-                        }
-                    });
-//                    chart.options.scales.x.ticks.maxTicksLimit = 3; // Change this value to the desired number of values
-//                    chart.update()
+                    }
+                });
+                //                    chart.options.scales.x.ticks.maxTicksLimit = 3; // Change this value to the desired number of values
+                //                    chart.update()
 
 
-//                    const modalDialog = document.querySelector("#diagram__dialog");
-//                    modalDialog.addEventListener('click', function() {
-//                        // Hide the chart
-//                        chart.destroy();
-//                        modalDialog.close();
-//                    });
-
-
-                    return
-                }
-                else if (data.status === 'error') {
-                    alert(data.description)
-                }
-                else {
-                    window.location.href = '/payment-approval';
-                }
+                //                    const modalDialog = document.querySelector("#diagram__dialog");
+                //                    modalDialog.addEventListener('click', function() {
+                //                        // Hide the chart
+                //                        chart.destroy();
+                //                        modalDialog.close();
+                //                    });
+                return
+            }
+            else if (data.status === 'error') {
+                alert(data.description)
+            }
+            else {
+                window.location.href = '/payment-approval';
+            }
         })
         .catch(error => {
-        console.error('Error:', error);
-    });
+            console.error('Error:', error);
+        });
 };

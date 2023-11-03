@@ -1729,6 +1729,27 @@ footer {
     }
 }
 
+#diagram__dialog {
+    #crossBtnDD {
+        cursor: pointer;
+        width: 25px;
+        position: absolute;
+        top: 10px;
+        right: 12px;
+    }
+}
+
+#payment-approval_page {
+    .tpages_top_panel {
+        .cards_container {
+            #card_available_money,
+            #card_account_money {
+                cursor: default;
+            }
+        }
+    }
+}
+
 ///---------------------------------------------------
 ///---------------------------------------------------
 ///---------------------------------------------------
