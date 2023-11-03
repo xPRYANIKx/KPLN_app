@@ -124,7 +124,7 @@
                             <input placeholder="Поиск" type="text" id="filter-input-13" oninput="filterTable()">
                         </th>
                         <th class="th_save_pay">
-                            <div onclick="sortTable(14, 'num')">ДО ПОЛНОЙ ОПЛАТЫ&nbsp;<span class="arrow_sort"></span></div>
+                            <div onclick="sortTable(14, 'str')">ДО ПОЛНОЙ ОПЛАТЫ&nbsp;<span class="arrow_sort"></span></div>
                             <input type="text" id="filter-input-14" hidden readonly>
                         </th>
                     </tr>
@@ -169,7 +169,7 @@
 
 
 
-                        <td data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
+                        <td class="th_date_create_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
                         <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
                         <td class="th_save_pay_i" data-sort="{% if application.payment_full_agreed_status %}1{% else %}0{% endif %}">
                             <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{ loop.index }}" {% if
