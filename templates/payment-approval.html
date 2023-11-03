@@ -6,9 +6,6 @@
 
 <script src="static/script/numberWithSpaces.js"></script>
 
-<!--<script src="static/script/EditDWindow.js" defer></script>-->
-<!--<script src="static/script/tableCustom.js" defer></script>-->
-
 <script src="static/script/paymentApprovalSaveChanges.js"></script>
 <script src="static/script/paymentApprovalRecalcCards.js"></script>
 <script src="static/script/paymentApprovalColorize.js"></script>
@@ -17,7 +14,7 @@
 <script src="static/script/checkFormNewPayment.js"></script>
 
 <script src="static/script/application_modal.js"></script>
-<!--<script src="static/script/verificationWindow.js" defer></script>-->
+
 <script src="static/script/paymentPagination.js" defer></script>
 <script src="static/script/paymentApprovalRefreshSortValueCheckbox.js"></script>
 <script src="static/script/paymentApprovalSort.js"></script>
@@ -107,43 +104,43 @@
                         </th>
                         <th class="th_category">
                             <div onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ&nbsp;<span class="arrow_sort"></span></div>
-                            <input placeholder="Поиск по тексту" type="text" id="filter-input-1" oninput="filterTable()">
+                            <input placeholder="Поиск" type="text" id="filter-input-1" oninput="filterTable()">
                         </th>
                         <th class="th_name">
                             <div onclick="sortTable(2, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА&nbsp;<span class="arrow_sort"></span></div>
-                            <input placeholder="Поиск по тексту" type="text" id="filter-input-2" oninput="filterTable()">
+                            <input placeholder="Поиск" type="text" id="filter-input-2" oninput="filterTable()">
                         </th>
                         <th class="th_description">
                             <div onclick="sortTable(3, 'str')">ОПИСАНИЕ&nbsp;<span class="arrow_sort"></span></div>
-                            <input placeholder="Поиск по тексту" type="text" id="filter-input-3" oninput="filterTable()">
+                            <input placeholder="Поиск" type="text" id="filter-input-3" oninput="filterTable()">
                         </th>
                         <th class="th_object">
                             <div onclick="sortTable(4, 'str')">ОБЪЕКТ&nbsp;<span class="arrow_sort"></span></div>
-                            <input placeholder="Поиск по тексту" type="text" id="filter-input-4" oninput="filterTable()">
+                            <input placeholder="Поиск" type="text" id="filter-input-4" oninput="filterTable()">
                         </th>
                         <th class="th_responsible">
                             <div onclick="sortTable(5, 'str')">ОТВЕТСТВЕННЫЙ&nbsp;<span class="arrow_sort"></span></div>
-                            <input placeholder="Поиск по тексту" type="text" id="filter-input-5" oninput="filterTable()">
+                            <input placeholder="Поиск" type="text" id="filter-input-5" oninput="filterTable()">
                         </th>
                         <th class="th_contractor">
                             <div onclick="sortTable(6, 'str')">КОНТРАГЕНТ&nbsp;<span class="arrow_sort"></span></div>
-                            <input placeholder="Поиск по тексту" type="text" id="filter-input-6" oninput="filterTable()">
+                            <input placeholder="Поиск" type="text" id="filter-input-6" oninput="filterTable()">
                         </th>
                         <th class="th_main_sum">
                             <div onclick="sortTable(7, 'num')">ОБЩАЯ СУММА&nbsp;<span class="arrow_sort"></span></div>
-                            <input placeholder="Поиск по тексту" type="text" id="filter-input-7" oninput="filterTable()">
+                            <input placeholder="Поиск" type="text" id="filter-input-7" oninput="filterTable()">
                         </th>
                         <th class="th_sum_remain">
                             <div onclick="sortTable(8, 'num')">ОСТАТОК К ОПЛАТЕ&nbsp;<span class="arrow_sort"></span></div>
-                            <input placeholder="Поиск по тексту" type="text" id="filter-input-8" oninput="filterTable()">
+                            <input placeholder="Поиск" type="text" id="filter-input-8" oninput="filterTable()">
                         </th>
                         <th class="th_sum_agreed">
                             <div onclick="sortTable(9, 'num')">СОГЛАСОВАННАЯ СУММА&nbsp;<span class="arrow_sort"></span></div>
-                            <input placeholder="Поиск по тексту" type="text" id="filter-input-9" oninput="filterTable()">
+                            <input placeholder="Поиск" type="text" id="filter-input-9" oninput="filterTable()">
                         </th>
                         <th class="th_pay_date">
-                            <div onclick="sortTable(10, 'str')">СРОК ОПЛАТЫ&nbsp;<span class="arrow_sort"></span></div>
-                            <input placeholder="Поиск по тексту" type="text" id="filter-input-10" oninput="filterTable()">
+                            <div onclick="sortTable(10, 'str')">СРОК ОПЛАТЫ&nbsp;<span class="arrow_sort">▲</span></div>
+                            <input placeholder="Поиск" type="text" id="filter-input-10" oninput="filterTable()">
                         </th>
                         <th class="th_status">
                             <div onclick="sortTable(11, 'num')">СТАТУС&nbsp;<span class="arrow_sort"></span></div>
@@ -154,7 +151,7 @@
                             <input type="date" id="filter-input-12" oninput="filterTable()">
                         </th>
                         <th class="th_save_pay">
-                            <span onclick="sortTable(13, 'num')">ДО ПОЛНОЙ ОПЛАТЫ&nbsp;<span class="arrow_sort"></span></span>
+                            <div onclick="sortTable(13, 'num')">ДО ПОЛНОЙ ОПЛАТЫ&nbsp;<span class="arrow_sort"></span></div>
                             <input type="text" id="filter-input-13" hidden readonly>
                         </th>
                     </tr>
