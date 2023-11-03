@@ -7,6 +7,9 @@ from werkzeug.security import check_password_hash
 from user_login import UserLogin
 from FDataBase import FDataBase
 from db_data_conf import db_data
+from flask_wtf.recaptcha import RecaptchaField
+import requests
+
 
 login_bp = Blueprint('login_app', __name__)
 
@@ -15,6 +18,21 @@ login_manager.login_view = 'login_app.login'
 login_manager.login_message = ["Недостаточно прав для доступа", '']
 login_manager.login_message_category = "error"
 
+# reCAPCHA v2
+RECAPTCHA_PUBLIC_KEY = '6LdOKPAoAAAAAAg3akj2sXnfAtX6uk_pz0wBX3AD'
+RECAPTCHA_PRIVATE_KEY = '6LdOKPAoAAAAAC6Xgu4j-UbfcD8PUHYIkVvSUA4H'
+# reCAPCHA v2 - localHost
+RECAPTCHA_PUBLIC_KEY = '6LeaRfAoAAAAAA61s6JSuRoJIOvH_n-bQuEnREyg'
+RECAPTCHA_PRIVATE_KEY = '6LeaRfAoAAAAAN9t7zjoc9KXieAgzKVe6Y29sv5Q'
+
+# # reCAPCHA v3
+# RECAPTCHA_PUBLIC_KEY = '6LfY2O8oAAAAAN53CQ3wP4DJ2gNekK209UgMOB5K'
+# RECAPTCHA_PRIVATE_KEY = '6LfY2O8oAAAAAKv7GE2Z3ExkiHIBRYCLtWP-4vTe'
+# reCAPCHA v3 - localHost
+RECAPTCHA_PUBLIC_KEY = '6LerWPAoAAAAAIlvLStpD-VweCENCOH9PN3xJajC'
+RECAPTCHA_PRIVATE_KEY = '6LerWPAoAAAAAAoPR4FOEmoHNgX6rw5WJB04ibtT'
+
+RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
 
 @login_bp.record_once
 def on_load(state):
@@ -142,9 +160,17 @@ def login():
             dbase = FDataBase(conn)
             form_data = request.form
 
+            print(request.form)
+
             email = request.form.get('email')
             password = request.form.get('password')
             remain = request.form.get('remainme')
+
+            secret_response = request.form['g-recaptcha-response']
+            verify_response = requests.post(url=f'{RECAPTCHA_VERIFY_URL}?secret={RECAPTCHA_PRIVATE_KEY}&response={secret_response}').json()
+
+            if verify_response['success'] == False or verify_response['score'] < 0.5:
+                abort(401)
 
             user = dbase.get_user_by_email(email)
 
@@ -161,7 +187,8 @@ def login():
             conn.close()
             return redirect(url_for('.login'))
 
-        return render_template("login.html", title="Авторизация", menu=hlink_menu,
+        return render_template("login.html", site_key=RECAPTCHA_PUBLIC_KEY,
+                               title="Авторизация", menu=hlink_menu,
                                menu_profile=hlink_profile)
     except Exception as e:
         return f'login ❗❗❗ Ошибка \n---{e}'

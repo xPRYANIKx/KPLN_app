@@ -7,6 +7,7 @@ import math
 import re
 from flask import url_for, flash
 from werkzeug.security import generate_password_hash
+from flask_wtf.recaptcha import RecaptchaField
 
 
 class FDataBase:
