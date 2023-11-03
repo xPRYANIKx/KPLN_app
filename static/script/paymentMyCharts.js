@@ -1,38 +1,41 @@
 function paymentMyCharts(chart_type) {
+        var existingChart = Chart.getChart("myChart");
+                    if (existingChart) {
+                      existingChart.destroy();
+                    }
 
-    fetch('/get-paymentMyCharts', {
-        "headers": {
-            'Content-Type': 'application/json'
-        },
-        "method": "POST",
-        "body": JSON.stringify({
-            'chart_type': chart_type
+        fetch('/get-paymentMyCharts', {
+            "headers": {
+                'Content-Type': 'application/json'
+            },
+            "method": "POST",
+            "body": JSON.stringify({
+                'chart_type': chart_type
+            })
         })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                if (!data.historic_data) { return }
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    if (!data.historic_data) {return}
 
+                    var labels = [];
+                    var values = [];
 
-                var labels = [];
-                var values = [];
+                    data.historic_data.forEach(function(entry) {
+                        labels.push(entry.create_at);
+                        values.push(entry.cur_bal);
+                    });
 
-                data.historic_data.forEach(function (entry) {
-                    labels.push(entry.create_at);
-                    values.push(entry.cur_bal);
-                });
+//                    document.getElementById('myChart').style.display = "";
+//                    document.getElementById('myChart').setAttribute("hidden", "");
 
-                //                    document.getElementById('myChart').style.display = "";
-                //                    document.getElementById('myChart').setAttribute("hidden", "");
+                    // Get the canvas element
+                    var ctx = document.getElementById('myChart').getContext('2d');
 
-                // Get the canvas element
-                var ctx = document.getElementById('myChart').getContext('2d');
-
-                var existingChart = Chart.getChart("myChart");
-                if (existingChart) {
-                    existingChart.destroy();
-                }
+                    var existingChart = Chart.getChart("myChart");
+                    if (existingChart) {
+                      existingChart.destroy();
+                    }
 
                 const crossButtonDD = document.querySelector("#crossBtnDD");
                 const dialogDD = document.querySelector("#diagram__dialog");
