@@ -964,7 +964,8 @@ footer {
 #payment-approval_page,
 #payment-approval-list_page,
 #payment-paid-list_page,
-#payment-pay_page {
+#payment-pay_page,
+#payment-list_page {
     main {
         width: 100%;
         padding: 90px 40px 0px 40px;
@@ -1717,12 +1718,19 @@ footer {
     .tpages_top_panel {
         width: 780px;
         border-left: solid 4px #dbdbdb;
+        .cards_container {
+            #card_available_money,
+            #card_account_money {
+                cursor: default;
+            }
+        }
     }
     .th_nnumber {
         min-width: 210px;
     }
     .th_name_i {
         color: black;
+        cursor: default;
     }
     .th_date_create {
         min-width: 130px;
@@ -1739,14 +1747,40 @@ footer {
     }
 }
 
-#payment-approval_page {
+#payment-list_page {
     .tpages_top_panel {
-        .cards_container {
-            #card_available_money,
-            #card_account_money {
-                cursor: default;
-            }
-        }
+        border-left: solid 4px #a5a5a5;
+    }
+    .paymentFormBtn {
+        justify-content: end;
+    }
+    #paymentForm {
+        margin: 0px;
+        padding: 0px;
+    }
+    .th_number {
+        width: 220px;
+        min-width: 220px;
+        max-width: 230px;
+    }
+    .th_name,
+    .th_description {
+        min-width: 350px;
+    }
+    .th_object {
+        min-width: 190px;
+        max-width: 250px;
+    }
+    .th_main_sum,
+    .th_sum_paid {
+        min-width: 155px;
+    }
+    .th_pay_date {
+        max-width: 120px;
+        min-width: 120px;
+    }
+    .th_date_create {
+        min-width: 130px;
     }
 }
 

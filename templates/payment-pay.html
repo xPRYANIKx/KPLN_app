@@ -169,7 +169,7 @@
 
 
 
-                        <td data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
+                        <td class="th_date_create_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
                         <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
                         <td class="th_save_pay_i" data-sort="{% if application.payment_full_agreed_status %}1{% else %}0{% endif %}">
                             <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{ loop.index }}" {% if

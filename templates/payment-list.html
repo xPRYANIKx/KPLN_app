@@ -6,10 +6,14 @@
 <script src="static/script/paymentApprovalSort.js"></script>
 <script src="static/script/paymentFilter.js"></script>
 
-<body id="payment-approval_page">
+<body id="payment-list_page">
 
     {% endblock %}
     {% block content %}
+
+    <div class="tpages_top_panel">
+        <h1><img src="static/img/h1/paymentpay.png"> {{title}}</h1>
+    </div>
 
     {% include "_card-tableCustom.html" %}
 
