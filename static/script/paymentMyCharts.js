@@ -1,4 +1,8 @@
 function paymentMyCharts(chart_type) {
+        var existingChart = Chart.getChart("myChart");
+                    if (existingChart) {
+                      existingChart.destroy();
+                    }
 
         fetch('/get-paymentMyCharts', {
             "headers": {
@@ -13,7 +17,6 @@ function paymentMyCharts(chart_type) {
             .then(data => {
                 if (data.status === 'success') {
                     if (!data.historic_data) {return}
-
 
                     var labels = [];
                     var values = [];
@@ -60,11 +63,11 @@ function paymentMyCharts(chart_type) {
                                 }
                             },
                             scales: {
-//                                x: {
-//                                    ticks: {
-//                                        maxTicksLimit: 8
-//                                    }
-//                                }
+                                x: {
+                                    ticks: {
+                                        maxTicksLimit: 8
+                                    }
+                                }
                             },
 
                         }
