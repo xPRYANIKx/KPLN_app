@@ -2171,41 +2171,54 @@ footer .footer_company__copyright {
   #payment-approval_page .tpages_top_panel,
   #payment-approval-list_page .tpages_top_panel,
   #payment-paid-list_page .tpages_top_panel,
-  #payment-pay_page .tpages_top_panel {
+  #payment-pay_page .tpages_top_panel,
+  #payment-list_page .tpages_top_panel {
     width: 500px;
     padding: 0px 0px 0px 15px;
   }
   #payment-approval_page .tpages_top_panel h1,
   #payment-approval-list_page .tpages_top_panel h1,
   #payment-paid-list_page .tpages_top_panel h1,
-  #payment-pay_page .tpages_top_panel h1 {
+  #payment-pay_page .tpages_top_panel h1,
+  #payment-list_page .tpages_top_panel h1 {
     width: 100%;
     font-size: 29px;
   }
   #payment-approval_page .tpages_top_panel .cards_container,
   #payment-approval-list_page .tpages_top_panel .cards_container,
   #payment-paid-list_page .tpages_top_panel .cards_container,
-  #payment-pay_page .tpages_top_panel .cards_container {
+  #payment-pay_page .tpages_top_panel .cards_container,
+  #payment-list_page .tpages_top_panel .cards_container {
     flex-direction: column;
   }
   #payment-approval_page .tpages_top_panel .cards_container .card,
   #payment-approval-list_page .tpages_top_panel .cards_container .card,
   #payment-paid-list_page .tpages_top_panel .cards_container .card,
-  #payment-pay_page .tpages_top_panel .cards_container .card {
+  #payment-pay_page .tpages_top_panel .cards_container .card,
+  #payment-list_page .tpages_top_panel .cards_container .card {
     max-width: 100%;
   }
   #payment-approval_page .tpages_top_panel #payment-approval__menu,
   #payment-approval-list_page .tpages_top_panel #payment-approval__menu,
   #payment-paid-list_page .tpages_top_panel #payment-approval__menu,
-  #payment-pay_page .tpages_top_panel #payment-approval__menu {
+  #payment-pay_page .tpages_top_panel #payment-approval__menu,
+  #payment-list_page .tpages_top_panel #payment-approval__menu {
     width: 100%;
     flex-direction: column;
   }
   #payment-approval_page .tpages_top_panel #payment-approval__menu .not_form_button,
   #payment-approval-list_page .tpages_top_panel #payment-approval__menu .not_form_button,
   #payment-paid-list_page .tpages_top_panel #payment-approval__menu .not_form_button,
-  #payment-pay_page .tpages_top_panel #payment-approval__menu .not_form_button {
+  #payment-pay_page .tpages_top_panel #payment-approval__menu .not_form_button,
+  #payment-list_page .tpages_top_panel #payment-approval__menu .not_form_button {
     margin: 0px 0px 8px 0px;
+  }
+  #payment-approval_page .tableR,
+  #payment-approval-list_page .tableR,
+  #payment-paid-list_page .tableR,
+  #payment-pay_page .tableR,
+  #payment-list_page .tableR {
+    max-height: calc(100vh - 170px);
   }
 }
 @media (max-width: 720px) {

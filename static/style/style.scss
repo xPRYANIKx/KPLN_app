@@ -1809,7 +1809,8 @@ footer {
     #payment-approval_page,
     #payment-approval-list_page,
     #payment-paid-list_page,
-    #payment-pay_page {
+    #payment-pay_page,
+    #payment-list_page {
         .tpages_top_panel {
             width: 500px;
             padding: 0px 0px 0px 15px;
@@ -1830,6 +1831,9 @@ footer {
                     margin: 0px 0px 8px 0px;
                 }
             }
+        }
+        .tableR {
+            max-height: calc(100vh - 170px);
         }
     }
 }
@@ -1905,8 +1909,7 @@ footer {
         #inflow_historical_data_table__response {
             display: table;
         }
-
-        /// ----------------------
+        ///@MEDIA:720 - СТРАНИЦА ЗАЯВКИ НА ОПЛАТУ
     }
     #new_payment_page {
         .window_form_in_page {
