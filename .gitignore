@@ -168,6 +168,7 @@ tmp.py
 # Файл для тестирования sql-запросов
 tst_query_to_bd.py
 wsgi.py
+kpln_payment_log.log
 # :)
 app.py
 db_data_conf.py
