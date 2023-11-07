@@ -1,16 +1,12 @@
 import json
 
-# import psycopg2
-# import psycopg2.extras
 import time
 import datetime
-# import itertools
 from psycopg2.extras import execute_values
 from pprint import pprint
 from flask import g, request, render_template, redirect, flash, url_for, session, abort, get_flashed_messages, \
-    jsonify, Blueprint
+    jsonify, Blueprint, current_app
 from datetime import date
-# from FDataBase import FDataBase
 from flask_login import login_required
 import error_handlers
 import login_app
@@ -2006,6 +2002,8 @@ def get_payment_approval_list_pagination():
     """Постраничная выгрузка списка согласованных платежей"""
 
     try:
+        current_app.logger.info(11111)
+
         limit = request.get_json()['limit']
         col_1 = request.get_json()['sort_col_1']
         col_1_val = request.get_json()['sort_col_1_val']

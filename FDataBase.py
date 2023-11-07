@@ -5,7 +5,7 @@ import psycopg2.extras
 import time
 import math
 import re
-from flask import url_for, flash
+from flask import url_for, flash, current_app
 from werkzeug.security import generate_password_hash
 from flask_wtf.recaptcha import RecaptchaField
 

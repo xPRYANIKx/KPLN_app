@@ -1,5 +1,5 @@
 import flask
-from flask import render_template
+from flask import render_template, current_app
 import login_app
 
 errorhandler_bp = flask.Blueprint('error_handlers', __name__)

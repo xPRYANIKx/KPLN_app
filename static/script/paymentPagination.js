@@ -505,6 +505,9 @@ $(document).ready(function() {
         var col_shift = 0; // Сдвиг колонок
         var col_shift2 = 0; // Сдвиг колонок
         var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
+
+        console.log(new Date(sortCol_1_val))
+
         if (page_url == 'payment-list') {
             fetchFunc = '/get-paymentList-pagination';
         }

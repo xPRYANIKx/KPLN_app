@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from flask import url_for
+from flask import url_for, current_app
 
 
 class UserLogin(UserMixin):

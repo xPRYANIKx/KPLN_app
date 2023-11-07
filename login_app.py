@@ -1,7 +1,7 @@
 import psycopg2
 import psycopg2.extras
 from pprint import pprint
-from flask import g, abort, request, render_template, redirect, flash, url_for, get_flashed_messages, Blueprint
+from flask import g, abort, request, render_template, redirect, flash, url_for, get_flashed_messages, Blueprint, current_app
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash
 from user_login import UserLogin
@@ -140,53 +140,59 @@ def index():
 
 @login_bp.route("/login", methods=["POST", "GET"])
 def login():
-    try:
-        global hlink_menu, hlink_profile
+    # try:
+    global hlink_menu, hlink_profile, RECAPTCHA_PUBLIC_KEY, RECAPTCHA_PRIVATE_KEY
 
-        # Create profile name dict
-        hlink_menu, hlink_profile = func_hlink_profile()
-        if current_user.is_authenticated:
-            return redirect(url_for('login_app.index'))
+    # Create profile name dict
+    hlink_menu, hlink_profile = func_hlink_profile()
+    if current_user.is_authenticated:
+        return redirect(url_for('login_app.index'))
 
-        if request.headers['Host'] == '127.0.0.1:5000':
-            RECAPTCHA_PUBLIC_KEY = RECAPTCHA_PUBLIC_KEY_LH
-            RECAPTCHA_PRIVATE_KEY = RECAPTCHA_PRIVATE_KEY_LH
-        print(RECAPTCHA_PRIVATE_KEY, RECAPTCHA_PRIVATE_KEY_LH)
+    print(RECAPTCHA_PRIVATE_KEY, RECAPTCHA_PRIVATE_KEY_LH)
 
-        if request.method == 'POST':
-            conn = conn_init()
-            dbase = FDataBase(conn)
+    if request.headers['Host'] == '127.0.0.1:5000':
+        RECAPTCHA_PUBLIC_KEY = RECAPTCHA_PUBLIC_KEY_LH
+        RECAPTCHA_PRIVATE_KEY = RECAPTCHA_PRIVATE_KEY_LH
+    # else:
+    #     RECAPTCHA_PUBLIC_KEY = RECAPTCHA_PUBLIC_KEY
+    #     RECAPTCHA_PRIVATE_KEY = RECAPTCHA_PRIVATE_KEY
 
-            email = request.form.get('email')
-            password = request.form.get('password')
-            remain = request.form.get('remainme')
 
-            secret_response = request.form['g-recaptcha-response']
-            verify_response = requests.post(url=f'{RECAPTCHA_VERIFY_URL}?secret={RECAPTCHA_PRIVATE_KEY}&response={secret_response}').json()
 
-            if verify_response['success'] == False or verify_response['score'] < 0.5:
-                abort(401)
+    if request.method == 'POST':
+        conn = conn_init()
+        dbase = FDataBase(conn)
 
-            user = dbase.get_user_by_email(email)
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remain = request.form.get('remainme')
 
-            if user and check_password_hash(user['password'], password):
-                userlogin = UserLogin().create(user)
-                login_user(userlogin, remember=remain)
-                conn.close()
-                # flash(message=['Вы вошли в систему', ''], category='success')
-                return redirect(request.args.get("next") or url_for("login_app.index"))
+        secret_response = request.form['g-recaptcha-response']
+        verify_response = requests.post(url=f'{RECAPTCHA_VERIFY_URL}?secret={RECAPTCHA_PRIVATE_KEY_LH}&response={secret_response}').json()
 
-            else:
-                flash(message=['Пользователь не найден', ''], category='error')
+        if verify_response['success'] == False or verify_response['score'] < 0.5:
+            abort(401)
 
+        user = dbase.get_user_by_email(email)
+
+        if user and check_password_hash(user['password'], password):
+            userlogin = UserLogin().create(user)
+            login_user(userlogin, remember=remain)
             conn.close()
-            return redirect(url_for('.login'))
+            # flash(message=['Вы вошли в систему', ''], category='success')
+            return redirect(request.args.get("next") or url_for("login_app.index"))
 
-        return render_template("login.html", site_key=RECAPTCHA_PUBLIC_KEY,
-                               title="Авторизация", menu=hlink_menu,
-                               menu_profile=hlink_profile)
-    except Exception as e:
-        return f'login ❗❗❗ Ошибка \n---{e}'
+        else:
+            flash(message=['Пользователь не найден', ''], category='error')
+
+        conn.close()
+        return redirect(url_for('.login'))
+
+    return render_template("login.html", site_key=RECAPTCHA_PUBLIC_KEY_LH,
+                           title="Авторизация", menu=hlink_menu,
+                           menu_profile=hlink_profile)
+    # except Exception as e:
+    #     return f'login ❗❗❗ Ошибка \n---{e}'
 
 
 @login_bp.route('/logout')
