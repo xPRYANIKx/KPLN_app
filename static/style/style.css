@@ -317,6 +317,10 @@ button,
   box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.2);
   -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.2);
   -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.2);
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 button:hover,
 .input__button:hover {
@@ -2759,9 +2763,9 @@ footer .footer_company__copyright {
     min-width: 100%;
     margin: 0px 0px 8px 9px;
   }
-}/*# sourceMappingURL=style.css.map */
-.input_ro, .input_ro:active {
-    background-color: #c9c9c9;
-    color: grey;
-    outline: none;
 }
+.input_ro {
+  background-color: #c9c9c9;
+  color: grey;
+  border: none;
+}/*# sourceMappingURL=style.css.map */
