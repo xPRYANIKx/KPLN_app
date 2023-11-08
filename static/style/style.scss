@@ -1260,7 +1260,7 @@ footer {
                     height: 30px;
                     margin: 10px 0 5px 0;
                     color: #f3f3f3;
-                    background-color: #414141;
+                    background-color: #0d514d;
                     border: none;
                     border-radius: 5px;
                     font-family: "Montserrat";
@@ -1268,7 +1268,7 @@ footer {
                     font-weight: bold;
                     cursor: pointer;
                     &:hover {
-                        background-color: #5d5d5d;
+                        background-color: #116661;
                     }
                 }
                 &__button {
@@ -1901,6 +1901,11 @@ footer {
                 width: 190px;
             }
         }
+        #logDPage {
+            right: 5px;
+            left: 5px;
+            width: 98%;
+        }
     }
 }
 ///---------------------------------------------------
@@ -2013,6 +2018,71 @@ footer {
                 #submit_button_in_form {
                     margin-top: 20px;
                 }
+            }
+        }
+    }
+
+    #payment-approval_page,
+    #payment-approval-list_page,
+    #payment-paid-list_page,
+    #payment-pay_page,
+    #payment-list_page {
+        #payment-approval__dialog {
+            right: 5px;
+            left: 5px;
+            width: calc(100% - 10px);
+            min-width: calc(100% - 10px);
+            &__menu {
+                flex-direction: column;
+                &__edit {
+                    display: flex;
+                    flex-direction: column;
+                    h1 {
+                        img {
+                            margin-bottom: 0px;
+                        }
+                    }
+                    #payment_card {
+                        width: 100%;
+                        div {
+                            select,
+                            input,
+                            #sum_approval {
+                                max-width: 100%;
+                            }
+                        }
+                        .button_group {
+                            justify-content: center;
+                            button {
+                                width: 50%;
+                                min-height: 35px;
+                                padding: 5px 10px 5px 10px;
+                            }
+                        }
+                    }
+                }
+                &__list {
+                    width: 100%;
+                    margin: 15px 15px 0px 0px;
+                    padding: 0px 5px 0px 0px;
+                    border-left: none;
+                    &__content {
+                        .paid_history-table__response {
+                            min-height: 100%;
+                            max-height: 100%;
+                        }
+                    }
+                    &__button {
+                        justify-content: center;
+                        #closeBtn,
+                        #save__edit_btn_i {
+                            width: 50%;
+                        }
+                    }
+                }
+            }
+            #crossBtn {
+                top: 0.9%;
             }
         }
     }
@@ -2341,6 +2411,15 @@ footer {
                 }
             }
         }
+        #payment-approval__dialog {
+            &__menu {
+                &__edit {
+                    h1 {
+                        font-size: 17px;
+                    }
+                }
+            }
+        }
         #paymentForm {
             .paymentFormBtn {
                 align-items: start;
@@ -2547,6 +2626,27 @@ footer {
                 }
                 .help_p {
                     font-size: 9.4px;
+                }
+            }
+        }
+    }
+    /// ----------------------
+    #payment-approval_page,
+    #payment-approval-list_page,
+    #payment-paid-list_page,
+    #payment-pay_page,
+    #payment-list_page {
+        #payment-approval__dialog {
+            &__menu {
+                &__edit {
+                    h1 {
+                        font-size: 14px;
+                    }
+                }
+                &__list {
+                    #unpaid_approval_sum_div_h {
+                        font-size: 13px;
+                    }
                 }
             }
         }
