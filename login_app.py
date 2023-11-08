@@ -123,7 +123,7 @@ def conn_cursor_init():
 
 
 @login_bp.route('/', methods=["POST", "GET"])
-@login_required
+# @login_required
 def index():
     """Главная страница"""
     try:
@@ -148,16 +148,9 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('login_app.index'))
 
-    print(RECAPTCHA_PRIVATE_KEY, RECAPTCHA_PRIVATE_KEY_LH)
-
     if request.headers['Host'] == '127.0.0.1:5000':
         RECAPTCHA_PUBLIC_KEY = RECAPTCHA_PUBLIC_KEY_LH
         RECAPTCHA_PRIVATE_KEY = RECAPTCHA_PRIVATE_KEY_LH
-    # else:
-    #     RECAPTCHA_PUBLIC_KEY = RECAPTCHA_PUBLIC_KEY
-    #     RECAPTCHA_PRIVATE_KEY = RECAPTCHA_PRIVATE_KEY
-
-
 
     if request.method == 'POST':
         conn = conn_init()
@@ -168,7 +161,7 @@ def login():
         remain = request.form.get('remainme')
 
         secret_response = request.form['g-recaptcha-response']
-        verify_response = requests.post(url=f'{RECAPTCHA_VERIFY_URL}?secret={RECAPTCHA_PRIVATE_KEY_LH}&response={secret_response}').json()
+        verify_response = requests.post(url=f'{RECAPTCHA_VERIFY_URL}?secret={RECAPTCHA_PRIVATE_KEY}&response={secret_response}').json()
 
         if verify_response['success'] == False or verify_response['score'] < 0.5:
             abort(401)
@@ -188,7 +181,7 @@ def login():
         conn.close()
         return redirect(url_for('.login'))
 
-    return render_template("login.html", site_key=RECAPTCHA_PUBLIC_KEY_LH,
+    return render_template("login.html", site_key=RECAPTCHA_PUBLIC_KEY,
                            title="Авторизация", menu=hlink_menu,
                            menu_profile=hlink_profile)
     # except Exception as e:

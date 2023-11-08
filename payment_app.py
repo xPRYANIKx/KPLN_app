@@ -3686,7 +3686,7 @@ def get_payment_my_charts():
 
                 SELECT 
                     -- balance_sum::text AS balance_sum,
-                    date_trunc('second', create_at::timestamp without time zone)::text AS payment_at,
+                    date_trunc('second', create_at::timestamp without time zone)::text AS create_at,
                     -- LAG(balance_sum) OVER(ORDER BY create_at DESC)::text AS previous_balance,
                     COALESCE(all_sum - balance_sum + LAG(balance_sum) OVER(ORDER BY create_at DESC), all_sum)::text AS cur_bal,
                     status /*,
