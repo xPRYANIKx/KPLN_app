@@ -304,6 +304,12 @@ form textarea {
   border-color: rgba(0, 0, 0, 0.3607843137);
 }
 
+.input_ro {
+  background-color: #c9c9c9;
+  color: grey;
+  border: none;
+}
+
 button,
 .input__button {
   cursor: pointer;
@@ -2670,6 +2676,48 @@ footer .footer_company__copyright {
   }
 }
 @media (max-width: 400px) {
+  #payment-approval_page #verification_dialog p,
+  #payment-approval-list_page #verification_dialog p,
+  #payment-paid-list_page #verification_dialog p,
+  #payment-pay_page #verification_dialog p,
+  #payment-list_page #verification_dialog p {
+    font-size: 13px;
+  }
+  #payment-approval_page #verification_dialog button,
+  #payment-approval-list_page #verification_dialog button,
+  #payment-paid-list_page #verification_dialog button,
+  #payment-pay_page #verification_dialog button,
+  #payment-list_page #verification_dialog button {
+    font-size: 12px;
+  }
+  #payment-approval_page #verification_dialog #verification_dialog__cancel,
+  #payment-approval-list_page #verification_dialog #verification_dialog__cancel,
+  #payment-paid-list_page #verification_dialog #verification_dialog__cancel,
+  #payment-pay_page #verification_dialog #verification_dialog__cancel,
+  #payment-list_page #verification_dialog #verification_dialog__cancel {
+    margin: 0px 10px 0px 0px;
+  }
+  #payment-approval_page #tableCustom,
+  #payment-approval-list_page #tableCustom,
+  #payment-paid-list_page #tableCustom,
+  #payment-pay_page #tableCustom,
+  #payment-list_page #tableCustom {
+    width: 270px;
+  }
+  #payment-approval_page #tableCustom h2,
+  #payment-approval-list_page #tableCustom h2,
+  #payment-paid-list_page #tableCustom h2,
+  #payment-pay_page #tableCustom h2,
+  #payment-list_page #tableCustom h2 {
+    width: 170px;
+  }
+  #payment-approval_page #tableCustom table tbody tr .ttdname,
+  #payment-approval-list_page #tableCustom table tbody tr .ttdname,
+  #payment-paid-list_page #tableCustom table tbody tr .ttdname,
+  #payment-pay_page #tableCustom table tbody tr .ttdname,
+  #payment-list_page #tableCustom table tbody tr .ttdname {
+    font-size: 11.5px;
+  }
   #payment-approval_page #paymentForm .paymentFormBtn,
   #payment-approval-list_page #paymentForm .paymentFormBtn,
   #payment-paid-list_page #paymentForm .paymentFormBtn,
@@ -2992,9 +3040,61 @@ footer .footer_company__copyright {
     min-width: 100%;
     margin: 0px 0px 8px 9px;
   }
-}
-.input_ro {
-  background-color: #c9c9c9;
-  color: grey;
-  border: none;
+  #payment-approval_page #verification_dialog p,
+  #payment-approval-list_page #verification_dialog p,
+  #payment-paid-list_page #verification_dialog p,
+  #payment-pay_page #verification_dialog p,
+  #payment-list_page #verification_dialog p {
+    font-size: 15px;
+  }
+  #payment-approval_page #verification_dialog div,
+  #payment-approval-list_page #verification_dialog div,
+  #payment-paid-list_page #verification_dialog div,
+  #payment-pay_page #verification_dialog div,
+  #payment-list_page #verification_dialog div {
+    flex-direction: column;
+    align-items: center;
+  }
+  #payment-approval_page #verification_dialog #verification_dialog__cancel,
+  #payment-approval-list_page #verification_dialog #verification_dialog__cancel,
+  #payment-paid-list_page #verification_dialog #verification_dialog__cancel,
+  #payment-pay_page #verification_dialog #verification_dialog__cancel,
+  #payment-list_page #verification_dialog #verification_dialog__cancel {
+    margin: 0px 0px 8px 0px;
+  }
+  #payment-approval_page #tableCustom,
+  #payment-approval-list_page #tableCustom,
+  #payment-paid-list_page #tableCustom,
+  #payment-pay_page #tableCustom,
+  #payment-list_page #tableCustom {
+    width: 240px;
+  }
+  #payment-approval_page #tableCustom #crossBtnTC,
+  #payment-approval-list_page #tableCustom #crossBtnTC,
+  #payment-paid-list_page #tableCustom #crossBtnTC,
+  #payment-pay_page #tableCustom #crossBtnTC,
+  #payment-list_page #tableCustom #crossBtnTC {
+    right: 4%;
+  }
+  #payment-approval_page #tableCustom table tbody tr .ttdname,
+  #payment-approval-list_page #tableCustom table tbody tr .ttdname,
+  #payment-paid-list_page #tableCustom table tbody tr .ttdname,
+  #payment-pay_page #tableCustom table tbody tr .ttdname,
+  #payment-list_page #tableCustom table tbody tr .ttdname {
+    font-size: 10px;
+  }
+  #payment-approval_page #tableCustom table tbody tr .ttdcbox,
+  #payment-approval-list_page #tableCustom table tbody tr .ttdcbox,
+  #payment-paid-list_page #tableCustom table tbody tr .ttdcbox,
+  #payment-pay_page #tableCustom table tbody tr .ttdcbox,
+  #payment-list_page #tableCustom table tbody tr .ttdcbox {
+    width: 34px;
+  }
+  #payment-approval_page #tableCustom table tbody tr .ttdcbox input,
+  #payment-approval-list_page #tableCustom table tbody tr .ttdcbox input,
+  #payment-paid-list_page #tableCustom table tbody tr .ttdcbox input,
+  #payment-pay_page #tableCustom table tbody tr .ttdcbox input,
+  #payment-list_page #tableCustom table tbody tr .ttdcbox input {
+    zoom: 1.5;
+  }
 }/*# sourceMappingURL=style.css.map */
