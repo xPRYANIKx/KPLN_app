@@ -1862,8 +1862,8 @@ footer .footer_company__copyright {
 }
 
 #diagram__dialog {
-  min-width: 900px;
-  min-height: 500px;
+  min-width: 780px;
+  min-height: 410px;
 }
 
 .paymentFormBtn {
@@ -2342,6 +2342,14 @@ footer .footer_company__copyright {
     left: 5px;
     width: 98%;
   }
+  #payment-approval_page #diagram__dialog,
+  #payment-approval-list_page #diagram__dialog,
+  #payment-paid-list_page #diagram__dialog,
+  #payment-pay_page #diagram__dialog,
+  #payment-list_page #diagram__dialog {
+    min-width: 690px;
+    min-height: 365px;
+  }
 }
 @media (max-width: 720px) {
   header #menu {
@@ -2554,6 +2562,14 @@ footer .footer_company__copyright {
   #payment-list_page #payment-approval__dialog #crossBtn {
     top: 0.9%;
   }
+  #payment-approval_page #diagram__dialog,
+  #payment-approval-list_page #diagram__dialog,
+  #payment-paid-list_page #diagram__dialog,
+  #payment-pay_page #diagram__dialog,
+  #payment-list_page #diagram__dialog {
+    min-width: 540px;
+    min-height: 285px;
+  }
 }
 @media (max-width: 570px) {
   #new_payment_page .window_form_in_page {
@@ -2625,6 +2641,14 @@ footer .footer_company__copyright {
   #payment-list_page main .tpages_top_panel #payment-approval__menu .not_form_button {
     margin: 0px 0px 8px 13px;
     font-size: 13px;
+  }
+  #payment-approval_page #diagram__dialog,
+  #payment-approval-list_page #diagram__dialog,
+  #payment-paid-list_page #diagram__dialog,
+  #payment-pay_page #diagram__dialog,
+  #payment-list_page #diagram__dialog {
+    min-width: 440px;
+    min-height: 240px;
   }
 }
 @media (max-width: 470px) {
@@ -2798,6 +2822,14 @@ footer .footer_company__copyright {
   }
   #new_payment_page .window_form_in_page #new_payment_form .form_p__description {
     margin-bottom: 8px;
+  }
+  #payment-approval_page #diagram__dialog,
+  #payment-approval-list_page #diagram__dialog,
+  #payment-paid-list_page #diagram__dialog,
+  #payment-pay_page #diagram__dialog,
+  #payment-list_page #diagram__dialog {
+    min-width: 440px;
+    min-height: 240px;
   }
 }
 @media (max-width: 400px) {

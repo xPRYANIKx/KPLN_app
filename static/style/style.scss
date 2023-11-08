@@ -1461,8 +1461,8 @@ footer {
 }
 
 #diagram__dialog {
-    min-width: 900px;
-    min-height: 500px;
+    min-width: 780px;
+    min-height: 410px;
 }
 
 .paymentFormBtn {
@@ -1906,6 +1906,10 @@ footer {
             left: 5px;
             width: 98%;
         }
+        #diagram__dialog {
+            min-width: 690px;
+            min-height: 365px;
+        }
     }
 }
 ///---------------------------------------------------
@@ -2021,7 +2025,11 @@ footer {
             }
         }
     }
-
+    /////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ///
     #payment-approval_page,
     #payment-approval-list_page,
     #payment-paid-list_page,
@@ -2085,6 +2093,10 @@ footer {
                 top: 0.9%;
             }
         }
+        #diagram__dialog {
+            min-width: 540px;
+            min-height: 285px;
+        }
     }
 }
 ///---------------------------------------------------
@@ -2139,6 +2151,10 @@ footer {
                     }
                 }
             }
+        }
+        #diagram__dialog {
+            min-width: 440px;
+            min-height: 240px;
         }
     }
 }
@@ -2373,6 +2389,17 @@ footer {
                     margin-bottom: 8px;
                 }
             }
+        }
+    }
+    /////////////////////
+    #payment-approval_page,
+    #payment-approval-list_page,
+    #payment-paid-list_page,
+    #payment-pay_page,
+    #payment-list_page {
+        #diagram__dialog {
+            min-width: 440px;
+            min-height: 240px;
         }
     }
 }
