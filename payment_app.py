@@ -299,7 +299,7 @@ def get_unapproved_payments():
                     COALESCE(t8.amount_rub, '') AS amount_rub,
                     CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
                     t21.status_id,
-                    date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at,
+                    date_trunc('second', payment_at::timestamp without time zone)::text AS payment_at,
                     t1.payment_full_agreed_status
             FROM payments_summary_tab AS t1
             LEFT JOIN (
@@ -538,7 +538,7 @@ def get_payment_approval_pagination():
                     CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
                     t21.status_id,
                     t7.status_name,
-                    date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at,
+                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
                     t1.payment_full_agreed_status
                 FROM payments_summary_tab AS t1
                 LEFT JOIN (
@@ -1131,7 +1131,7 @@ def get_cash_inflow():
         # Последние 5 поступлений из таблицы payment_inflow_type
         cursor.execute("""
         SELECT 
-            date_trunc('second', timezone('UTC-3', t1.inflow_at)::timestamp)::text AS inflow_at,
+            date_trunc('second', t1.inflow_at::timestamp without time zone)::text AS inflow_at,
             t1.inflow_sum,
             t2.contractor_name,
             t1.inflow_description            
@@ -1373,7 +1373,7 @@ def get_unpaid_payments():
                     COALESCE(t8.amount, '') AS amount_rub,
                     CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
                     t0.approval_fullpay_close_status AS payment_full_agreed_status,
-                    date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at
+                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at
                 FROM payments_approval AS t0
                 LEFT JOIN (
                     SELECT 
@@ -1578,7 +1578,7 @@ def get_payment_pay_pagination():
                     COALESCE(t8.amount, '') AS amount_rub,
                     CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
                     t0.approval_fullpay_close_status AS payment_full_agreed_status,
-                    date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at
+                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at
                 FROM payments_approval AS t0
                 LEFT JOIN (
                     SELECT 
@@ -1906,7 +1906,7 @@ def get_payments_approval_list():
                     COALESCE(t7.paid_sum, null) AS paid_sum,
                     COALESCE(t7.paid_sum, 0)::money AS paid_sum_rub,
                     CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                    date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at,
+                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
                     CAST(t8.create_at AS TEXT) AS create_at
                 FROM payments_approval AS t0
                 LEFT JOIN (
@@ -2002,8 +2002,6 @@ def get_payment_approval_list_pagination():
     """Постраничная выгрузка списка согласованных платежей"""
 
     try:
-        current_app.logger.info(11111)
-
         limit = request.get_json()['limit']
         col_1 = request.get_json()['sort_col_1']
         col_1_val = request.get_json()['sort_col_1_val']
@@ -2086,7 +2084,7 @@ def get_payment_approval_list_pagination():
                     COALESCE(t7.paid_sum, null) AS paid_sum,
                     COALESCE(t7.paid_sum, 0)::money AS paid_sum_rub,
                     CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                    date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at,
+                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
                     CAST(t8.create_at AS TEXT) AS create_at
                 FROM payments_approval AS t0
                 LEFT JOIN (
@@ -2235,10 +2233,10 @@ def get_payments_paid_list():
                         t2.approval_sum::money AS approval_sum_rub,
                         t0.paid_sum AS paid_sum,
                         COALESCE(t0.paid_sum, 0)::money AS paid_sum_rub,
-                        date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at,
+                        date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
                         CAST(t1.payment_at AS TEXT) AS payment_at2,
                         CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                        date_trunc('second', timezone('UTC-3', t0.paid_at)::timestamp)::text AS paid_at,
+                        date_trunc('second', t0.paid_at::timestamp without time zone)::text AS paid_at,
                         CAST(t0.paid_at AS TEXT) AS paid_at2,
                         t8.status_name
                     FROM t0
@@ -2347,6 +2345,8 @@ def get_payment_paid_list_pagination():
         col_id = request.get_json()['sort_col_id']
         col_id_val = request.get_json()['sort_col_id_val']
 
+
+
         # Список колонок для сортировки
         sort_col = {
             'col_1': [f"{col_1.split('#')[0]}#{col_1.split('#')[1]}"],  # Первая колонка
@@ -2398,6 +2398,7 @@ def get_payment_paid_list_pagination():
         # )
 
         # print(where_expression)
+        # current_app.logger.info(f"id{user_id} - {where_expression}")
 
         cursor.execute(
             f"""WITH t0 AS (
@@ -2427,10 +2428,10 @@ def get_payment_paid_list_pagination():
                         t2.approval_sum::money AS approval_sum_rub,
                         t0.paid_sum AS paid_sum,
                         COALESCE(t0.paid_sum, 0)::money AS paid_sum_rub,
-                        date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at,
+                        date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
                         CAST(t1.payment_at AS TEXT) AS payment_at2,
                         CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                        date_trunc('second', timezone('UTC-3', t0.paid_at)::timestamp)::text AS paid_at,
+                        date_trunc('second', t0.paid_at::timestamp without time zone)::text AS paid_at,
                         CAST(t0.paid_at AS TEXT) AS paid_at2,
                         t8.status_name
                     FROM t0
@@ -2572,7 +2573,7 @@ def get_payments_list():
                     t1.payment_sum,
                     t1.payment_sum::money AS payment_sum_rub,
                     CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                    date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at,
+                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
                     COALESCE(t7.paid_sum, 0) AS paid_sum,
                     COALESCE(t7.paid_sum, 0)::money AS paid_sum_rub
             FROM payments_summary_tab AS t1
@@ -2733,7 +2734,7 @@ def get_payment_list_pagination():
                     t1.payment_sum,
                     t1.payment_sum::money AS payment_sum_rub,
                     CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                    date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at,
+                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
                     COALESCE(t7.paid_sum, 0) AS paid_sum,
                     COALESCE(t7.paid_sum, 0)::money AS paid_sum_rub
             FROM payments_summary_tab AS t1
@@ -2902,8 +2903,8 @@ def get_card_payment(payment_id):
                 COALESCE(t8.amount, '') AS amount_rub,
                 CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
                 t2.status_id,
-                date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp)::text AS payment_at,
-                    date_trunc('second', timezone('UTC-3', t1.payment_at)::timestamp) AS payment_at2,
+                date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
+                date_trunc('second', t1.payment_at::timestamp without time zone) AS payment_at2,
                 t1.payment_full_agreed_status
         FROM payments_summary_tab AS t1
         LEFT JOIN (
@@ -2966,7 +2967,7 @@ def get_card_payment(payment_id):
                       GROUP BY payment_id)
         SELECT 
                 t1.payment_id,
-                date_trunc('second', timezone('UTC-3', t1.create_at)::timestamp)::text AS payment_at,
+                date_trunc('second', t1.create_at::timestamp without time zone)::text AS payment_at,
                 t2.payment_agreed_status_name, 
                 t0.approval_sum,
                 t1.approval_sum::money AS approval_sum_rub
@@ -2997,7 +2998,7 @@ def get_card_payment(payment_id):
         SELECT 
                 t1.payment_id,
                 to_char(t1.create_at, 'dd.MM.yy HH24:MI:SS') AS payment_at_2,
-                date_trunc('second', timezone('UTC-3', t1.create_at)::timestamp)::text AS payment_at,
+                date_trunc('second', t1.create_at::timestamp without time zone)::text AS payment_at,
                 t2.payment_agreed_status_name, 
                 t0.paid_sum AS total_paid_sum,
                 t1.paid_sum::money AS paid_sum_rub,
@@ -3313,10 +3314,6 @@ def save_payment():
 
         columns_p_s_t = tuple(columns_p_s_t)
 
-        print('2   values_p_a_h', approval_sum_p_a_h)
-        print(values_p_a_h)
-
-
         # Изменяем запись в таблице payments_summary_tab
         if len(columns_p_s_t) > 1:
             query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
@@ -3578,7 +3575,7 @@ def conv_data_to_db(col, val, all_col_types):
             col_type == 'integer'):
         val = f"{val}::{col_type}"
     # даты
-    elif col_type == 'date' or col_type == 'timestamp with time zone':
+    elif col_type == 'date' or col_type == 'timestamp with time zone' or col_type == 'timestamp without time zone':
         one = 'Dy, DD Mon YYYY HH24:MI:SS UTC'
         two = 'dd.mm.yyyy HH24:MI:SS'
         three = 'DD/MM/YYYY'
@@ -3591,7 +3588,7 @@ def conv_data_to_db(col, val, all_col_types):
         # else:
         #     col_type = three
         #     val = f"TO_DATE('{val}', '{col_type}')"
-        val = f"timestamp with time zone '{val}'"
+        val = f"timestamp without time zone '{val}'"
     # Текст
     elif col_type == 'text' or col_type == 'character varying':
         pass
@@ -3689,7 +3686,7 @@ def get_payment_my_charts():
 
                 SELECT 
                     -- balance_sum::text AS balance_sum,
-                    date_trunc('second', timezone('UTC-3', create_at)::timestamp)::text AS create_at,
+                    date_trunc('second', create_at::timestamp without time zone)::text AS payment_at,
                     -- LAG(balance_sum) OVER(ORDER BY create_at DESC)::text AS previous_balance,
                     COALESCE(all_sum - balance_sum + LAG(balance_sum) OVER(ORDER BY create_at DESC), all_sum)::text AS cur_bal,
                     status /*,
