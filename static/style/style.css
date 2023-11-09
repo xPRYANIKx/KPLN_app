@@ -2849,6 +2849,13 @@ footer .footer_company__copyright {
     min-width: 440px;
     min-height: 240px;
   }
+  #payment-approval_page #paymentForm .tableR,
+  #payment-approval-list_page #paymentForm .tableR,
+  #payment-paid-list_page #paymentForm .tableR,
+  #payment-pay_page #paymentForm .tableR,
+  #payment-list_page #paymentForm .tableR {
+    max-height: calc(100vh - 150px);
+  }
 }
 @media (max-width: 400px) {
   #payment-approval_page #verification_dialog p,
@@ -2939,13 +2946,6 @@ footer .footer_company__copyright {
   #payment-pay_page #paymentForm .paymentFormBtn #visualTablePA,
   #payment-list_page #paymentForm .paymentFormBtn #visualTablePA {
     margin-top: 10px;
-  }
-  #payment-approval_page #paymentForm .tableR,
-  #payment-approval-list_page #paymentForm .tableR,
-  #payment-paid-list_page #paymentForm .tableR,
-  #payment-pay_page #paymentForm .tableR,
-  #payment-list_page #paymentForm .tableR {
-    max-height: calc(100vh - 165px);
   }
   #payment-approval_page .paymentFormBtn,
   #payment-approval-list_page .paymentFormBtn,

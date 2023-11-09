@@ -2417,6 +2417,11 @@ footer {
             min-width: 440px;
             min-height: 240px;
         }
+        #paymentForm {
+            .tableR {
+                max-height: calc(100vh - 150px);
+            }
+        }
     }
 }
 ///---------------------------------------------------
@@ -2483,9 +2488,6 @@ footer {
                 #visualTablePA {
                     margin-top: 10px;
                 }
-            }
-            .tableR {
-                max-height: calc(100vh - 165px);
             }
         }
         .paymentFormBtn {
