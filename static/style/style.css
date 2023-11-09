@@ -195,6 +195,10 @@ table {
   color: #444;
 }
 
+input[list=partners_name]::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
 *,
 body {
   font-family: "Montserrat";
@@ -1207,7 +1211,8 @@ footer .footer_company__copyright {
 #payment-paid-list_page #payment-approval__dialog,
 #payment-pay_page #payment-approval__dialog,
 #payment-list_page #payment-approval__dialog {
-  top: 50%;
+  top: 40%;
+  bottom: 40%;
   min-width: 650px;
   border: none;
   border-radius: 7px;
@@ -1649,8 +1654,8 @@ footer .footer_company__copyright {
 #payment-list_page #payment-approval__dialog #crossBtn {
   position: absolute;
   width: 25px;
-  top: 1.3%;
-  right: 1.9%;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
 }
 #payment-approval_page #logDPage,
@@ -1769,6 +1774,8 @@ footer .footer_company__copyright {
 #payment-paid-list_page #tableCustom,
 #payment-pay_page #tableCustom,
 #payment-list_page #tableCustom {
+  top: 40%;
+  bottom: 40%;
   width: 314px;
   border: none;
   border-radius: 5px;
@@ -1782,7 +1789,7 @@ footer .footer_company__copyright {
 #payment-list_page #tableCustom h2 {
   display: flex;
   width: 250px;
-  margin: 10px 0px 5px 16px;
+  margin: 0px 0px 5px 16px;
   border-bottom: solid 2px #dfdfdf;
   font-size: 25px;
   font-weight: 900;
@@ -1857,9 +1864,9 @@ footer .footer_company__copyright {
 #payment-pay_page #tableCustom #crossBtnTC,
 #payment-list_page #tableCustom #crossBtnTC {
   position: absolute;
-  width: 25px;
-  top: 1.5%;
-  right: 3%;
+  width: 23px;
+  top: 12px;
+  right: 13px;
   cursor: pointer;
 }
 #payment-approval_page #paymentForm,
@@ -2469,10 +2476,15 @@ footer .footer_company__copyright {
   #payment-paid-list_page #payment-approval__dialog,
   #payment-pay_page #payment-approval__dialog,
   #payment-list_page #payment-approval__dialog {
-    right: 5px;
-    left: 5px;
-    width: calc(100% - 10px);
-    min-width: calc(100% - 10px);
+    right: 0px;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    min-height: 100%;
+    border-radius: 0px;
   }
   #payment-approval_page #payment-approval__dialog__menu,
   #payment-approval-list_page #payment-approval__dialog__menu,
@@ -2572,13 +2584,6 @@ footer .footer_company__copyright {
   #payment-list_page #payment-approval__dialog__menu__list__button #closeBtn,
   #payment-list_page #payment-approval__dialog__menu__list__button #save__edit_btn_i {
     width: 50%;
-  }
-  #payment-approval_page #payment-approval__dialog #crossBtn,
-  #payment-approval-list_page #payment-approval__dialog #crossBtn,
-  #payment-paid-list_page #payment-approval__dialog #crossBtn,
-  #payment-pay_page #payment-approval__dialog #crossBtn,
-  #payment-list_page #payment-approval__dialog #crossBtn {
-    top: 0.9%;
   }
   #payment-approval_page #diagram__dialog,
   #payment-approval-list_page #diagram__dialog,
@@ -3264,13 +3269,6 @@ footer .footer_company__copyright {
   #payment-pay_page #tableCustom,
   #payment-list_page #tableCustom {
     width: 240px;
-  }
-  #payment-approval_page #tableCustom #crossBtnTC,
-  #payment-approval-list_page #tableCustom #crossBtnTC,
-  #payment-paid-list_page #tableCustom #crossBtnTC,
-  #payment-pay_page #tableCustom #crossBtnTC,
-  #payment-list_page #tableCustom #crossBtnTC {
-    right: 4%;
   }
   #payment-approval_page #tableCustom table tbody tr .ttdname,
   #payment-approval-list_page #tableCustom table tbody tr .ttdname,

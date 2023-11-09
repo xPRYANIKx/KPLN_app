@@ -23,6 +23,10 @@
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: #444;
 }
+//////
+input[list="partners_name"]::-webkit-calendar-picker-indicator {
+    display: none !important;
+}
 ///____________///
 ///____________///
 ///____________///
@@ -1078,7 +1082,8 @@ footer {
         }
     }
     #payment-approval__dialog {
-        top: 50%;
+        top: 40%;
+        bottom: 40%;
         min-width: 650px;
         border: none;
         border-radius: 7px;
@@ -1314,8 +1319,8 @@ footer {
         #crossBtn {
             position: absolute;
             width: 25px;
-            top: 1.3%;
-            right: 1.9%;
+            top: 10px;
+            right: 10px;
             cursor: pointer;
         }
     }
@@ -1395,6 +1400,8 @@ footer {
         }
     }
     #tableCustom {
+        top: 40%;
+        bottom: 40%;
         width: 314px;
         border: none;
         border-radius: 5px;
@@ -1405,7 +1412,7 @@ footer {
         h2 {
             display: flex;
             width: 250px;
-            margin: 10px 0px 5px 16px;
+            margin: 0px 0px 5px 16px;
             border-bottom: solid 2px #dfdfdf;
             font-size: 25px;
             font-weight: 900;
@@ -1450,9 +1457,9 @@ footer {
         }
         #crossBtnTC {
             position: absolute;
-            width: 25px;
-            top: 1.5%;
-            right: 3%;
+            width: 23px;
+            top: 12px;
+            right: 13px;
             cursor: pointer;
         }
     }
@@ -2052,10 +2059,15 @@ footer {
     #payment-pay_page,
     #payment-list_page {
         #payment-approval__dialog {
-            right: 5px;
-            left: 5px;
-            width: calc(100% - 10px);
-            min-width: calc(100% - 10px);
+            right: 0px;
+            left: 0px;
+            top: 0px;
+            bottom: 0px;
+            width: 100%;
+            min-width: 100%;
+            height: 100%;
+            min-height: 100%;
+            border-radius: 0px;
             &__menu {
                 flex-direction: column;
                 &__edit {
@@ -2104,9 +2116,6 @@ footer {
                         }
                     }
                 }
-            }
-            #crossBtn {
-                top: 0.9%;
             }
         }
         #diagram__dialog {
@@ -2867,9 +2876,6 @@ footer {
         }
         #tableCustom {
             width: 240px;
-            #crossBtnTC {
-                right: 4%;
-            }
             table {
                 tbody {
                     tr {
