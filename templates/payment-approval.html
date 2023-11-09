@@ -72,6 +72,15 @@
                     <p class="card__cost">На счету</p>
                 </div>
             </div>
+            <div class="card" id="card_unpaid">
+                <div class="cards_h1_border">
+                    <h2 class="card__title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money'] -
+                        money['available_money'] }}</h2>
+                </div>
+                <div>
+                    <p class="card__cost">Неоплачено</p>
+                </div>
+            </div>
         </div>
         <div id="payment-approval__menu">
             <div class="not_form_button focus_button">Согласование платежей</div>
@@ -176,11 +185,15 @@
                             onclick="getModal({{ application.payment_id }})" title="{{ application.payment_description }}">
                             <span class="paymentFormBold">{{ application.contractor_name }}: </span>{{ application.payment_description }}
                         </td>
-                        <td class="th_object_i showModalId" data-sort="{{application.object_name}}" onclick="getModal({{ application.payment_id }})">{{ application.object_name}}</td>
-                        <td class="th_responsible_i showModalId" data-sort="{{ application.last_name }} {{ application.first_name }}" onclick="getModal({{ application.payment_id }})">{{ application.last_name }} {{
+                        <td class="th_object_i showModalId" data-sort="{{application.object_name}}" onclick="getModal({{ application.payment_id }})">{{
+                            application.object_name}}</td>
+                        <td class="th_responsible_i showModalId" data-sort="{{ application.last_name }} {{ application.first_name }}"
+                            onclick="getModal({{ application.payment_id }})">{{ application.last_name }} {{
                             application.first_name[0] }}.</td>
-                        <td class="th_contractor_i showModalId" data-sort="{{ application.partner }}" onclick="getModal({{ application.payment_id }})">{{ application.partner }}</td>
-                        <td class="th_main_sum_i showModalId" data-sort="{{ application.payment_sum }}" onclick="getModal({{ application.payment_id }})">{{ application.payment_sum_rub }}</td>
+                        <td class="th_contractor_i showModalId" data-sort="{{ application.partner }}" onclick="getModal({{ application.payment_id }})">{{
+                            application.partner }}</td>
+                        <td class="th_main_sum_i showModalId" data-sort="{{ application.payment_sum }}" onclick="getModal({{ application.payment_id }})">{{
+                            application.payment_sum_rub }}</td>
                         <td class="th_sum_remain_i showModalId" data-sort="{{ application.approval_sum }}" onclick="getModal({{ application.payment_id }})">
                             <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>
                             {{ application.approval_sum_rub}}

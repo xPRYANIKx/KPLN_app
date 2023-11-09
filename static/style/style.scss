@@ -1018,7 +1018,7 @@ footer {
             .card {
                 padding: 10px 15px;
                 margin: 10px;
-                max-width: 300px;
+                width: 300px;
                 background-color: #ebebeb;
                 -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
                 -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
@@ -1032,12 +1032,18 @@ footer {
                 .card__cost {
                     margin-top: 5px;
                     color: #808080;
-                    font-size: 13px;
+                    font-size: 12px;
                 }
             }
             #card_available_money,
             #card_account_money {
                 cursor: pointer;
+            }
+            #card_selected_for_approval {
+                background-color: #e6f3e6;
+            }
+            #card_unpaid {
+                background-color: #f1e0d6;
             }
         }
         #payment-approval__menu {
@@ -1460,6 +1466,16 @@ footer {
     }
 }
 
+#payment-pay_page {
+    .tpages_top_panel {
+        .cards_container {
+            .card {
+                width: 235px;
+            }
+        }
+    }
+}
+
 #diagram__dialog {
     min-width: 780px;
     min-height: 410px;
@@ -1848,7 +1864,7 @@ footer {
             .cards_container {
                 flex-direction: column;
                 .card {
-                    max-width: 100%;
+                    width: 100%;
                 }
             }
             #payment-approval__menu {
