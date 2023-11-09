@@ -86,8 +86,12 @@
                             <input placeholder="Поиск" type="text" id="filter-input-10" oninput="filterTable()">
                         </th>
                         <th class="th_date_create">
-                            <div onclick="sortTable(11, 'str')">ДАТА СОЗДАНИЯ&nbsp;<span class="arrow_sort">▼</span></div>
+                            <div onclick="sortTable(11, 'str')">ДАТА СОЗДАНИЯ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-11" oninput="filterTable()">
+                        </th>
+                        <th class="th_pay_date">
+                            <div onclick="sortTable(12, 'str')">ДАТА СОГЛАСОВАНИЯ&nbsp;<span class="arrow_sort">▼</span></div>
+                            <input placeholder="Поиск" type="text" id="filter-input-12" oninput="filterTable()">
                         </th>
                     </tr>
                 </thead>
@@ -115,8 +119,9 @@
                         <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
                         <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}">{{ application.approval_sum_rub }} </td>
                         <td class="th_sum_remain_i" data-sort="{{ application.paid_sum }}">{{ application.paid_sum_rub}} </td>
-                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
-                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
+                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date_txt }}</td>
+                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at_txt }}</td>
+                        <td class="th_date_create_i" data-sort="{{ application.create_at }}">{{ application.create_at_txt }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

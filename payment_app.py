@@ -24,7 +24,7 @@ hlink_menu = None
 hlink_profile = None
 
 # Кол-во строк таблицы при загрузке страницы
-LIMIT = 25
+LIMIT = 26
 
 
 @payment_app_bp.before_request
@@ -297,8 +297,10 @@ def get_unapproved_payments():
                     COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum)::money AS approval_sum_rub,
                     COALESCE(t8.amount, '0') AS amount,
                     COALESCE(t8.amount_rub, '') AS amount_rub,
-                    CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
+                    to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
+                    t1.payment_due_date::text AS payment_due_date,
                     t21.status_id,
+                    to_char(payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
                     date_trunc('second', payment_at::timestamp without time zone)::text AS payment_at,
                     t1.payment_full_agreed_status
             FROM payments_summary_tab AS t1
@@ -388,7 +390,9 @@ def get_unapproved_payments():
                     t1.account_money AS account_money,
                     COALESCE(t1.account_money, 0)::money AS account_money_rub,
                     t1.account_money - t2.approval_sum AS available_money,
-                    COALESCE(COALESCE(t1.account_money - t2.approval_sum, t2.approval_sum), 0)::money AS available_money_rub
+                    COALESCE(COALESCE(t1.account_money - t2.approval_sum, t2.approval_sum), 0)::money AS available_money_rub,
+                    t2.approval_sum AS approval_money,
+                    COALESCE(t2.approval_sum, 0)::money AS approval_money_rub
                 FROM t1
                 JOIN t2 ON true;"""
         )
@@ -535,10 +539,12 @@ def get_payment_approval_pagination():
                     COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum)::money AS approval_sum_rub,
                     COALESCE(t8.amount, '0') AS amount,
                     COALESCE(t8.amount_rub, '') AS amount_rub,
-                    CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
+                    to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
+                    t1.payment_due_date::text AS payment_due_date,
                     t21.status_id,
                     t7.status_name,
-                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
+                    to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
+                    t1.payment_at::timestamp without time zone::text AS payment_at,
                     t1.payment_full_agreed_status
                 FROM payments_summary_tab AS t1
                 LEFT JOIN (
@@ -633,6 +639,8 @@ def get_payment_approval_pagination():
             """
         )
         tab_rows = cursor.fetchone()[0]
+
+        login_app.conn_cursor_close(cursor, conn)
 
         # Return the updated data as a response
         return jsonify({
@@ -1371,9 +1379,11 @@ def get_unpaid_payments():
                     t0.approval_sum::money AS approval_sum_rub,
                     COALESCE(t8.amount, '0') AS amount,
                     COALESCE(t8.amount, '') AS amount_rub,
-                    CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
+                    to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
+                    t1.payment_due_date::text AS payment_due_date,
                     t0.approval_fullpay_close_status AS payment_full_agreed_status,
-                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at
+                    to_char(payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt, 
+                    t1.payment_at::timestamp without time zone::text AS payment_at
                 FROM payments_approval AS t0
                 LEFT JOIN (
                     SELECT 
@@ -1474,6 +1484,8 @@ def get_unpaid_payments():
             )
             money = cursor.fetchone()
 
+            login_app.conn_cursor_close(cursor, conn)
+
             # Create profile name dict
             hlink_menu, hlink_profile = login_app.func_hlink_profile()
 
@@ -1483,6 +1495,8 @@ def get_unpaid_payments():
                 'col_2': ['t1.payment_id', 0, all_payments[-1]['payment_id']],  # Вторая колонка - ASC
                 'col_id': ['t1.payment_id', 0, all_payments[-1]['payment_id']]  # Третья колонка всегда id - ASC
             }
+
+            pprint(sort_col)
 
             return render_template(
                 'payment-pay.html', menu=hlink_menu, menu_profile=hlink_profile,
@@ -1576,9 +1590,11 @@ def get_payment_pay_pagination():
                     t0.approval_sum::money AS approval_sum_rub,
                     COALESCE(t8.amount, '0') AS amount,
                     COALESCE(t8.amount, '') AS amount_rub,
-                    CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
+                    to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
+                    t1.payment_due_date::text AS payment_due_date,
                     t0.approval_fullpay_close_status AS payment_full_agreed_status,
-                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at
+                    to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
+                    t1.payment_at::timestamp without time zone::text AS payment_at
                 FROM payments_approval AS t0
                 LEFT JOIN (
                     SELECT 
@@ -1671,6 +1687,11 @@ def get_payment_pay_pagination():
         )
         tab_rows = cursor.fetchone()[0]
 
+        login_app.conn_cursor_close(cursor, conn)
+
+        pprint(sort_col)
+        print(sort_col_1, sort_col_2, sort_col_id)
+
         # Return the updated data as a response
         return jsonify({
             'payment': all_payments,
@@ -1680,6 +1701,8 @@ def get_payment_pay_pagination():
             'status': 'success'
         })
     except Exception as e:
+        if cursor and conn:
+            login_app.conn_cursor_close(cursor, conn)
         return jsonify({
             'payment': 0,
             'sort_col': 0,
@@ -1905,9 +1928,12 @@ def get_payments_approval_list():
                     t0.approval_sum::money AS approval_sum_rub,
                     COALESCE(t7.paid_sum, null) AS paid_sum,
                     COALESCE(t7.paid_sum, 0)::money AS paid_sum_rub,
-                    CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
-                    CAST(t8.create_at AS TEXT) AS create_at
+                    to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
+                    t1.payment_due_date::text AS payment_due_date,
+                    to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt, 
+                    t1.payment_at::timestamp without time zone::text AS payment_at,
+                    to_char(t8.create_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS create_at_txt,
+                    t8.create_at::timestamp without time zone::text AS create_at
                 FROM payments_approval AS t0
                 LEFT JOIN (
                     SELECT 
@@ -1986,6 +2012,7 @@ def get_payments_approval_list():
                 'col_2': ['t0.payment_id', 1, all_payments[-1]['payment_id']],  # Вторая колонка
                 'col_id': ['t0.payment_id', 1, all_payments[-1]['payment_id']]  # Третья колонка всегда id
             }
+            pprint(sort_col)
 
             return render_template(
                 'payment-approval-list.html', menu=hlink_menu, menu_profile=hlink_profile,
@@ -2016,6 +2043,9 @@ def get_payment_approval_list_pagination():
             'col_2': [f"{col_2.split('#')[0]}#{col_2.split('#')[1]}"],  # Вторая колонка
             'col_id': [f"{col_id.split('#')[0]}#{col_id.split('#')[1]}"]  # Третья колонка всегда id
         }
+
+        print('  pag A')
+        pprint(sort_col)
 
         user_id = login_app.current_user.get_id()
 
@@ -2060,7 +2090,7 @@ def get_payment_approval_list_pagination():
         #     f"{sort_col_id} {sort_col_id_equal} {conv_data_to_db(sort_col_id, col_id_val, all_col_types)} "
         # )
 
-        # print(where_expression)
+        print(where_expression)
 
         cursor.execute(
             f"""SELECT 
@@ -2083,9 +2113,12 @@ def get_payment_approval_list_pagination():
                     t0.approval_sum::money AS approval_sum_rub,
                     COALESCE(t7.paid_sum, null) AS paid_sum,
                     COALESCE(t7.paid_sum, 0)::money AS paid_sum_rub,
-                    CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
-                    CAST(t8.create_at AS TEXT) AS create_at
+                    to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
+                    t1.payment_due_date::text AS payment_due_date,
+                    to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
+                    t1.payment_at::timestamp without time zone::text AS payment_at,
+                    to_char(t8.create_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS create_at_txt,
+                    t8.create_at::timestamp without time zone::text AS create_at
                 FROM payments_approval AS t0
                 LEFT JOIN (
                     SELECT 
@@ -2144,6 +2177,8 @@ def get_payment_approval_list_pagination():
         )
         all_payments = cursor.fetchall()
 
+        print(f"ORDER BY {sort_col_1} {sort_col_1_order}, {sort_col_2} {sort_col_2_order}, {sort_col_id} {sort_col_id_order}")
+
         if not len(all_payments):
             return jsonify({
                 'payment': 0,
@@ -2172,6 +2207,11 @@ def get_payment_approval_list_pagination():
         )
         tab_rows = cursor.fetchone()[0]
 
+        login_app.conn_cursor_close(cursor, conn)
+
+        print('    pag B')
+        pprint(sort_col)
+
         # Return the updated data as a response
         return jsonify({
             'payment': all_payments,
@@ -2181,6 +2221,8 @@ def get_payment_approval_list_pagination():
             'status': 'success'
         })
     except Exception as e:
+        if cursor and conn:
+            login_app.conn_cursor_close(cursor, conn)
         return jsonify({
             'payment': 0,
             'sort_col': 0,
@@ -2233,12 +2275,11 @@ def get_payments_paid_list():
                         t2.approval_sum::money AS approval_sum_rub,
                         t0.paid_sum AS paid_sum,
                         COALESCE(t0.paid_sum, 0)::money AS paid_sum_rub,
-                        date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
-                        CAST(t1.payment_at AS TEXT) AS payment_at2,
-                        CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                        date_trunc('second', t0.paid_at::timestamp without time zone)::text AS paid_at,
-                        CAST(t0.paid_at AS TEXT) AS paid_at2,
-                        t8.status_name
+                        to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
+                        t1.payment_due_date::text AS payment_due_date,
+                        t8.status_name,
+                        to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt, 
+                        t1.payment_at::timestamp without time zone::text AS payment_at
                     FROM t0
                     LEFT JOIN (
                         SELECT 
@@ -2296,7 +2337,7 @@ def get_payments_paid_list():
                                 payment_agreed_status_name AS status_name
                             FROM payment_agreed_statuses
                     ) AS t8 ON t7.status_id = t8.status_id
-                    ORDER BY payment_at DESC, t0.payment_id DESC
+                    ORDER BY t1.payment_at DESC, t0.payment_id DESC
                     LIMIT {LIMIT};
                     """
             )
@@ -2428,12 +2469,11 @@ def get_payment_paid_list_pagination():
                         t2.approval_sum::money AS approval_sum_rub,
                         t0.paid_sum AS paid_sum,
                         COALESCE(t0.paid_sum, 0)::money AS paid_sum_rub,
-                        date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
-                        CAST(t1.payment_at AS TEXT) AS payment_at2,
-                        CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                        date_trunc('second', t0.paid_at::timestamp without time zone)::text AS paid_at,
-                        CAST(t0.paid_at AS TEXT) AS paid_at2,
-                        t8.status_name
+                        to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
+                        t1.payment_due_date::text AS payment_due_date,
+                        t8.status_name,
+                        to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt, 
+                        t1.payment_at::timestamp without time zone::text AS payment_at
                     FROM t0
                     LEFT JOIN (
                         SELECT 
@@ -2527,6 +2567,8 @@ def get_payment_paid_list_pagination():
         )
         tab_rows = len(cursor.fetchall())
 
+        login_app.conn_cursor_close(cursor, conn)
+
         # Return the updated data as a response
         return jsonify({
             'payment': all_payments,
@@ -2536,6 +2578,8 @@ def get_payment_paid_list_pagination():
             'status': 'success'
         })
     except Exception as e:
+        if cursor and conn:
+            login_app.conn_cursor_close(cursor, conn)
         return jsonify({
             'payment': 0,
             'sort_col': 0,
@@ -2572,8 +2616,10 @@ def get_payments_list():
                     t1.partner,
                     t1.payment_sum,
                     t1.payment_sum::money AS payment_sum_rub,
-                    CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
+                    to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
+                    t1.payment_due_date::text AS payment_due_date,
+                    to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
+                    t1.payment_at::timestamp without time zone::text AS payment_at,
                     COALESCE(t7.paid_sum, 0) AS paid_sum,
                     COALESCE(t7.paid_sum, 0)::money AS paid_sum_rub
             FROM payments_summary_tab AS t1
@@ -2733,8 +2779,10 @@ def get_payment_list_pagination():
                     t1.partner,
                     t1.payment_sum,
                     t1.payment_sum::money AS payment_sum_rub,
-                    CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
-                    date_trunc('second', t1.payment_at::timestamp without time zone)::text AS payment_at,
+                    to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
+                    t1.payment_due_date::text AS payment_due_date,
+                    to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
+                    t1.payment_at::timestamp without time zone::text AS payment_at,
                     COALESCE(t7.paid_sum, 0) AS paid_sum,
                     COALESCE(t7.paid_sum, 0)::money AS paid_sum_rub
             FROM payments_summary_tab AS t1
@@ -2811,6 +2859,8 @@ def get_payment_list_pagination():
         )
         tab_rows = cursor.fetchone()[0]
 
+        login_app.conn_cursor_close(cursor, conn)
+
         # Return the updated data as a response
         return jsonify({
             'payment': all_payments,
@@ -2820,6 +2870,8 @@ def get_payment_list_pagination():
             'status': 'success'
         })
     except Exception as e:
+        if cursor and conn:
+            login_app.conn_cursor_close(cursor, conn)
         return jsonify({
             'payment': 0,
             'sort_col': 0,
@@ -3502,6 +3554,8 @@ def annul_approval_payment():
         return jsonify({'status': 'success'})
 
     except Exception as e:
+        if cursor and conn:
+            login_app.conn_cursor_close(cursor, conn)
         return jsonify({
             'status': 'error',
             'description': e,
@@ -3706,6 +3760,8 @@ def get_payment_my_charts():
         for i in range(len(historic_data)):
             historic_data[i] = dict(historic_data[i])
 
+        login_app.conn_cursor_close(cursor, conn)
+
         # Return the updated data as a response
         return jsonify({
             'historic_data': historic_data,
@@ -3714,8 +3770,125 @@ def get_payment_my_charts():
             'status': 'success'
         })
     except Exception as e:
+        if cursor and conn:
+            login_app.conn_cursor_close(cursor, conn)
         return jsonify({
             'historic_data': 0,
             'status': 'error',
             'description': e,
         })
+
+
+@payment_app_bp.route('/save_tab_settings', methods=['POST'])
+@login_required
+def save_tab_settings():
+    """Сохранение изменений отображаемых полей пользователя на различных страницах"""
+    try:
+        page_url = request.get_json()['page_url']
+        show_list = request.get_json()['show_list']
+        hide_list = request.get_json()['hide_list']
+
+        print('')
+        pprint(request.get_json())
+
+        user_id = login_app.current_user.get_id()
+
+
+
+
+
+
+
+
+        # Connect to the database
+        conn, cursor = login_app.conn_cursor_init_dict()
+
+
+        # conn.commit()
+        # print('zzz' , zzz)
+        # print(zzz)
+
+
+
+        # Список скрываемых столбцов пользователя
+        cursor.execute(
+            f"""
+            SELECT
+                 unit_name
+            FROM setting_users
+            WHERE user_id = %s AND list_name = %s
+            """,
+            [user_id, page_url]
+        )
+
+        hide_list_db = cursor.fetchall()
+        hide_list_db = [x[0] for x in hide_list_db]
+        hide_list = [str(x) for x in hide_list]
+
+        print('hide_list', hide_list)
+        print('hide_list_db', hide_list_db)
+        print('show_list', show_list)
+
+        show_list = [x for x in hide_list if x not in hide_list_db]
+        hide_list = [x for x in hide_list_db if x not in hide_list]
+
+        print('          надо добавить', show_list)
+        print('          удаляем', hide_list)
+        # for i in hide_list:
+        #     for j in hide_list_db:
+        #         print('    ', str(i), j[0])
+        #         if str(i) == j[0]:
+        #             print(f'remove( {i} )')
+        #             hide_list.remove(i)
+        #             if not len(show_list):
+        #                 show_list.append(i)
+        # print(hide_list)
+        # print(show_list)
+
+        if len(hide_list):
+            columns_del = 'user_id::int, list_name, unit_name'
+            query_del = get_db_dml_query(action='DELETE', table='setting_users', columns=columns_del)
+            values_del = [(user_id, page_url, str(i)) for i in hide_list]
+
+            execute_values(cursor, query_del, (values_del,))
+
+            print('DELETE', values_del)
+
+        if len(show_list):
+            columns_ins = ('user_id', 'list_name', 'unit_name')
+            values_ins = [(user_id, page_url, str(i)) for i in show_list]
+            query_ins = get_db_dml_query(action='INSERT INTO', table='setting_users', columns=columns_ins)
+
+            execute_values(cursor, query_ins, values_ins)
+
+            print('INSERT INTO', values_ins)
+        #
+        #
+        # # Число заявок
+        # cursor.execute(
+        #     """SELECT
+        #             COUNT(*)
+        #     FROM payments_approval
+        #     """
+        # )
+        # tab_rows = cursor.fetchone()[0]
+
+        conn.commit()
+        login_app.conn_cursor_close(cursor, conn)
+
+        # Return the updated data as a response
+        return jsonify({
+            'tab_rows': 'tab_rows',
+            'page': 'payment-pay',
+            'status': 'success'
+        })
+    except Exception as e:
+        if cursor and conn:
+            login_app.conn_cursor_close(cursor, conn)
+        return jsonify({
+            'payment': 0,
+            'sort_col': 0,
+            'status': 'error',
+            'description': e,
+        })
+

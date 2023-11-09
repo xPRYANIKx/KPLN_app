@@ -27,8 +27,6 @@
     {% endblock %}
     {% block content %}
 
-
-
     <dialog class="window" id="diagram__dialog">
         <img id="crossBtnDD" src="static/img/interface/close.png">
         <canvas id="myChart"></canvas>
@@ -189,7 +187,7 @@
                             <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}" data-amount=0
                                 onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}'), refreshSortValAmount({{ loop.index }})">
                         </td>
-                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date }}</td>
+                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date_txt }}</td>
                         <td class="th_status_i" id="status-{{ loop.index }}" data-sort="{{ application.status_id }}">
                             <select id="status_id-{{ loop.index }}" name="status_id"
                                 onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
@@ -200,7 +198,7 @@
                                 {% endfor %}
                             </select>
                         </td>
-                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at }}</td>
+                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at_txt }}</td>
                         <td class="th_save_pay_i" data-sort="{% if application.payment_full_agreed_status %}1{% else %}0{% endif %}">
                             <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if
                                 application.payment_full_agreed_status %}checked{% endif %}

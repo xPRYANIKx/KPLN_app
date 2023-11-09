@@ -222,7 +222,7 @@ $(document).ready(function() {
                             // Срок оплаты
                             td_10 = td[10];
                             td_10.dataset.sort = pmt['payment_due_date'];
-                            td_10.textContent = pmt['payment_due_date'];
+                            td_10.textContent = pmt['payment_due_date_txt'];
 
                             // Статус
                             td_11 = td[11];
@@ -239,7 +239,7 @@ $(document).ready(function() {
                             // Дата создания
                             td_12 = td[12];
                             td_12.dataset.sort = pmt['payment_at'];
-                            td_12.textContent = pmt['payment_at'];
+                            td_12.textContent = pmt['payment_at_txt'];
 
                             // До полной оплаты
                             td_13 = td[13];
@@ -454,12 +454,12 @@ $(document).ready(function() {
                             // Срок оплаты
                             td_12 = td[12];
                             td_12.dataset.sort = pmt['payment_due_date'];
-                            td_12.textContent = pmt['payment_due_date'];
+                            td_12.textContent = pmt['payment_due_date_txt'];
 
                             // Дата создания
                             td_13 = td[13];
                             td_13.dataset.sort = pmt['payment_at'];
-                            td_13.textContent = pmt['payment_at'];
+                            td_13.textContent = pmt['payment_at_txt'];
 
                             // До полной оплаты
                             td_14 = td[14];
@@ -646,12 +646,19 @@ $(document).ready(function() {
                             // Срок оплаты
                             td_9 = td[9+col_shift+col_shift2];
                             td_9.dataset.sort = pmt['payment_due_date'];
-                            td_9.textContent = pmt['payment_due_date'];
+                            td_9.textContent = pmt['payment_due_date_txt'];
 
                             // Дата создания
                             td_10 = td[10+col_shift+col_shift2];
                             td_10.dataset.sort = pmt['payment_at'];
-                            td_10.textContent = pmt['payment_at'];
+                            td_10.textContent = pmt['payment_at_txt'];
+
+                            // Дата согласования
+                            if (page_url === 'payment-approval-list') {
+                                td_11 = td[11+col_shift+col_shift2];
+                                td_11.dataset.sort = pmt['create_at'];
+                                td_11.textContent = pmt['create_at_txt'];
+                            }
 
 
                             tab_tr0.appendChild(newRow);

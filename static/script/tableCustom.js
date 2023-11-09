@@ -11,10 +11,10 @@ function closeDialogTC() {
 var col_lst = [];
 
 table = document.getElementById("payment-table");
-rows = table.getElementsByTagName("tr")[0].getElementsByTagName("th");
+cols = table.getElementsByTagName("tr")[0].getElementsByTagName("th");
 
-for (var i=0; i<rows.length; i++) {
-    var jj = rows[i].getElementsByTagName("div")[0].innerHTML.split('&nbsp;')[0];
+for (var i=0; i<cols.length; i++) {
+    var jj = cols[i].getElementsByTagName("div")[0].innerHTML.split('&nbsp;')[0];
     col_lst.push(jj)
 }
 
@@ -54,13 +54,18 @@ function tableCustomSave() {
     show_col_lst = [];
     for (var i=0; i<table_custom2.length; i++) {
         row = table_custom2[i].getElementsByTagName("td");
-        !row[1].getElementsByTagName("input")[0].checked? hide_col_lst.push(i): show_col_lst.push(i);
+        if (!row[1].getElementsByTagName("input")[0].checked) {
+            hide_col_lst.push(i);
+        }
+        else {
+            show_col_lst.push(i);
+        }
     }
 
     // Список скрытых ранее столбцов
     table2 = document.getElementById("payment-table");
     rows2 = table2.getElementsByTagName("tr")[0].getElementsByTagName("th");
-    hide_col_lst2 = [];
+//    hide_col_lst2 = [];
     show_col_lst2 = [];
 
     for (var i=0; i<rows2.length; i++) {
@@ -85,4 +90,44 @@ function tableCustomSave() {
             $(`#payment-table td:nth-child(${i+1})`).show()
         }
     }
+
+//    if (hide_col_lst.length || show_col_lst2.length) {
+//        console.log("сохранение в БД");
+//
+//        var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
+//
+//        fetch('/save_tab_settings', {
+//                "headers": {
+//                    'Content-Type': 'application/json'
+//                },
+//                "method": "POST",
+//                "body": JSON.stringify({
+//                    'page_url': page_url,
+//                    'show_list': show_col_lst2,
+//                    'hide_list': hide_col_lst
+//                })
+//            })
+//                .then(response => response.json())
+//                .then(data => {
+//                    if (data.status === 'success') {
+//                        console.log(data)
+//
+//
+//
+//                }
+//                else if (data.status === 'error') {
+//                    alert(data.description)
+//                }
+//                else {
+//                    window.location.href = `/${page_url}`;
+//                }
+//            })
+//            .catch(error => {
+//                console.error('Error:', error);
+//            });
+//
+//
+//    }
+
+
 }
