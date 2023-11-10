@@ -67,63 +67,63 @@
             <table id="payment-table" name="payment_table" class="display">
                 <thead class="fix_thead">
                     <tr>
-                        <th class="th_select">
+                        <th class="th_select" {% if '0' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(0, 'num')">ВЫБОР&nbsp;<span class="arrow_sort"></span></div>
                             <input type="text" id="filter-input-0" hidden readonly>
                         </th>
-                        <th class="th_category">
+                        <th class="th_category" {% if '1' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-1" oninput="filterTable()">
                         </th>
-                        <th class="th_nnumber">
+                        <th class="th_nnumber" {% if '2' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(2, 'num')">№ ПЛАТЕЖА&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-2" oninput="filterTable()">
                         </th>
-                        <th class="th_name">
+                        <th class="th_name" {% if '3' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(3, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-3" oninput="filterTable()">
                         </th>
-                        <th class="th_description">
+                        <th class="th_description" {% if '4' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(4, 'str')">ОПИСАНИЕ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-4" oninput="filterTable()">
                         </th>
-                        <th class="th_object">
+                        <th class="th_object" {% if '5' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(5, 'str')">ОБЪЕКТ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-5" oninput="filterTable()">
                         </th>
-                        <th class="th_responsible">
+                        <th class="th_responsible" {% if '6' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(6, 'str')">ОТВЕТСТВЕННЫЙ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-6" oninput="filterTable()">
                         </th>
-                        <th class="th_contractor">
+                        <th class="th_contractor" {% if '7' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(7, 'str')">КОНТРАГЕНТ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-7" oninput="filterTable()">
                         </th>
-                        <th class="th_main_sum">
+                        <th class="th_main_sum" {% if '8' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(8, 'num')">ОБЩАЯ СУММА&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-8" oninput="filterTable()">
                         </th>
-                        <th class="th_sum_agreed">
+                        <th class="th_sum_agreed" {% if '9' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(9, 'num')">ОПЛАЧЕНО&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-9" oninput="filterTable()">
                         </th>
-                        <th class="th_sum_agreed">
+                        <th class="th_sum_agreed" {% if '10' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(10, 'num')">СОГЛАСОВАННАЯ СУММА&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-10" oninput="filterTable()">
                         </th>
-                        <th class="th_sum_agreed">
+                        <th class="th_sum_agreed" {% if '11' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(11, 'num')">СУММА К ОПЛАТЕ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-11" oninput="filterTable()">
                         </th>
-                        <th class="th_pay_date">
+                        <th class="th_pay_date" {% if '12' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(12, 'str')">СРОК ОПЛАТЫ&nbsp;<span class="arrow_sort">▲</span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-12" oninput="filterTable()">
                         </th>
-                        <th class="th_date_create">
+                        <th class="th_date_create" {% if '13' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(13, 'str')">ДАТА СОЗДАНИЯ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-13" oninput="filterTable()">
                         </th>
-                        <th class="th_save_pay">
+                        <th class="th_save_pay" {% if '14' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(14, 'str')">ДО ПОЛНОЙ ОПЛАТЫ&nbsp;<span class="arrow_sort"></span></div>
                             <input type="text" id="filter-input-14" hidden readonly>
                         </th>
@@ -132,46 +132,71 @@
                 <tbody>
                     {% for application in applications %}
                     <tr id="row-{{ loop.index }}">
-                        <td class="th_select_i" data-sort="0">
+                        <td class="th_select_i" data-sort="0"
+                            {% if '0' in setting_users %}hidden{% endif %}>
                             <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{ loop.index }}"
                                 onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }})">
                         </td>
                         <td class="th_category_i" id="category-{{ loop.index }}" data-sort="{{ application.cost_item_name }}"
-                            onclick="getModal({{ application.payment_id }})">
+                            onclick="getModal({{ application.payment_id }})"
+                            {% if '1' in setting_users %}hidden{% endif %}>
                             <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>
                             {{ application.cost_item_name }}
                         </td>
-                        <td data-sort="{{ application.payment_id }}">{{application.payment_number}}</td>
+                        <td data-sort="{{ application.payment_id }}"
+                            {% if '2' in setting_users %}hidden{% endif %}>
+                        {{application.payment_number}}</td>
                         <td class="th_name_i showModalId" data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}"
-                            onclick="getModal({{ application.payment_id }})">{{ application.basis_of_payment }}
+                            onclick="getModal({{ application.payment_id }})"
+                            {% if '3' in setting_users %}hidden{% endif %}>
+                        {{ application.basis_of_payment }}
                         </td>
                         <td class="th_description_i" data-sort="{{ application.contractor_name }}: {{ application.payment_description }}"
-                            title="{{ application.payment_description }}">
+                            title="{{ application.payment_description }}"
+                            {% if '4' in setting_users %}hidden{% endif %}>
                             <input name="contractor_id" value="{{ application.contractor_id }}" hidden readonly>
                             <span class="paymentFormBold">{{ application.contractor_name }}: </span>{{ application.payment_description }}
                         </td>
-                        <td class="th_object_i" data-sort="{{ application.object_name }}">{{ application.object_name}}</td>
-                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name }}">{{ application.last_name }} {{
-                            application.first_name[0] }}.</td>
-                        <td class="th_contractor_i" data-sort="{{ application.partner }}">{{ application.partner }}</td>
-                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
-
-
-                        <td data-sort="{{ application.paid_sum }}">{{ application.paid_sum_rub }}</td>
-                        <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}">
+                        <td class="th_object_i" data-sort="{{ application.object_name }}"
+                            {% if '5' in setting_users %}hidden{% endif %}>
+                            {{ application.object_name}}
+                        </td>
+                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name }}"
+                            {% if '6' in setting_users %}hidden{% endif %}>
+                            {{ application.last_name }} {{ application.first_name[0] }}.
+                        </td>
+                        <td class="th_contractor_i" data-sort="{{ application.partner }}"
+                            {% if '7' in setting_users %}hidden{% endif %}>
+                            {{ application.partner }}
+                        </td>
+                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}"
+                            {% if '8' in setting_users %}hidden{% endif %}>
+                            {{ application.payment_sum_rub }}
+                        </td>
+                        <td data-sort="{{ application.paid_sum }}"
+                            {% if '9' in setting_users %}hidden{% endif %}>
+                            {{ application.paid_sum_rub }}
+                        </td>
+                        <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}"
+                            {% if '10' in setting_users %}hidden{% endif %}>
                             <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{ application.approval_sum }}" hidden readonly>
                             {{ application.approval_sum_rub }}
                         </td>
-                        <td data-sort="{{ application.amount }}">
+                        <td data-sort="{{ application.amount }}"
+                            {% if '11' in setting_users %}hidden{% endif %}>
                             <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}"
                                 onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
                         </td>
-
-
-
-                        <td class="th_date_create_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date_txt }}</td>
-                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at_txt }}</td>
-                        <td class="th_save_pay_i" data-sort="{% if application.payment_full_agreed_status %}1{% else %}0{% endif %}">
+                        <td class="th_date_create_i" data-sort="{{ application.payment_due_date }}"
+                            {% if '12' in setting_users %}hidden{% endif %}>
+                            {{ application.payment_due_date_txt }}
+                        </td>
+                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}"
+                            {% if '13' in setting_users %}hidden{% endif %}>
+                            {{ application.payment_at_txt }}
+                        </td>
+                        <td class="th_save_pay_i" data-sort="{% if application.payment_full_agreed_status %}1{% else %}0{% endif %}"
+                            {% if '14' in setting_users %}hidden{% endif %}>
                             <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{ loop.index }}" {% if
                                 application.payment_full_agreed_status %}checked{% endif %}
                                 onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }})">

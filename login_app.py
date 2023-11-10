@@ -9,6 +9,7 @@ from FDataBase import FDataBase
 from db_data_conf import db_data, recapcha_key
 from flask_wtf.recaptcha import RecaptchaField
 import requests
+import error_handlers
 
 
 login_bp = Blueprint('login_app', __name__)
@@ -140,52 +141,55 @@ def index():
 
 @login_bp.route("/login", methods=["POST", "GET"])
 def login():
-    # try:
-    global hlink_menu, hlink_profile, RECAPTCHA_PUBLIC_KEY, RECAPTCHA_PRIVATE_KEY
+    try:
+        global hlink_menu, hlink_profile, RECAPTCHA_PUBLIC_KEY, RECAPTCHA_PRIVATE_KEY
 
-    # Create profile name dict
-    hlink_menu, hlink_profile = func_hlink_profile()
-    if current_user.is_authenticated:
-        return redirect(url_for('login_app.index'))
+        # Create profile name dict
+        hlink_menu, hlink_profile = func_hlink_profile()
+        if current_user.is_authenticated:
+            return redirect(url_for('login_app.index'))
 
-    if request.headers['Host'] == '127.0.0.1:5000':
-        RECAPTCHA_PUBLIC_KEY = RECAPTCHA_PUBLIC_KEY_LH
-        RECAPTCHA_PRIVATE_KEY = RECAPTCHA_PRIVATE_KEY_LH
+        if request.headers['Host'] == '127.0.0.1:5000':
+            RECAPTCHA_PUBLIC_KEY = RECAPTCHA_PUBLIC_KEY_LH
+            RECAPTCHA_PRIVATE_KEY = RECAPTCHA_PRIVATE_KEY_LH
 
-    if request.method == 'POST':
-        conn = conn_init()
-        dbase = FDataBase(conn)
+        if request.method == 'POST':
+            conn = conn_init()
+            dbase = FDataBase(conn)
 
-        email = request.form.get('email')
-        password = request.form.get('password')
-        remain = request.form.get('remainme')
+            email = request.form.get('email')
+            password = request.form.get('password')
+            remain = request.form.get('remainme')
 
-        secret_response = request.form['g-recaptcha-response']
-        verify_response = requests.post(url=f'{RECAPTCHA_VERIFY_URL}?secret={RECAPTCHA_PRIVATE_KEY}&response={secret_response}').json()
+            secret_response = request.form['g-recaptcha-response']
+            verify_response = requests.post(url=f'{RECAPTCHA_VERIFY_URL}?secret={RECAPTCHA_PRIVATE_KEY}&response={secret_response}').json()
 
-        if verify_response['success'] == False or verify_response['score'] < 0.5:
-            abort(401)
+            print("verify_response['success']", verify_response['success'] )
+            print("   score", verify_response['score'] )
+            if verify_response['success'] == False or verify_response['score'] < 0.5:
+                return error_handlers.handle401(401)
 
-        user = dbase.get_user_by_email(email)
+            user = dbase.get_user_by_email(email)
 
-        if user and check_password_hash(user['password'], password):
-            userlogin = UserLogin().create(user)
-            login_user(userlogin, remember=remain)
+            if user and check_password_hash(user['password'], password):
+                userlogin = UserLogin().create(user)
+                login_user(userlogin, remember=remain)
+                conn.close()
+                # flash(message=['Вы вошли в систему', ''], category='success')
+                return redirect(request.args.get("next") or url_for("login_app.index"))
+
+            else:
+                flash(message=['Пользователь не найден', ''], category='error')
+
             conn.close()
-            # flash(message=['Вы вошли в систему', ''], category='success')
-            return redirect(request.args.get("next") or url_for("login_app.index"))
+            return redirect(url_for('.login'))
 
-        else:
-            flash(message=['Пользователь не найден', ''], category='error')
-
-        conn.close()
-        return redirect(url_for('.login'))
-
-    return render_template("login.html", site_key=RECAPTCHA_PUBLIC_KEY,
-                           title="Авторизация", menu=hlink_menu,
-                           menu_profile=hlink_profile)
-    # except Exception as e:
-    #     return f'login ❗❗❗ Ошибка \n---{e}'
+        return render_template("login.html", site_key=RECAPTCHA_PUBLIC_KEY,
+                               title="Авторизация", menu=hlink_menu,
+                               menu_profile=hlink_profile)
+    except Exception as e:
+        current_app.logger.info(f"url {request.path[1:]}  -  id {current_user.get_id()}  -  {e}")
+        return f'login ❗❗❗ Ошибка \n---{e}'
 
 
 @login_bp.route('/logout')

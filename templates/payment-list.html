@@ -36,47 +36,47 @@
             <table id="payment-table" name="payment_table" class="display">
                 <thead class="fix_thead">
                     <tr>
-                        <th class="th_number">
+                        <th class="th_number" {% if '0' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(0, 'num')">№ ПЛАТЕЖА&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-0" oninput="filterTable()">
                         </th>
-                        <th class="th_category">
+                        <th class="th_category" {% if '1' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-1" oninput="filterTable()">
                         </th>
-                        <th class="th_name">
+                        <th class="th_name" {% if '2' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(2, 'str')">НАИМЕНОВАНИЕ ПЛАТЕЖА&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-2" oninput="filterTable()">
                         </th>
-                        <th class="th_description">
+                        <th class="th_description" {% if '3' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(3, 'str')">ОПИСАНИЕ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-3" oninput="filterTable()">
                         </th>
-                        <th class="th_object">
+                        <th class="th_object"{% if '4' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(4, 'str')">ОБЪЕКТ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-4" oninput="filterTable()">
                         </th>
-                        <th class="th_responsible">
+                        <th class="th_responsible" {% if '5' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(5, 'str')">ОТВЕТСТВЕННЫЙ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-5" oninput="filterTable()">
                         </th>
-                        <th class="th_contractor">
+                        <th class="th_contractor" {% if '6' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(6, 'str')">КОНТРАГЕНТ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-6" oninput="filterTable()">
                         </th>
-                        <th class="th_main_sum">
+                        <th class="th_main_sum" {% if '7' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(7, 'num')">ОБЩАЯ СУММА&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-7" oninput="filterTable()">
                         </th>
-                        <th class="th_sum_paid">
+                        <th class="th_sum_paid" {% if '8' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(8, 'num')">ОПЛАЧЕННАЯ СУММА&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-8" oninput="filterTable()">
                         </th>
-                        <th class="th_pay_date">
+                        <th class="th_pay_date" {% if '9' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(9, 'str')">СРОК ОПЛАТЫ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-9" oninput="filterTable()">
                         </th>
-                        <th class="th_date_create">
+                        <th class="th_date_create" {% if '10' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(10, 'str')">ДАТА СОЗДАНИЯ&nbsp;<span class="arrow_sort">▼</span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-10" oninput="filterTable()">
                         </th>
@@ -85,28 +85,52 @@
                 <tbody>
                     {% for application in applications %}
                     <tr id="row-{{ loop.index }}" data-sort="{{ loop.index }}">
-                        <td data-sort="{{ application.payment_id }}">
+                        <td data-sort="{{ application.payment_id }}"
+                            {% if '0' in setting_users %}hidden{% endif %}>
                             {{ application.payment_number }}
                         </td>
-                        <td class="th_category_i" data-sort="{{ application.cost_item_name }}">
+                        <td class="th_category_i" data-sort="{{ application.cost_item_name }}"
+                            {% if '1' in setting_users %}hidden{% endif %}>
                             {{ application.cost_item_name }}
                         </td>
-                        <td data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}">
+                        <td data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}"
+                            {% if '2' in setting_users %}hidden{% endif %}>
                             {{ application.basis_of_payment_short }}
                         </td>
                         <td class="th_description_i" data-sort="{{ application.basis_of_payment }}: {{ application.basis_of_payment }}"
-                            title="{{ application.payment_description }}">
+                            title="{{ application.payment_description }}"
+                            {% if '3' in setting_users %}hidden{% endif %}>
                             <span class="paymentFormBold">{{ application.contractor_name }}: </span>
                             {{ application.payment_description_short }}
                         </td>
-                        <td class="th_object_i" data-sort="{{ application.object_name }}">{{ application.object_name }}</td>
-                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}">{{ application.last_name }} {{
-                            application.first_name[0] }}.</td>
-                        <td class="th_contractor_i" data-sort="{{ application.partner }}">{{ application.partner }}</td>
-                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}">{{ application.payment_sum_rub }}</td>
-                        <td class="th_sum_remain_i" data-sort="{{ application.paid_sum }}">{{ application.paid_sum_rub}} </td>
-                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}">{{ application.payment_due_date_txt }}</td>
-                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}">{{ application.payment_at_txt }}</td>
+                        <td class="th_object_i" data-sort="{{ application.object_name }}"
+                            {% if '4' in setting_users %}hidden{% endif %}>
+                            {{ application.object_name }}
+                        </td>
+                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}"
+                            {% if '5' in setting_users %}hidden{% endif %}>
+                            {{ application.last_name }} {{ application.first_name[0] }}.
+                        </td>
+                        <td class="th_contractor_i" data-sort="{{ application.partner }}"
+                            {% if '6' in setting_users %}hidden{% endif %}>
+                            {{ application.partner }}
+                        </td>
+                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}"
+                            {% if '7' in setting_users %}hidden{% endif %}>
+                            {{ application.payment_sum_rub }}
+                        </td>
+                        <td class="th_sum_remain_i" data-sort="{{ application.paid_sum }}"
+                            {% if '8' in setting_users %}hidden{% endif %}>
+                            {{ application.paid_sum_rub }}
+                        </td>
+                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}"
+                            {% if '9' in setting_users %}hidden{% endif %}>
+                            {{ application.payment_due_date_txt }}
+                        </td>
+                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}"
+                            {% if '10' in setting_users %}hidden{% endif %}>
+                            {{ application.payment_at_txt }}
+                        </td>
                     </tr>
 
                     {% endfor %}
