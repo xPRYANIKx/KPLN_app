@@ -1112,7 +1112,7 @@ footer .footer_company__copyright {
 #payment-list_page .tpages_top_panel .cards_container .card {
   padding: 10px 15px;
   margin: 10px;
-  width: 300px;
+  width: 220px;
   background-color: #ebebeb;
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 }
@@ -1123,7 +1123,7 @@ footer .footer_company__copyright {
 #payment-list_page .tpages_top_panel .cards_container .card .card__title {
   border-bottom: solid 1px #d5d5d5;
   font-weight: bold;
-  font-size: 27px;
+  font-size: 25px;
 }
 #payment-approval_page .tpages_top_panel .cards_container .card .card__cost,
 #payment-approval-list_page .tpages_top_panel .cards_container .card .card__cost,
