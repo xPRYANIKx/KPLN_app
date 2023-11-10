@@ -2019,6 +2019,19 @@ def get_payments_approval_list():
             )
             all_payments = cursor.fetchall()
 
+            # Согласован и не оплачено
+            cursor.execute(
+                """WITH
+                    t2 AS (SELECT 
+                            COALESCE(sum(approval_sum), 0) AS approval_sum
+                        FROM payments_approval)
+                    SELECT 
+                        t2.approval_sum AS approval_money,
+                        COALESCE(t2.approval_sum, 0)::money AS approval_money_rub
+                    FROM t2;"""
+            )
+            money = cursor.fetchone()
+
             # Число заявок
             cursor.execute(
                 """SELECT 
@@ -2047,6 +2060,7 @@ def get_payments_approval_list():
                 'payment-approval-list.html', menu=hlink_menu, menu_profile=hlink_profile,
                 applications=all_payments,
                 # account_money=account_money, available_money=available_money,
+                money=money,
                 sort_col=sort_col, tab_rows=tab_rows, setting_users=setting_users, title='Согласованные платежи')
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
