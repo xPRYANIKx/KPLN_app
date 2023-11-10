@@ -1,3 +1,33 @@
+//$(document).ready(function() {
+//
+//    var list_name = document.URL.substring(document.URL.lastIndexOf('/')+1);
+//
+//    fetch('/get-tab-settings', {
+//                    "headers": {
+//                        'Content-Type': 'application/json'
+//        },
+//        "method": "POST",
+//        "body": JSON.stringify({
+//            'list_name': list_name,
+//            'unit_name': '',
+//            'unit_value': '',
+//        })
+//    })
+//    .then(response => response.json())
+//    .then(data => {
+//        if (data.status === 'success') {
+////            console.log(data.setting_users)
+////            for (var i of data.setting_users) {
+////                var col_num = parseInt(i['unit_name']) + 1
+////                $(`#payment-table th:nth-child(${col_num})`).hide()
+////                $(`#payment-table td:nth-child(${col_num})`).hide()
+////                console.log(i['unit_name'])
+////                console.log(`#payment-table th:nth-child(${col_num})`)
+////            }
+//        }
+//    })
+//})
+
 const crossButtonTC = document.querySelector("#crossBtnTC");
 const dialogTC = document.querySelector("#tableCustom");
 
@@ -9,6 +39,7 @@ function closeDialogTC() {
 
 //$("td:nth-child(2)").hide()
 var col_lst = [];
+var hide_status_lst = [];
 
 table = document.getElementById("payment-table");
 cols = table.getElementsByTagName("tr")[0].getElementsByTagName("th");
@@ -16,7 +47,9 @@ cols = table.getElementsByTagName("tr")[0].getElementsByTagName("th");
 for (var i=0; i<cols.length; i++) {
     var jj = cols[i].getElementsByTagName("div")[0].innerHTML.split('&nbsp;')[0];
     col_lst.push(jj)
+    hide_status_lst.push(cols[i].getAttribute('hidden')==null? true:false)
 }
+
 
 var table_columns_list = document.getElementById('columns_list');
 
@@ -33,7 +66,7 @@ if (col_lst.length) {
         newCell_2.className = "ttdcbox";
         var newCell_2_input = document.createElement("input");
         newCell_2_input.type = "checkbox";
-        newCell_2_input.checked = true;
+        newCell_2_input.checked = hide_status_lst[i];
         newCell_2.appendChild(newCell_2_input)
 
         newRow.appendChild(newCell_1);
@@ -65,13 +98,12 @@ function tableCustomSave() {
     // Список скрытых ранее столбцов
     table2 = document.getElementById("payment-table");
     rows2 = table2.getElementsByTagName("tr")[0].getElementsByTagName("th");
-//    hide_col_lst2 = [];
     show_col_lst2 = [];
 
     for (var i=0; i<rows2.length; i++) {
-        var jj = rows2[i].style.display;
-        if (jj == 'none') {
+        if (rows2[i].getAttribute("hidden") !== null) {
             for (var s of show_col_lst) {
+
                 i==s? show_col_lst2.push(i): 1;
             }
         }
@@ -79,55 +111,47 @@ function tableCustomSave() {
 
     if (hide_col_lst.length) {
         for (var i of hide_col_lst) {
-            $(`#payment-table th:nth-child(${i+1})`).hide()
-            $(`#payment-table td:nth-child(${i+1})`).hide()
+            $(`#payment-table th:nth-child(${i+1})`).attr("hidden", true);
+            $(`#payment-table td:nth-child(${i+1})`).attr("hidden", true);
         }
     }
 
     if (show_col_lst2.length) {
         for (var i of show_col_lst2) {
-            $(`#payment-table th:nth-child(${i+1})`).show()
-            $(`#payment-table td:nth-child(${i+1})`).show()
+            $(`#payment-table th:nth-child(${i+1})`).removeAttr('hidden');
+            $(`#payment-table td:nth-child(${i+1})`).removeAttr('hidden');
         }
     }
 
-//    if (hide_col_lst.length || show_col_lst2.length) {
-//        console.log("сохранение в БД");
-//
-//        var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
-//
-//        fetch('/save_tab_settings', {
-//                "headers": {
-//                    'Content-Type': 'application/json'
-//                },
-//                "method": "POST",
-//                "body": JSON.stringify({
-//                    'page_url': page_url,
-//                    'show_list': show_col_lst2,
-//                    'hide_list': hide_col_lst
-//                })
-//            })
-//                .then(response => response.json())
-//                .then(data => {
-//                    if (data.status === 'success') {
+    if (hide_col_lst.length || show_col_lst2.length) {
+
+        var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
+
+        fetch('/save_tab_settings', {
+                "headers": {
+                    'Content-Type': 'application/json'
+                },
+                "method": "POST",
+                "body": JSON.stringify({
+                    'page_url': page_url,
+                    'hide_list': hide_col_lst
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
 //                        console.log(data)
-//
-//
-//
-//                }
-//                else if (data.status === 'error') {
-//                    alert(data.description)
-//                }
-//                else {
-//                    window.location.href = `/${page_url}`;
-//                }
-//            })
-//            .catch(error => {
-//                console.error('Error:', error);
-//            });
-//
-//
-//    }
 
-
+                }
+                else if (data.status === 'error') {
+                    alert(data.description)
+                }
+                else {
+                    window.location.href = `/${page_url}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 }
