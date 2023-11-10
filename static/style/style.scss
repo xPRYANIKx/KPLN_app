@@ -1719,6 +1719,11 @@ footer {
     }
     .tpages_top_panel {
         border-left: solid 4px #2c9700;
+        .cards_container {
+            .card {
+                width: 600px;
+            }
+        }
     }
     .paymentFormBtn {
         justify-content: end;

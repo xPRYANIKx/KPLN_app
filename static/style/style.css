@@ -2104,6 +2104,9 @@ footer .footer_company__copyright {
 #payment-approval-list_page .tpages_top_panel {
   border-left: solid 4px #2c9700;
 }
+#payment-approval-list_page .tpages_top_panel .cards_container .card {
+  width: 600px;
+}
 #payment-approval-list_page .paymentFormBtn {
   justify-content: end;
 }

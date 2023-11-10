@@ -26,11 +26,10 @@
         <div class="cards_container">
             <div class="card" id="card_unpaid">
                 <div class="cards_h1_border">
-                    <h2 class="card__title" id="card_account_money_value" data-value="{{ money['account_money'] }}">{{ money['account_money'] -
-                        money['available_money'] }}</h2>
+                    <h2 class="card__title" id="card_unpaid_value" data-value="{{ money['approval_money'] }}">{{ money['approval_money_rub'] }}</h2>
                 </div>
                 <div>
-                    <p class="card__cost">Неоплачено</p>
+                    <p class="card__cost">Не оплачено</p>
                 </div>
             </div>
         </div>
@@ -58,7 +57,7 @@
                             <div onclick="sortTable(0, 'num')">№ ПЛАТЕЖА&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-0" oninput="filterTable()">
                         </th>
-                        <th class="th_category"  {% if '1' in setting_users %}hidden{% endif %}>
+                        <th class="th_category" {% if '1' in setting_users %}hidden{% endif %}>
                             <div onclick="sortTable(1, 'str')">СТАТЬЯ ЗАТРАТ&nbsp;<span class="arrow_sort"></span></div>
                             <input placeholder="Поиск" type="text" id="filter-input-1" oninput="filterTable()">
                         </th>
@@ -111,58 +110,47 @@
                 <tbody>
                     {% for application in applications %}
                     <tr id="row-{{ loop.index }}" data-sort="{{ loop.index }}">
-                        <td data-sort="{{ application.payment_id }}"
-                            {% if '0' in setting_users %}hidden{% endif %}>
+                        <td data-sort="{{ application.payment_id }}" {% if '0' in setting_users %}hidden{% endif %}>
                             {{ application.payment_number }}
                         </td>
-                        <td class="th_category_i" data-sort="{{ application.cost_item_name }}"
-                            {% if '1' in setting_users %}hidden{% endif %}>
+                        <td class="th_category_i" data-sort="{{ application.cost_item_name }}" {% if '1' in setting_users %}hidden{% endif %}>
                             {{ application.cost_item_name }}
                         </td>
-                        <td data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}"
-                            {% if '2' in setting_users %}hidden{% endif %}>
+                        <td data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}" {% if '2' in setting_users %}hidden{%
+                            endif %}>
                             {{ application.basis_of_payment_short }}
                         </td>
                         <td class="th_description_i" data-sort="{{ application.basis_of_payment }}: {{ application.basis_of_payment }}"
-                            title="{{ application.payment_description }}"
-                            {% if '3' in setting_users %}hidden{% endif %}>
+                            title="{{ application.payment_description }}" {% if '3' in setting_users %}hidden{% endif %}>
                             <span class="paymentFormBold">{{ application.contractor_name }}: </span>
                             {{ application.payment_description_short }}
                         </td>
-                        <td class="th_object_i" data-sort="{{ application.object_name }}"
-                            {% if '4' in setting_users %}hidden{% endif %}>
+                        <td class="th_object_i" data-sort="{{ application.object_name }}" {% if '4' in setting_users %}hidden{% endif %}>
                             {{ application.object_name }}
                         </td>
-                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}"
-                            {% if '5' in setting_users %}hidden{% endif %}>
+                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}" {% if '5' in setting_users
+                            %}hidden{% endif %}>
                             {{ application.last_name }} {{ application.first_name[0] }}.
                         </td>
-                        <td class="th_contractor_i" data-sort="{{ application.partner }}"
-                            {% if '6' in setting_users %}hidden{% endif %}>
+                        <td class="th_contractor_i" data-sort="{{ application.partner }}" {% if '6' in setting_users %}hidden{% endif %}>
                             {{ application.partner }}
                         </td>
-                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}"
-                            {% if '7' in setting_users %}hidden{% endif %}>
+                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}" {% if '7' in setting_users %}hidden{% endif %}>
                             {{ application.payment_sum_rub }}
                         </td>
-                        <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}"
-                            {% if '8' in setting_users %}hidden{% endif %}>
+                        <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}" {% if '8' in setting_users %}hidden{% endif %}>
                             {{ application.approval_sum_rub }}
                         </td>
-                        <td class="th_sum_remain_i" data-sort="{{ application.paid_sum }}"
-                            {% if '9' in setting_users %}hidden{% endif %}>
+                        <td class="th_sum_remain_i" data-sort="{{ application.paid_sum }}" {% if '9' in setting_users %}hidden{% endif %}>
                             {{ application.paid_sum_rub}}
                         </td>
-                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}"
-                            {% if '10' in setting_users %}hidden{% endif %}>
+                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}" {% if '10' in setting_users %}hidden{% endif %}>
                             {{ application.payment_due_date_txt }}
                         </td>
-                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}"
-                            {% if '11' in setting_users %}hidden{% endif %}>
+                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}" {% if '11' in setting_users %}hidden{% endif %}>
                             {{ application.payment_at_txt }}
                         </td>
-                        <td class="th_date_create_i" data-sort="{{ application.create_at }}"
-                            {% if '12' in setting_users %}hidden{% endif %}>
+                        <td class="th_date_create_i" data-sort="{{ application.create_at }}" {% if '12' in setting_users %}hidden{% endif %}>
                             {{ application.create_at_txt }}
                         </td>
                     </tr>
