@@ -2110,6 +2110,9 @@ footer .footer_company__copyright {
 #payment-approval-list_page .paymentFormBtn {
   justify-content: end;
 }
+#payment-approval-list_page .tableR {
+  margin: 0px 0px 30px 0px;
+}
 #payment-approval-list_page .th_number {
   min-width: 210px;
 }
