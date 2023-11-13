@@ -1532,7 +1532,7 @@ footer {
     }
 }
 .tableR {
-    max-height: calc(100vh - 515px);
+    max-height: calc(100vh - 496px);
     overflow-x: scroll;
     margin: 0px 0 5px 0;
     &::-webkit-scrollbar {
@@ -1729,6 +1729,7 @@ footer {
         justify-content: end;
     }
     .tableR {
+        max-height: calc(100vh - 495px);
         margin: 0px 0px 30px 0px;
     }
     .th_number {
@@ -1753,6 +1754,9 @@ footer {
     #paymentForm {
         padding: 0px;
         margin: 0px;
+    }
+    .tableR {
+        max-height: calc(100vh - 395px);
     }
     .tpages_top_panel {
         border-left: solid 4px #56a3e5;
@@ -1798,6 +1802,11 @@ footer {
             }
         }
     }
+
+    .tableR {
+        max-height: calc(100vh - 440px);
+    }
+
     .th_nnumber {
         min-width: 210px;
     }
@@ -1940,6 +1949,17 @@ footer {
         #diagram__dialog {
             min-width: 690px;
             min-height: 365px;
+        }
+    }
+    #payment-approval-list_page {
+        .tableR {
+            max-height: calc(100vh - 160px);
+        }
+    }
+    #payment-paid-list_page {
+        .tableR {
+            max-height: calc(100vh - 160px);
+            margin: 0px 0px 30px 0px;
         }
     }
 }
@@ -2440,6 +2460,16 @@ footer {
             }
         }
     }
+    #payment-approval-list_page {
+        .tableR {
+            max-height: calc(100vh - 145px);
+        }
+    }
+    #payment-paid-list_page {
+        .tableR {
+            max-height: calc(100vh - 145px);
+        }
+    }
 }
 ///---------------------------------------------------
 ///---------------------------------------------------
@@ -2529,6 +2559,16 @@ footer {
         }
         .tableR {
             max-height: calc(100vh - 165px);
+        }
+    }
+    #payment-approval-list_page {
+        .tableR {
+            max-height: calc(100vh - 140px);
+        }
+    }
+    #payment-paid-list_page {
+        .tableR {
+            max-height: calc(100vh - 140px);
         }
     }
 }
