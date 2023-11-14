@@ -44,99 +44,81 @@ def before_request():
 @login_required
 def get_new_payment():
     """Страница создания новой заявки на оплату"""
-    # try:
-    global hlink_menu, hlink_profile
+    try:
+        global hlink_menu, hlink_profile
 
-    user_id = login_app.current_user.get_id()
+        user_id = login_app.current_user.get_id()
 
-    # Connect to the database
-    conn, cursor = login_app.conn_cursor_init()
+        # Connect to the database
+        conn, cursor = login_app.conn_cursor_init()
 
-    # Список ответственных
-    cursor.execute(
-        "SELECT user_id, last_name, first_name FROM users WHERE is_fired = FALSE")
-    responsible = cursor.fetchall()
+        # Список ответственных
+        cursor.execute(
+            "SELECT user_id, last_name, first_name FROM users WHERE is_fired = FALSE")
+        responsible = cursor.fetchall()
 
-    # Список типов заявок
-    cursor.execute(
-        "SELECT cost_item_id, cost_item_name, cost_item_category FROM payment_cost_items")
-    cost_items_list = cursor.fetchall()
-    # передаём данные в виде словаря для создания сгруппированного выпадающего списка
-    cost_items_full = {}
-    for item in cost_items_list:
-        key = item[2]
-        value = [item[1], item[0]]
-        if key in cost_items_full:
-            cost_items_full[key].append(value)
-        else:
-            cost_items_full[key] = [value]
+        # Список типов заявок
+        cursor.execute(
+            "SELECT cost_item_id, cost_item_name, cost_item_category FROM payment_cost_items")
+        cost_items_list = cursor.fetchall()
+        # передаём данные в виде словаря для создания сгруппированного выпадающего списка
+        cost_items_full = {}
+        for item in cost_items_list:
+            key = item[2]
+            value = [item[1], item[0]]
+            if key in cost_items_full:
+                cost_items_full[key].append(value)
+            else:
+                cost_items_full[key] = [value]
 
-    # Список объектов
-    cursor.execute("SELECT object_id, object_name FROM objects")
-    objects_name = cursor.fetchall()
+        # Список объектов
+        cursor.execute("SELECT object_id, object_name FROM objects")
+        objects_name = cursor.fetchall()
 
-    # Список контрагентов
-    cursor.execute("SELECT DISTINCT partner FROM payments_summary_tab")
-    partners = cursor.fetchall()
+        # Список контрагентов
+        cursor.execute("SELECT DISTINCT partner FROM payments_summary_tab")
+        partners = cursor.fetchall()
 
-    # Get the current date
-    today = date.today().strftime("%Y-%m-%d")
+        # Get the current date
+        today = date.today().strftime("%Y-%m-%d")
 
-    # Список наших компаний из таблицы contractors
-    cursor.execute("SELECT contractor_id, contractor_name FROM our_companies")
-    our_companies = cursor.fetchall()
+        # Список наших компаний из таблицы contractors
+        cursor.execute("SELECT contractor_id, contractor_name FROM our_companies")
+        our_companies = cursor.fetchall()
 
-    # Close the database connection
-    login_app.conn_cursor_close(cursor, conn)
+        # Close the database connection
+        login_app.conn_cursor_close(cursor, conn)
 
-    # Create profile name dict
-    hlink_menu, hlink_profile = login_app.func_hlink_profile()
-    not_save_val = session['n_s_v_new_payment'] if session.get('n_s_v_new_payment') else {}
+        # Create profile name dict
+        hlink_menu, hlink_profile = login_app.func_hlink_profile()
+        not_save_val = session['n_s_v_new_payment'] if session.get('n_s_v_new_payment') else {}
 
-    # Настройки таблицы
-    setting_users = get_tab_settings(user_id=user_id, list_name=request.path[1:])
+        # Настройки таблицы
+        setting_users = get_tab_settings(user_id=user_id, list_name=request.path[1:])
 
-    # hide_list_db = cursor.fetchall()
-    # hide_list_db = [x[0] for x in hide_list_db]
-    # hide_list = [str(x) for x in hide_list]
-    #
-    # show_list = [x for x in hide_list if x not in hide_list_db]
-    # hide_list = [x for x in hide_list_db if x not in hide_list]
+        unselected = [int(x) for x in setting_users.keys()]
 
-    print(setting_users)
-    unselected = [int(x) for x in setting_users.keys()]
+        cost_items = {}
 
-    print(cost_items_full)
-    print(unselected)
+        c_i_full_lst = []
 
-    cost_items = {}
+        for k, v in cost_items_full.items():
+            new_values = []
+            for item in v:
+                if item[1] not in unselected:
+                    new_values.append(item.copy())
+                    cost_items_full[k][cost_items_full[k].index(item)].append(1)
+                c_i_full_lst.append(item)
+            if new_values:
+                cost_items[k] = new_values
 
-    c_i_full_lst = []
-
-    for k, v in cost_items_full.items():
-        new_values = []
-        for item in v:
-            if item[1] not in unselected:
-                new_values.append(item.copy())
-                cost_items_full[k][cost_items_full[k].index(item)].append(1)
-            c_i_full_lst.append(item)
-        if new_values:
-            cost_items[k] = new_values
-
-    print('               cost_items')
-    print(cost_items)
-    print('   cost_items_full')
-    print(cost_items_full)
-
-    print(c_i_full_lst)
-
-    return render_template('new-payment.html', responsible=responsible, cost_items=cost_items,
-                           objects_name=objects_name, partners=partners, c_i_full_lst=c_i_full_lst,
-                           our_companies=our_companies, menu=hlink_menu, menu_profile=hlink_profile,
-                           not_save_val=not_save_val, setting_users=setting_users, title='Новая заявка на оплату')
-    # except Exception as e:
-    #     current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-    #     return f'payment ❗❗❗ Ошибка \n---{e}'
+        return render_template('new-payment.html', responsible=responsible, cost_items=cost_items,
+                               objects_name=objects_name, partners=partners, c_i_full_lst=c_i_full_lst,
+                               our_companies=our_companies, menu=hlink_menu, menu_profile=hlink_profile,
+                               not_save_val=not_save_val, setting_users=setting_users, title='Новая заявка на оплату')
+    except Exception as e:
+        current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
+        return f'payment ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/new-payment', methods=['POST'])

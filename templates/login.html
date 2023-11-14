@@ -13,10 +13,14 @@
             <div id="checkbox_auth__input"><input type="checkbox" name="remainme" /></div>
             <div id="checkbox_auth__label"><label>Запомнить меня</label></div>
         </div>
-        <div id="auth_form__submit"><input id="auth_form__button"
-                                           class="g-recaptcha input__button"
-                                           data-sitekey="{{ site_key }}" data-callback='onSubmit' data-action='submit'
-                                           type="submit" value="Войти" /></div>
+
+        <div class="g-recaptcha" data-sitekey="{{ site_key }}"></div>
+        <div id="auth_form__submit">
+            <input id="auth_form__button" class="input__button" type="submit" value="Войти" />
+<!--            <input id="auth_form__button" class="g-recaptcha input__button" data-sitekey="{{ site_key }}" -->
+<!--                   data-callback='onSubmit' data-action='submit' type="submit" value="Войти" />-->
+        </div>
+
     </form>
 </div>
 

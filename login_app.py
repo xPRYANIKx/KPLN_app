@@ -124,7 +124,7 @@ def conn_cursor_init():
 
 
 @login_bp.route('/', methods=["POST", "GET"])
-# @login_required
+@login_required
 def index():
     """Главная страница"""
     try:
@@ -164,9 +164,8 @@ def login():
             secret_response = request.form['g-recaptcha-response']
             verify_response = requests.post(url=f'{RECAPTCHA_VERIFY_URL}?secret={RECAPTCHA_PRIVATE_KEY}&response={secret_response}').json()
 
-            print("verify_response['success']", verify_response['success'] )
-            print("   score", verify_response['score'] )
-            if verify_response['success'] == False or verify_response['score'] < 0.5:
+            # if verify_response['success'] == False or verify_response['score'] < 0.5:
+            if verify_response['success'] == False:
                 return error_handlers.handle401(401)
 
             user = dbase.get_user_by_email(email)
