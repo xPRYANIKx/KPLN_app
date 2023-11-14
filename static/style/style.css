@@ -199,6 +199,11 @@ input[list=partners_name]::-webkit-calendar-picker-indicator {
   display: none !important;
 }
 
+.g-recaptcha {
+  transform: scale(0.96);
+  transform-origin: 0 0;
+}
+
 *,
 body {
   font-family: "Montserrat";
@@ -2809,6 +2814,10 @@ footer .footer_company__copyright {
   #login_page .window_form_in_page #auth_form #checkbox_auth__input {
     margin: 0px;
   }
+  #login_page .window_form_in_page #auth_form .g-recaptcha {
+    transform: scale(0.8);
+    margin-bottom: -5px;
+  }
   #register_page .window_form_in_page {
     width: 310px;
   }
@@ -3139,6 +3148,10 @@ footer .footer_company__copyright {
   }
   #login_page .window_form_in_page #auth_form h1 img {
     padding: 0px 0px 2px 0px;
+  }
+  #login_page .window_form_in_page #auth_form .g-recaptcha {
+    transform: scale(0.66);
+    margin-bottom: -15px;
   }
   #register_page .window_form_in_page {
     width: 270px;

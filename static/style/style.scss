@@ -27,6 +27,12 @@
 input[list="partners_name"]::-webkit-calendar-picker-indicator {
     display: none !important;
 }
+//////
+.g-recaptcha {
+    transform: scale(0.96);
+    transform-origin: 0 0;
+}
+
 ///____________///
 ///____________///
 ///____________///
@@ -2353,6 +2359,10 @@ footer {
                         margin: 0px;
                     }
                 }
+                .g-recaptcha {
+                    transform: scale(0.8);
+                    margin-bottom: -5px;
+                }
             }
         }
     }
@@ -2716,6 +2726,10 @@ footer {
                     img {
                         padding: 0px 0px 2px 0px;
                     }
+                }
+                .g-recaptcha {
+                    transform: scale(0.66);
+                    margin-bottom: -15px;
                 }
             }
         }
