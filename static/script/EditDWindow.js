@@ -5,6 +5,7 @@ const dialog = document.querySelector("#payment-approval__dialog");
 const annulPaymentButton = document.querySelector("#annul__edit_btn");
 const annulApprovalButton = document.querySelector("#annul_approval__edit_btn");
 const saveButton = document.querySelector("#save__edit_btn");
+var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
 
 
 var elements = document.getElementsByClassName("showModalId");
@@ -36,15 +37,16 @@ function annulPayment() {
         },
         "method": "POST",
         "body": JSON.stringify({
-            'paymentId': paymentId
+            'paymentId': paymentId,
+            'page_url': page_url,
         })
     })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                window.location.href = '/payment-approval';
+                window.location.href = `/${page_url}`;
             } else {
-                window.location.href = '/payment-approval';
+                window.location.href = `/${page_url}`;
             }
         })
         .catch(error => {
@@ -60,15 +62,16 @@ function annulApproval() {
         },
         "method": "POST",
         "body": JSON.stringify({
-            'paymentId': paymentId
+            'paymentId': paymentId,
+            'page_url': page_url,
         })
     })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                window.location.href = '/payment-approval';
+                window.location.href = `/${page_url}`;
             } else {
-                window.location.href = '/payment-approval';
+                window.location.href = `/${page_url}`;
             }
         })
         .catch(error => {
@@ -154,9 +157,9 @@ function savePayment() {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                window.location.href = '/payment-approval';
+                window.location.href = `/${page_url}`;
             } else {
-                window.location.href = '/payment-approval';
+                window.location.href = `/${page_url}`;
             }
         })
         .catch(error => {

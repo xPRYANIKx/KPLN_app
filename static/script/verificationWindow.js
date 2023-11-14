@@ -44,7 +44,7 @@ annulApprovalEditBtn? annulApprovalEditBtn.addEventListener('click', showDialogA
 
 saveEditBtn? saveEditBtn.addEventListener('click', showDialogSEB): 1;
 
-nextDialogBtn.addEventListener('click', function () {
+nextDialogBtn? nextDialogBtn.addEventListener('click', function () {
 
     if (paragraphQuestion.id === 'pqDSB') {
         paymentForm.submit();
@@ -56,4 +56,4 @@ nextDialogBtn.addEventListener('click', function () {
     } else if (paragraphQuestion.id === 'pqSEB') {
         savePayment();
     }
-});
+}): 1;

@@ -178,16 +178,20 @@
                         </td>
                         <td class="th_object_i showModalId" data-sort="{{application.object_name}}" onclick="getModal({{ application.payment_id }})" {% if '4'
                             in setting_users %}hidden{% endif %}>
-                            {{ application.object_name}}</td>
+                            {{ application.object_name}}
+                        </td>
                         <td class="th_responsible_i showModalId" data-sort="{{ application.last_name }} {{ application.first_name }}"
                             onclick="getModal({{ application.payment_id }})" {% if '5' in setting_users %}hidden{% endif %}>
-                            {{ application.last_name }} {{ application.first_name[0] }}.</td>
+                            {{ application.last_name }} {{ application.first_name[0] }}.
+                        </td>
                         <td class="th_contractor_i showModalId" data-sort="{{ application.partner }}" onclick="getModal({{ application.payment_id }})" {% if '6'
                             in setting_users %}hidden{% endif %}>
-                            {{ application.partner }}</td>
+                            {{ application.partner }}
+                        </td>
                         <td class="th_main_sum_i showModalId" data-sort="{{ application.payment_sum }}" onclick="getModal({{ application.payment_id }})" {%
                             if '7' in setting_users %}hidden{% endif %}>
-                            {{ application.payment_sum_rub }}</td>
+                            {{ application.payment_sum_rub }}
+                        </td>
                         <td class="th_sum_remain_i showModalId" data-sort="{{ application.approval_sum }}" onclick="getModal({{ application.payment_id }})" {%
                             if '8' in setting_users %}hidden{% endif %}>
                             <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>

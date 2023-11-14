@@ -9,9 +9,13 @@
 {% endblock %}
 {% block content %}
 <body id="new_payment_page">
+    {% include "_card-tableCustom.html" %}
 
 
     <div class="window_form_in_page">
+
+
+
         <form class="flex_form" id="new_payment_form" method="POST" action="/new-payment">
             <h1><img src="static/img/h1/newpayment.png"> {{title}}</h1>
 
@@ -121,8 +125,15 @@
 
             <div class="help_p">* - поля обязательные для заполнения</div>
 
+
+            <div id="visualTablePA" onclick="window['tableCustom'].showModal();">Настроить Типы заявок</div>
+
+
+
             <button type="submit" id="submit_button_in_form" onclick="this.form.submit(); this.disabled=true;" disabled>Сохранить</button>
         </form>
+
+        <span id="header__auth__role_id" hidden>{{menu_profile[0].role_id}}</span>
 
     </div>
 

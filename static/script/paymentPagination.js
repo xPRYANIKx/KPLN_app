@@ -575,6 +575,20 @@ $(document).ready(function() {
                             // id
                             newRow.id = `row-${numRow}`;
                             newRow.dataset.sort = numRow;
+
+                            if (page_url == 'payment-approval-list') {
+                                newRow.classList.add("showModalId");
+                                newRow.setAttribute("onclick", `getModal(${pmt['payment_id']})`);
+
+                                newRow.addEventListener("click", function () {
+                                    var bodyRef = document.getElementById('paid_history-table').getElementsByTagName('tbody')[0];
+                                    bodyRef.innerHTML = ''
+                                    var logDPage = document.getElementById('logDPage__content__text');
+                                    logDPage.innerHTML = ''
+                                    dialog.showModal();
+                                });
+
+                            }
                             
                             if (page_url == 'payment-paid-list') {
                                 // Согласованная сумма

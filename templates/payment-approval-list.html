@@ -6,12 +6,25 @@
 <script src="static/script/paymentApprovalSort.js"></script>
 <script src="static/script/paymentFilter.js"></script>
 
+<script src="static/script/checkFormNewPayment.js"></script>
+
+<script src="static/script/application_modal.js"></script>
+
 <body id="payment-approval-list_page">
 
     {% endblock %}
     {% block content %}
 
+    {% include "_card-payment.html" %}
     {% include "_card-tableCustom.html" %}
+
+    <dialog id="verification_dialog">
+        <p id="paragraph_question">Хотите продолжить?</p>
+        <div>
+            <button type="button" id="verification_dialog__cancel">Отмена</button>
+            <button type="button" id="verification_dialog__next">Продолжить</button>
+        </div>
+    </dialog>
 
     <div id="sortCol-1" hidden>{{ sort_col['col_1'][0] }}#{{ sort_col['col_1'][1] }}</div>
     <div id="sortCol-1_val" hidden>{{ sort_col['col_1'][2] }}</div>
@@ -109,7 +122,7 @@
                 </thead>
                 <tbody>
                     {% for application in applications %}
-                    <tr id="row-{{ loop.index }}" data-sort="{{ loop.index }}">
+                    <tr class="showModalId" id="row-{{ loop.index }}" data-sort="{{ loop.index }}" onclick="getModal({{ application.payment_id }})" >
                         <td data-sort="{{ application.payment_id }}" {% if '0' in setting_users %}hidden{% endif %}>
                             {{ application.payment_number }}
                         </td>
