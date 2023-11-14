@@ -932,6 +932,18 @@ footer {
             -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
             box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
         }
+
+        .custom_tittle {
+            cursor: pointer;
+            margin: 8px 0px 0px 0px;
+            font-size: 12px;
+            font-weight: 900;
+            color: #0c4c85;
+        }
+        .custom_tittle:hover {
+            color: #236baa;
+        }
+
         #submit_button_in_form {
             width: 150px;
             height: 35px;
@@ -945,6 +957,70 @@ footer {
         flex-direction: column;
         label {
             align-self: start;
+        }
+    }
+    #tableCustom {
+        top: 40%;
+        bottom: 40%;
+        width: 550px;
+        border: none;
+        border-radius: 5px;
+        background-color: #f7f7f7;
+        -webkit-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        -moz-box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        box-shadow: 4px 4px 3px 0px rgba(34, 60, 80, 0.19);
+        h2 {
+            display: flex;
+            width: 250px;
+            margin: 0px 0px 5px 16px;
+            border-bottom: solid 2px #dfdfdf;
+            font-size: 25px;
+            font-weight: 900;
+            img {
+                width: 23px;
+                height: 23px;
+                margin: 6px 8px 0px 0px;
+            }
+        }
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin: 0px;
+            padding: 10px;
+            background-color: #ffffff00;
+            box-shadow: none;
+            table {
+                width: 350px;
+                margin: 0 auto;
+                tr {
+                    .ttdname {
+                        width: 200px;
+                        font-weight: bold;
+                    }
+                    .ttdcbox {
+                        width: 50px;
+                        padding: 0px;
+                        text-align: center;
+                        input {
+                            zoom: 2;
+                        }
+                    }
+                }
+            }
+            #closeBtnTC {
+                width: 100%;
+                margin: 22px 0px 0px 0px;
+                font-size: 15px;
+                font-weight: bold;
+            }
+        }
+        #crossBtnTC {
+            position: absolute;
+            width: 23px;
+            top: 12px;
+            right: 13px;
+            cursor: pointer;
         }
     }
 }
@@ -2443,6 +2519,21 @@ footer {
                 }
             }
         }
+        #tableCustom {
+            width: 350px;
+            form {
+                table {
+                    width: 300px;
+                    tbody {
+                        tr {
+                            .ttdname {
+                                font-size: 11px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     /////////////////////
     #payment-approval_page,
@@ -2475,6 +2566,25 @@ footer {
 ///---------------------------------------------------
 ///------------------------------------------------400
 @media (max-width: 400px) {
+    #new_payment_page {
+        #tableCustom {
+            width: 320px;
+            form {
+                table {
+                    width: 270px;
+                    tbody {
+                        tr {
+                            .ttdcbox {
+                                input {
+                                    zoom: 1.5;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     #payment-approval_page,
     #payment-approval-list_page,
     #payment-paid-list_page,
@@ -2731,6 +2841,20 @@ footer {
                 }
             }
         }
+        #tableCustom {
+            width: 280px;
+            h2 {
+                width: 100%;
+                padding-bottom: 5px;
+                font-size: 22px;
+                margin: 0px 0px 5px 0px;
+            }
+            form {
+                table {
+                    width: 240px;
+                }
+            }
+        }
     }
     /// ----------------------
     #payment-approval_page,
@@ -2879,6 +3003,15 @@ footer {
                 }
                 .help_p {
                     font-size: 8px;
+                }
+            }
+        }
+
+        #tableCustom {
+            width: 250px;
+            form {
+                table {
+                    width: 200px;
                 }
             }
         }
