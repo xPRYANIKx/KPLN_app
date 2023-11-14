@@ -1937,7 +1937,7 @@ footer .footer_company__copyright {
 }
 
 .tableR {
-  max-height: calc(100vh - 515px);
+  max-height: calc(100vh - 496px);
   overflow-x: scroll;
   margin: 0px 0 5px 0;
 }
@@ -2110,6 +2110,10 @@ footer .footer_company__copyright {
 #payment-approval-list_page .paymentFormBtn {
   justify-content: end;
 }
+#payment-approval-list_page .tableR {
+  max-height: calc(100vh - 495px);
+  margin: 0px 0px 30px 0px;
+}
 #payment-approval-list_page .th_number {
   min-width: 210px;
 }
@@ -2129,6 +2133,9 @@ footer .footer_company__copyright {
 #payment-paid-list_page #paymentForm {
   padding: 0px;
   margin: 0px;
+}
+#payment-paid-list_page .tableR {
+  max-height: calc(100vh - 395px);
 }
 #payment-paid-list_page .tpages_top_panel {
   border-left: solid 4px #56a3e5;
@@ -2170,6 +2177,9 @@ footer .footer_company__copyright {
 #payment-pay_page .tpages_top_panel .cards_container #card_available_money,
 #payment-pay_page .tpages_top_panel .cards_container #card_account_money {
   cursor: default;
+}
+#payment-pay_page .tableR {
+  max-height: calc(100vh - 440px);
 }
 #payment-pay_page .th_nnumber {
   min-width: 210px;
@@ -2377,6 +2387,13 @@ footer .footer_company__copyright {
   #payment-list_page #diagram__dialog {
     min-width: 690px;
     min-height: 365px;
+  }
+  #payment-approval-list_page .tableR {
+    max-height: calc(100vh - 160px);
+  }
+  #payment-paid-list_page .tableR {
+    max-height: calc(100vh - 160px);
+    margin: 0px 0px 30px 0px;
   }
 }
 @media (max-width: 720px) {
@@ -2864,6 +2881,12 @@ footer .footer_company__copyright {
   #payment-list_page #paymentForm .tableR {
     max-height: calc(100vh - 150px);
   }
+  #payment-approval-list_page .tableR {
+    max-height: calc(100vh - 145px);
+  }
+  #payment-paid-list_page .tableR {
+    max-height: calc(100vh - 145px);
+  }
 }
 @media (max-width: 400px) {
   #payment-approval_page #verification_dialog p,
@@ -3001,6 +3024,12 @@ footer .footer_company__copyright {
   #payment-pay_page .tableR,
   #payment-list_page .tableR {
     max-height: calc(100vh - 165px);
+  }
+  #payment-approval-list_page .tableR {
+    max-height: calc(100vh - 140px);
+  }
+  #payment-paid-list_page .tableR {
+    max-height: calc(100vh - 140px);
   }
 }
 @media (max-width: 350px) {
