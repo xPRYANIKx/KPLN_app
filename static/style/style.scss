@@ -1713,8 +1713,6 @@ footer {
         .th_name_i {
             max-width: 320px;
             min-width: 250px;
-            color: #242e7b;
-            cursor: pointer;
         }
         .th_name_i2 {
             max-width: 320px;
@@ -1794,6 +1792,38 @@ footer {
     }
 }
 
+#payment-approval_page {
+    #paymentForm {
+        .tableR {
+            #payment-table {
+                thead {
+                    tr {
+                        th {
+                            cursor: pointer;
+                        }
+                    }
+                }
+                tbody {
+                    tr {
+                        .th_category_i,
+                        .th_name_i,
+                        .th_description_i,
+                        .th_object_i,
+                        .th_responsible_i,
+                        .th_contractor_i,
+                        .th_main_sum_i,
+                        .th_sum_remain_i,
+                        .th_pay_date_i,
+                        .th_date_create_i {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 #payment-approval-list_page {
     #paymentForm {
         margin: 0px;
@@ -1814,6 +1844,18 @@ footer {
         max-height: calc(100vh - 495px);
         margin: 0px 0px 30px 0px;
     }
+
+    .fix_thead {
+        tr {
+            th {
+                cursor: pointer;
+            }
+        }
+    }
+    .th_payment_number {
+        min-width: 250px;
+    }
+
     .th_number {
         min-width: 210px;
         input {
@@ -1824,14 +1866,28 @@ footer {
         min-width: 360px;
     }
     .th_pay_date {
-        max-width: 130px;
+        min-width: 170px;
     }
     .th_date_create {
         input {
             width: 110px;
         }
     }
+    .th_payment_number,
+    .th_category_i,
+    .th_name_i,
+    .th_description_i,
+    .th_object_i,
+    .th_responsible_i,
+    .th_contractor_i,
+    .th_main_sum_i,
+    .th_sum_remain_i,
+    .th_pay_date_i,
+    .th_date_create_i {
+        cursor: pointer;
+    }
 }
+
 #payment-paid-list_page {
     #paymentForm {
         padding: 0px;
@@ -1888,16 +1944,45 @@ footer {
     .tableR {
         max-height: calc(100vh - 440px);
     }
-
+    .th_category_i,
+    .th_name_i,
+    .th_payment_number_i,
+    .th_description_i,
+    .th_object_i,
+    .th_responsible_i,
+    .th_contractor_i,
+    .th_main_sum_i,
+    .th_paid_sum_i,
+    .th_sum_remain_i,
+    .th_date_create_i {
+        cursor: pointer;
+    }
     .th_nnumber {
         min-width: 210px;
     }
-    .th_name_i {
-        color: black;
-        cursor: default;
-    }
     .th_date_create {
         min-width: 130px;
+    }
+
+    #payment-approval__dialog {
+        &__menu {
+            &__edit {
+                #payment_card {
+                    .button_group {
+                        display: none;
+                    }
+                }
+            }
+
+            &__list {
+                &__content {
+                    .paid_history-table__response {
+                        min-height: 440px;
+                        max-height: 440px;
+                    }
+                }
+            }
+        }
     }
 }
 

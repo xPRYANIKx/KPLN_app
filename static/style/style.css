@@ -2100,8 +2100,6 @@ footer .footer_company__copyright {
 .tableR table .th_name_i {
   max-width: 320px;
   min-width: 250px;
-  color: #242e7b;
-  cursor: pointer;
 }
 .tableR table .th_name_i2 {
   max-width: 320px;
@@ -2172,6 +2170,22 @@ footer .footer_company__copyright {
   width: 90px;
 }
 
+#payment-approval_page #paymentForm .tableR #payment-table thead tr th {
+  cursor: pointer;
+}
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_category_i,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_name_i,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_description_i,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_object_i,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_responsible_i,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_contractor_i,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_main_sum_i,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_sum_remain_i,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_pay_date_i,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_date_create_i {
+  cursor: pointer;
+}
+
 #payment-approval-list_page #paymentForm {
   margin: 0px;
   padding: 0px;
@@ -2189,6 +2203,12 @@ footer .footer_company__copyright {
   max-height: calc(100vh - 495px);
   margin: 0px 0px 30px 0px;
 }
+#payment-approval-list_page .fix_thead tr th {
+  cursor: pointer;
+}
+#payment-approval-list_page .th_payment_number {
+  min-width: 250px;
+}
 #payment-approval-list_page .th_number {
   min-width: 210px;
 }
@@ -2199,10 +2219,23 @@ footer .footer_company__copyright {
   min-width: 360px;
 }
 #payment-approval-list_page .th_pay_date {
-  max-width: 130px;
+  min-width: 170px;
 }
 #payment-approval-list_page .th_date_create input {
   width: 110px;
+}
+#payment-approval-list_page .th_payment_number,
+#payment-approval-list_page .th_category_i,
+#payment-approval-list_page .th_name_i,
+#payment-approval-list_page .th_description_i,
+#payment-approval-list_page .th_object_i,
+#payment-approval-list_page .th_responsible_i,
+#payment-approval-list_page .th_contractor_i,
+#payment-approval-list_page .th_main_sum_i,
+#payment-approval-list_page .th_sum_remain_i,
+#payment-approval-list_page .th_pay_date_i,
+#payment-approval-list_page .th_date_create_i {
+  cursor: pointer;
 }
 
 #payment-paid-list_page #paymentForm {
@@ -2256,15 +2289,31 @@ footer .footer_company__copyright {
 #payment-pay_page .tableR {
   max-height: calc(100vh - 440px);
 }
+#payment-pay_page .th_category_i,
+#payment-pay_page .th_name_i,
+#payment-pay_page .th_payment_number_i,
+#payment-pay_page .th_description_i,
+#payment-pay_page .th_object_i,
+#payment-pay_page .th_responsible_i,
+#payment-pay_page .th_contractor_i,
+#payment-pay_page .th_main_sum_i,
+#payment-pay_page .th_paid_sum_i,
+#payment-pay_page .th_sum_remain_i,
+#payment-pay_page .th_date_create_i {
+  cursor: pointer;
+}
 #payment-pay_page .th_nnumber {
   min-width: 210px;
 }
-#payment-pay_page .th_name_i {
-  color: black;
-  cursor: default;
-}
 #payment-pay_page .th_date_create {
   min-width: 130px;
+}
+#payment-pay_page #payment-approval__dialog__menu__edit #payment_card .button_group {
+  display: none;
+}
+#payment-pay_page #payment-approval__dialog__menu__list__content .paid_history-table__response {
+  min-height: 440px;
+  max-height: 440px;
 }
 
 #diagram__dialog #crossBtnDD {
