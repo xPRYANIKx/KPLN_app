@@ -499,7 +499,6 @@ def get_payment_approval_pagination():
             'col_2': [f"{col_2.split('#')[0]}#{col_2.split('#')[1]}"],  # Вторая колонка - ASC
             'col_id': [f"{col_id.split('#')[0]}#{col_id.split('#')[1]}"]  # Третья колонка всегда id - ASC
         }
-        # pprint(sort_col)
 
         user_id = login_app.current_user.get_id()
 
@@ -540,7 +539,6 @@ def get_payment_approval_pagination():
         #     f"{sort_col_id} {sort_col_id_equal} {conv_data_to_db(sort_col_id, col_id_val, all_col_types)} "
         # )
 
-        # print(where_expression)
 
         cursor.execute(
             f"""SELECT
@@ -649,8 +647,6 @@ def get_payment_approval_pagination():
         sort_col['col_1'].append(all_payments[-1][sort_col_1])
         sort_col['col_2'].append(all_payments[-1][sort_col_2])
         sort_col['col_id'].append(all_payments[-1][sort_col_id])
-        # pprint(sort_col)
-        # print('')
 
         for i in range(len(all_payments)):
             all_payments[i] = dict(all_payments[i])
@@ -997,9 +993,7 @@ def set_approved_payments():
 @login_required
 def save_quick_changes_approved_payments():
     try:
-        # print('save_quick_changes_approved_payments')
         # Сохраняем изменения в полях (согл сумма, статус, сохр до полн оплаты) заявки без нажатия кнопки "Отправить"
-        # try:
         page = request.form['page']
         payment_id = int(request.form['payment_number'])
         row_id = request.form['row_id']
@@ -1011,8 +1005,6 @@ def save_quick_changes_approved_payments():
             status_id = None
             status_id2 = None
         agreed_status = request.form['payment_full_agreed_status']
-        # for key, val in request.form.items():
-        #     print('  - ', key, val)
         # Преобразовываем в нужный тип данных
         if agreed_status == 'false':
             agreed_status = False
@@ -1020,14 +1012,6 @@ def save_quick_changes_approved_payments():
             agreed_status = True
         if amount:
             amount = float(amount)
-
-        # print(f"""payment_id {payment_id}
-        # row_id {row_id}
-        # amount {amount}
-        # status_id {status_id}
-        # status_id2 {status_id2}
-        # agreed_status {agreed_status}
-        # """)
 
         user_id = login_app.current_user.get_id()
 
@@ -1215,9 +1199,6 @@ def get_cash_inflow():
             OFFSET 3
             """)
             subcompanies_balances = cursor.fetchall()
-
-            # print(companies_balances)
-            # print(subcompanies_balances)
 
             login_app.conn_cursor_close(cursor, conn)
 
@@ -1490,12 +1471,6 @@ def get_unpaid_payments():
             )
             tab_rows = cursor.fetchone()[0]
 
-            # pprint(all_payments)
-
-            # # Список согласованных платежей
-            # cursor.execute("SELECT * FROM payments_approval")
-            # unapproved_payments = cursor.fetchall()
-
             # Список статусов платежей Андрея
             cursor.execute(
                 """SELECT payment_agreed_status_id,
@@ -1522,6 +1497,37 @@ def get_unpaid_payments():
             )
             money = cursor.fetchone()
 
+            # Список ответственных
+            cursor.execute(
+                "SELECT user_id, last_name, first_name FROM users WHERE is_fired = FALSE ORDER BY last_name, first_name")
+            responsible = cursor.fetchall()
+
+            # Список типов заявок
+            cursor.execute(
+                "SELECT cost_item_id, cost_item_name, cost_item_category FROM payment_cost_items")
+            cost_items_list = cursor.fetchall()
+            # передаём данные в виде словаря для создания сгруппированного выпадающего списка
+            cost_items = {}
+            for item in cost_items_list:
+                key = item[2]
+                value = [item[1], item[0]]
+                if key in cost_items:
+                    cost_items[key].append(value)
+                else:
+                    cost_items[key] = [value]
+
+            # Список объектов
+            cursor.execute("SELECT object_id, object_name FROM objects ORDER BY object_name")
+            objects_name = cursor.fetchall()
+
+            # Список контрагентов
+            cursor.execute("SELECT DISTINCT partner FROM payments_summary_tab ORDER BY partner")
+            partners = cursor.fetchall()
+
+            # Список наших компаний из таблицы contractors
+            cursor.execute("SELECT contractor_id, contractor_name FROM our_companies")
+            our_companies = cursor.fetchall()
+
             login_app.conn_cursor_close(cursor, conn)
 
             # Create profile name dict
@@ -1539,7 +1545,10 @@ def get_unpaid_payments():
 
             return render_template(
                 'payment-pay.html', menu=hlink_menu, menu_profile=hlink_profile,
-                applications=all_payments, approval_statuses=approval_statuses, money=money,
+                applications=all_payments,
+                responsible=responsible, cost_items=cost_items, objects_name=objects_name,
+                partners=partners, our_companies=our_companies,
+                approval_statuses=approval_statuses, money=money,
                 sort_col=sort_col, tab_rows=tab_rows, page=request.path[1:], setting_users=setting_users,
                 title='Оплата платежей')
     except Exception as e:
@@ -1605,8 +1614,6 @@ def get_payment_pay_pagination():
         #     f"{sort_col_2} {sort_col_2_equal} {conv_data_to_db(sort_col_2, col_2_val, all_col_types)} AND "
         #     f"{sort_col_id} {sort_col_id_equal} {conv_data_to_db(sort_col_id, col_id_val, all_col_types)} "
         # )
-
-        # print(where_expression)
 
         cursor.execute(
             f"""SELECT 
@@ -1730,8 +1737,6 @@ def get_payment_pay_pagination():
 
         login_app.conn_cursor_close(cursor, conn)
 
-        pprint(sort_col)
-        print(sort_col_1, sort_col_2, sort_col_id)
 
         # Return the updated data as a response
         return jsonify({
@@ -1819,14 +1824,10 @@ def set_paid_payments():
             execute_values(cursor, query, [pay_id_list_raw])
             approval_sum = cursor.fetchall()
 
-            pprint(approval_sum)
-
             for i in selected_rows:
 
                 row = i - 1
                 status_id = 0
-
-                print('payment_number[row]', payment_number[row])
 
                 # Если согласованная сумма больше суммы к оплате и не стоит галка "закрыть после полной оплаты",
                 # то статус оплаты - "Частичная оплата с закрытием" (id=11); если галка стоит -"Частичная оплата (id=10)
@@ -1854,8 +1855,6 @@ def set_paid_payments():
                                    f'Ошибка с платежом {payment_number[row]}'], category='error')
                     login_app.conn_cursor_close(cursor, conn)
                     return redirect(url_for('.get_unpaid_payments'))
-
-                print(payment_pay_sum[row], 'status_id', status_id)
 
                 if i not in payment_full_agreed_status:
                     pay_id_closed.append((
@@ -2530,7 +2529,6 @@ def get_payment_paid_list_pagination():
         #     f"{sort_col_id} {sort_col_id_equal} {conv_data_to_db(sort_col_id, col_id_val, all_col_types)} "
         # )
 
-        # print(where_expression)
         # current_app.logger.info(f"id{user_id} - {where_expression}")
 
         cursor.execute(
@@ -2805,7 +2803,6 @@ def get_payment_list_pagination():
         col_id = request.get_json()['sort_col_id']
         col_id_val = request.get_json()['sort_col_id_val']
 
-        # pprint(request.get_json())
 
         # Список колонок для сортировки
         sort_col = {
@@ -2856,7 +2853,6 @@ def get_payment_list_pagination():
         #     f"{sort_col_id} {sort_col_id_equal} {conv_data_to_db(sort_col_id, col_id_val, all_col_types)} "
         # )
 
-        # print(where_expression)
 
         cursor.execute(
             f"""SELECT 
@@ -3229,6 +3225,7 @@ def get_card_payment(page_url, payment_id):
 def save_payment():
     """Сохраняем изменения платежа из карточки платежа"""
     try:
+        page_url = request.get_json()['page_url']  # страница с которой запущено сохранение
         payment_id = int(request.get_json()['payment_id'])  # Номера платежей (передаётся id)
 
         basis_of_payment = request.get_json()['basis_of_payment']  # Основание (наименование) платежа
@@ -3256,6 +3253,14 @@ def save_payment():
         approval_sum_dataset = convert_amount(request.get_json()['sum_approval_dataset'])  # Сумма согласования
         payment_full_agreed_status_dataset = request.get_json()['p_full_agreed_s_dataset']  # Сохранить до полной оплаты
         payment_full_agreed_status_dataset = True if payment_full_agreed_status_dataset == 'true' else False
+
+        # На листе оплата платежей часть данных изменить нельзя
+        if page_url == 'payment-pay':
+            cost_item_id = cost_item_id_dataset
+            payment_sum = payment_sum_dataset
+            approval_sum = approval_sum_dataset
+            payment_full_agreed_status = payment_full_agreed_status_dataset
+            object_id = object_id_dataset
 
         user_id = login_app.current_user.get_id()
         status_id = 12  # Статус заявки ("Обновлено")
@@ -3579,8 +3584,6 @@ def annul_payment():
         try:
             columns_p_s_t = ("payment_id", "payment_close_status")
             query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
-            print(query_p_s_t)
-            print(values_p_s_t)
             execute_values(cursor, query_p_s_t, values_p_s_t)
 
             columns_p_d = 'page_name, parent_id::int'
@@ -3692,14 +3695,10 @@ def annul_approval_payment():
             )]
             columns_p_s_t = ("payment_id", "payment_close_status")
             query_p_s_t = get_db_dml_query(action='UPDATE', table='payments_summary_tab', columns=columns_p_s_t)
-            print(query_p_s_t)
-            print(values_p_s_t)
             execute_values(cursor, query_p_s_t, values_p_s_t)
 
         conn.commit()
-        print(1)
         login_app.conn_cursor_close(cursor, conn)
-        print(2)
 
         flash(message=['Согласования аннулированы', ''], category='success')
         return jsonify({'status': 'success'})

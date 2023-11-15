@@ -3,6 +3,7 @@ function getModal(paymentId = null) {
     fetch(`/get_card_payment/${page_url}/${paymentId}`)
         .then(response => response.json())
         .then(data => {
+            const dialog = document.querySelector("#payment-approval__dialog");
 
             document.getElementById('payment_id').textContent = data.payment['payment_id'];
             document.getElementById('payment_number').textContent = data.payment['payment_number'];
@@ -68,6 +69,9 @@ function getModal(paymentId = null) {
 
             document.getElementById('unpaid_approval_sum').textContent = data.payment['approval_to_pay_sum_rub'];
 
+            var bodyRef = document.getElementById('paid_history-table').getElementsByTagName('tbody')[0];
+            bodyRef.innerHTML = ''
+
             if (data.paid.length) {
                 let history_table = document.getElementById('history_tb');
                 for (let i = 0; i < data.paid.length; i++) {
@@ -96,7 +100,8 @@ function getModal(paymentId = null) {
                 document.getElementById('historic_paid_sum').textContent = 0;
             }
 
-            const dialog = document.getElementById("logDPage__content__text");
+            var logDPage = document.getElementById('logDPage__content__text');
+            logDPage.innerHTML = ''
             for (var i = 0; i < data.logs.length; i++) {
                 const entry = document.createElement("p");
                 entry.innerHTML = `
@@ -104,7 +109,7 @@ function getModal(paymentId = null) {
                     ${data.logs[i][2]}. ${data.logs[i][3]}.
                     <span class="logCash"><span class="logCashPay">${data.logs[i][4]}</span> </span>
                 `;
-                dialog.appendChild(entry);
+                logDPage.appendChild(entry);
             }
 
             var title = `
@@ -119,32 +124,33 @@ function getModal(paymentId = null) {
 - Остаток к оплате увеличится на (${data.payment['approval_to_pay_sum_rub']})`
             document.getElementById("annul_approval__edit_btn_i").setAttribute("title", title)
 
-        if (data.user_role == '6') {
-            select.classList.add("input_ro");
-            select.disabled = true;
-            select2.classList.add("input_ro");
-            select2.disabled = true;
-            select3.classList.add("input_ro");
-            select3.disabled = true;
+            if (data.user_role == '6' || page_url == 'payment-pay') {
+                select.classList.add("input_ro");
+                select.disabled = true;
+                select2.classList.add("input_ro");
+                select2.disabled = true;
+                select3.classList.add("input_ro");
+                select3.disabled = true;
 
 
-            document.getElementById('payment_sum').classList.add("input_ro");
-            document.getElementById('payment_sum').disabled = true;
+                document.getElementById('payment_sum').classList.add("input_ro");
+                document.getElementById('payment_sum').disabled = true;
 
-            document.getElementById('sum_unapproved').classList.add("input_ro");
+                document.getElementById('sum_unapproved').classList.add("input_ro");
 
-            document.getElementById('sum_approval').classList.add("input_ro");
-            document.getElementById('sum_approval').disabled = true;
+                document.getElementById('sum_approval').classList.add("input_ro");
+                document.getElementById('sum_approval').disabled = true;
 
-            document.getElementById('paymentFullStatus').classList.add("input_ro");
-            document.getElementById('paymentFullStatus').disabled = true;
+                document.getElementById('paymentFullStatus').classList.add("input_ro");
+                document.getElementById('paymentFullStatus').disabled = true;
 
-            document.getElementById('annul__edit_btn_i').disabled = true;
-            document.getElementById('annul_approval__edit_btn_i').disabled = true;
-            document.getElementById('annul__edit_btn_i').style.visibility = 'hidden';
-            document.getElementById('annul_approval__edit_btn_i').style.visibility = 'hidden';
+                document.getElementById('annul__edit_btn_i').disabled = true;
+                document.getElementById('annul_approval__edit_btn_i').disabled = true;
+                document.getElementById('annul__edit_btn_i').style.visibility = 'hidden';
+                document.getElementById('annul_approval__edit_btn_i').style.visibility = 'hidden';
 
-        }
+            }
+            dialog.showModal();
 
         })
         .catch(error => {

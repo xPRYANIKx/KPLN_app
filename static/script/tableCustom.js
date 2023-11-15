@@ -113,6 +113,7 @@ function tableCustomSave() {
             }
         }
     }
+    var msg = page_url === 'new-payment'? "Изменения сохранены. Обновите страницу": "Изменения сохранены"
 
     if (hide_col_lst.length || show_col_lst.length) {
 
@@ -131,10 +132,14 @@ function tableCustomSave() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
+                        closeDialogTC();
+                        alert(msg)
 
+//                        document.querySelector("#tableCustom").close();
                 }
                 else if (data.status === 'error') {
-                    alert(data.description)
+                    alert(data.description);
+
                 }
                 else {
                     window.location.href = `/${page_url}`;

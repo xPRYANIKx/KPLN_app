@@ -91,7 +91,9 @@ function paymentMyCharts(chart_type) {
                 //                        chart.destroy();
                 //                        modalDialog.close();
                 //                    });
-                return
+                const dialog = document.querySelector("#diagram__dialog");
+                dialog.showModal();
+//                return
             }
             else if (data.status === 'error') {
                 alert(data.description)

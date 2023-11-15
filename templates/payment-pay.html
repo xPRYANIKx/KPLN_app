@@ -3,22 +3,41 @@
 {{ super() }}
 
 <script src="static/script/numberWithSpaces.js"></script>
-<script src="static/script/paymentApprovalSort.js"></script>
+
+
 <script src="static/script/paymentApprovalSaveChanges.js"></script>
 <script src="static/script/paymentApprovalRecalcCards.js"></script>
 <script src="static/script/paymentApprovalColorize.js"></script>
 <script src="static/script/paymentApprovalClearAmountWhenNoSelect.js"></script>
+
+<script src="static/script/checkFormNewPayment.js"></script>
+
+<script src="static/script/application_modal.js"></script>
+
 <script src="static/script/paymentPagination.js" defer></script>
+<script src="static/script/paymentApprovalRefreshSortValueCheckbox.js"></script>
+<script src="static/script/paymentApprovalSort.js"></script>
 <script src="static/script/paymentFilter.js"></script>
 
 <!--<script src="static/script/tableCustom.js" defer></script>-->
 
-<script src="static/script/verificationWindow.js" defer></script>
+<!--<script src="static/script/verificationWindow.js" defer></script>-->
 
 <body id="payment-pay_page">
 
     {% endblock %}
     {% block content %}
+
+    {% include "_card-payment.html" %}
+    {% include "_card-tableCustom.html" %}
+
+    <dialog id="verification_dialog">
+        <p id="paragraph_question">Хотите продолжить?</p>
+        <div>
+            <button type="button" id="verification_dialog__cancel">Отмена</button>
+            <button type="button" id="verification_dialog__next">Продолжить</button>
+        </div>
+    </dialog>
 
     <div class="tpages_top_panel">
         <h1><img src="static/img/h1/paymentpay.png"> {{title}}</h1>
@@ -44,18 +63,6 @@
     <div id="sortCol-2_val" hidden>{{ sort_col['col_2'][2] }}</div>
     <div id="sortCol-id" hidden>{{ sort_col['col_id'][0] }}#{{ sort_col['col_id'][1] }}</div>
     <div id="sortCol-id_val" hidden>{{ sort_col['col_id'][2] }}</div>
-
-
-    {% include "_card-tableCustom.html" %}
-
-    <dialog id="verification_dialog">
-        <p id="paragraph_question">Хотите продолжить?</p>
-        <div>
-            <button type="button" id="verification_dialog__cancel">Отмена</button>
-            <button type="button" id="verification_dialog__next">Продолжить</button>
-        </div>
-    </dialog>
-
 
     <form id="paymentForm" action="/payment-pay" method="POST">
         <div class="paymentFormBtn">
@@ -146,7 +153,7 @@
                         <td data-sort="{{ application.payment_id }}"
                             {% if '2' in setting_users %}hidden{% endif %}>
                         {{application.payment_number}}</td>
-                        <td class="th_name_i showModalId" data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}"
+                        <td class="th_name_i" data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}"
                             onclick="getModal({{ application.payment_id }})"
                             {% if '3' in setting_users %}hidden{% endif %}>
                         {{ application.basis_of_payment }}

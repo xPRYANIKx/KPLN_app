@@ -120,7 +120,7 @@
                 </thead>
                 <tbody>
                     {% for application in applications %}
-                    <tr class="showModalId" id="row-{{ loop.index }}" data-sort="{{ loop.index }}" onclick="getModal({{ application.payment_id }})" >
+                    <tr id="row-{{ loop.index }}" data-sort="{{ loop.index }}" onclick="getModal({{ application.payment_id }})" >
                         <td data-sort="{{ application.payment_id }}" {% if '0' in setting_users %}hidden{% endif %}>
                             {{ application.payment_number }}
                         </td>

@@ -1,4 +1,3 @@
-const element = document.querySelector(".showModalId");
 const crossButton = document.querySelector("#crossBtn");
 const closeButton = document.querySelector("#closeBtn");
 const dialog = document.querySelector("#payment-approval__dialog");
@@ -6,18 +5,6 @@ const annulPaymentButton = document.querySelector("#annul__edit_btn");
 const annulApprovalButton = document.querySelector("#annul_approval__edit_btn");
 const saveButton = document.querySelector("#save__edit_btn");
 var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
-
-
-var elements = document.getElementsByClassName("showModalId");
-for (var i = 0; i < elements.length; i++) {
-    elements[i].addEventListener("click", function () {
-        var bodyRef = document.getElementById('paid_history-table').getElementsByTagName('tbody')[0];
-        bodyRef.innerHTML = ''
-        var logDPage = document.getElementById('logDPage__content__text');
-        logDPage.innerHTML = ''
-        dialog.showModal();
-    });
-}
 
 crossButton.addEventListener("click", closeDialog);
 function closeDialog() {
@@ -151,7 +138,8 @@ function savePayment() {
             'sum_approval': sum_approval,
             'sum_approval_dataset': sum_approval_dataset,
             'payment_full_agreed_status': payment_full_agreed_status,
-            'p_full_agreed_s_dataset': payment_full_agreed_status_dataset
+            'p_full_agreed_s_dataset': payment_full_agreed_status_dataset,
+            'page_url': page_url
         })
     })
         .then(response => response.json())

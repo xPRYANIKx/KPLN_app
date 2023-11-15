@@ -26,8 +26,6 @@ class FDataBase:
             user_priority = form_data.get('user_priority')
             password = generate_password_hash(form_data.get('password'))
 
-            print(first_name, last_name, surname, email, user_priority, password, user_role, sep='\n')
-
             query = """INSERT INTO users (first_name, last_name, surname, email, user_priority, password, user_role_id)
                             VALUES (%s, %s, %s, %s, %s, %s, %s)"""
             values = (first_name, last_name, surname, email, user_priority, password, user_role)
