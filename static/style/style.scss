@@ -1817,6 +1817,18 @@ footer {
                         .th_date_create_i {
                             cursor: pointer;
                         }
+                        .th_category_i:hover,
+                        .th_name_i:hover,
+                        .th_description_i:hover,
+                        .th_object_i:hover,
+                        .th_responsible_i:hover,
+                        .th_contractor_i:hover,
+                        .th_main_sum_i:hover,
+                        .th_sum_remain_i:hover,
+                        .th_pay_date_i:hover,
+                        .th_date_create_i:hover {
+                            background-color: #00000008;
+                        }
                     }
                 }
             }
@@ -1885,6 +1897,19 @@ footer {
     .th_pay_date_i,
     .th_date_create_i {
         cursor: pointer;
+    }
+    .th_payment_number:hover,
+    .th_category_i:hover,
+    .th_name_i:hover,
+    .th_description_i:hover,
+    .th_object_i:hover,
+    .th_responsible_i:hover,
+    .th_contractor_i:hover,
+    .th_main_sum_i:hover,
+    .th_sum_remain_i:hover,
+    .th_pay_date_i:hover,
+    .th_date_create_i:hover {
+        background-color: #00000008;
     }
 }
 
@@ -1957,6 +1982,21 @@ footer {
     .th_date_create_i {
         cursor: pointer;
     }
+
+    .th_category_i:hover,
+    .th_name_i:hover,
+    .th_payment_number_i:hover,
+    .th_description_i:hover,
+    .th_object_i:hover,
+    .th_responsible_i:hover,
+    .th_contractor_i:hover,
+    .th_main_sum_i:hover,
+    .th_paid_sum_i:hover,
+    .th_sum_remain_i:hover,
+    .th_date_create_i:hover {
+        background-color: #00000008;
+    }
+
     .th_nnumber {
         min-width: 210px;
     }

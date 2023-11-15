@@ -2185,6 +2185,18 @@ footer .footer_company__copyright {
 #payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_date_create_i {
   cursor: pointer;
 }
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_category_i:hover,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_name_i:hover,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_description_i:hover,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_object_i:hover,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_responsible_i:hover,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_contractor_i:hover,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_main_sum_i:hover,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_sum_remain_i:hover,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_pay_date_i:hover,
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_date_create_i:hover {
+  background-color: rgba(0, 0, 0, 0.031372549);
+}
 
 #payment-approval-list_page #paymentForm {
   margin: 0px;
@@ -2236,6 +2248,19 @@ footer .footer_company__copyright {
 #payment-approval-list_page .th_pay_date_i,
 #payment-approval-list_page .th_date_create_i {
   cursor: pointer;
+}
+#payment-approval-list_page .th_payment_number:hover,
+#payment-approval-list_page .th_category_i:hover,
+#payment-approval-list_page .th_name_i:hover,
+#payment-approval-list_page .th_description_i:hover,
+#payment-approval-list_page .th_object_i:hover,
+#payment-approval-list_page .th_responsible_i:hover,
+#payment-approval-list_page .th_contractor_i:hover,
+#payment-approval-list_page .th_main_sum_i:hover,
+#payment-approval-list_page .th_sum_remain_i:hover,
+#payment-approval-list_page .th_pay_date_i:hover,
+#payment-approval-list_page .th_date_create_i:hover {
+  background-color: rgba(0, 0, 0, 0.031372549);
 }
 
 #payment-paid-list_page #paymentForm {
@@ -2301,6 +2326,19 @@ footer .footer_company__copyright {
 #payment-pay_page .th_sum_remain_i,
 #payment-pay_page .th_date_create_i {
   cursor: pointer;
+}
+#payment-pay_page .th_category_i:hover,
+#payment-pay_page .th_name_i:hover,
+#payment-pay_page .th_payment_number_i:hover,
+#payment-pay_page .th_description_i:hover,
+#payment-pay_page .th_object_i:hover,
+#payment-pay_page .th_responsible_i:hover,
+#payment-pay_page .th_contractor_i:hover,
+#payment-pay_page .th_main_sum_i:hover,
+#payment-pay_page .th_paid_sum_i:hover,
+#payment-pay_page .th_sum_remain_i:hover,
+#payment-pay_page .th_date_create_i:hover {
+  background-color: rgba(0, 0, 0, 0.031372549);
 }
 #payment-pay_page .th_nnumber {
   min-width: 210px;
