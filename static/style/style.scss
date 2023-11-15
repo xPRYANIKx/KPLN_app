@@ -1109,7 +1109,6 @@ footer {
                 -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
                 -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
                 box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-
                 .card__title {
                     border-bottom: solid 1px #d5d5d5;
                     font-weight: bold;
@@ -1120,6 +1119,9 @@ footer {
                     color: #808080;
                     font-size: 12px;
                 }
+            }
+            .hcard:hover {
+                background-color: #00000018;
             }
             #card_available_money,
             #card_account_money {
@@ -1982,7 +1984,6 @@ footer {
     .th_date_create_i {
         cursor: pointer;
     }
-
     .th_category_i:hover,
     .th_name_i:hover,
     .th_payment_number_i:hover,

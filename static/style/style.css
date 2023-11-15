@@ -1209,6 +1209,13 @@ footer .footer_company__copyright {
   color: #808080;
   font-size: 12px;
 }
+#payment-approval_page .tpages_top_panel .cards_container .hcard:hover,
+#payment-approval-list_page .tpages_top_panel .cards_container .hcard:hover,
+#payment-paid-list_page .tpages_top_panel .cards_container .hcard:hover,
+#payment-pay_page .tpages_top_panel .cards_container .hcard:hover,
+#payment-list_page .tpages_top_panel .cards_container .hcard:hover {
+  background-color: rgba(0, 0, 0, 0.0941176471);
+}
 #payment-approval_page .tpages_top_panel .cards_container #card_available_money,
 #payment-approval_page .tpages_top_panel .cards_container #card_account_money,
 #payment-approval-list_page .tpages_top_panel .cards_container #card_available_money,
