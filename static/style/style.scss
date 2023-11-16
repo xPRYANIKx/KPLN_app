@@ -1971,6 +1971,17 @@ footer {
     .tableR {
         max-height: calc(100vh - 440px);
     }
+
+    #payment-table {
+        .fix_thead {
+            tr {
+                th {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
     .th_category_i,
     .th_name_i,
     .th_payment_number_i,

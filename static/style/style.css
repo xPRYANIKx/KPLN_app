@@ -2321,6 +2321,9 @@ footer .footer_company__copyright {
 #payment-pay_page .tableR {
   max-height: calc(100vh - 440px);
 }
+#payment-pay_page #payment-table .fix_thead tr th {
+  cursor: pointer;
+}
 #payment-pay_page .th_category_i,
 #payment-pay_page .th_name_i,
 #payment-pay_page .th_payment_number_i,
