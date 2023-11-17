@@ -749,7 +749,7 @@ def set_approved_payments():
                 ])
 
             if not values_a_h:
-                flash(message=['Ничего не выбрано', ''], category='error')
+                flash(message=['Не выбрано ни одной заявки', ''], category='error')
                 return redirect(url_for('.get_unapproved_payments'))
 
             conn, cursor = login_app.conn_cursor_init_dict()
@@ -1773,6 +1773,11 @@ def set_paid_payments():
             payment_full_agreed_status = request.form.getlist('payment_full_agreed_status')  # Сохранить до полной опл.
 
             selected_rows = [int(i) for i in selected_rows]
+
+            if not sum(selected_rows):
+                flash(message=['Не выбрано ни одной заявки', ''], category='error')
+                return redirect(url_for('.get_unpaid_payments'))
+
             contractor_id = [int(i) for i in contractor_id]
             payment_number = [int(i) for i in payment_number]
             payment_pay_sum = [convert_amount(i) for i in payment_pay_sum]
@@ -4062,3 +4067,20 @@ def get_tab_settings(user_id=0, list_name=0, unit_name=0, unit_value=0):
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
         current_app.logger.info(f"get_tab_settings  -  id{user_id} - {e}")
         return False
+
+
+# @payment_app_bp.route('/_test')
+# @login_required
+# def tst_pa11yment():
+#     """Страница создания новой заявки на оплату"""
+#     # try:
+#     global hlink_menu, hlink_profile
+#
+#     hlink_menu, hlink_profile = login_app.func_hlink_profile()
+#
+#     return render_template('_test.html', menu=hlink_menu, menu_profile=hlink_profile,
+#
+#                            title='tst')
+#     # except Exception as e:
+#     #     current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
+#     #     return f'payment ❗❗❗ Ошибка \n---{e}'

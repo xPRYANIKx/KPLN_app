@@ -177,25 +177,30 @@ $(document).ready(function() {
                             td_4 = td[4];
                             td_4.dataset.sort = pmt['object_name'];
                             td_4.textContent = pmt['object_name'];
+                            td_4.setAttribute("onclick", `getModal(${pmt['payment_id']})`);
 
                             // Ответственный
                             td_5 = td[5];
                             td_5.dataset.sort = `${pmt['last_name']} ${pmt['first_name']}`;
                             td_5.textContent = `${pmt['last_name']} ${pmt['first_name'][0]}.`;
+                            td_5.setAttribute("onclick", `getModal(${pmt['payment_id']})`);
 
                             // Контрагент
                             td_6 = td[6];
                             td_6.dataset.sort = pmt['partner'];
                             td_6.textContent = pmt['partner'];
+                            td_6.setAttribute("onclick", `getModal(${pmt['payment_id']})`);
 
                             // Общая сумма
                             td_7 = td[7];
                             td_7.dataset.sort = pmt['payment_sum'];
                             td_7.textContent = pmt['payment_sum_rub'];
+                            td_7.setAttribute("onclick", `getModal(${pmt['payment_id']})`);
 
                             // Остаток к оплате
                             td_8 = td[8];
                             td_8.dataset.sort = pmt['approval_sum'];
+                            td_8.setAttribute("onclick", `getModal(${pmt['payment_id']})`);
                             var td_8_input = document.createElement("input");
                             td_8_input.type = "text";
                             td_8_input.id = `approvalSum-${numRow}`;
@@ -223,6 +228,7 @@ $(document).ready(function() {
                             td_10 = td[10];
                             td_10.dataset.sort = pmt['payment_due_date'];
                             td_10.textContent = pmt['payment_due_date_txt'];
+                            td_10.setAttribute("onclick", `getModal(${pmt['payment_id']})`);
 
                             // Статус
                             td_11 = td[11];
@@ -240,6 +246,7 @@ $(document).ready(function() {
                             td_12 = td[12];
                             td_12.dataset.sort = pmt['payment_at'];
                             td_12.textContent = pmt['payment_at_txt'];
+                            td_12.setAttribute("onclick", `getModal(${pmt['payment_id']})`);
 
                             // До полной оплаты
                             td_13 = td[13];

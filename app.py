@@ -10,7 +10,7 @@ from datetime import timedelta
 app = Flask(__name__)
 
 app.config['SESSION_PERMANENT'] = True
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours = 5)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=5)  # hours
 
 app.config['SECRET_KEY'] = 'kLzQ%5vYkv*2rh)P_?Npvv2AZT@TkbPp=i?]#=cR]R)>YXL1Wpz?PvFNZf9A'
 

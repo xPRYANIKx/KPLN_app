@@ -172,36 +172,32 @@
                             {{ application.basis_of_payment }}
                         </td>
                         <td class="th_description_i" data-sort="{{ application.contractor_name }}: {{ application.payment_description }}"
-                            onclick="getModal({{ application.payment_id }})" title="{{ application.payment_description }}" {% if '3' in setting_users %}hidden{%
-                            endif %}>
+                            onclick="getModal({{ application.payment_id }})" title="{{ application.payment_description }}"
+                            {% if '3' in setting_users %}hidden{% endif %}>
                             <span class="paymentFormBold">{{ application.contractor_name }}: </span>{{ application.payment_description }}
                         </td>
-                        <td class="th_object_i" data-sort="{{application.object_name}}" onclick="getModal({{ application.payment_id }})" {% if '4'
-                            in setting_users %}hidden{% endif %}>
+                        <td class="th_object_i" data-sort="{{application.object_name}}" onclick="getModal({{ application.payment_id }})" {% if '4' in setting_users %}hidden{% endif %}>
                             {{ application.object_name}}
                         </td>
-                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name }}"
-                            onclick="getModal({{ application.payment_id }})" {% if '5' in setting_users %}hidden{% endif %}>
+                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name }}" onclick="getModal({{ application.payment_id }})" {% if '5' in setting_users %}hidden{% endif %}>
                             {{ application.last_name }} {{ application.first_name[0] }}.
                         </td>
-                        <td class="th_contractor_i" data-sort="{{ application.partner }}" onclick="getModal({{ application.payment_id }})" {% if '6'
-                            in setting_users %}hidden{% endif %}>
+                        <td class="th_contractor_i" data-sort="{{ application.partner }}" onclick="getModal({{ application.payment_id }})" {% if '6' in setting_users %}hidden{% endif %}>
                             {{ application.partner }}
                         </td>
-                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}" onclick="getModal({{ application.payment_id }})" {%
-                            if '7' in setting_users %}hidden{% endif %}>
+                        <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}" onclick="getModal({{ application.payment_id }})" {% if '7' in setting_users %}hidden{% endif %}>
                             {{ application.payment_sum_rub }}
                         </td>
-                        <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}" onclick="getModal({{ application.payment_id }})" {%
-                            if '8' in setting_users %}hidden{% endif %}>
+                        <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}" onclick="getModal({{ application.payment_id }})" {% if '8' in setting_users %}hidden{% endif %}>
                             <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>
                             {{ application.approval_sum_rub}}
                         </td>
-                        <td class="th_sum_agreed_i" data-sort="{{ application.amount }}" {% if '9' in setting_users %}hidden{% endif %}>
+                        <td class="th_sum_agreed_i" data-sort="{{ application.amount }}"
+                            {% if '9' in setting_users %}hidden{% endif %}>
                             <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}" data-amount=0
                                 onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}'), refreshSortValAmount({{ loop.index }})">
                         </td>
-                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}" {% if '10' in setting_users %}hidden{% endif %}>
+                        <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}" onclick="getModal({{ application.payment_id }})" {% if '10' in setting_users %}hidden{% endif %}>
                             {{ application.payment_due_date_txt }}
                         </td>
                         <td class="th_status_i" id="status-{{ loop.index }}" data-sort="{{ application.status_id }}" {% if '11' in setting_users %}hidden{%
@@ -215,7 +211,7 @@
                                 {% endfor %}
                             </select>
                         </td>
-                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}" {% if '12' in setting_users %}hidden{% endif %}>
+                        <td class="th_date_create_i" data-sort="{{ application.payment_at }}" onclick="getModal({{ application.payment_id }})" {% if '12' in setting_users %}hidden{% endif %}>
                             {{ application.payment_at_txt }}
                         </td>
                         <td class="th_save_pay_i" data-sort="{% if application.payment_full_agreed_status %}1{% else %}0{% endif %}" {% if '13' in setting_users

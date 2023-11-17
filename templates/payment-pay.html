@@ -139,10 +139,9 @@
                 <tbody>
                     {% for application in applications %}
                     <tr id="row-{{ loop.index }}">
-                        <td class="th_select_i" data-sort="0"
-                            {% if '0' in setting_users %}hidden{% endif %}>
+                        <td class="th_select_i" data-sort="0" {% if '0' in setting_users %}hidden{% endif %}>
                             <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{ loop.index }}"
-                                onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }})">
+                                onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }}), refreshSortValChb({{ loop.index }})">
                         </td>
                         <td class="th_category_i" id="category-{{ loop.index }}" data-sort="{{ application.cost_item_name }}"
                             onclick="getModal({{ application.payment_id }})"
@@ -151,6 +150,7 @@
                             {{ application.cost_item_name }}
                         </td>
                         <td data-sort="{{ application.payment_id }}"
+                            onclick="getModal({{ application.payment_id }})"
                             {% if '2' in setting_users %}hidden{% endif %}>
                         {{application.payment_number}}</td>
                         <td class="th_name_i" data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}"
@@ -160,31 +160,38 @@
                         </td>
                         <td class="th_description_i" data-sort="{{ application.contractor_name }}: {{ application.payment_description }}"
                             title="{{ application.payment_description }}"
+                            onclick="getModal({{ application.payment_id }})"
                             {% if '4' in setting_users %}hidden{% endif %}>
                             <input name="contractor_id" value="{{ application.contractor_id }}" hidden readonly>
                             <span class="paymentFormBold">{{ application.contractor_name }}: </span>{{ application.payment_description }}
                         </td>
                         <td class="th_object_i" data-sort="{{ application.object_name }}"
+                            onclick="getModal({{ application.payment_id }})"
                             {% if '5' in setting_users %}hidden{% endif %}>
                             {{ application.object_name}}
                         </td>
                         <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name }}"
+                            onclick="getModal({{ application.payment_id }})"
                             {% if '6' in setting_users %}hidden{% endif %}>
                             {{ application.last_name }} {{ application.first_name[0] }}.
                         </td>
                         <td class="th_contractor_i" data-sort="{{ application.partner }}"
+                            onclick="getModal({{ application.payment_id }})"
                             {% if '7' in setting_users %}hidden{% endif %}>
                             {{ application.partner }}
                         </td>
                         <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}"
+                            onclick="getModal({{ application.payment_id }})"
                             {% if '8' in setting_users %}hidden{% endif %}>
                             {{ application.payment_sum_rub }}
                         </td>
                         <td data-sort="{{ application.paid_sum }}"
+                            onclick="getModal({{ application.payment_id }})"
                             {% if '9' in setting_users %}hidden{% endif %}>
                             {{ application.paid_sum_rub }}
                         </td>
                         <td class="th_sum_remain_i" data-sort="{{ application.approval_sum }}"
+                            onclick="getModal({{ application.payment_id }})"
                             {% if '10' in setting_users %}hidden{% endif %}>
                             <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{ application.approval_sum }}" hidden readonly>
                             {{ application.approval_sum_rub }}
@@ -195,10 +202,12 @@
                                 onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
                         </td>
                         <td class="th_date_create_i" data-sort="{{ application.payment_due_date }}"
+                            onclick="getModal({{ application.payment_id }})"
                             {% if '12' in setting_users %}hidden{% endif %}>
                             {{ application.payment_due_date_txt }}
                         </td>
                         <td class="th_date_create_i" data-sort="{{ application.payment_at }}"
+                            onclick="getModal({{ application.payment_id }})"
                             {% if '13' in setting_users %}hidden{% endif %}>
                             {{ application.payment_at_txt }}
                         </td>
@@ -206,7 +215,7 @@
                             {% if '14' in setting_users %}hidden{% endif %}>
                             <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{ loop.index }}" {% if
                                 application.payment_full_agreed_status %}checked{% endif %}
-                                onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }})">
+                                onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }}), refreshSortValChb({{ loop.index }})">
                         </td>
 
                     </tr>

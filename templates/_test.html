@@ -2,33 +2,44 @@
 <html>
 <head>
 
+    <script src="static/script/PrAndTasks_addRow.js"></script>
 
+<style>
+    table {
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+
+    button {
+      margin-right: 8px;
+    }
+</style>
 
 </head>
 <body>
-    <canvas id="myCanvas"></canvas>
+    <table id="myTable">
+        <tr class="book">
+            <td>
+                <button onclick="addRow(this, 'Before')">▲+</button>
+                <button onclick="addRow(this, 'After')">▼+</button>
+            </td>
+            <td>Том АР-1</td>
+            <td><input type="text" class="sec_col" value="а"></td>
+        </tr>
+        <tr class="task">
+            <td>
+                <button onclick="addRow(this, 'Before')">▲+</button>
+                <button onclick="addRow(this, 'After')">▼+</button>
+            </td>
+            <td><input type="text" class="first_col" value="б1"></td>
+            <td><input type="text" class="sec_col" value="б"></td>
+        </tr>
 
-
-
-    <script>
-        const canvas = document.getElementById('myCanvas');
-        const ctx = canvas.getContext('2d');
-
-        const cellWidth = 20;
-        const cellHeight = 20;
-        const numRows = 2000;
-        const numCols = 150;
-
-        canvas.width = cellWidth * numCols;
-        canvas.height = cellHeight * numRows;
-
-        for (let i = 0; i < numRows; i++) {
-          for (let j = 0; j < numCols; j++) {
-            ctx.strokeRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
-          }
-        }
-    </script>
-
+    </table>
 
 
 </body>
