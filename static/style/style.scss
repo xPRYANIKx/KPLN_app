@@ -900,7 +900,7 @@ footer {
             }
         }
         #basis_of_payment {
-            height: 62px;
+            height: 30px;
         }
         .form_p__description {
             margin: 4px 0px 5px 0px;
@@ -920,9 +920,6 @@ footer {
                     width: 320px !important;
                 }
             }
-        }
-        #payment_description {
-            margin-bottom: 8px;
         }
         #payment_description::placeholder {
             font-size: 12px;
@@ -2280,9 +2277,6 @@ footer {
                         margin-top: 5px;
                     }
                 }
-                #payment_description {
-                    margin-bottom: 0px;
-                }
                 #payment_description::placeholder {
                     font-size: 11px;
                 }
@@ -2654,9 +2648,6 @@ footer {
                             }
                         }
                     }
-                }
-                #payment_description {
-                    margin-bottom: 10px;
                 }
                 #payment_description::placeholder {
                     font-size: 9px;

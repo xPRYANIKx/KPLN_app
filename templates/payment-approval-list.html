@@ -56,8 +56,7 @@
 
     <!--    <div class="help_info"><img src="static/img/interface/warning.png"> Каждое согласование отображается отдельной строкой</div>-->
     <div class="paymentFormBtn">
-        <button type="button" id="visualTablePA" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
-            таблицы</button>
+        <button type="button" id="visualTablePA" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение таблицы</button>
     </div>
     <div class="tableR">
         <form id="paymentForm" style="align-self: flex-start">
@@ -127,20 +126,17 @@
                         <td class="th_category_i" data-sort="{{ application.cost_item_name }}" {% if '1' in setting_users %}hidden{% endif %}>
                             {{ application.cost_item_name }}
                         </td>
-                        <td class="th_name_i" data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}" {% if '2' in
-                            setting_users %}hidden{% endif %}>
+                        <td class="th_name_i" data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}" {% if '2' in setting_users %}hidden{% endif %}>
                             {{ application.basis_of_payment_short }}
                         </td>
-                        <td class="th_description_i" data-sort="{{ application.basis_of_payment }}: {{ application.basis_of_payment }}"
-                            title="{{ application.payment_description }}" {% if '3' in setting_users %}hidden{% endif %}>
+                        <td class="th_description_i" data-sort="{{ application.basis_of_payment }}: {{ application.basis_of_payment }}" title="{{ application.payment_description }}" {% if '3' in setting_users %}hidden{% endif %}>
                             <span class="paymentFormBold">{{ application.contractor_name }}: </span>
                             {{ application.payment_description_short }}
                         </td>
                         <td class="th_object_i" data-sort="{{ application.object_name }}" {% if '4' in setting_users %}hidden{% endif %}>
                             {{ application.object_name }}
                         </td>
-                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}" {% if '5' in setting_users
-                            %}hidden{% endif %}>
+                        <td class="th_responsible_i" data-sort="{{ application.last_name }} {{ application.first_name[0] }}" {% if '5' in setting_users %}hidden{% endif %}>
                             {{ application.last_name }} {{ application.first_name[0] }}.
                         </td>
                         <td class="th_contractor_i" data-sort="{{ application.partner }}" {% if '6' in setting_users %}hidden{% endif %}>

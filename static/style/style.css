@@ -981,7 +981,7 @@ footer .footer_company__copyright {
   background-color: white;
 }
 #new_payment_page #new_payment_form #basis_of_payment {
-  height: 62px;
+  height: 30px;
 }
 #new_payment_page #new_payment_form .form_p__description {
   margin: 4px 0px 5px 0px;
@@ -1001,9 +1001,6 @@ footer .footer_company__copyright {
 }
 #new_payment_page #new_payment_form .unitedform #objects_name_div .select2-container--default {
   width: 320px !important;
-}
-#new_payment_page #new_payment_form #payment_description {
-  margin-bottom: 8px;
 }
 #new_payment_page #new_payment_form #payment_description::-moz-placeholder {
   font-size: 12px;
@@ -2648,9 +2645,6 @@ footer .footer_company__copyright {
   #new_payment_page .window_form_in_page #new_payment_form .unitedform .type_app {
     margin-top: 5px;
   }
-  #new_payment_page .window_form_in_page #new_payment_form #payment_description {
-    margin-bottom: 0px;
-  }
   #new_payment_page .window_form_in_page #new_payment_form #payment_description::-moz-placeholder {
     font-size: 11px;
   }
@@ -3029,9 +3023,6 @@ footer .footer_company__copyright {
   }
   #new_payment_page .window_form_in_page #new_payment_form div select optgroup option {
     font-size: 10px;
-  }
-  #new_payment_page .window_form_in_page #new_payment_form #payment_description {
-    margin-bottom: 10px;
   }
   #new_payment_page .window_form_in_page #new_payment_form #payment_description::-moz-placeholder {
     font-size: 9px;

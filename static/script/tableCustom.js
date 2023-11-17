@@ -17,17 +17,17 @@ if (page_url !== 'new-payment') {
     table = document.getElementById("payment-table");
     cols = table.getElementsByTagName("tr")[0].getElementsByTagName("th");
 
-    for (var i=0; i<cols.length; i++) {
+    for (var i = 0; i < cols.length; i++) {
         var jj = cols[i].getElementsByTagName("div")[0].innerHTML.split('&nbsp;')[0];
         col_lst.push(jj)
-        hide_status_lst.push(cols[i].getAttribute('hidden')==null? true:false)
+        hide_status_lst.push(cols[i].getAttribute('hidden') == null ? true : false)
     }
 
 
     var table_columns_list = document.getElementById('columns_list');
 
     if (col_lst.length) {
-        for (var i=0; i<col_lst.length; i++) {
+        for (var i = 0; i < col_lst.length; i++) {
 
             let newRow = document.createElement("tr");
 
@@ -63,7 +63,7 @@ function tableCustomSave() {
     show_col_lst = [];
 
     if (page_url === 'new-payment') {
-        for (var i=0; i<table_custom2.length; i++) {
+        for (var i = 0; i < table_custom2.length; i++) {
             row = table_custom2[i].getElementsByTagName("td");
             if (!row[1].getElementsByTagName("input")[0].checked) {
                 hide_col_lst.push(row[0].id);
@@ -75,7 +75,7 @@ function tableCustomSave() {
     }
 
     else if (page_url !== 'new-payment') {
-        for (var i=0; i<table_custom2.length; i++) {
+        for (var i = 0; i < table_custom2.length; i++) {
             row = table_custom2[i].getElementsByTagName("td");
             if (!row[1].getElementsByTagName("input")[0].checked) {
                 hide_col_lst.push(i);
@@ -90,52 +90,52 @@ function tableCustomSave() {
         rows2 = table2.getElementsByTagName("tr")[0].getElementsByTagName("th");
         show_col_lst2 = [];
 
-        for (var i=0; i<rows2.length; i++) {
+        for (var i = 0; i < rows2.length; i++) {
             if (rows2[i].getAttribute("hidden") !== null) {
                 for (var s of show_col_lst) {
-                    i==s? show_col_lst2.push(i): 1;
+                    i == s ? show_col_lst2.push(i) : 1;
                 }
             }
         }
 
         if (hide_col_lst.length) {
             for (var i of hide_col_lst) {
-                $(`#payment-table th:nth-child(${i+1})`).attr("hidden", true);
-                $(`#payment-table td:nth-child(${i+1})`).attr("hidden", true);
+                $(`#payment-table th:nth-child(${i + 1})`).attr("hidden", true);
+                $(`#payment-table td:nth-child(${i + 1})`).attr("hidden", true);
             }
         }
 
         show_col_lst = show_col_lst2
         if (show_col_lst.length) {
             for (var i of show_col_lst) {
-                $(`#payment-table th:nth-child(${i+1})`).removeAttr('hidden');
-                $(`#payment-table td:nth-child(${i+1})`).removeAttr('hidden');
+                $(`#payment-table th:nth-child(${i + 1})`).removeAttr('hidden');
+                $(`#payment-table td:nth-child(${i + 1})`).removeAttr('hidden');
             }
         }
     }
-    var msg = page_url === 'new-payment'? "Изменения сохранены. Обновите страницу": "Изменения сохранены"
+    var msg = page_url === 'new-payment' ? "Изменения сохранены. Обновите страницу" : "Изменения сохранены"
 
     if (hide_col_lst.length || show_col_lst.length) {
 
-        var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
+        var page_url = document.URL.substring(document.URL.lastIndexOf('/') + 1);
 
         fetch('/save_tab_settings', {
-                "headers": {
-                    'Content-Type': 'application/json'
-                },
-                "method": "POST",
-                "body": JSON.stringify({
-                    'page_url': page_url,
-                    'hide_list': hide_col_lst
-                })
+            "headers": {
+                'Content-Type': 'application/json'
+            },
+            "method": "POST",
+            "body": JSON.stringify({
+                'page_url': page_url,
+                'hide_list': hide_col_lst
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        closeDialogTC();
-                        alert(msg)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    closeDialogTC();
+                    alert(msg)
 
-//                        document.querySelector("#tableCustom").close();
+                    //                        document.querySelector("#tableCustom").close();
                 }
                 else if (data.status === 'error') {
                     alert(data.description);
