@@ -149,10 +149,11 @@
                             <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>
                             {{ application.cost_item_name }}
                         </td>
-                        <td data-sort="{{ application.payment_id }}"
+                        <td class="th_payment_number_i" data-sort="{{ application.payment_id }}"
                             onclick="getModal({{ application.payment_id }})"
                             {% if '2' in setting_users %}hidden{% endif %}>
-                        {{application.payment_number}}</td>
+                            {{application.payment_number}}
+                        </td>
                         <td class="th_name_i" data-sort="{{ application.basis_of_payment }}" title="{{ application.basis_of_payment }}"
                             onclick="getModal({{ application.payment_id }})"
                             {% if '3' in setting_users %}hidden{% endif %}>
@@ -185,7 +186,7 @@
                             {% if '8' in setting_users %}hidden{% endif %}>
                             {{ application.payment_sum_rub }}
                         </td>
-                        <td data-sort="{{ application.paid_sum }}"
+                        <td class="th_paid_sum_i" data-sort="{{ application.paid_sum }}"
                             onclick="getModal({{ application.payment_id }})"
                             {% if '9' in setting_users %}hidden{% endif %}>
                             {{ application.paid_sum_rub }}
