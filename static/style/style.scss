@@ -1811,6 +1811,10 @@ footer {
                 }
                 tbody {
                     tr {
+                        .th_select_i input,
+                        .th_save_pay_i input {
+                            cursor: pointer;
+                        }
                         .th_description_i {
                             cursor: pointer;
                             color: #022233;
