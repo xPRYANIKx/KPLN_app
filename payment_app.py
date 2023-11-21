@@ -301,18 +301,18 @@ def get_unapproved_payments():
             # Список платежей со статусом "new"
             cursor.execute(
                 f"""SELECT 
-                        t1.payment_id,
-                        t3.contractor_name, 
-                        t3.contractor_id, 
-                        t4.cost_item_name, 
-                        t1.payment_number,  
-                        SUBSTRING(t1.basis_of_payment, 1,70) AS basis_of_payment_short,
-                        t1.basis_of_payment, 
+                        t1.payment_id, 
                         t5.user_id,
                         t5.first_name,
                         t5.last_name,
-                        SUBSTRING(t1.payment_description, 1,70) AS payment_description_short,
-                        t1.payment_description, 
+                        concat_ws(', ', t3.contractor_name, t6.object_name, 
+                            CASE
+                                WHEN t1.partner<>'' THEN t1.partner
+                            END) AS descr_part1,
+                        SUBSTRING(
+                            concat_ws(' - ', t1.basis_of_payment, t1.payment_description),
+                             1,70) AS payment_description_short,
+                        concat_ws(' - ', t1.basis_of_payment, t1.payment_description) AS payment_description,
                         COALESCE(t6.object_name, '') AS object_name,
                         t1.partner,
                         t1.payment_sum,
@@ -348,11 +348,6 @@ def get_unapproved_payments():
                         contractor_name
                     FROM our_companies            
                 ) AS t3 ON t1.our_companies_id = t3.contractor_id
-                LEFT JOIN (
-                    SELECT cost_item_id,
-                        cost_item_name
-                    FROM payment_cost_items            
-                ) AS t4 ON t1.cost_item_id = t4.cost_item_id
                 LEFT JOIN (
                         SELECT user_id,
                             first_name,
@@ -539,21 +534,20 @@ def get_payment_approval_pagination():
         #     f"{sort_col_id} {sort_col_id_equal} {conv_data_to_db(sort_col_id, col_id_val, all_col_types)} "
         # )
 
-
         cursor.execute(
             f"""SELECT
-                    t1.payment_id,
-                    t3.contractor_name, 
-                    t3.contractor_id, 
-                    t4.cost_item_name, 
-                    t1.payment_number,  
-                    SUBSTRING(t1.basis_of_payment, 1,70) AS basis_of_payment_short,
-                    t1.basis_of_payment, 
+                    t1.payment_id, 
                     t5.user_id,
                     t5.first_name,
                     t5.last_name,
-                    SUBSTRING(t1.payment_description, 1,70) AS payment_description_short,
-                    t1.payment_description, 
+                    concat_ws(', ', t3.contractor_name, t6.object_name, 
+                        CASE
+                            WHEN t1.partner<>'' THEN t1.partner
+                        END) AS descr_part1,
+                    SUBSTRING(
+                        concat_ws(' - ', t1.basis_of_payment, t1.payment_description),
+                         1,70) AS payment_description_short,
+                    concat_ws(' - ', t1.basis_of_payment, t1.payment_description) AS payment_description,
                     COALESCE(t6.object_name, '') AS object_name,
                     t1.partner,
                     t1.payment_sum,
@@ -565,10 +559,10 @@ def get_payment_approval_pagination():
                     to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
                     t1.payment_due_date::text AS payment_due_date,
                     t21.status_id,
-                    t7.status_name,
-                    to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
-                    t1.payment_at::timestamp without time zone::text AS payment_at,
-                    t1.payment_full_agreed_status
+                    to_char(payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
+                    date_trunc('second', payment_at::timestamp without time zone)::text AS payment_at,
+                    t1.payment_full_agreed_status,
+                    t7.status_name
                 FROM payments_summary_tab AS t1
                 LEFT JOIN (
                         SELECT 
@@ -590,11 +584,7 @@ def get_payment_approval_pagination():
                         contractor_name
                     FROM our_companies            
                 ) AS t3 ON t1.our_companies_id = t3.contractor_id
-                LEFT JOIN (
-                    SELECT cost_item_id,
-                        cost_item_name
-                    FROM payment_cost_items            
-                ) AS t4 ON t1.cost_item_id = t4.cost_item_id
+                
                 LEFT JOIN (
                         SELECT user_id,
                             first_name,
@@ -688,6 +678,9 @@ def set_approved_payments():
     try:
         if request.method == 'POST':
             # Ограничиваем доступ на изменение для бухгалтерии
+
+            pprint(request.data)
+
             if login_app.current_user.get_role() not in (1, 4):
                 flash(message=['Запрещено изменять данные', ''], category='error')
                 return redirect(url_for('.get_unapproved_payments'))
@@ -1978,8 +1971,8 @@ def get_payments_approval_list():
                     t1.partner,
                     t1.payment_sum,
                     t1.payment_sum::money AS payment_sum_rub,
-                    t0.approval_sum,
-                    t0.approval_sum::money AS approval_sum_rub,
+                    COALESCE(t8.approval_sum, 0) AS approval_sum,
+                     COALESCE(t8.approval_sum, 0)::money AS approval_sum_rub,
                     COALESCE(t7.paid_sum, null) AS paid_sum,
                     COALESCE(t7.paid_sum, 0)::money AS paid_sum_rub,
                     to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
@@ -2035,7 +2028,8 @@ def get_payments_approval_list():
                 LEFT JOIN (
                             SELECT DISTINCT ON (payment_id) 
                                 payment_id,
-                                create_at
+                                create_at,
+                                SUM(approval_sum) OVER (PARTITION BY payment_id) AS approval_sum
                             FROM payments_approval_history
                             ORDER BY payment_id, create_at DESC
                     ) AS t8 ON t0.payment_id = t8.payment_id
@@ -3645,12 +3639,14 @@ def annul_approval_payment():
         """Общая согласованная сумма"""
         cursor.execute(
             """SELECT
-                    SUM(approval_sum) AS approval_sum
+                    COALESCE(SUM(approval_sum), 0) AS approval_sum
                 FROM payments_approval_history
                 WHERE payment_id = %s""",
             [payment_number]
         )
         approval_sum = cursor.fetchone()[0]
+
+        print(approval_sum)
 
         # Добавляем запись в таблицу payments_paid_history со статусом 11
         values_p_p_h = [(
@@ -3833,33 +3829,41 @@ def get_payment_my_charts():
             title = 'История изменения баланса на счету'
             label = 'Средства на счету'
 
+        print(chart_type, query_tab)
+
         cursor.execute(
             f"""WITH
                 t1 AS (SELECT 
-                        inflow_sum AS balance_sum,
+                        sum(inflow_sum) AS balance_sum,
                         inflow_at AS create_at,
-                        inflow_description AS description,
+                        'payments_inflow_history' AS description,
                         'inflow' AS status
                     FROM payments_inflow_history
                     WHERE inflow_type_id != 4 AND inflow_sum != 0
+                    GROUP BY inflow_at
+                    ORDER BY inflow_at DESC
                     LIMIT 40
                 ),
                 t2 AS (SELECT 
-                        paid_sum*-1 AS balance_sum,
+                        sum(paid_sum)*-1 AS balance_sum,
                         create_at AS create_at,
-                        payment_id::text AS description,
+                        'payments_paid_history' AS description,
                         'paid' AS status
                     FROM payments_paid_history
                     WHERE paid_sum != 0
+                    GROUP BY create_at
+                    ORDER BY create_at DESC
                     LIMIT 40
                 ),
                 t3 AS (SELECT 
-                        approval_sum AS balance_sum,
+                        sum(approval_sum)*-1 AS balance_sum,
                         create_at AS create_at,
-                        payment_id::text AS description,
+                        'payments_approval_history' AS description,
                         'approval' AS status
                     FROM payments_approval_history
                     WHERE status_id != 1 AND approval_sum != 0
+                    GROUP BY create_at
+                    ORDER BY create_at DESC
                     LIMIT 40
                 ),
                 t4 AS (SELECT 
@@ -3891,14 +3895,10 @@ def get_payment_my_charts():
                     ORDER BY create_at DESC
                     LIMIT 40
                 )
-
                 SELECT 
-                    -- balance_sum::text AS balance_sum,
                     date_trunc('second', create_at::timestamp without time zone)::text AS create_at,
-                    -- LAG(balance_sum) OVER(ORDER BY create_at DESC)::text AS previous_balance,
-                    COALESCE(all_sum - balance_sum + LAG(balance_sum) OVER(ORDER BY create_at DESC), all_sum)::text AS cur_bal,
-                    status /*,
-                    all_sum*/
+                    COALESCE(all_sum - SUM(balance_sum) OVER(ORDER BY create_at DESC) + balance_sum, all_sum)::text AS cur_bal,
+                    status
                 FROM {query_tab}
                 ORDER BY create_at;
             """

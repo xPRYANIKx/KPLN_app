@@ -21,9 +21,15 @@
 
 
             <div class="textarea_npp"><label for="basis_of_payment">Платеж: *</label>
-                <textarea id="basis_of_payment" name="basis_of_payment" rows="1" required oninput="checkFormNewPayment()">{{ not_save_val.get('b_o_p') if not_save_val.get('b_o_p') }}</textarea>
-                <p class="form_p__description">* Аванс по договору № с субподрядчиком (наименование субподрядчика в контрагенты) или
-                    оплата по акту по договору</p>
+                <textarea id="basis_of_payment" name="basis_of_payment" rows="1" maxlength =30
+                          required oninput="checkFormNewPayment()">{{ not_save_val.get('b_o_p') if not_save_val.get('b_o_p') }}</textarea>
+                <p class="form_p__description">* Укажите один из вариантов "Аванс", "частичная оплата", "Полная оплата" или введите свой вариант</p>
+            </div>
+
+
+            <div class="textarea_npp"><label for="payment_description">Описание: *</label>
+                <textarea id="payment_description" name="payment_description" rows="4" required oninput="checkFormNewPayment()">{{ not_save_val.get('p_d') if not_save_val.get('p_d') }}</textarea>
+                <p class="form_p__description">* Наименование работ (ООС, техрегламент, ПОС и т.п.), статус (работы выполнены, аванс, работы приняты заказчиком)</p>
             </div>
 
 
@@ -74,12 +80,6 @@
                         {% endfor %}
                     </select>
                 </div>
-            </div>
-
-
-            <div class="textarea_npp"><label for="payment_description">Описание: *</label>
-                <textarea id="payment_description" name="payment_description" rows="4" required oninput="checkFormNewPayment()">{{ not_save_val.get('p_d') if not_save_val.get('p_d') }}</textarea>
-                <p class="form_p__description">* Наименование работ (ООС, техрегламент, ПОС и т.п.), статус (работы выполнены, аванс, работы приняты заказчиком)</p>
             </div>
 
 

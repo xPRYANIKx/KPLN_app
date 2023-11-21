@@ -51,8 +51,9 @@ function tabColorize(rowId = '') {
         }
 
         if (statusId && statusId !== 'Черновик') {
-            document.getElementById('status-' + rowId).style.background = "#00000000"
-            document.getElementById('category-' + rowId).style.background = "#00000000"
+            document.getElementById('status-' + rowId).style.background = "#00000000";
+            document.getElementById('row-' + rowId).getElementsByTagName('td')[1].style.background = "#00000000"
+//            document.getElementById('category-' + rowId).style.background = "#00000000"
         }
 
         if (!paymentSelectedRows) {
@@ -102,8 +103,9 @@ function tabColorize(rowId = '') {
             }
         }
         if (statusId && statusId === 'Черновик') {
-            document.getElementById('status-' + rowId).style.background = "#e3e33294"
-            document.getElementById('category-' + rowId).style.background = "#e3e33294"
+            document.getElementById('status-' + rowId).style.background = "#e3e33294";
+            document.getElementById('row-' + rowId).getElementsByTagName('td')[1].style.background = "#e3e33294";
+//            document.getElementById('category-' + rowId).style.background = "#e3e33294";
         }
     }
 
@@ -114,8 +116,9 @@ function tabColorize(rowId = '') {
         if (statusId.length) {
             for (var i = 0; i < selectedRows.length; i++) {
                 if (statusId[i].value == 'Черновик') {
-                    document.getElementById('status-' + (i + 1)).style.background = "#e3e33294"
-                    document.getElementById('category-' + (i + 1)).style.background = "#e3e33294"
+                    document.getElementById('status-' + (i + 1)).style.background = "#e3e33294";
+                    document.getElementById('row-' + (i + 1)).getElementsByTagName('td')[1].style.background = "#e3e33294";
+//                    document.getElementById('category-' + (i + 1)).style.background = "#e3e33294"
                 }
             }
         }
