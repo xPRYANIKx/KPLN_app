@@ -1109,6 +1109,7 @@ footer {
                 -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
                 box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
                 .card__title {
+                    word-spacing: 2px;
                     border-bottom: solid 1px #d5d5d5;
                     font-weight: bold;
                     font-size: 22.5px;
@@ -1741,13 +1742,15 @@ footer {
         }
 
         .th_main_sum_i {
-            width: 140px;
-            min-width: 140px;
+            width: 150px;
+            min-width: 150px;
+            word-spacing: 2px;
             font-weight: 900;
         }
         .th_sum_remain_i {
-            width: 140px;
-            min-width: 140px;
+            width: 150px;
+            min-width: 150px;
+            word-spacing: 2px;
             font-weight: bold;
         }
         .th_sum_agreed {
@@ -1969,7 +1972,10 @@ footer {
             }
         }
     }
-
+    .th_paid_sum_i {
+        word-spacing: 2px;
+        font-weight: bold;
+    }
     .th_category_i,
     .th_name_i,
     .th_payment_number_i,

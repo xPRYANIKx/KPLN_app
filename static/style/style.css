@@ -1195,6 +1195,7 @@ footer .footer_company__copyright {
 #payment-paid-list_page .tpages_top_panel .cards_container .card .card__title,
 #payment-pay_page .tpages_top_panel .cards_container .card .card__title,
 #payment-list_page .tpages_top_panel .cards_container .card .card__title {
+  word-spacing: 2px;
   border-bottom: solid 1px #d5d5d5;
   font-weight: bold;
   font-size: 22.5px;
@@ -2128,13 +2129,15 @@ footer .footer_company__copyright {
   min-width: 210px;
 }
 .tableR table .th_main_sum_i {
-  width: 140px;
-  min-width: 140px;
+  width: 150px;
+  min-width: 150px;
+  word-spacing: 2px;
   font-weight: 900;
 }
 .tableR table .th_sum_remain_i {
-  width: 140px;
-  min-width: 140px;
+  width: 150px;
+  min-width: 150px;
+  word-spacing: 2px;
   font-weight: bold;
 }
 .tableR table .th_sum_agreed {
@@ -2311,6 +2314,10 @@ footer .footer_company__copyright {
 }
 #payment-pay_page #payment-table .fix_thead tr th {
   cursor: pointer;
+}
+#payment-pay_page .th_paid_sum_i {
+  word-spacing: 2px;
+  font-weight: bold;
 }
 #payment-pay_page .th_category_i,
 #payment-pay_page .th_name_i,
