@@ -359,9 +359,11 @@ table thead td {
   font-weight: 900;
 }
 table tr:nth-child(2n) {
+  line-height: 1.2;
   background-color: #d7d5d5;
 }
 table tbody tr:nth-child(2n+1) {
+  line-height: 1.2;
   background-color: #eaedec;
 }
 table th,
@@ -2136,6 +2138,7 @@ footer .footer_company__copyright {
   font-weight: bold;
 }
 .tableR table .th_sum_agreed {
+  width: 150px;
   min-width: 180px;
 }
 .tableR table .th_sum_paid {
@@ -2147,6 +2150,7 @@ footer .footer_company__copyright {
   font-size: 13px;
 }
 .tableR table .th_date_create {
+  max-width: 120px;
   width: 100px;
 }
 .tableR table .th_due_date,
@@ -2177,29 +2181,16 @@ footer .footer_company__copyright {
 #payment-approval_page #paymentForm .tableR #payment-table thead tr th {
   cursor: pointer;
 }
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_category_i,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_name_i,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_description_i,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_object_i,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_responsible_i,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_contractor_i,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_main_sum_i,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_sum_remain_i,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_pay_date_i,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_date_create_i {
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_description_i {
   cursor: pointer;
+  color: #022233;
 }
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_category_i:hover,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_name_i:hover,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_description_i:hover,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_object_i:hover,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_responsible_i:hover,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_contractor_i:hover,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_main_sum_i:hover,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_sum_remain_i:hover,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_pay_date_i:hover,
-#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_date_create_i:hover {
-  background-color: rgba(0, 0, 0, 0.031372549);
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_description_i:hover {
+  font-size: 13.3px;
+  color: #016699;
+}
+#payment-approval_page #paymentForm .tableR #payment-table tbody tr .th_pay_date_i {
+  width: 120px;
 }
 
 #payment-approval-list_page #paymentForm {

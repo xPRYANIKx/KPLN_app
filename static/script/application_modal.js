@@ -81,7 +81,6 @@ function getModal(paymentId = null) {
                     newCell1.innerHTML = data.paid[i][1];
 
                     let newCell2 = document.createElement("td");
-                    //                    newCell2.innerHTML = data.paid[i][3].split(' ')[0];
                     newCell2.innerHTML = data.paid[i][3];
 
                     let newCell3 = document.createElement("td");
