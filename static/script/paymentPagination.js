@@ -425,7 +425,7 @@ $(document).ready(function() {
                             td_11_input.name = "amount";
                             td_11_input.value = pmt['amount_rub'];
                             td_11_input.dataset.amount = 0;
-                            td_11_input.setAttribute("onchange", `paymentApprovalRecalcCards(${numRow}), saveData(${numRow}, '${data.page}') refreshSortValChb(${numRow})`)
+                            td_11_input.setAttribute("onchange", `paymentApprovalRecalcCards(${numRow}), saveData(${numRow}, '${data.page}'), refreshSortValChb(${numRow})`)
                             td_11.appendChild(td_11_input);
 
                             // Срок оплаты
