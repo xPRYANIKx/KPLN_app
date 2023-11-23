@@ -76,8 +76,9 @@ function paymentApprovalRecalcCards(rowId) {
         }
 
         tabColorize(rowId);
-
+        console.log(a_m_v)
         if (a_m_v <= 0) {
+            console.log(`   ****** ${a_m_v}`)
             if (page_url === 'payment-approval') {
                 if (!document.getElementById('submitButton').disabled) {
                     document.getElementById('submitButton').disabled = true;
@@ -92,8 +93,9 @@ function paymentApprovalRecalcCards(rowId) {
             }
         }
         else {
+            console.log(` ____   ${a_m_v}`)
             if (page_url === 'payment-approval') {
-                if (!document.getElementById('submitButton').disabled) {
+                if (document.getElementById('submitButton').disabled) {
                     document.getElementById('submitButton').disabled = false;
                 }
             }
