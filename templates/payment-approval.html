@@ -21,7 +21,9 @@
 <script src="static/script/paymentFilter.js"></script>
 
 <script src="static/script/paymentMyCharts.js"></script>
-<!-- <script src="static/script/closeDiagramDialog.js" defer></script> -->
+
+<script src="static/script/paymentApprovalSelectAll.js"></script>
+
 
 <body id="payment-approval_page">
     {% endblock %}
@@ -89,6 +91,7 @@
 
 
         <div class="paymentFormBtn">
+            <input type="checkbox" id="selectAll" name="select_all" onclick="paymentSelectAll()">
             <button type="button" id="submitButton" class="pa_p_btn" onclick="window['verification_dialog'].showModal();">Отправить</button>
             <button type="button" id="visualTablePA" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
                 таблицы</button>

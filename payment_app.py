@@ -747,6 +747,23 @@ def set_approved_payments():
                 return redirect(url_for('.get_unapproved_payments'))
 
             conn, cursor = login_app.conn_cursor_init_dict()
+
+            cursor.execute(
+                """WITH
+                    t1 AS (SELECT 
+                            COALESCE(sum(balance_sum), 0) AS account_money
+                        FROM payments_balance),
+                    t2 AS (SELECT 
+                            COALESCE(sum(approval_sum), 0) AS approval_sum
+                        FROM payments_approval)
+                    SELECT 
+                        (t1.account_money - t2.approval_sum)::float AS available_money
+                    FROM t1
+                    JOIN t2 ON true;"""
+            )
+
+            available_money = cursor.fetchone()[0]
+
             """
             Ищем сумму остатка согласования.
             - Если "согласованная сумма" равно остатку, то закрываем заявку, как полностью согласованную
@@ -807,6 +824,14 @@ def set_approved_payments():
                         # Сумма согласования
                         total_approval_sum[i]['payment_approval_sum'] = (
                             float(0 if payment_approval_sum[jj] is None else payment_approval_sum[jj]))
+
+                        print(i, total_approval_sum[i]['payment_approval_sum'], available_money)
+                        # Проверка, не выбрано ли бельше, чем можно согласовать
+                        available_money -= total_approval_sum[i]['payment_approval_sum']
+                        if available_money < 0:
+                            flash(message=['Не хватает средств к распределению', ''], category='error')
+                            login_app.conn_cursor_close(cursor, conn)
+                            return redirect(url_for('.get_unapproved_payments'))
 
                         # ранее согласованное + текущая сумма согл
                         tot_app = float(0 if total_approval_sum[i]['total_approval'] is None
@@ -1147,7 +1172,7 @@ def get_cash_inflow():
             cursor.execute("""
             SELECT 
                 date_trunc('second', t1.inflow_at::timestamp without time zone)::text AS inflow_at,
-                t1.inflow_sum,
+                TRIM(BOTH ' ' FROM to_char(inflow_sum, '999 999 999D99 ₽')) AS inflow_sum,
                 t2.contractor_name,
                 t1.inflow_description            
             FROM payments_inflow_history AS t1
@@ -1164,7 +1189,7 @@ def get_cash_inflow():
             cursor.execute("""
             SELECT 
                 t1.contractor_name,
-                COALESCE(t2.balance_sum, 0) AS balance_sum           
+                TRIM(BOTH ' ' FROM to_char(COALESCE(t2.balance_sum, 0), '999 999 999D99 ₽')) AS balance_sum
             FROM our_companies AS t1
             LEFT JOIN (
                         SELECT  
@@ -1177,11 +1202,13 @@ def get_cash_inflow():
             """)
             companies_balances = cursor.fetchall()
 
+            print(companies_balances)
+
             # Список балансов других компаний
             cursor.execute("""
             SELECT 
                 t1.contractor_name,
-                COALESCE(t2.balance_sum, 0) AS balance_sum           
+                TRIM(BOTH ' ' FROM to_char(COALESCE(t2.balance_sum, 0), '999 999 999D99 ₽')) AS balance_sum        
             FROM our_companies AS t1
             LEFT JOIN (
                         SELECT  
@@ -3871,6 +3898,10 @@ def get_payment_my_charts():
                         COALESCE(SUM(balance_sum), 0) AS all_sum
                     FROM payments_balance
                 ),
+                    t5 AS (SELECT 
+                            COALESCE(SUM(approval_sum), 0) AS approval_sum
+                        FROM payments_approval
+                    ),
                 t11 AS (
                     SELECT
                         *
@@ -3884,18 +3915,27 @@ def get_payment_my_charts():
                     ORDER BY create_at DESC
                     LIMIT 40
                 ),
-                t22 AS (
-                    SELECT *
-                    FROM t1
-                    JOIN t4 ON true
-                    UNION ALL 
-                    SELECT
-                        *
-                    FROM t3
-                    JOIN t4 ON true
-                    ORDER BY create_at DESC
-                    LIMIT 40
-                )
+                    t22 AS (
+                        SELECT 
+                            t1.create_at,
+                            (t4.all_sum - t5.approval_sum) AS all_sum,
+                            t1.balance_sum,
+                            t1.status
+                        FROM t1
+                        JOIN t4 ON true
+                        JOIN t5 ON true
+                        UNION ALL 
+                        SELECT
+                            t3.create_at,
+                            (t4.all_sum - t5.approval_sum) AS all_sum,
+                            t3.balance_sum,
+                            t3.status
+                        FROM t3
+                        JOIN t4 ON true
+                        JOIN t5 ON true
+                        ORDER BY create_at DESC
+                        LIMIT 40
+                    ) 
                 SELECT 
                     date_trunc('second', create_at::timestamp without time zone)::text AS create_at,
                     COALESCE(all_sum - SUM(balance_sum) OVER(ORDER BY create_at DESC) + balance_sum, all_sum)::text AS cur_bal,
