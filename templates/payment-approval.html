@@ -21,7 +21,6 @@
 <script src="static/script/paymentFilter.js"></script>
 
 <script src="static/script/paymentMyCharts.js"></script>
-<!-- <script src="static/script/closeDiagramDialog.js" defer></script> -->
 
 <body id="payment-approval_page">
     {% endblock %}
@@ -146,9 +145,8 @@
                             <input type="checkbox" id="selectedRows-{{ loop.index }}" name="selectedRows" value="{{loop.index}}"
                                 onchange="paymentApprovalRecalcCards({{ loop.index }}), paymentApprovalNoSelect({{ loop.index }}), refreshSortValChb({{ loop.index }})">
                         </td>
-                        <td class="th_description_i" data-sort="{{ application.descr_part1 }}: {{ application.payment_description }}"
-                            onclick="getModal({{ application.payment_id }})" title="{{ application.descr_part1 }}&#10;{{ application.payment_description }}"
-                            {% if '1' in setting_users %}hidden{% endif %}>
+                        <td class="th_description_i" data-sort="{{ application.descr_part1 }}: {{ application.payment_description }}" onclick="getModal({{ application.payment_id }})"
+                            title="{{ application.descr_part1 }}&#10;{{ application.payment_description }}" {% if '1' in setting_users %}hidden{% endif %}>
                             <span class="paymentFormBold">{{ application.descr_part1 }}:<br></span>{{ application.payment_description_short }}
                         </td>
                         <td class="th_main_sum_i" data-sort="{{ application.payment_sum }}" {% if '2' in setting_users %}hidden{% endif %}>
@@ -158,8 +156,7 @@
                             <input id="approvalSum-{{ loop.index }}" name="approval_sum" value="{{application.approval_sum}}" hidden readonly>
                             {{ application.approval_sum_rub}}
                         </td>
-                        <td class="th_sum_agreed_i" data-sort="{{ application.amount }}"
-                            {% if '4' in setting_users %}hidden{% endif %}>
+                        <td class="th_sum_agreed_i" data-sort="{{ application.amount }}" {% if '4' in setting_users %}hidden{% endif %}>
                             <input id="amount-{{ loop.index }}" name="amount" value="{{ application.amount_rub }}" data-amount=0
                                 onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}'), refreshSortValAmount({{ loop.index }})">
                         </td>
@@ -169,10 +166,8 @@
                         <td class="th_pay_date_i" data-sort="{{ application.payment_due_date }}" {% if '6' in setting_users %}hidden{% endif %}>
                             {{ application.payment_due_date_txt }}
                         </td>
-                        <td class="th_status_i" id="status-{{ loop.index }}" data-sort="{{ application.status_id }}" {% if '7' in setting_users %}hidden{%
-                            endif %}>
-                            <select id="status_id-{{ loop.index }}" name="status_id"
-                                onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
+                        <td class="th_status_i" id="status-{{ loop.index }}" data-sort="{{ application.status_id }}" {% if '7' in setting_users %}hidden{% endif %}>
+                            <select id="status_id-{{ loop.index }}" name="status_id" onchange="paymentApprovalRecalcCards({{ loop.index }}), saveData({{ loop.index }}, '{{ page }}')">
                                 {% for s in approval_statuses %}
                                 <option {% if application.status_id==s.payment_agreed_status_id %} selected {% endif %}>
                                     {{ s.payment_agreed_status_name }}
@@ -184,10 +179,8 @@
                             <input id="paymentNumber-{{ loop.index }}" name="payment_number" value="{{application.payment_id}}" hidden readonly>
                             {{ application.payment_at_txt }}
                         </td>
-                        <td class="th_save_pay_i" data-sort="{% if application.payment_full_agreed_status %}1{% else %}0{% endif %}" {% if '9' in setting_users
-                            %}hidden{% endif %}>
-                            <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if
-                                application.payment_full_agreed_status %}checked{% endif %}
+                        <td class="th_save_pay_i" data-sort="{% if application.payment_full_agreed_status %}1{% else %}0{% endif %}" {% if '9' in setting_users %}hidden{% endif %}>
+                            <input type="checkbox" id="paymentFullStatus-{{ loop.index }}" name="payment_full_agreed_status" value="{{loop.index}}" {% if application.payment_full_agreed_status %}checked{% endif %}
                                 onchange="saveData({{ loop.index }}, '{{ page }}'), tabColorize({{ loop.index }}), refreshSortValChb({{ loop.index }})">
                         </td>
                     </tr>
