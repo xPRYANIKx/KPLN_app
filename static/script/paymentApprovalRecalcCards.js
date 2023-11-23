@@ -10,8 +10,6 @@ function paymentApprovalRecalcCards(rowId) {
 
         var choiceRows = document.getElementsByName('selectedRows');
 
-        console.log(rowId)
-
         var paymentSelectedRows = document.getElementById('selectedRows-' + rowId).checked;
         var statusId = document.getElementById('status_id-' + rowId);
         var approvalSum = document.getElementById('approvalSum-' + rowId).value;
@@ -44,9 +42,9 @@ function paymentApprovalRecalcCards(rowId) {
 
                     amount_value <= 0 ? amount_value = 0 : 0;
                     amount_value > approvalSum ? amount_value = approvalSum : 0;
-                    if (page_url !== 'payment-approval') {
+//                    if (page_url !== 'payment-approval') {
                         amount_value > a_m_v ? amount_value = a_m_v : 0;
-                    }
+//                    }
 
                     s_f_a_p += amount_value;
                     a_m_v -= amount_value;
@@ -60,9 +58,9 @@ function paymentApprovalRecalcCards(rowId) {
 
                 amount_value <= 0 ? amount_value = 0 : 0;
                 amount_value > approvalSum ? amount_value = approvalSum : 0;
-                if (page_url !== 'payment-approval') {
+//                if (page_url !== 'payment-approval') {
                     amount_value > a_m_v ? amount_value = a_m_v : 0;
-                }
+//                }
 
                 s_f_a_p += amount_value;
                 a_m_v -= amount_value;
