@@ -91,8 +91,10 @@
 
 
         <div class="paymentFormBtn">
-            <input type="checkbox" id="selectAll" name="select_all" onclick="paymentSelectAll()">
-            <button type="button" id="submitButton" class="pa_p_btn" onclick="window['verification_dialog'].showModal();">Отправить</button>
+            <div>
+                <input type="checkbox" id="selectAll" name="select_all" onclick="paymentSelectAll()">
+                <button type="button" id="submitButton" class="pa_p_btn" onclick="window['verification_dialog'].showModal();">Отправить</button>
+            </div>
             <button type="button" id="visualTablePA" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
                 таблицы</button>
         </div>

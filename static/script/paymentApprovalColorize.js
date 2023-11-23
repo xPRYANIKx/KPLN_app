@@ -1,7 +1,7 @@
 $(document).ready(function () {
     tabColorize();
     var userRoleId = document.getElementById('header__auth__role_id').textContent;
-    var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
+    var page_url = document.URL.substring(document.URL.lastIndexOf('/') + 1);
 
     if (userRoleId == 6 && page_url === 'payment-approval') {
         var card_selected = document.getElementById('card_selected_for_approval');
@@ -53,7 +53,7 @@ function tabColorize(rowId = '') {
         if (statusId && statusId !== 'Черновик') {
             document.getElementById('status-' + rowId).style.background = "#00000000";
             document.getElementById('row-' + rowId).getElementsByTagName('td')[1].style.background = "#00000000"
-//            document.getElementById('category-' + rowId).style.background = "#00000000"
+            //            document.getElementById('category-' + rowId).style.background = "#00000000"
         }
 
         if (!paymentSelectedRows) {
@@ -65,9 +65,9 @@ function tabColorize(rowId = '') {
             if (statusId) {
                 if (statusId == 'Реком.' || statusId == 'Черновик') {
                     if (a_m_v < 0) {
-                        document.getElementById('card_selected_for_approval_value').style.color = "red";
-                        document.getElementById('card_available_money_value').style.color = "red";
-                        document.getElementById('row-' + rowId).style.background = "red";
+                        document.getElementById('card_selected_for_approval_value').style.color = "#cd2727";
+                        document.getElementById('card_available_money_value').style.color = "#cd2727";
+                        document.getElementById('row-' + rowId).style.background = "#cd2727";
                     }
                     else {
                         if (paymentFullStatus) {
@@ -87,8 +87,8 @@ function tabColorize(rowId = '') {
             else {
                 if (a_m_v < 0) {
                     document.getElementById('card_selected_for_approval_value').style.color = "red";
-                    document.getElementById('card_available_money_value').style.color = "red";
-                    document.getElementById('row-' + rowId).style.background = "red";
+                    document.getElementById('card_available_money_value').style.color = "#cd2727";
+                    document.getElementById('row-' + rowId).style.background = "#cd2727";
                 }
                 else {
                     if (paymentFullStatus) {
@@ -105,7 +105,7 @@ function tabColorize(rowId = '') {
         if (statusId && statusId === 'Черновик') {
             document.getElementById('status-' + rowId).style.background = "#e3e33294";
             document.getElementById('row-' + rowId).getElementsByTagName('td')[1].style.background = "#e3e33294";
-//            document.getElementById('category-' + rowId).style.background = "#e3e33294";
+            //            document.getElementById('category-' + rowId).style.background = "#e3e33294";
         }
     }
 
@@ -118,7 +118,7 @@ function tabColorize(rowId = '') {
                 if (statusId[i].value == 'Черновик') {
                     document.getElementById('status-' + (i + 1)).style.background = "#e3e33294";
                     document.getElementById('row-' + (i + 1)).getElementsByTagName('td')[1].style.background = "#e3e33294";
-//                    document.getElementById('category-' + (i + 1)).style.background = "#e3e33294"
+                    //                    document.getElementById('category-' + (i + 1)).style.background = "#e3e33294"
                 }
             }
         }

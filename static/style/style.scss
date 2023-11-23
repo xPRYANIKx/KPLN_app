@@ -1112,7 +1112,7 @@ footer {
                     word-spacing: 2px;
                     border-bottom: solid 1px #d5d5d5;
                     font-weight: bold;
-                    font-size: 22.5px;
+                    font-size: 21.5px;
                 }
                 .card__cost {
                     margin-top: 5px;
@@ -1554,6 +1554,9 @@ footer {
         margin: 0px 0px 30px 0px;
         background-color: #ffffff00;
         box-shadow: none;
+        tr {
+            border-bottom: solid 2px rgb(255 255 255 / 24%) !important;
+        }
     }
 }
 
@@ -1603,6 +1606,11 @@ footer {
     #submitButton:hover {
         background-color: rgb(11, 86, 1);
     }
+    #submitButton:disabled {
+        background-color: #bbbbbb;
+        color: #979797;
+        cursor: auto;
+    }
     #visualTablePA {
         padding: 10px 20px;
         border: none;
@@ -1613,6 +1621,11 @@ footer {
     }
     #visualTablePA:hover {
         background-color: #1e2556;
+    }
+
+    #selectAll {
+        margin: 8px 10px 0px 7px;
+        zoom: 2.5;
     }
 }
 .tableR {
@@ -2685,6 +2698,10 @@ footer {
             min-height: 240px;
         }
         #paymentForm {
+            .paymentFormBtn {
+                align-items: start;
+                flex-direction: column;
+            }
             .tableR {
                 max-height: calc(100vh - 150px);
             }
