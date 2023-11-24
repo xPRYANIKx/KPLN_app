@@ -1147,6 +1147,13 @@ footer .footer_company__copyright {
   padding: 90px 40px 0px 40px;
   justify-content: flex-start;
 }
+#payment-approval_page footer,
+#payment-approval-list_page footer,
+#payment-paid-list_page footer,
+#payment-pay_page footer,
+#payment-list_page footer {
+  z-index: 0;
+}
 #payment-approval_page .tpages_top_panel,
 #payment-approval-list_page .tpages_top_panel,
 #payment-paid-list_page .tpages_top_panel,
@@ -1970,6 +1977,47 @@ footer .footer_company__copyright {
 #payment-list_page #paymentForm tr {
   border-bottom: solid 2px rgba(255, 255, 255, 0.24) !important;
 }
+#payment-approval_page .totalSelectInfo,
+#payment-approval-list_page .totalSelectInfo,
+#payment-paid-list_page .totalSelectInfo,
+#payment-pay_page .totalSelectInfo,
+#payment-list_page .totalSelectInfo {
+  position: fixed;
+  bottom: 22px;
+  right: 0px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+  border-radius: 10px 0px 0px 10px;
+  background-color: #3f3f3f;
+  color: white;
+  font-size: 12px;
+}
+#payment-approval_page .totalSelectInfo .totalSelectRows,
+#payment-approval_page .totalSelectInfo .totalSumRemain,
+#payment-approval-list_page .totalSelectInfo .totalSelectRows,
+#payment-approval-list_page .totalSelectInfo .totalSumRemain,
+#payment-paid-list_page .totalSelectInfo .totalSelectRows,
+#payment-paid-list_page .totalSelectInfo .totalSumRemain,
+#payment-pay_page .totalSelectInfo .totalSelectRows,
+#payment-pay_page .totalSelectInfo .totalSumRemain,
+#payment-list_page .totalSelectInfo .totalSelectRows,
+#payment-list_page .totalSelectInfo .totalSumRemain {
+  font-weight: 900;
+}
+#payment-approval_page .totalSelectInfo .totalSelectRows__value,
+#payment-approval_page .totalSelectInfo .totalSumRemain__value,
+#payment-approval-list_page .totalSelectInfo .totalSelectRows__value,
+#payment-approval-list_page .totalSelectInfo .totalSumRemain__value,
+#payment-paid-list_page .totalSelectInfo .totalSelectRows__value,
+#payment-paid-list_page .totalSelectInfo .totalSumRemain__value,
+#payment-pay_page .totalSelectInfo .totalSelectRows__value,
+#payment-pay_page .totalSelectInfo .totalSumRemain__value,
+#payment-list_page .totalSelectInfo .totalSelectRows__value,
+#payment-list_page .totalSelectInfo .totalSumRemain__value {
+  margin-left: 6px;
+  font-weight: 500;
+}
 
 #payment-pay_page .tpages_top_panel .cards_container .card {
   width: 235px;
@@ -2574,6 +2622,14 @@ footer .footer_company__copyright {
   #payment-list_page #diagram__dialog {
     min-width: 690px;
     min-height: 365px;
+  }
+  #payment-approval_page .totalSelectInfo,
+  #payment-approval-list_page .totalSelectInfo,
+  #payment-paid-list_page .totalSelectInfo,
+  #payment-pay_page .totalSelectInfo,
+  #payment-list_page .totalSelectInfo {
+    bottom: 18px;
+    background-color: rgba(59, 58, 58, 0.8);
   }
   #payment-approval-list_page .tableR {
     max-height: calc(100vh - 160px);
@@ -3384,6 +3440,15 @@ footer .footer_company__copyright {
   #payment-list_page #payment-approval__dialog__menu__list #unpaid_approval_sum_div_h {
     font-size: 13px;
   }
+  #payment-approval_page .totalSelectInfo,
+  #payment-approval-list_page .totalSelectInfo,
+  #payment-paid-list_page .totalSelectInfo,
+  #payment-pay_page .totalSelectInfo,
+  #payment-list_page .totalSelectInfo {
+    bottom: 20px;
+    font-size: 11px;
+    background-color: rgba(0, 0, 0, 0.6901960784);
+  }
 }
 @media (max-width: 310px) {
   header .header__content #header__auth__label {
@@ -3527,6 +3592,13 @@ footer .footer_company__copyright {
   #payment-pay_page #verification_dialog #verification_dialog__cancel,
   #payment-list_page #verification_dialog #verification_dialog__cancel {
     margin: 0px 0px 8px 0px;
+  }
+  #payment-approval_page .totalSelectInfo,
+  #payment-approval-list_page .totalSelectInfo,
+  #payment-paid-list_page .totalSelectInfo,
+  #payment-pay_page .totalSelectInfo,
+  #payment-list_page .totalSelectInfo {
+    font-size: 10px;
   }
   #payment-approval_page #tableCustom,
   #payment-approval-list_page #tableCustom,

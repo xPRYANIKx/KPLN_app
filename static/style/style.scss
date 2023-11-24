@@ -1082,6 +1082,9 @@ footer {
         padding: 90px 40px 0px 40px;
         justify-content: flex-start;
     }
+    footer {
+        z-index: 0;
+    }
     .tpages_top_panel {
         width: 760px;
         display: flex;
@@ -1558,8 +1561,28 @@ footer {
             border-bottom: solid 2px rgb(255 255 255 / 24%) !important;
         }
     }
+    .totalSelectInfo {
+        position: fixed;
+        bottom: 22px;
+        right: 0px;
+        display: flex;
+        flex-direction: column;
+        padding: 10px 15px;
+        border-radius: 10px 0px 0px 10px;
+        background-color: #3f3f3f;
+        color: white;
+        font-size: 12px;
+        .totalSelectRows,
+        .totalSumRemain {
+            font-weight: 900;
+        }
+        .totalSelectRows__value,
+        .totalSumRemain__value {
+            margin-left: 6px;
+            font-weight: 500;
+        }
+    }
 }
-
 #payment-pay_page {
     .tpages_top_panel {
         .cards_container {
@@ -1569,7 +1592,6 @@ footer {
         }
     }
 }
-
 #diagram__dialog {
     min-width: 780px;
     min-height: 410px;
@@ -2179,6 +2201,10 @@ footer {
         #diagram__dialog {
             min-width: 690px;
             min-height: 365px;
+        }
+        .totalSelectInfo {
+            bottom: 18px;
+            background-color: #3b3a3acc;
         }
     }
     #payment-approval-list_page {
@@ -3036,6 +3062,11 @@ footer {
                 }
             }
         }
+        .totalSelectInfo {
+            bottom: 20px;
+            font-size: 11px;
+            background-color: #000000b0;
+        }
     }
 }
 ///---------------------------------------------------
@@ -3214,6 +3245,10 @@ footer {
             #verification_dialog__cancel {
                 margin: 0px 0px 8px 0px;
             }
+        }
+        .totalSelectInfo {
+            bottom: 10px
+            font-size: 10px;
         }
         #tableCustom {
             width: 240px;
