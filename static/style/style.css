@@ -3598,6 +3598,7 @@ footer .footer_company__copyright {
   #payment-paid-list_page .totalSelectInfo,
   #payment-pay_page .totalSelectInfo,
   #payment-list_page .totalSelectInfo {
+    bottom: 10px;
     font-size: 10px;
   }
   #payment-approval_page #tableCustom,
