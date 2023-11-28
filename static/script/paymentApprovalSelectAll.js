@@ -1,11 +1,11 @@
 function paymentSelectAll() {
     var status = document.getElementById('selectAll').checked;
-    var zzz = document.querySelectorAll('[id*="selectedRows-"]');
-    var rrr = Array.prototype.slice.call(zzz)
-    for (i of zzz) {
-        i.checked = status
-    }
-    for (i of zzz) {
-        paymentApprovalRecalcCards(rrr.indexOf(i)+1)
+    var allRows = document.querySelectorAll('[id*="selectedRows-"]');
+    var allRows_clone = Array.prototype.slice.call(allRows)
+    for (i of allRows) {
+        if (i.checked !== status) {
+            i.checked = status;
+            paymentApprovalRecalcCards(allRows_clone.indexOf(i)+1)
+        }
     }
 }
