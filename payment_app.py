@@ -316,9 +316,9 @@ def get_unapproved_payments():
                         COALESCE(t6.object_name, '') AS object_name,
                         t1.partner,
                         t1.payment_sum,
-                        TRIM(BOTH ' ' FROM to_char(COALESCE(t1.payment_sum, 0), '999 999 999D99 ₽')) AS payment_sum_rub,
+                        TRIM(BOTH ' ' FROM to_char(COALESCE(t1.payment_sum, 0), '999 999 990D99 ₽')) AS payment_sum_rub,
                         COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum) AS approval_sum,
-                        TRIM(BOTH ' ' FROM to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '999 999 999D99 ₽')) AS approval_sum_rub,
+                        TRIM(BOTH ' ' FROM to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '999 999 990D99 ₽')) AS approval_sum_rub,
                         COALESCE(t8.amount, '0') AS amount,
                         COALESCE(t8.amount_rub, '') AS amount_rub,
                         to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
@@ -363,7 +363,7 @@ def get_unapproved_payments():
                         SELECT DISTINCT ON (payment_id) 
                             parent_id::int AS payment_id,
                             parameter_value::numeric AS amount,
-                            TRIM(BOTH ' ' FROM to_char(parameter_value::numeric, '999 999 999D99 ₽')) AS amount_rub
+                            TRIM(BOTH ' ' FROM to_char(parameter_value::numeric, '999 999 990D99 ₽')) AS amount_rub
                         FROM payment_draft
                         WHERE page_name = %s AND parameter_name = %s AND user_id = %s
                         ORDER BY payment_id, create_at DESC
@@ -407,11 +407,11 @@ def get_unapproved_payments():
                         FROM payments_approval)
                     SELECT 
                         t1.account_money AS account_money,
-                        TRIM(BOTH ' ' FROM to_char(COALESCE(t1.account_money, 0), '999 999 999D99 ₽')) AS account_money_rub,
+                        TRIM(BOTH ' ' FROM to_char(COALESCE(t1.account_money, 0), '999 999 990D99 ₽')) AS account_money_rub,
                         t1.account_money - t2.approval_sum AS available_money,
-                        TRIM(BOTH ' ' FROM to_char(COALESCE(COALESCE(t1.account_money - t2.approval_sum, t2.approval_sum), 0), '999 999 999D99 ₽')) AS available_money_rub,
+                        TRIM(BOTH ' ' FROM to_char(COALESCE(COALESCE(t1.account_money - t2.approval_sum, t2.approval_sum), 0), '999 999 990D99 ₽')) AS available_money_rub,
                         t2.approval_sum AS approval_money,
-                        TRIM(BOTH ' ' FROM to_char(COALESCE(t2.approval_sum, 0), '999 999 999D99 ₽')) AS approval_money_rub
+                        TRIM(BOTH ' ' FROM to_char(COALESCE(t2.approval_sum, 0), '999 999 990D99 ₽')) AS approval_money_rub
                     FROM t1
                     JOIN t2 ON true;"""
             )
@@ -552,9 +552,9 @@ def get_payment_approval_pagination():
                     COALESCE(t6.object_name, '') AS object_name,
                     t1.partner,
                     t1.payment_sum,
-                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 999D99 ₽')) AS payment_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 990D99 ₽')) AS payment_sum_rub,
                     COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum) AS approval_sum,
-                    TRIM(BOTH ' ' FROM to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '999 999 999D99 ₽')) AS approval_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '999 999 990D99 ₽')) AS approval_sum_rub,
                     COALESCE(t8.amount, '0') AS amount,
                     COALESCE(t8.amount_rub, '') AS amount_rub,
                     to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
@@ -606,7 +606,7 @@ def get_payment_approval_pagination():
                         SELECT DISTINCT ON (payment_id) 
                             parent_id::int AS payment_id,
                             parameter_value::numeric AS amount,
-                            TRIM(BOTH ' ' FROM to_char(parameter_value::numeric, '999 999 999D99 ₽')) AS amount_rub
+                            TRIM(BOTH ' ' FROM to_char(parameter_value::numeric, '999 999 990D99 ₽')) AS amount_rub
                         FROM payment_draft
                         WHERE page_name = %s AND parameter_name = %s AND user_id = %s
                         ORDER BY payment_id, create_at DESC
@@ -727,11 +727,11 @@ def set_approved_payments():
                 # Проверка, что указана сумма согласования. Не для бухгалтера
                 if user_role_id != 6 and not payment_approval_sum[row] and (
                         status_id[row] == 'Черновик' or status_id[row] == 'Реком.'):
-                    flash(message=['Не указана сумма согласования', ''], category='error')
+                    flash(message=['Не указана сумма согласования', f'Платёж: id-{payment_number[row]}, строка: {i}'], category='error')
                     return redirect(url_for('.get_unapproved_payments'))
 
                 if status_id[row] == 'К рассмотрению':
-                    flash(message=['Функция не работает', ''], category='error')
+                    flash(message=['Функция не работает', f'Платёж: id-{payment_number[row]}, строка: {i}'], category='error')
 
                     return redirect(url_for('.get_unapproved_payments'))
 
@@ -952,8 +952,6 @@ def set_approved_payments():
                                                                 columns=columns_p_d_full_close)
                         execute_values(cursor, query_p_d_full_close, (values_p_d_full_close,))
 
-                    conn.commit()
-
                     # Если есть что записывать в payments_approval_history
                     if values_p_a_h:
                         # Запись в payments_approval_history
@@ -964,8 +962,8 @@ def set_approved_payments():
                         query_a_h = get_db_dml_query(
                             action=action_p_a_h, table=table_p_a_h, columns=columns_p_a_h, subquery=subquery
                         )
-                        a_h_id = execute_values(cursor, query_a_h, values_p_a_h, fetch=True)
-                        conn.commit()
+                        execute_values(cursor, query_a_h, values_p_a_h)
+
 
                     # Если есть что записывать в payments_approval_history. Не для Бухгалтера
                     if user_role_id != 6 and values_p_a:
@@ -981,7 +979,7 @@ def set_approved_payments():
 
                         execute_values(cursor, query_p_a, values_p_a)
 
-                        conn.commit()
+                    conn.commit()
 
                     flash(message=['Заявки согласованы', ''], category='success')
 
@@ -1172,7 +1170,7 @@ def get_cash_inflow():
             cursor.execute("""
             SELECT 
                 date_trunc('second', t1.inflow_at::timestamp without time zone)::text AS inflow_at,
-                TRIM(BOTH ' ' FROM to_char(inflow_sum, '999 999 999D99 ₽')) AS inflow_sum,
+                TRIM(BOTH ' ' FROM to_char(inflow_sum, '999 999 990D99 ₽')) AS inflow_sum,
                 t2.contractor_name,
                 t1.inflow_description            
             FROM payments_inflow_history AS t1
@@ -1189,7 +1187,7 @@ def get_cash_inflow():
             cursor.execute("""
             SELECT 
                 t1.contractor_name,
-                TRIM(BOTH ' ' FROM to_char(COALESCE(t2.balance_sum, 0), '999 999 999D99 ₽')) AS balance_sum
+                TRIM(BOTH ' ' FROM to_char(COALESCE(t2.balance_sum, 0), '999 999 990D99 ₽')) AS balance_sum
             FROM our_companies AS t1
             LEFT JOIN (
                         SELECT  
@@ -1208,7 +1206,7 @@ def get_cash_inflow():
             cursor.execute("""
             SELECT 
                 t1.contractor_name,
-                TRIM(BOTH ' ' FROM to_char(COALESCE(t2.balance_sum, 0), '999 999 999D99 ₽')) AS balance_sum        
+                TRIM(BOTH ' ' FROM to_char(COALESCE(t2.balance_sum, 0), '999 999 990D99 ₽')) AS balance_sum        
             FROM our_companies AS t1
             LEFT JOIN (
                         SELECT  
@@ -1412,11 +1410,11 @@ def get_unpaid_payments():
                     COALESCE(t6.object_name, '') AS object_name,
                     t1.partner,
                     t1.payment_sum,
-                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 999D99 ₽')) AS payment_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 990D99 ₽')) AS payment_sum_rub,
                     COALESCE(t7.paid_sum, '0') AS paid_sum,
-                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 999D99 ₽')) AS paid_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 990D99 ₽')) AS paid_sum_rub,
                     t0.approval_sum,
-                    TRIM(BOTH ' ' FROM to_char(t0.approval_sum, '999 999 999D99 ₽')) AS approval_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(t0.approval_sum, '999 999 990D99 ₽')) AS approval_sum_rub,
                     COALESCE(t8.amount, '0') AS amount,
                     COALESCE(t8.amount, '') AS amount_rub,
                     to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
@@ -1471,7 +1469,7 @@ def get_unpaid_payments():
                 LEFT JOIN (
                         SELECT DISTINCT ON (payment_id) 
                             parent_id::int AS payment_id,
-                            TRIM(BOTH ' ' FROM to_char(parameter_value::numeric, '999 999 999D99 ₽')) AS amount
+                            TRIM(BOTH ' ' FROM to_char(parameter_value::numeric, '999 999 990D99 ₽')) AS amount
                         FROM payment_draft
                         WHERE page_name = %s AND parameter_name = %s AND user_id = %s
                         ORDER BY payment_id, create_at DESC
@@ -1510,9 +1508,9 @@ def get_unpaid_payments():
                         FROM payments_approval)
                     SELECT 
                         t1.account_money AS account_money,
-                        TRIM(BOTH ' ' FROM to_char(COALESCE(t1.account_money, 0), '999 999 999D99 ₽')) AS account_money_rub,
+                        TRIM(BOTH ' ' FROM to_char(COALESCE(t1.account_money, 0), '999 999 990D99 ₽')) AS account_money_rub,
                         t1.account_money - t2.approval_sum AS available_money,
-                        TRIM(BOTH ' ' FROM to_char(COALESCE(COALESCE(t1.account_money - t2.approval_sum, t2.approval_sum), 0), '999 999 999D99 ₽')) AS available_money_rub
+                        TRIM(BOTH ' ' FROM to_char(COALESCE(COALESCE(t1.account_money - t2.approval_sum, t2.approval_sum), 0), '999 999 990D99 ₽')) AS available_money_rub
                     FROM t1
                     JOIN t2 ON true;"""
             )
@@ -1652,11 +1650,11 @@ def get_payment_pay_pagination():
                     COALESCE(t6.object_name, '') AS object_name,
                     t1.partner,
                     t1.payment_sum,
-                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 999D99 ₽')) AS payment_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 990D99 ₽')) AS payment_sum_rub,
                     COALESCE(t7.paid_sum, '0') AS paid_sum,
-                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 999D99 ₽')) AS paid_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 990D99 ₽')) AS paid_sum_rub,
                     t0.approval_sum,
-                    TRIM(BOTH ' ' FROM to_char(t0.approval_sum, '999 999 999D99 ₽')) AS approval_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(t0.approval_sum, '999 999 990D99 ₽')) AS approval_sum_rub,
                     COALESCE(t8.amount, '0') AS amount,
                     COALESCE(t8.amount, '') AS amount_rub,
                     to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
@@ -1711,7 +1709,7 @@ def get_payment_pay_pagination():
                 LEFT JOIN (
                         SELECT DISTINCT ON (payment_id) 
                             parent_id::int AS payment_id,
-                            TRIM(BOTH ' ' FROM to_char(parameter_value::numeric, '999 999 999D99 ₽')) AS amount
+                            TRIM(BOTH ' ' FROM to_char(parameter_value::numeric, '999 999 990D99 ₽')) AS amount
                         FROM payment_draft
                         WHERE page_name = %s AND parameter_name = %s AND user_id = %s
                         ORDER BY payment_id, create_at DESC
@@ -1860,7 +1858,7 @@ def set_paid_payments():
                 # иначе "Полная оплата" (id=9)
                 for s in approval_sum:
                     if s[0] == payment_number[row]:
-                        if s[1] > payment_pay_sum[row]:
+                        if round(float(s[1]) - payment_pay_sum[row],2) > 0:
                             if i not in payment_full_agreed_status:
                                 status_id = 11
                                 values_a_d.append((
@@ -1998,11 +1996,11 @@ def get_payments_approval_list():
                     COALESCE(t6.object_name, '') AS object_name,
                     t1.partner,
                     t1.payment_sum,
-                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 999D99 ₽')) AS payment_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 990D99 ₽')) AS payment_sum_rub,
                     COALESCE(t8.approval_sum, 0) AS approval_sum,
-                    TRIM(BOTH ' ' FROM to_char(COALESCE(t8.approval_sum, 0), '999 999 999D99 ₽')) AS approval_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(COALESCE(t8.approval_sum, 0), '999 999 990D99 ₽')) AS approval_sum_rub,
                     COALESCE(t7.paid_sum, null) AS paid_sum,
-                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 999D99 ₽')) AS paid_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 990D99 ₽')) AS paid_sum_rub,
                     to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
                     t1.payment_due_date::text AS payment_due_date,
                     to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt, 
@@ -2076,7 +2074,7 @@ def get_payments_approval_list():
                         FROM payments_approval)
                     SELECT 
                         t2.approval_sum AS approval_money,
-                        TRIM(BOTH ' ' FROM to_char(COALESCE(t2.approval_sum, 0), '999 999 999D99 ₽')) AS approval_money_rub
+                        TRIM(BOTH ' ' FROM to_char(COALESCE(t2.approval_sum, 0), '999 999 990D99 ₽')) AS approval_money_rub
                     FROM t2;"""
             )
             money = cursor.fetchone()
@@ -2228,11 +2226,11 @@ def get_payment_approval_list_pagination():
                     COALESCE(t6.object_name, '') AS object_name,
                     t1.partner,
                     t1.payment_sum, 
-                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 999D99 ₽')) AS payment_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 990D99 ₽')) AS payment_sum_rub,
                     t0.approval_sum,
-                    TRIM(BOTH ' ' FROM to_char(t0.approval_sum, '999 999 999D99 ₽')) AS approval_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(t0.approval_sum, '999 999 990D99 ₽')) AS approval_sum_rub,
                     COALESCE(t7.paid_sum, null) AS paid_sum, 
-                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 999D99 ₽')) AS paid_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 990D99 ₽')) AS paid_sum_rub,
                     to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
                     t1.payment_due_date::text AS payment_due_date,
                     to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
@@ -2384,11 +2382,11 @@ def get_payments_paid_list():
                         COALESCE(t6.object_name, '') AS object_name,
                         t1.partner,
                         t1.payment_sum,
-                        TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 999D99 ₽')) AS payment_sum_rub,
+                        TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 990D99 ₽')) AS payment_sum_rub,
                         t2.approval_sum,
-                        TRIM(BOTH ' ' FROM to_char(t2.approval_sum, '999 999 999D99 ₽')) AS approval_sum_rub,
+                        TRIM(BOTH ' ' FROM to_char(t2.approval_sum, '999 999 990D99 ₽')) AS approval_sum_rub,
                         t0.paid_sum AS paid_sum,
-                        TRIM(BOTH ' ' FROM to_char(COALESCE(t0.paid_sum, 0), '999 999 999D99 ₽')) AS paid_sum_rub,
+                        TRIM(BOTH ' ' FROM to_char(COALESCE(t0.paid_sum, 0), '999 999 990D99 ₽')) AS paid_sum_rub,
                         to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
                         t1.payment_due_date::text AS payment_due_date,
                         t8.status_name,
@@ -2581,11 +2579,11 @@ def get_payment_paid_list_pagination():
                         COALESCE(t6.object_name, '') AS object_name,
                         t1.partner,
                         t1.payment_sum,
-                        TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 999D99 ₽')) AS payment_sum_rub,
+                        TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 990D99 ₽')) AS payment_sum_rub,
                         t2.approval_sum,
-                        TRIM(BOTH ' ' FROM to_char(t2.approval_sum, '999 999 999D99 ₽')) AS approval_sum_rub,
+                        TRIM(BOTH ' ' FROM to_char(t2.approval_sum, '999 999 990D99 ₽')) AS approval_sum_rub,
                         t0.paid_sum AS paid_sum,
-                        TRIM(BOTH ' ' FROM to_char(COALESCE(t0.paid_sum, 0), '999 999 999D99 ₽')) AS paid_sum_rub,
+                        TRIM(BOTH ' ' FROM to_char(COALESCE(t0.paid_sum, 0), '999 999 990D99 ₽')) AS paid_sum_rub,
                         to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
                         t1.payment_due_date::text AS payment_due_date,
                         t8.status_name,
@@ -2731,13 +2729,13 @@ def get_payments_list():
                     COALESCE(t6.object_name, '') AS object_name,
                     t1.partner,
                     t1.payment_sum,
-                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 999D99 ₽')) AS payment_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 990D99 ₽')) AS payment_sum_rub,
                     to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
                     t1.payment_due_date::text AS payment_due_date,
                     to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
                     t1.payment_at::timestamp without time zone::text AS payment_at,
                     COALESCE(t7.paid_sum, 0) AS paid_sum,
-                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 999D99 ₽')) AS paid_sum_rub
+                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 990D99 ₽')) AS paid_sum_rub
             FROM payments_summary_tab AS t1
             LEFT JOIN (
                     SELECT DISTINCT ON (payment_id) 
@@ -2896,13 +2894,13 @@ def get_payment_list_pagination():
                     COALESCE(t6.object_name, '') AS object_name,
                     t1.partner,
                     t1.payment_sum,
-                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 999D99 ₽')) AS payment_sum_rub,
+                    TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 990D99 ₽')) AS payment_sum_rub,
                     to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date_txt,
                     t1.payment_due_date::text AS payment_due_date,
                     to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at_txt,
                     t1.payment_at::timestamp without time zone::text AS payment_at,
                     COALESCE(t7.paid_sum, 0) AS paid_sum,
-                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 999D99 ₽')) AS paid_sum_rub
+                    TRIM(BOTH ' ' FROM to_char(COALESCE(t7.paid_sum, 0), '999 999 990D99 ₽')) AS paid_sum_rub
             FROM payments_summary_tab AS t1
             LEFT JOIN (
                     SELECT DISTINCT ON (payment_id) 
@@ -3062,13 +3060,13 @@ def get_card_payment(page_url, payment_id):
                 COALESCE(t6.object_name, '') AS object_name,
                 t1.partner,
                 t1.payment_sum,
-                TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 999D99 ₽')) AS payment_sum_rub,
+                TRIM(BOTH ' ' FROM to_char(t1.payment_sum, '999 999 990D99 ₽')) AS payment_sum_rub,
                 COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum) AS unapproved_sum,
-                TRIM(BOTH ' ' FROM to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '999 999 999D99 ₽')) AS unapproved_sum_rub,
+                TRIM(BOTH ' ' FROM to_char(COALESCE(t1.payment_sum - t2.approval_sum, t1.payment_sum), '999 999 990D99 ₽')) AS unapproved_sum_rub,
                 COALESCE(t2.approval_sum, 0) AS unpaid_approval_sum,
-                TRIM(BOTH ' ' FROM to_char(COALESCE(t2.approval_sum, 0), '999 999 999D99 ₽')) AS unpaid_approval_sum_rub,
+                TRIM(BOTH ' ' FROM to_char(COALESCE(t2.approval_sum, 0), '999 999 990D99 ₽')) AS unpaid_approval_sum_rub,
                 COALESCE(t9.approval_sum, 0) AS approval_to_pay_sum,
-                TRIM(BOTH ' ' FROM to_char(COALESCE(t9.approval_sum, 0), '999 999 999D99 ₽')) AS approval_to_pay_sum_rub,
+                TRIM(BOTH ' ' FROM to_char(COALESCE(t9.approval_sum, 0), '999 999 990D99 ₽')) AS approval_to_pay_sum_rub,
                 COALESCE(t8.amount, null) AS amount,
                 COALESCE(t8.amount, '') AS amount_rub,
                 CAST(t1.payment_due_date AS TEXT) AS payment_due_date,
@@ -3109,7 +3107,7 @@ def get_card_payment(page_url, payment_id):
         LEFT JOIN (
                 SELECT DISTINCT ON (payment_id) 
                     parent_id::int AS payment_id,
-                    TRIM(BOTH ' ' FROM to_char(parameter_value::numeric, '999 999 999D99 ₽')) AS amount
+                    TRIM(BOTH ' ' FROM to_char(parameter_value::numeric, '999 999 990D99 ₽')) AS amount
                 FROM payment_draft
                 WHERE page_name = %s AND parameter_name = %s AND user_id = %s
                 ORDER BY payment_id, create_at DESC
@@ -3140,7 +3138,7 @@ def get_card_payment(page_url, payment_id):
                 date_trunc('second', t1.create_at::timestamp without time zone)::text AS payment_at,
                 t2.payment_agreed_status_name, 
                 t0.approval_sum,
-                TRIM(BOTH ' ' FROM to_char(t1.approval_sum, '999 999 999D99 ₽')) AS approval_sum_rub
+                TRIM(BOTH ' ' FROM to_char(t1.approval_sum, '999 999 990D99 ₽')) AS approval_sum_rub
         FROM payments_approval_history AS t1
         LEFT JOIN (
                 SELECT  
@@ -3171,8 +3169,8 @@ def get_card_payment(page_url, payment_id):
                 date_trunc('second', t1.create_at::timestamp without time zone)::text AS payment_at,
                 t2.payment_agreed_status_name, 
                 t0.paid_sum AS total_paid_sum,
-                TRIM(BOTH ' ' FROM to_char(t1.paid_sum, '999 999 999D99 ₽')) AS paid_sum_rub,
-                TRIM(BOTH ' ' FROM to_char(t0.paid_sum, '999 999 999D99 ₽')) AS total_paid_sum_rub
+                TRIM(BOTH ' ' FROM to_char(t1.paid_sum, '999 999 990D99 ₽')) AS paid_sum_rub,
+                TRIM(BOTH ' ' FROM to_char(t0.paid_sum, '999 999 990D99 ₽')) AS total_paid_sum_rub
         FROM payments_paid_history AS t1
         LEFT JOIN (
                 SELECT  
@@ -3198,7 +3196,7 @@ def get_card_payment(page_url, payment_id):
                 create_at,
                 'Согласование' AS type,
                 status_id,
-                TRIM(BOTH ' ' FROM to_char(approval_sum::numeric, '999 999 999D99 ₽')) AS sum
+                TRIM(BOTH ' ' FROM to_char(approval_sum::numeric, '999 999 990D99 ₽')) AS sum
             FROM payments_approval_history
             WHERE payment_id = %s
             UNION ALL 
@@ -3206,7 +3204,7 @@ def get_card_payment(page_url, payment_id):
                     create_at,
                     'Оплата' AS type,
                     status_id,
-                    TRIM(BOTH ' ' FROM to_char(paid_sum::numeric, '999 999 999D99 ₽')) AS sum
+                    TRIM(BOTH ' ' FROM to_char(paid_sum::numeric, '999 999 990D99 ₽')) AS sum
                 FROM payments_paid_history
                 WHERE payment_id = %s),
         t2 AS (

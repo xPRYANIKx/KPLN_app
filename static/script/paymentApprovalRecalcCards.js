@@ -1,6 +1,9 @@
 function paymentApprovalRecalcCards(rowId) {
     var userRoleId = document.getElementById('header__auth__role_id').textContent;
     var page_url = document.URL.substring(document.URL.lastIndexOf('/')+1);
+
+
+
     if (userRoleId == 6 && page_url === 'payment-approval') {
         tabColorize(rowId);
     }
@@ -25,7 +28,7 @@ function paymentApprovalRecalcCards(rowId) {
         amount_dataset ? amount_dataset = parseFloat(amount_dataset.replace(',', '.')).toFixed(2) * 1.00 : amount_dataset = 0;
 
         if (statusId) {
-            statusId = document.getElementById('status_id-' + rowId).value
+            statusId = document.getElementById('status_id-' + rowId).value;
         }
 
         if (paymentSelectedRows) {
@@ -42,9 +45,7 @@ function paymentApprovalRecalcCards(rowId) {
 
                     amount_value <= 0 ? amount_value = 0 : 0;
                     amount_value > approvalSum ? amount_value = approvalSum : 0;
-//                    if (page_url !== 'payment-approval') {
-                        amount_value > a_m_v ? amount_value = a_m_v : 0;
-//                    }
+                    amount_value > a_m_v ? amount_value = a_m_v : 0;
 
                     s_f_a_p += amount_value;
                     a_m_v -= amount_value;
@@ -58,9 +59,7 @@ function paymentApprovalRecalcCards(rowId) {
 
                 amount_value <= 0 ? amount_value = 0 : 0;
                 amount_value > approvalSum ? amount_value = approvalSum : 0;
-//                if (page_url !== 'payment-approval') {
-                    amount_value > a_m_v ? amount_value = a_m_v : 0;
-//                }
+                amount_value > a_m_v ? amount_value = a_m_v : 0;
 
                 s_f_a_p += amount_value;
                 a_m_v -= amount_value;
@@ -72,13 +71,10 @@ function paymentApprovalRecalcCards(rowId) {
             s_f_a_p -= amount_dataset;
             a_m_v += amount_dataset;
             document.getElementById('amount-' + rowId).dataset.amount = 0;
-//            document.getElementById('amount-' + rowId).value = '';
         }
 
         tabColorize(rowId);
-        console.log(a_m_v)
-        if (a_m_v <= 0) {
-            console.log(`   ****** ${a_m_v}`)
+        if (a_m_v < 0) {
             if (page_url === 'payment-approval') {
                 if (!document.getElementById('submitButton').disabled) {
                     document.getElementById('submitButton').disabled = true;
@@ -93,7 +89,6 @@ function paymentApprovalRecalcCards(rowId) {
             }
         }
         else {
-            console.log(` ____   ${a_m_v}`)
             if (page_url === 'payment-approval') {
                 if (document.getElementById('submitButton').disabled) {
                     document.getElementById('submitButton').disabled = false;
@@ -117,7 +112,6 @@ function paymentApprovalRecalcCards(rowId) {
         else {
             s_f_a_p = s_f_a_p.toFixed(2) * 1.00;
             s_f_a_p = s_f_a_p.toLocaleString();
-//            s_f_a_p = s_f_a_p.replaceAll(' ', '\'');
             s_f_a_p += ' ₽';
         }
 
@@ -127,12 +121,42 @@ function paymentApprovalRecalcCards(rowId) {
         else {
             a_m_v = a_m_v.toFixed(2) * 1.00;
             a_m_v = a_m_v.toLocaleString();
-//            a_m_v = a_m_v.replaceAll(' ', '\'');
             a_m_v += ' ₽';
         }
 
         document.getElementById('card_selected_for_approval_value').innerHTML = s_f_a_p;
         document.getElementById('card_available_money_value').innerHTML = a_m_v;
+
+
+        if (page_url === 'payment-approval') {
+            var total_select = document.getElementsByClassName("totalSelectRows__value")[0].innerText;
+
+            var total_amount = document.getElementsByClassName("totalSumRemain__value")[0].innerText;
+            total_amount ? total_amount = parseFloat(total_amount.replaceAll(' ', '').replaceAll(' ', '').replace('₽', '').replace(",", ".")).toFixed(2) * 1.00 : total_amount = 0;
+
+            if (paymentSelectedRows && statusId !== 'Аннулирован') {
+                total_select ++;
+                total_amount += approvalSum;
+            }
+            else if (!paymentSelectedRows && statusId !== 'Аннулирован') {
+                total_select --;
+                total_amount -= approvalSum;
+            }
+
+            document.getElementsByClassName("totalSelectRows__value")[0].innerText = total_select;
+            document.getElementsByClassName("totalSumRemain__value")[0].innerText = total_amount.toLocaleString() + ' ₽';
+
+            if (total_select && document.getElementById("totalSelectInfo").style.display) {
+                document.getElementById("totalSelectInfo").style.display = 'flex';
+            }
+            else {
+                document.getElementById("totalSelectInfo").style.display = 'none';
+            }
+
+
+        }
+
+
     }
 }
 
