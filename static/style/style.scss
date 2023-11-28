@@ -1917,31 +1917,14 @@ footer {
             width: 110px;
         }
     }
-    .th_payment_number,
-    .th_category_i,
-    .th_name_i,
-    .th_description_i,
-    .th_object_i,
-    .th_responsible_i,
-    .th_contractor_i,
-    .th_main_sum_i,
-    .th_sum_remain_i,
-    .th_pay_date_i,
-    .th_date_create_i {
+    .th_payment_number {
         cursor: pointer;
+        color: #04012a;
     }
-    .th_payment_number:hover,
-    .th_category_i:hover,
-    .th_name_i:hover,
-    .th_description_i:hover,
-    .th_object_i:hover,
-    .th_responsible_i:hover,
-    .th_contractor_i:hover,
-    .th_main_sum_i:hover,
-    .th_sum_remain_i:hover,
-    .th_pay_date_i:hover,
-    .th_date_create_i:hover {
-        background-color: #00000008;
+    .th_payment_number:hover {
+        background-color: #00000004;
+        font-size: 13.3px;
+        color: #016699;
     }
 }
 

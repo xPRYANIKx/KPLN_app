@@ -118,8 +118,8 @@
                 </thead>
                 <tbody>
                     {% for application in applications %}
-                    <tr id="row-{{ loop.index }}" data-sort="{{ loop.index }}" onclick="getModal({{ application.payment_id }})">
-                        <td class="th_payment_number" data-sort="{{ application.payment_id }}" {% if '0' in setting_users %}hidden{% endif %}>
+                    <tr id="row-{{ loop.index }}" data-sort="{{ loop.index }}">
+                        <td class="th_payment_number" data-sort="{{ application.payment_id }}" {% if '0' in setting_users %}hidden{% endif %} onclick="getModal({{ application.payment_id }})">
                             {{ application.payment_number }}
                         </td>
                         <td class="th_category_i" data-sort="{{ application.cost_item_name }}" {% if '1' in setting_users %}hidden{% endif %}>
