@@ -33,7 +33,9 @@ def on_load(state):
     try:
         login_manager.init_app(state.app)
     except Exception as e:
-        return f'on_load ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'on_load: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'on_load ❗❗❗ Ошибка \n---{e}'
 
 
 # PostgreSQL database configuration
@@ -64,7 +66,9 @@ def conn_init():
         )
         return g.conn
     except Exception as e:
-        return f'conn_init ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'conn_init: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'conn_init ❗❗❗ Ошибка \n---{e}'
 
 
 # Закрытие соединения
@@ -73,7 +77,9 @@ def conn_cursor_close(cursor, conn):
         g.cursor.close()
         g.conn.close()
     except Exception as e:
-        return f'conn_cursor_close ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'conn_cursor_close: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'conn_cursor_close ❗❗❗ Ошибка \n---{e}'
 
 
 @login_manager.user_loader
@@ -95,7 +101,9 @@ def before_request():
         dbase = FDataBase(conn)
 
     except Exception as e:
-        return f'before_request ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'before_request: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'before_request ❗❗❗ Ошибка \n---{e}'
 
 
 @login_bp.teardown_app_request
@@ -111,7 +119,9 @@ def conn_cursor_init_dict():
         g.cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         return conn, g.cursor
     except Exception as e:
-        return f'conn_cursor_init ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'conn_cursor_init_dict: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'conn_cursor_init_dict ❗❗❗ Ошибка \n---{e}'
 
 
 def conn_cursor_init():
@@ -120,7 +130,9 @@ def conn_cursor_init():
         g.cursor = conn.cursor()
         return conn, g.cursor
     except Exception as e:
-        return f'conn_cursor_init ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'conn_cursor_init: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'conn_cursor_init ❗❗❗ Ошибка \n---{e}'
 
 
 @login_bp.route('/', methods=["POST", "GET"])
@@ -136,7 +148,9 @@ def index():
         return render_template('index.html', menu=hlink_menu,
                                menu_profile=hlink_profile, title='Главная страница')
     except Exception as e:
-        return f'❗❗❗ index \n---{e}'
+        flash(message=['Ошибка', f'index: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'❗❗❗ index \n---{e}'
 
 
 @login_bp.route("/login", methods=["POST", "GET"])
@@ -188,7 +202,9 @@ def login():
                                menu_profile=hlink_profile)
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {current_user.get_id()}  -  {e}")
-        return f'login ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'login: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'login ❗❗❗ Ошибка \n---{e}'
 
 
 @login_bp.route('/logout')
@@ -203,7 +219,9 @@ def logout():
 
         return redirect(request.args.get('next') or request.referrer)
     except Exception as e:
-        return f'logout ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'logout: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'logout ❗❗❗ Ошибка \n---{e}'
 
 
 @login_bp.route('/profile')
@@ -219,7 +237,9 @@ def profile():
         return render_template("__profile.html", title="Профиль", menu=hlink_menu,
                                menu_profile=hlink_profile, name=name)
     except Exception as e:
-        return f'profile ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'profile: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'profile ❗❗❗ Ошибка \n---{e}'
 
 
 @login_bp.route("/register", methods=["POST", "GET"])
@@ -277,7 +297,9 @@ def register():
             return render_template("register.html", title="Регистрация новых пользователей", menu=hlink_menu,
                                    menu_profile=hlink_profile, roles=roles)
     except Exception as e:
-        return f'register ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'register: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'register ❗❗❗ Ошибка \n---{e}'
 
 
 def func_hlink_profile():

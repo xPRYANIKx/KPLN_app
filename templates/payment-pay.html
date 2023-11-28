@@ -62,7 +62,7 @@
 
     <form id="paymentForm" action="/payment-pay" method="POST">
         <div class="paymentFormBtn">
-            <button type="button" id="submitButton" onclick="window['verification_dialog'].showModal();">Отправить</button>
+            <button type="button" id="submitButton" onclick="window['verification_dialog'].showModal();" data-selectCnt=0  disabled>Отправить</button>
             <button type="button" id="visualTablePA" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
                 таблицы</button>
         </div>

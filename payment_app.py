@@ -59,7 +59,12 @@ def get_new_payment():
 
         # Список типов заявок
         cursor.execute(
-            "SELECT cost_item_id, cost_item_name, cost_item_category FROM payment_cost_items")
+            """SELECT 
+                    cost_item_id, 
+                    cost_item_name, 
+                    cost_item_category 
+                FROM payment_cost_items 
+                ORDER BY cost_item_category, cost_item_name""")
         cost_items_list = cursor.fetchall()
         # передаём данные в виде словаря для создания сгруппированного выпадающего списка
         cost_items_full = {}
@@ -118,7 +123,9 @@ def get_new_payment():
                                not_save_val=not_save_val, setting_users=setting_users, title='Новая заявка на оплату')
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'payment ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'new-payment: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'payment ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/new-payment', methods=['POST'])
@@ -279,8 +286,9 @@ def set_new_payment():
         return redirect(url_for('.get_new_payment'))
 
     except Exception as e:
+        flash(message=['Ошибка', str(e)], category='error')
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'set_new_payment ❗❗❗ Ошибка \n---{e}'
+        return redirect(url_for('.get_new_payment'))
 
 
 @payment_app_bp.route('/payment-approval')
@@ -425,7 +433,12 @@ def get_unapproved_payments():
 
             # Список типов заявок
             cursor.execute(
-                "SELECT cost_item_id, cost_item_name, cost_item_category FROM payment_cost_items")
+                """SELECT 
+                    cost_item_id, 
+                    cost_item_name, 
+                    cost_item_category 
+                FROM payment_cost_items 
+                ORDER BY cost_item_category, cost_item_name""")
             cost_items_list = cursor.fetchall()
             # передаём данные в виде словаря для создания сгруппированного выпадающего списка
             cost_items = {}
@@ -472,7 +485,9 @@ def get_unapproved_payments():
                 title='Согласование платежей')
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'get_unapproved_payments ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'payment-approval: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'get_unapproved_payments ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/get-paymentApproval-pagination', methods=['POST'])
@@ -680,8 +695,6 @@ def set_approved_payments():
         if request.method == 'POST':
             # Ограничиваем доступ на изменение для бухгалтерии
 
-            pprint(request.data)
-
             if login_app.current_user.get_role() not in (1, 4):
                 flash(message=['Запрещено изменять данные', ''], category='error')
                 return redirect(url_for('.get_unapproved_payments'))
@@ -825,7 +838,6 @@ def set_approved_payments():
                         total_approval_sum[i]['payment_approval_sum'] = (
                             float(0 if payment_approval_sum[jj] is None else payment_approval_sum[jj]))
 
-                        print(i, total_approval_sum[i]['payment_approval_sum'], available_money)
                         # Проверка, не выбрано ли бельше, чем можно согласовать
                         available_money -= total_approval_sum[i]['payment_approval_sum']
                         if available_money < 0:
@@ -996,14 +1008,16 @@ def set_approved_payments():
                 conn.rollback()
                 login_app.conn_cursor_close(cursor, conn)
                 current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-                return f'отправка set_approved_payments ❗❗❗ Ошибка \n---{e}'
+                flash(message=['Ошибка', str(e)], category='error')
+                return redirect(url_for('.get_unapproved_payments'))
+
 
         return redirect(url_for('.get_unapproved_payments'))
-        # return get_unapproved_payments()
 
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'set_approved_payments ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', str(e)], category='error')
+        return redirect(url_for('.get_unapproved_payments'))
 
 
 @payment_app_bp.route('/save_quick_changes_approved_payments', methods=['POST'])
@@ -1137,6 +1151,7 @@ def save_quick_changes_approved_payments():
         return 'Data saved successfully'
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
+        flash(message=['Ошибка', str(e)], category='error')
         return f'save_quick_changes_approved_payments ❗❗❗ Ошибка \n---{e}'
 
 
@@ -1200,8 +1215,6 @@ def get_cash_inflow():
             """)
             companies_balances = cursor.fetchall()
 
-            print(companies_balances)
-
             # Список балансов других компаний
             cursor.execute("""
             SELECT 
@@ -1236,7 +1249,9 @@ def get_cash_inflow():
                 title='Поступления денежных средств')
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'cash-inflow: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'get_cash_inflow ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/cash-inflow', methods=['POST'])
@@ -1375,7 +1390,9 @@ def set_cash_inflow():
 
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'set_cash_inflow ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', str(e)], category='error')
+        return redirect(url_for('.get_cash_inflow'))
+        # return f'set_cash_inflow ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/payment-pay')
@@ -1523,7 +1540,12 @@ def get_unpaid_payments():
 
             # Список типов заявок
             cursor.execute(
-                "SELECT cost_item_id, cost_item_name, cost_item_category FROM payment_cost_items")
+                """SELECT 
+                    cost_item_id, 
+                    cost_item_name, 
+                    cost_item_category 
+                FROM payment_cost_items 
+                ORDER BY cost_item_category, cost_item_name""")
             cost_items_list = cursor.fetchall()
             # передаём данные в виде словаря для создания сгруппированного выпадающего списка
             cost_items = {}
@@ -1572,7 +1594,9 @@ def get_unpaid_payments():
                 title='Оплата платежей')
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'get_unpaid_payments ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'payment-pay: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'get_unpaid_payments ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/get-paymentPay-pagination', methods=['POST'])
@@ -1962,7 +1986,9 @@ def set_paid_payments():
 
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'отправка set_approved_payments 2 ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', str(e)], category='error')
+        return redirect(url_for('.get_unpaid_payments'))
+        # return f'отправка set_approved_payments 2 ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/payment-approval-list')
@@ -2095,7 +2121,12 @@ def get_payments_approval_list():
 
             # Список типов заявок
             cursor.execute(
-                "SELECT cost_item_id, cost_item_name, cost_item_category FROM payment_cost_items")
+                """SELECT 
+                    cost_item_id, 
+                    cost_item_name, 
+                    cost_item_category 
+                FROM payment_cost_items 
+                ORDER BY cost_item_category, cost_item_name""")
             cost_items_list = cursor.fetchall()
             # передаём данные в виде словаря для создания сгруппированного выпадающего списка
             cost_items = {}
@@ -2143,7 +2174,9 @@ def get_payments_approval_list():
                 sort_col=sort_col, tab_rows=tab_rows, setting_users=setting_users, title='Согласованные платежи')
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'get_payments_approval_list ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'payment-approval-list: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'get_payments_approval_list ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/get-paymentApprovalList-pagination', methods=['POST'])
@@ -2485,7 +2518,9 @@ def get_payments_paid_list():
                 title='Оплаченные платежи')
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'get_payments_paid_list ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'payment-paid-list: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'get_payments_paid_list ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/get-paymentPaidList-pagination', methods=['POST'])
@@ -2812,7 +2847,9 @@ def get_payments_list():
             title='Список платежей')
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'get_payments_list ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', f'payment-list: {e}'], category='error')
+        return render_template('page_error.html')
+        # return f'get_payments_list ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/get-paymentList-pagination', methods=['POST'])
@@ -3015,7 +3052,12 @@ def get_card_payment(page_url, payment_id):
 
     # Список типов заявок
     cursor.execute(
-        "SELECT cost_item_id, cost_item_name, cost_item_category FROM payment_cost_items")
+        """SELECT 
+                    cost_item_id, 
+                    cost_item_name, 
+                    cost_item_category 
+                FROM payment_cost_items 
+                ORDER BY cost_item_category, cost_item_name""")
     cost_items_list = cursor.fetchall()
 
     # передаём данные в виде словаря для создания сгруппированного выпадающего списка
@@ -3533,7 +3575,9 @@ def save_payment():
 
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'set_approved_payments ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', str(e)], category='error')
+        return jsonify({'status': 'error'})
+        # return f'set_approved_payments ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/annul_payment', methods=['POST'])
@@ -3640,7 +3684,9 @@ def annul_payment():
 
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'set_approved_payments ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', str(e)], category='error')
+        return jsonify({'status': 'error'})
+        # return f'set_approved_payments ❗❗❗ Ошибка \n---{e}'
 
 
 @payment_app_bp.route('/annul_approval_payment', methods=['POST'])
@@ -3671,8 +3717,6 @@ def annul_approval_payment():
             [payment_number]
         )
         approval_sum = cursor.fetchone()[0]
-
-        print(approval_sum)
 
         # Добавляем запись в таблицу payments_paid_history со статусом 11
         values_p_p_h = [(
@@ -3854,8 +3898,6 @@ def get_payment_my_charts():
             query_tab = 't11'
             title = 'История изменения баланса на счету'
             label = 'Средства на счету'
-
-        print(chart_type, query_tab)
 
         cursor.execute(
             f"""WITH

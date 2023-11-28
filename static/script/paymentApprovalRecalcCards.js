@@ -74,6 +74,7 @@ function paymentApprovalRecalcCards(rowId) {
         }
 
         tabColorize(rowId);
+
         if (a_m_v < 0) {
             if (page_url === 'payment-approval') {
                 if (!document.getElementById('submitButton').disabled) {
@@ -128,6 +129,9 @@ function paymentApprovalRecalcCards(rowId) {
         document.getElementById('card_available_money_value').innerHTML = a_m_v;
 
 
+
+
+
         if (page_url === 'payment-approval') {
             var total_select = document.getElementsByClassName("totalSelectRows__value")[0].innerText;
 
@@ -152,11 +156,30 @@ function paymentApprovalRecalcCards(rowId) {
             else {
                 document.getElementById("totalSelectInfo").style.display = 'none';
             }
+            if (!total_select) {
+                if (!document.getElementById('submitButton').disabled) {
+                    document.getElementById('submitButton').disabled = true;
+                }
+            }
+            else {
+                document.getElementById('submitButton').disabled = false;
+            }
+        }
+        else {
+            var selectCnt = document.getElementById('submitButton').dataset.selectcnt;
+            paymentSelectedRows? selectCnt++:selectCnt--;
+            document.getElementById('submitButton').dataset.selectcnt = selectCnt;
+            if (!selectCnt) {
+                if (!document.getElementById('submitButton').disabled) {
+                    document.getElementById('submitButton').disabled = true;
+                }
+            }
+            else {
+                document.getElementById('submitButton').disabled = false;
+            }
 
 
         }
-
-
     }
 }
 

@@ -1,6 +1,7 @@
 import flask
-from flask import render_template, current_app, request
+from flask import render_template, current_app, request, flash
 import login_app
+
 
 errorhandler_bp = flask.Blueprint('error_handlers', __name__)
 
@@ -19,7 +20,9 @@ def handle403(e):
                                    menu_profile=hlink_profile), 403
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'permission_error ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', str(e)], category='error')
+        return render_template('page_error.html')
+        # return f'permission_error ❗❗❗ Ошибка \n---{e}'
 
 
 # Обработчик ошибки 404
@@ -31,7 +34,9 @@ def handle404(e):
                                    menu_profile=hlink_profile), 404
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'handle404 ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', str(e)], category='error')
+        return render_template('page_error.html')
+        # return f'handle404 ❗❗❗ Ошибка \n---{e}'
 
 
 # Обработчик ошибки 401
@@ -43,4 +48,6 @@ def handle401(e):
                                    menu_profile=hlink_profile), 401
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-        return f'permission_error ❗❗❗ Ошибка \n---{e}'
+        flash(message=['Ошибка', str(e)], category='error')
+        return render_template('page_error.html')
+        # return f'permission_error ❗❗❗ Ошибка \n---{e}'
