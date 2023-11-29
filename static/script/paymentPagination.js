@@ -555,19 +555,6 @@ $(document).ready(function() {
                             newRow.id = `row-${numRow}`;
                             newRow.dataset.sort = numRow;
 
-                            if (page_url == 'payment-approval-list') {
-                                newRow.setAttribute("onclick", `getModal(${pmt['payment_id']})`);
-
-                                newRow.addEventListener("click", function () {
-                                    var bodyRef = document.getElementById('paid_history-table').getElementsByTagName('tbody')[0];
-                                    bodyRef.innerHTML = ''
-                                    var logDPage = document.getElementById('logDPage__content__text');
-                                    logDPage.innerHTML = ''
-                                    dialog.showModal();
-                                });
-
-                            }
-                            
                             if (page_url == 'payment-paid-list') {
                                 // Согласованная сумма
                                 td_column_shift1 = td[0];
@@ -579,6 +566,19 @@ $(document).ready(function() {
                             td_0 = td[0+col_shift2];
                             td_0.dataset.sort = pmt['payment_id'];
                             td_0.textContent = pmt['payment_number'];
+
+                            if (page_url == 'payment-approval-list') {
+                                td_0.setAttribute("onclick", `getModal(${pmt['payment_id']})`);
+
+                                td_0.addEventListener("click", function () {
+                                    var bodyRef = document.getElementById('paid_history-table').getElementsByTagName('tbody')[0];
+                                    bodyRef.innerHTML = ''
+                                    var logDPage = document.getElementById('logDPage__content__text');
+                                    logDPage.innerHTML = ''
+                                    dialog.showModal();
+                                });
+
+                            }
 
                             // Статья затрат
                             td_1 = td[1+col_shift2];
