@@ -477,11 +477,14 @@ def get_unapproved_payments():
             # Настройки таблицы
             setting_users = get_tab_settings(user_id=user_id, list_name=request.path[1:])
 
+            news_alerts = set_user_activity_dt(user_id)
+
             return render_template(
                 'payment-approval.html', menu=hlink_menu, menu_profile=hlink_profile,
                 applications=all_payments, approval_statuses=approval_statuses, money=money, responsible=responsible,
                 cost_items=cost_items, objects_name=objects_name, partners=partners, our_companies=our_companies,
                 sort_col=sort_col, tab_rows=tab_rows, page=request.path[1:], setting_users=setting_users,
+                news_alerts=news_alerts,
                 title='Согласование платежей')
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
@@ -4149,6 +4152,48 @@ def get_tab_settings(user_id=0, list_name=0, unit_name=0, unit_value=0):
         current_app.logger.info(f"get_tab_settings  -  id{user_id} - {e}")
         return False
 
+
+def set_user_activity_dt(user_id):
+    try:
+        # Connect to the database
+        conn, cursor = login_app.conn_cursor_init_dict()
+
+        # Список непрочитанных новостей
+        cursor.execute(
+            """
+                SELECT
+                    news_id,
+                    news_title,
+                    news_subtitle,
+                    news_description,
+                    news_img_link,
+                    news_category,
+                    to_char(create_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI') AS create_at
+                FROM news_alerts
+                WHERE create_at >= (SELECT last_activity FROM users WHERE user_id = %s)
+                ORDER BY create_at DESC
+                """,
+            [user_id]
+        )
+
+        setting_users = cursor.fetchall()
+
+        # # Список скрываемых столбцов пользователя
+        # query = """
+        #     UPDATE users
+        #     SET last_activity = CURRENT_TIMESTAMP
+        #     WHERE user_id = %s;"""
+        # value = [user_id]
+        # cursor.execute(query, value)
+        # conn.commit()
+
+        login_app.conn_cursor_close(cursor, conn)
+
+        return setting_users
+
+    except Exception as e:
+        current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
+        return False
 
 # @payment_app_bp.route('/_test')
 # @login_required
