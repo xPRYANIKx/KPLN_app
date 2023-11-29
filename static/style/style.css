@@ -2286,6 +2286,7 @@ footer .footer_company__copyright {
 }
 #payment-approval-list_page .th_payment_number {
   min-width: 250px;
+  font-weight: bold;
 }
 #payment-approval-list_page .th_number {
   min-width: 210px;
