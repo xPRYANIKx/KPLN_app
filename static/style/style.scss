@@ -293,6 +293,66 @@ dialog {
         }
     }
 }
+#release {
+    z-index: 11;
+    top: 50%;
+    min-width: 700px;
+    max-height: 680px;
+    background-color: #def7fe;
+    overflow-y: scroll;
+    .window_news__h1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 31px;
+        font-weight: 900;
+        border-bottom: solid 3px rgb(6 12 113 / 9%);
+        img {
+            width: 35px;
+            height: 40px;
+            margin-right: 10px;
+        }
+    }
+    .window_news__datetime {
+        font-size: 13px;
+        color: rgb(68, 68, 68);
+        font-weight: 900;
+        padding-top: 12px;
+    }
+    .window_news__alerts {
+        padding: 0px 0px 10px 13px;
+        border-left: solid 2px rgb(6 12 113 / 9%);
+        border-bottom: solid 2px rgb(6 12 113 / 9%);
+        border-radius: 0px 0px 0px 8px;
+    }
+    .window_news__h2 {
+        font-size: 25px;
+        font-weight: bold;
+    }
+    .window_news__h3 {
+        font-size: 20px;
+        font-weight: 600;
+    }
+    .window_news__img {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+        img {
+            max-width: 400px;
+        }
+    }
+    .window_news__description {
+        margin-top: 5px;
+        font-size: 14px;
+    }
+    #crossBtnNAW {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 25px;
+    }
+}
 ///____________///
 ///____________///
 ///____________///
@@ -1867,7 +1927,6 @@ footer {
         }
     }
 }
-
 #payment-approval-list_page {
     #paymentForm {
         margin: 0px;
@@ -1928,7 +1987,6 @@ footer {
         color: #016699;
     }
 }
-
 #payment-paid-list_page {
     #paymentForm {
         padding: 0px;
@@ -1981,7 +2039,6 @@ footer {
             }
         }
     }
-
     .tableR {
         max-height: calc(100vh - 440px);
     }
@@ -2101,7 +2158,6 @@ footer {
         min-width: 130px;
     }
 }
-
 ///---------------------------------------------------
 ///---------------------------------------------------
 ///---------------------------------------------------
