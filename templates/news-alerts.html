@@ -1,29 +1,37 @@
 {% if news_alerts %}
 
 
-<dialog class="window_news" id="release" style="z-index: 110" open>
-    <div class="whats_new">Что нового</div>
+<dialog class="window_news" id="release" open>
+    <div class="window_news__h1"><img src="static/img/h1/news.png"> Что нового</div>
+    <img id="crossBtnNAW" src="static/img/interface/close.png">
     {% for news in news_alerts %}
-    <div class="update-datetime" style="font-size: 10px; color: grey; line-height: 24px; font-weight: 600;">
+
+
+    <div class="window_news__datetime">
         {{news['create_at']}}
     </div>
-    <div class="news_alerts {{news['news_category']}}">
-        <div class="update-title" style="font-size: 30px; line-height: 36px; font-weight: 600;">
+
+
+    <div class="window_news__alerts {{news['news_category']}}">
+        <div class="window_news__h2">
             {{news['news_title']}}
         </div>
-        <div class="update-img">{% if news['news_img_link'] != None %}<img src="{{news['news_img_link']}}">{% endif %}</div>
+        <div class="window_news__img">{% if news['news_img_link'] != None %}<img src="{{news['news_img_link']}}">{% endif %}</div>
 
-        <div class="update-subtitle" style="font-size: 20px; line-height: 48px; font-weight: 1600;">{{news['news_subtitle']}}</div>
-        <div class="update-description">
+        <div class="window_news__h3">
+            {{news['news_subtitle']}}
+        </div>
+        <div class="window_news__description">
             {% for part in news['news_description'] %}
                 <p>{{part}}</p>
             {% endfor %}
         </div>
     </div>
-    <div class="update-end">___________________</div>
+
     {% endfor %}
 </dialog>
 
 
 {% else %}
 {% endif %}
+<script src="static/script/newsAlert.js"></script>

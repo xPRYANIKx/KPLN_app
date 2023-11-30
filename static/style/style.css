@@ -462,6 +462,67 @@ dialog {
   background-color: #006500;
 }
 
+#release {
+  z-index: 11;
+  top: 50%;
+  min-width: 700px;
+  height: 680px;
+  background-color: #def7fe;
+  overflow-y: scroll;
+}
+#release .window_news__h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 31px;
+  font-weight: 900;
+  border-bottom: solid 3px rgba(6, 12, 113, 0.09);
+}
+#release .window_news__h1 img {
+  width: 35px;
+  height: 40px;
+  margin-right: 10px;
+}
+#release .window_news__datetime {
+  font-size: 13px;
+  color: rgb(68, 68, 68);
+  font-weight: 900;
+  padding-top: 12px;
+}
+#release .window_news__alerts {
+  padding: 0px 0px 10px 13px;
+  border-left: solid 2px rgba(6, 12, 113, 0.09);
+  border-bottom: solid 2px rgba(6, 12, 113, 0.09);
+  border-radius: 0px 0px 0px 8px;
+}
+#release .window_news__h2 {
+  font-size: 25px;
+  font-weight: bold;
+}
+#release .window_news__h3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+#release .window_news__img {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+#release .window_news__img img {
+  max-width: 400px;
+}
+#release .window_news__description {
+  margin-top: 5px;
+  font-size: 14px;
+}
+#release #crossBtnNAW {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 25px;
+}
+
 header {
   z-index: 10;
   position: fixed;
