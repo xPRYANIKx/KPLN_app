@@ -1,37 +1,25 @@
-{% if news_alerts %}
-
-
-<dialog class="window_news" id="release" open>
+<dialog class="window_news" id="release">
     <div class="window_news__h1"><img src="static/img/h1/news.png"> Что нового</div>
     <img id="crossBtnNAW" src="static/img/interface/close.png">
-    {% for news in news_alerts %}
 
 
-    <div class="window_news__datetime">
-        {{news['create_at']}}
-    </div>
+    <div class="news_card">
+        <div class="window_news__datetime">111</div>
 
 
-    <div class="window_news__alerts {{news['news_category']}}">
-        <div class="window_news__h2">
-            {{news['news_title']}}
+        <div class="news_category">
+            <div class="window_news__h2"></div>
+            <div class="window_news__img"></div>
+            <div class="window_news__h3"></div>
+            <div class="window_news__description"></div>
         </div>
-        <div class="window_news__img">{% if news['news_img_link'] != None %}<img src="{{news['news_img_link']}}">{% endif %}</div>
-
-        <div class="window_news__h3">
-            {{news['news_subtitle']}}
-        </div>
-        <div class="window_news__description">
-            {% for part in news['news_description'] %}
-                <p>{{part}}</p>
-            {% endfor %}
+        <div class="news_end">
+            _____________________
         </div>
     </div>
 
-    {% endfor %}
+
 </dialog>
 
 
-{% else %}
-{% endif %}
 <script src="static/script/newsAlert.js"></script>

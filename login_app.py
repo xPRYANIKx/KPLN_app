@@ -346,6 +346,7 @@ def create_news():
                     news_description = request.form.get('news_description')  # Описание новости
                     news_img_link = request.form.get('news_img_link')  # Ссылка на картинку
                     news_category = request.form.get('news_category')  # Категория новости
+                    news_category = news_category.replace(' ', '_')  # 'murmurian'
 
                     if not news_title or not news_category:
                         flash(message=['Не заполнены обязательные поля',
