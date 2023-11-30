@@ -97,7 +97,7 @@
                     oninput="checkFormCashInflow()">{{ not_save_val.get('i_d') if not_save_val.get('i_d') }}</textarea>
             </div>
             <div class="button_wrapper">
-                <button type="submit" id="submit_button_in_form" class="single_click__button" onclick="window['logInfo'].showModal();"
+                <button id="submit_button_in_form" class="single_click__button" onclick="window['logInfo'].showModal(); this.parentNode.submit();"
                     disabled>Сохранить</button>
             </div>
         </form>

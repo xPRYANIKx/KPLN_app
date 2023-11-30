@@ -1,7 +1,9 @@
 import psycopg2
 import psycopg2.extras
+from psycopg2.extras import execute_values
 from pprint import pprint
-from flask import g, abort, request, render_template, redirect, flash, url_for, get_flashed_messages, Blueprint, current_app
+from flask import g, abort, request, render_template, redirect, flash, url_for
+from flask import get_flashed_messages, Blueprint, current_app, session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash
 from user_login import UserLogin
@@ -249,6 +251,9 @@ def register():
         if current_user.get_role() != 1:
             return abort(403)
         else:
+            global hlink_menu, hlink_profile
+
+            hlink_menu, hlink_profile = func_hlink_profile()
 
             if request.method == 'POST':
                 try:
@@ -268,19 +273,19 @@ def register():
                     if res:
                         # Close the database connection
                         conn.close()
-                        return render_template("register.html",
+                        return render_template("login-register.html",
                                                title="Регистрация новых пользователей", menu=hlink_menu,
                                                menu_profile=hlink_profile, roles=roles)
                     else:
                         conn.rollback()
                         conn.close()
-                        return render_template("register.html",
+                        return render_template("login-register.html",
                                                title="Регистрация новых пользователей", menu=hlink_menu,
                                                menu_profile=hlink_profile, roles=roles)
 
                 except Exception as e:
                     flash(message=['register ❗❗❗ Ошибка', str(e)], category='error')
-                    return render_template("register.html", title="Регистрация новых пользователей",
+                    return render_template("login-register.html", title="Регистрация новых пользователей",
                                            menu=hlink_menu,
                                            menu_profile=hlink_profile, roles=roles)
 
@@ -294,12 +299,106 @@ def register():
                 roles = cursor.fetchall()
                 conn_cursor_close(cursor, conn)
 
-            return render_template("register.html", title="Регистрация новых пользователей", menu=hlink_menu,
+            return render_template("login-register.html", title="Регистрация новых пользователей", menu=hlink_menu,
                                    menu_profile=hlink_profile, roles=roles)
     except Exception as e:
         flash(message=['Ошибка', f'register: {e}'], category='error')
         return render_template('page_error.html')
         # return f'register ❗❗❗ Ошибка \n---{e}'
+
+
+@login_bp.route("/create_news", methods=["GET", "POST"])
+@login_required
+def create_news():
+    try:
+        if current_user.get_role() != 1:
+            return abort(403)
+        else:
+            global hlink_menu, hlink_profile
+
+            hlink_menu, hlink_profile = func_hlink_profile()
+
+            if request.method == 'GET':
+                try:
+                    not_save_val = session['n_s_v_create_news'] if session.get('n_s_v_create_news') else {}
+
+                    conn, cursor = conn_cursor_init_dict()
+
+                    # Список категорий
+                    cursor.execute("SELECT DISTINCT news_category FROM news_alerts")
+                    categories = cursor.fetchall()
+
+                    conn_cursor_close(cursor, conn)
+
+                    return render_template("news-create.html", title="Создать новость",
+                                           not_save_val=not_save_val, menu=hlink_menu, menu_profile=hlink_profile,
+                                           categories=categories)
+                except Exception as e:
+                    flash(message=['Ошибка', f'create_news GET: {e}'], category='error')
+                    return render_template('page_error.html')
+
+            if request.method == 'POST':
+                try:
+                    user_id = current_user.get_id()
+
+                    news_title = request.form.get('news_title')  # Заголовок
+                    news_subtitle = request.form.get('news_subtitle')  # Подзаголовок
+                    news_description = request.form.get('news_description')  # Описание новости
+                    news_img_link = request.form.get('news_img_link')  # Ссылка на картинку
+                    news_category = request.form.get('news_category')  # Категория новости
+
+                    if not news_title or not news_category:
+                        flash(message=['Не заполнены обязательные поля',
+                                       f'Поля: {"news_title, " if not news_title else ""} '
+                                       f'{"news_category" if not news_category else ""}'], category='error')
+                        session['n_s_v_create_news'] = {
+                            'news_title': news_title,
+                            'news_subtitle': news_subtitle,
+                            'news_description': news_description,
+                            'news_img_link': news_img_link,
+                            'news_category': news_category
+                        }
+                        return redirect(url_for('.create_news'))
+
+                    conn, cursor = conn_cursor_init_dict()
+
+                    query = """
+                                INSERT INTO news_alerts (
+                                    owner_id,
+                                    news_title,
+                                    news_subtitle,
+                                    news_description,
+                                    news_img_link,
+                                    news_category
+                                )
+                                VALUES %s"""
+                    value = [(user_id, news_title, news_subtitle, news_description, news_img_link, news_category)]
+                    execute_values(cursor, query, value)
+
+                    conn.commit()
+
+                    conn_cursor_close(cursor, conn)
+
+                    flash(message=['Новость создана', f'{news_title}'], category='success')
+
+                    session.pop('n_s_v_create_news', default=None)
+
+                    return redirect(url_for('.create_news'))
+                except Exception as e:
+                    session['n_s_v_create_news'] = {
+                        'news_title': news_title,
+                        'news_subtitle': news_subtitle,
+                        'news_description': news_description,
+                        'news_img_link': news_img_link,
+                        'news_category': news_category
+                    }
+                    flash(message=['Ошибка', f'create_news POST: {e}'], category='error')
+                    current_app.logger.info(f"url {request.path[1:]}  -  id {user_id}  -  {e}")
+                    return redirect(url_for('.create_news'))
+
+    except Exception as e:
+        flash(message=['Ошибка', f'register: {e}'], category='error')
+        return render_template('page_error.html')
 
 
 def func_hlink_profile():
@@ -331,8 +430,12 @@ def func_hlink_profile():
                     ]
                  },
                 {"menu_item": "Администрирование", "sub_item":
-                    [{"name": "Регистрация пользователей", "url": "register",
-                      "img": "/static/img/mainpage/register.png"}, ]
+                    [
+                        {"name": "Регистрация пользователей", "url": "register",
+                         "img": "/static/img/mainpage/register.png"},
+                        {"name": "Создать новость", "url": "create_news",
+                         "img": "/static/img/mainpage/register.png"},
+                    ]
                  },
             ]
 

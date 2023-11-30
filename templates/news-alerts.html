@@ -13,10 +13,12 @@
         </div>
         <div class="update-img">{% if news['news_img_link'] != None %}<img src="{{news['news_img_link']}}">{% endif %}</div>
 
-        <div class="update-subtitle" style="font-size: 20px; line-height: 48px; font-weight: 1600;">
-            {{news['news_subtitle']}}
+        <div class="update-subtitle" style="font-size: 20px; line-height: 48px; font-weight: 1600;">{{news['news_subtitle']}}</div>
+        <div class="update-description">
+            {% for part in news['news_description'] %}
+                <p>{{part}}</p>
+            {% endfor %}
         </div>
-        <div class="update-description">{{news['news_description']}}</div>
     </div>
     <div class="update-end">___________________</div>
     {% endfor %}

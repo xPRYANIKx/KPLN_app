@@ -32,14 +32,6 @@ def before_request():
     login_app.before_request()
 
 
-# class NewPayment(Form):
-#     basis_of_payment = StringField(label='basis_of_payment', validators=[validators.Length(min=1)])
-#     responsible = IntegerField(label='responsible')
-#     cost_items = StringField(label='cost_items', validators=[validators.Length(min=7)])
-#     payment_description = StringField('payment_description')
-#     payment_due_date = DateField(label='payment_due_date', format='%YYYY-%mm-%dd')
-
-
 @payment_app_bp.route('/new-payment')
 @login_required
 def get_new_payment():
@@ -117,7 +109,7 @@ def get_new_payment():
             if new_values:
                 cost_items[k] = new_values
 
-        return render_template('new-payment.html', responsible=responsible, cost_items=cost_items,
+        return render_template('payment-new.html', responsible=responsible, cost_items=cost_items,
                                objects_name=objects_name, partners=partners, c_i_full_lst=c_i_full_lst,
                                our_companies=our_companies, menu=hlink_menu, menu_profile=hlink_profile,
                                not_save_val=not_save_val, setting_users=setting_users, title='Новая заявка на оплату')
@@ -1245,7 +1237,7 @@ def get_cash_inflow():
             setting_users = get_tab_settings(user_id=user_id, list_name=request.path[1:])
 
             return render_template(
-                template_name_or_list='cash-inflow.html', menu=hlink_menu, menu_profile=hlink_profile,
+                template_name_or_list='payment-cash-inflow.html', menu=hlink_menu, menu_profile=hlink_profile,
                 our_companies=our_companies, inflow_types=inflow_types, historical_data=historical_data,
                 not_save_val=not_save_val, companies_balances=companies_balances, page=request.path[1:],
                 subcompanies_balances=subcompanies_balances, setting_users=setting_users,
@@ -4172,11 +4164,19 @@ def set_user_activity_dt(user_id):
                 FROM news_alerts
                 WHERE create_at >= (SELECT last_activity FROM users WHERE user_id = %s)
                 ORDER BY create_at DESC
+                LIMIT 5
                 """,
             [user_id]
         )
 
         setting_users = cursor.fetchall()
+
+        for i in setting_users:
+            i['news_description'] = i['news_description'].split('\n')
+
+
+        print(setting_users[1])
+        print(setting_users[1]['news_description'])
 
         # # Список скрываемых столбцов пользователя
         # query = """
