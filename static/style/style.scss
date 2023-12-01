@@ -299,6 +299,7 @@ dialog {
     height: 680px;
     background-color: #def7fe;
     overflow-y: scroll;
+    border: none;
     .window_news__h1 {
         display: flex;
         justify-content: center;
@@ -360,6 +361,19 @@ dialog {
         width: 25px;
     }
 }
+
+#release::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+    background-color: #d7d7d7;
+}
+#release::-webkit-scrollbar-track {
+    background-color: #d7d7d7;
+}
+#release::-webkit-scrollbar-thumb {
+    background-color: rgb(56, 56, 56);
+}
+
 ///____________///
 ///____________///
 ///____________///

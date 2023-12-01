@@ -468,6 +468,7 @@ dialog {
   height: 680px;
   background-color: #def7fe;
   overflow-y: scroll;
+  border: none;
 }
 #release .window_news__h1 {
   display: flex;
@@ -528,6 +529,20 @@ dialog {
   top: 10px;
   right: 10px;
   width: 25px;
+}
+
+#release::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  background-color: #d7d7d7;
+}
+
+#release::-webkit-scrollbar-track {
+  background-color: #d7d7d7;
+}
+
+#release::-webkit-scrollbar-thumb {
+  background-color: rgb(56, 56, 56);
 }
 
 header {
