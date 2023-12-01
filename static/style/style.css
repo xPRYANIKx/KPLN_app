@@ -444,7 +444,7 @@ dialog {
 #verification_dialog__cancel, #verification_dialog__next {
   padding: 5px 5px 5px 5px;
   font-size: 13px;
-  color: #f3f3f3;
+  color: #333333;
 }
 #verification_dialog__cancel {
   width: 110px;
@@ -463,7 +463,6 @@ dialog {
 }
 
 #release {
-  z-index: 11;
   top: 50%;
   min-width: 700px;
   height: 680px;
@@ -476,12 +475,17 @@ dialog {
   align-items: center;
   font-size: 31px;
   font-weight: 900;
+  line-height: 1;
   border-bottom: solid 3px rgba(6, 12, 113, 0.09);
 }
 #release .window_news__h1 img {
   width: 35px;
   height: 40px;
   margin-right: 10px;
+}
+#release .news_card {
+  padding-bottom: 15px;
+  border-bottom: solid 2px rgba(6, 12, 113, 0.09);
 }
 #release .window_news__datetime {
   font-size: 13px;
@@ -498,15 +502,18 @@ dialog {
 #release .window_news__h2 {
   font-size: 25px;
   font-weight: bold;
+  line-height: 1;
+  padding: 3px 0px 10px 0px;
 }
 #release .window_news__h3 {
   font-size: 20px;
   font-weight: 600;
+  line-height: 1;
 }
 #release .window_news__img {
   display: flex;
   justify-content: center;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 #release .window_news__img img {
   max-width: 400px;
@@ -2683,6 +2690,16 @@ footer .footer_company__copyright {
     max-height: calc(100vh - 160px);
     margin: 0px 0px 30px 0px;
   }
+  #release {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    height: 100%;
+    border-radius: 0px;
+  }
 }
 @media (max-width: 720px) {
   header #menu {
@@ -3004,6 +3021,9 @@ footer .footer_company__copyright {
   }
   footer .footer_company__copyright {
     font-size: 9px;
+  }
+  #release .window_news__img img {
+    max-width: 100%;
   }
   #login_page .window_form_in_page {
     width: 280px;
@@ -3342,6 +3362,16 @@ footer .footer_company__copyright {
   }
   #payment-paid-list_page .tableR {
     max-height: calc(100vh - 140px);
+  }
+  #release .window_news__h1 {
+    justify-content: start;
+    font-size: 27px;
+  }
+  #release .window_news__h2 {
+    font-size: 23px;
+  }
+  #release .window_news__description {
+    font-size: 12px;
   }
 }
 @media (max-width: 350px) {
