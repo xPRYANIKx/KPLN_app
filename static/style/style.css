@@ -466,7 +466,7 @@ dialog {
   top: 50%;
   min-width: 700px;
   height: 680px;
-  background-color: #def7fe;
+  background-color: white;
   overflow-y: scroll;
   border: none;
 }
