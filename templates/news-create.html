@@ -7,37 +7,33 @@
 <body id="create_news_page"></body>
 
 <div class="window_form_in_page">
-    <form class="create_news" style="width: 900px" id="create_news_form" action="/create_news" method="post" class="form-create_news">
-        <h1><img src="static/img/h1/register.png"> Создать новость</h1>
-        <div class="register_form__field_wrapper" style="margin: 10px 0px 0px 0px;"><label style="max-width: 100px; align-self: stretch;">* Title: </label>
-            <input type="text" name="news_title" style="max-width: 840px"
-                   value="{{ not_save_val.get('news_title') if not_save_val.get('news_title') }}" required />
+    <form class="create_news" id="create_news_form" action="/create_news" method="post" class="form-create_news">
+        <h1><img src="static/img/h1/createnews.png"> Создать новость</h1>
+        <div class="register_form__field_wrapper"><label>Заголовок: </label>
+            <input type="text" name="news_title" value="{{ not_save_val.get('news_title') if not_save_val.get('news_title') }}" required />
         </div>
-        <div class="register_form__field_wrapper" style="margin: 10px 0px 0px 0px;"><label style="max-width: 100px; align-self: stretch;">Subtitle: </label>
-            <input type="text" name="news_subtitle" style="max-width: 840px;"
-                   value="{{ not_save_val.get('news_subtitle') if not_save_val.get('news_subtitle') }}" />
+        <div class="register_form__field_wrapper"><label>Подзаголовок: </label>
+            <input type="text" name="news_subtitle" value="{{ not_save_val.get('news_subtitle') if not_save_val.get('news_subtitle') }}" />
         </div>
-        <div class="create_news_form__field_wrapper" style="margin: 10px 0px 0px 0px;"><label style="max-width: 100px; align-self: stretch;">Description: </label>
-            <textarea id="news_description"  name="news_description" style="height: 500px; max-width: 840px; align-self: stretch; white-space: pre-wrap;">{{ not_save_val.get('news_description') if not_save_val.get('news_description') }}</textarea>
+        <div class="create_news_form__area_wrapper"><label>Описание: </label>
+            <textarea id="news_description" name="news_description">{{ not_save_val.get('news_description') if not_save_val.get('news_description') }}</textarea>
         </div>
-        <div class="register_form__field_wrapper" style="margin: 10px 0px 0px 0px;"><label style="max-width: 100px; align-self: stretch;">Link: </label>
-            <input type="text" name="news_img_link" style="max-width: 840px"
-                   value="{{ not_save_val.get('news_img_link') if not_save_val.get('news_img_link') }}" />
+        <div class="register_form__field_wrapper"><label>Ссылка на изображение: </label>
+            <input type="text" name="news_img_link" value="{{ not_save_val.get('news_img_link') if not_save_val.get('news_img_link') }}" />
         </div>
-        <div style="margin: 10px 0px 20px 0px;"><label for="news_category" style="max-width: 100px; align-self: stretch;">* Category:</label>
-            <input type="text" id="news_category" name="news_category" list="category_name" style="max-width: 840px" required>
+        <div class="register_form__field_wrapper"><label for="news_category">Категория:</label>
+            <input type="text" id="news_category" name="news_category" list="category_name" required>
             <datalist id="category_name">
                 {% if not_save_val.get('category_name') %}
-                    <option value="{{ not_save_val.get('category_name') }}">{{ not_save_val.get('category_name') }}</option>
+                <option value="{{ not_save_val.get('category_name') }}">{{ not_save_val.get('category_name') }}</option>
                 {% else %}
-                    <option></option>
+                <option></option>
                 {% endif %}
                 {% for cat in categories %}
                 <option value="{{ cat[0] }}">{{ cat[0] }}</option>
                 {% endfor %}
             </datalist>
         </div>
-
         <input type="button" id="create_news_form__button" class="input__button" onclick="this.parentNode.submit();" value="Создать">
     </form>
 </div>

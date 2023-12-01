@@ -466,7 +466,7 @@ dialog {
   top: 50%;
   min-width: 700px;
   height: 680px;
-  background-color: white;
+  background-color: #def7fe;
   overflow-y: scroll;
   border: none;
 }
@@ -778,6 +778,38 @@ footer .footer_company__copyright {
   width: 100%;
   padding: 8px 15px;
   font-size: 14.5px;
+}
+
+#create_news_page .window_form_in_page .create_news {
+  width: 700px;
+}
+#create_news_page .window_form_in_page .create_news h1 {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  font-size: 25px;
+}
+#create_news_page .window_form_in_page .create_news div input {
+  max-width: 400px;
+}
+#create_news_page .window_form_in_page .create_news .register_form__field_wrapper {
+  margin: 10px 0px 0px 0px;
+}
+#create_news_page .window_form_in_page .create_news .create_news_form__area_wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0px 15px 0px;
+}
+#create_news_page .window_form_in_page .create_news .create_news_form__area_wrapper label {
+  align-self: flex-start;
+}
+#create_news_page .window_form_in_page .create_news .create_news_form__area_wrapper textarea {
+  height: 220px;
+}
+#create_news_page .window_form_in_page .create_news #create_news_form__button {
+  float: right;
+  margin-top: 20px;
+  padding: 8px 15px;
+  font-size: 14px;
 }
 
 .error_page #logInfo {
@@ -2715,6 +2747,24 @@ footer .footer_company__copyright {
     height: 100%;
     border-radius: 0px;
   }
+  #create_news_page main {
+    width: 100%;
+  }
+  #create_news_page .window_form_in_page {
+    width: 100%;
+  }
+  #create_news_page .window_form_in_page .create_news div label {
+    font-size: 13px;
+  }
+  #create_news_page .window_form_in_page .create_news .register_form__field_wrapper {
+    flex-direction: column;
+  }
+  #create_news_page .window_form_in_page .create_news .register_form__field_wrapper label {
+    align-self: self-start;
+  }
+  #create_news_page .window_form_in_page .create_news .register_form__field_wrapper input {
+    max-width: 100%;
+  }
 }
 @media (max-width: 720px) {
   header #menu {
@@ -3236,6 +3286,9 @@ footer .footer_company__copyright {
   #new_payment_page #tableCustom form table tbody tr .ttdcbox input {
     zoom: 1.5;
   }
+  #create_news_page .window_form_in_page .create_news h1 {
+    font-size: 19px;
+  }
   #payment-approval_page #verification_dialog p,
   #payment-approval-list_page #verification_dialog p,
   #payment-paid-list_page #verification_dialog p,
@@ -3553,6 +3606,9 @@ footer .footer_company__copyright {
   }
   header .header__content #menu #menu__content li {
     font-size: 13px;
+  }
+  #create_news_page main {
+    padding: 80px 20px 30px 20px;
   }
   #login_page .window_form_in_page #auth_form h1 {
     font-size: 16px;
