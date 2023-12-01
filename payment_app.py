@@ -4228,6 +4228,8 @@ def get_news_alert():
     for i in range(len(news)):
         news[i] = dict(news[i])
 
+    print(news)
+
     # # Список скрываемых столбцов пользователя
     # query = """
     #     UPDATE users
@@ -4239,9 +4241,14 @@ def get_news_alert():
 
     login_app.conn_cursor_close(cursor, conn)
 
-    return jsonify({
-        'news': news
-    })
+    if news:
+        return jsonify({
+            'news': news
+        })
+    else:
+        return jsonify({
+
+        })
 
 # @payment_app_bp.route('/_test')
 # @login_required
