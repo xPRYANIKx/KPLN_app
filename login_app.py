@@ -230,7 +230,7 @@ def logout():
         # return f'logout ❗❗❗ Ошибка \n---{e}'
 
 
-@login_bp.route('/profile')
+@login_bp.route('/profile', methods=["POST", "GET"])
 @login_required
 def profile():
     try:
@@ -239,13 +239,51 @@ def profile():
 
         # Create profile name dict
         hlink_menu, hlink_profile = func_hlink_profile()
+        user_id = current_user.get_id()
 
-        return render_template("__profile.html", title="Профиль", menu=hlink_menu,
-                               menu_profile=hlink_profile, name=name)
+        if request.method == 'GET':
+            last_name = current_user.get_last_name()  # Фамилия
+            first_name = current_user.get_name()  # Имя
+            surname = current_user.get_surname()  # Отчество
+
+            user = {
+                'last_name': last_name,
+                'first_name': first_name,
+                'surname': surname,
+                'user_id': user_id
+            }
+
+            return render_template("login-profile.html", title="Профиль", menu=hlink_menu, menu_profile=hlink_profile,
+                                   user=user, name=name)
+
+        if request.method == 'POST':
+            try:
+                password = request.form.get('new_password')  # Заголовок
+                confirm_password = request.form.get('confirm_password')  # Заголовок
+                print(password)
+                print(confirm_password)
+
+                if password != confirm_password:
+                    flash(message=['Пароли не совпадают', ''], category='error')
+                    return redirect(url_for('.profile'))
+
+                conn, cursor = conn_cursor_init_dict()
+
+                query = """UPDATE users SET password = %s WHERE user_id = %s"""
+                value = [password, user_id]
+                cursor.execute(query, value)
+
+                conn.commit()
+
+                conn_cursor_close(cursor, conn)
+                flash(message=['Пароль изменен', ''], category='success')
+                return redirect(url_for('.index'))
+            except Exception as e:
+                flash(message=['Пароль не изменен', f'profile: {e}'], category='error')
+                return redirect(url_for('.profile'))
     except Exception as e:
         flash(message=['Ошибка', f'profile: {e}'], category='error')
         return render_template('page_error.html')
-        # return f'profile ❗❗❗ Ошибка \n---{e}'
 
 
 @login_bp.route("/register", methods=["POST", "GET"])
@@ -350,16 +388,11 @@ def create_news():
                     user_id = current_user.get_id()
 
                     news_title = request.form.get('news_title')  # Заголовок
-                    news_subtitle = request.form.get(
-                        'news_subtitle')  # Подзаголовок
-                    news_description = request.form.get(
-                        'news_description')  # Описание новости
-                    news_img_link = request.form.get(
-                        'news_img_link')  # Ссылка на картинку
-                    news_category = request.form.get(
-                        'news_category')  # Категория новости
-                    news_category = news_category.replace(
-                        ' ', '_')  # 'murmurian'
+                    news_subtitle = request.form.get('news_subtitle')  # Подзаголовок
+                    news_description = request.form.get('news_description')  # Описание новости
+                    news_img_link = request.form.get('news_img_link')  # Ссылка на картинку
+                    news_category = request.form.get('news_category')  # Категория новости
+                    news_category = news_category.replace(' ', '_')
 
                     if not news_title or not news_category:
                         flash(message=['Не заполнены обязательные поля',

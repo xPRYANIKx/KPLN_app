@@ -15,7 +15,13 @@ class UserLogin(UserMixin):
         return int(self.__user['user_id'])
 
     def get_name(self):
-        return self.__user['first_name'] if self.__user else "Без имени"
+        return self.__user['first_name'] if self.__user else False
+
+    def get_last_name(self):
+        return self.__user['last_name'] if self.__user else False
+
+    def get_surname(self):
+        return self.__user['surname'] if self.__user else False
 
     def get_profile_name(self):
         return str(self.__user['last_name'] + ' ' + self.__user['first_name'][0].upper() + '.') if self.__user else "Без имени"
