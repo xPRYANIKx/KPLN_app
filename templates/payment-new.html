@@ -5,16 +5,13 @@
 <script src="static/script/checkFormNewPayment.js"></script>
 <script src="static/script/numberWithSpaces.js"></script>
 
-
 {% endblock %}
 {% block content %}
+
 <body id="new_payment_page">
     {% include "_card-tableCustom.html" %}
 
-
     <div class="window_form_in_page">
-
-
 
         <form class="flex_form" id="new_payment_form" method="POST" action="/new-payment">
             <h1><img src="static/img/h1/newpayment.png"> {{title}}</h1>

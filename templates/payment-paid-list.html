@@ -6,10 +6,10 @@
 <script src="static/script/paymentApprovalSort.js"></script>
 <script src="static/script/paymentFilter.js"></script>
 
-<body id="payment-paid-list_page">
+{% endblock %}
+{% block content %}
 
-    {% endblock %}
-    {% block content %}
+<body id="payment-paid-list_page">
 
     {% include "_card-tableCustom.html" %}
 
@@ -150,8 +150,8 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </form>
     </div>
-    </form>
-
-    {% endblock %}
 </body>
+
+{% endblock %}

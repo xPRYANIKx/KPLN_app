@@ -10,11 +10,10 @@
 
 <script src="static/script/application_modal.js"></script>
 
+{% endblock %}
+{% block content %}
+
 <body id="payment-approval-list_page">
-
-    {% endblock %}
-    {% block content %}
-
     {% include "_card-payment.html" %}
     {% include "_card-tableCustom.html" %}
 
@@ -165,6 +164,5 @@
             </table>
         </form>
     </div>
-
-    {% endblock %}
 </body>
+{% endblock %}

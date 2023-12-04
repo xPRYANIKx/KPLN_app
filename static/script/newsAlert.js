@@ -1,11 +1,10 @@
-const crossButtonNAW = document.querySelector("#crossBtnNA");
-const dialogNAW = document.querySelector("#release");
+const crossButtonNAW = document.querySelector("#crossBtnNAW");
+const dialogNAW = document.querySelector(".window_news");
 
-
-//crossButtonNAW.addEventListener("click", closeDialogNAW);
-//function closeDialogNAW() {
-//    dialogNA.close();
-//}
+crossButtonNAW.addEventListener("click", closeDialog);
+function closeDialog() {
+    dialogNAW.close();
+}
 
 fetch('/get_news_alert', {
     "headers": {

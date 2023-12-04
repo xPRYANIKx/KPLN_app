@@ -531,19 +531,6 @@ dialog {
   width: 25px;
 }
 
-#release::-webkit-scrollbar {
-  height: 6px;
-  width: 6px;
-  background-color: #d7d7d7;
-}
-
-#release::-webkit-scrollbar-track {
-  background-color: #d7d7d7;
-}
-
-#release::-webkit-scrollbar-thumb {
-  background-color: rgb(56, 56, 56);
-}
 
 header {
   z-index: 10;
@@ -3720,14 +3707,29 @@ footer .footer_company__copyright {
     zoom: 1.5;
   }
 }/*# sourceMappingURL=style.css.map */
+
+
+/* For Firefox */
+/* Track */
+* {
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* Handle */
+* {
+  scrollbar-width: thin;
+}
+
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  height: 6px;
+  width: 6px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
+
 }
 
 /* Handle */

@@ -7,10 +7,10 @@
 <script src="static/script/paymentFilter.js"></script>
 <script src="static/script/exportToCSV.js"></script>
 
-<body id="payment-list_page">
+{% endblock %}
+{% block content %}
 
-    {% endblock %}
-    {% block content %}
+<body id="payment-list_page">
 
     <div class="tpages_top_panel">
         <h1><img src="static/img/h1/paymentpay.png"> {{title}}</h1>
@@ -139,7 +139,5 @@
             </table>
         </form>
     </div>
-
-    {% endblock %}
-
 </body>
+{% endblock %}

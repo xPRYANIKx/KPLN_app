@@ -3429,9 +3429,9 @@ def save_payment():
         # Общая сумма
         if status_change_list_p_s_t['payment_sum'][0]:
             # Если была изменена общая сумма и она оказалась меньше общей оплаченной суммы => ОШИБКА
-            if payment_data['paid_sum'] >= status_change_list_p_s_t['payment_sum'][1]:
+            if payment_data['paid_sum'] > status_change_list_p_s_t['payment_sum'][1]:
                 login_app.conn_cursor_close(cursor, conn)
-                description = (f"{'{0:,}'.format(status_change_list_p_s_t['payment_sum'][1]).replace(',', ' ')} ₽ >= "
+                description = (f"{'{0:,}'.format(status_change_list_p_s_t['payment_sum'][1]).replace(',', ' ')} ₽ > "
                                f"{'{0:,}'.format(payment_data['paid_sum']).replace(',', ' ')} ₽")
                 flash(message=['ОШИБКА. Сумма платежа меньше оплаченной суммы', description], category='error')
                 return jsonify({
@@ -3446,9 +3446,9 @@ def save_payment():
         # Согласованная сумма
         if status_change_list_p_a:
             # Если согласованная сумма оказалась меньше общей оплаченной суммы => ОШИБКА
-            if payment_data['paid_sum'] >= approval_sum:
+            if payment_data['paid_sum'] > approval_sum:
                 login_app.conn_cursor_close(cursor, conn)
-                description = (f"{'{0:,}'.format(approval_sum).replace(',', ' ')} ₽ <= "
+                description = (f"{'{0:,}'.format(approval_sum).replace(',', ' ')} ₽ < "
                                f"{'{0:,}'.format(payment_data['paid_sum']).replace(',', ' ')} ₽")
                 flash(message=['ОШИБКА. Согласованная сумма платежа меньше оплаченной суммы', description],
                       category='error')
@@ -3457,9 +3457,9 @@ def save_payment():
                     'description': description,
                 })
             # Если согласованная сумма больше общей суммы => ОШИБКА
-            elif approval_sum >= status_change_list_p_s_t['payment_sum'][1]:
+            elif approval_sum > status_change_list_p_s_t['payment_sum'][1]:
                 login_app.conn_cursor_close(cursor, conn)
-                description = (f"{'{0:,}'.format(approval_sum).replace(',', ' ')} ₽ >= "
+                description = (f"{'{0:,}'.format(approval_sum).replace(',', ' ')} ₽ > "
                                f"{'{0:,}'.format(status_change_list_p_s_t['payment_sum'][1]).replace(',', ' ')} ₽")
                 flash(message=['ОШИБКА. Согласованная сумма платежа больше общей суммы', description], category='error')
                 return jsonify({
@@ -3470,9 +3470,9 @@ def save_payment():
             approval_sum = payment_data['approval_sum']
 
         # Общая сумма меньше согласованной суммы
-        if status_change_list_p_s_t['payment_sum'][0] and approval_sum >= status_change_list_p_s_t['payment_sum'][1]:
+        if status_change_list_p_s_t['payment_sum'][0] and approval_sum > status_change_list_p_s_t['payment_sum'][1]:
             login_app.conn_cursor_close(cursor, conn)
-            description = (f"{'{0:,}'.format(status_change_list_p_s_t['payment_sum'][1]).replace(',', ' ')} ₽ >= "
+            description = (f"{'{0:,}'.format(status_change_list_p_s_t['payment_sum'][1]).replace(',', ' ')} ₽ > "
                            f"{'{0:,}'.format(approval_sum).replace(',', ' ')} ₽")
             flash(message=['ОШИБКА. Сумма платежа меньше согласованной суммы', description], category='error')
             return jsonify({
@@ -4228,16 +4228,14 @@ def get_news_alert():
     for i in range(len(news)):
         news[i] = dict(news[i])
 
-    print(news)
-
-    # # Список скрываемых столбцов пользователя
-    # query = """
-    #     UPDATE users
-    #     SET last_activity = CURRENT_TIMESTAMP
-    #     WHERE user_id = %s;"""
-    # value = [user_id]
-    # cursor.execute(query, value)
-    # conn.commit()
+    # Список скрываемых столбцов пользователя
+    query = """
+        UPDATE users
+        SET last_activity = CURRENT_TIMESTAMP
+        WHERE user_id = %s;"""
+    value = [user_id]
+    cursor.execute(query, value)
+    conn.commit()
 
     login_app.conn_cursor_close(cursor, conn)
 

@@ -1,7 +1,7 @@
 {% extends "_layout-main.html" %}
 {% block head %}
 {{ super() }}
-{% block scripts %}
+
 <script src="static/script/checkFormCashInflow.js"></script>
 
 <script src="static/script/numberWithSpaces.js"></script>
@@ -10,12 +10,11 @@
 <link rel="stylesheet" href="static/style/ItcSlider.css">
 
 {% endblock %}
-{% endblock %}
 {% block content %}
 
 <body id="cash_inflow_page">
-    {% if companies_balances %}
 
+    {% if companies_balances %}
 
     <div>
         <div class="cards_container">
@@ -148,6 +147,5 @@
         </tbody>
     </table>
 
-
-    {% endblock %}
 </body>
+{% endblock %}

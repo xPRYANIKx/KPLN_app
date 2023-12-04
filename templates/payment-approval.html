@@ -24,10 +24,10 @@
 
 <script src="static/script/paymentApprovalSelectAll.js"></script>
 
-<body id="payment-approval_page">
-    {% endblock %}
-    {% block content %}
+{% endblock %}
+{% block content %}
 
+<body id="payment-approval_page">
     <dialog class="window" id="diagram__dialog">
         <img id="crossBtnDD" src="static/img/interface/close.png">
         <canvas id="myChart"></canvas>
@@ -35,9 +35,6 @@
 
     {% include "_card-payment.html" %}
     {% include "_card-tableCustom.html" %}
-
-    {% include "news-alerts.html" %}
-
 
     <dialog id="verification_dialog">
         <p id="paragraph_question">Хотите продолжить?</p>
@@ -201,6 +198,5 @@
     <div id="totalSelectInfo" class="totalSelectInfo" style="display: none"><span class="totalSelectRows">Строк выбрано:<span class="totalSelectRows__value">0</span>&nbsp;строк</span>
         <span class="totalSumRemain">Доступно к распределению:<span class="totalSumRemain__value">0</span>&nbsp;</span>
     </div>
-    {% endblock %}
-
 </body>
+{% endblock %}
