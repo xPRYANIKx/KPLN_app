@@ -658,6 +658,50 @@ footer {
 ///____________///
 ///____________///
 /////////////////////////////////////////////////////////////////
+/// СТРАНИЦА АВТОРИЗАЦИИ
+/////////////////////////////////////////////////////////////////
+#create_news_page {
+    .window_form_in_page {
+        .create_news {
+            width: 700px;
+            h1 {
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+                font-size: 25px;
+            }
+            div {
+                input {
+                    max-width: 400px;
+                }
+            }
+            .register_form__field_wrapper {
+                margin: 10px 0px 0px 0px;
+            }
+            .create_news_form__area_wrapper {
+                display: flex;
+                flex-direction: column;
+                margin: 10px 0px 15px 0px;
+                label {
+                    align-self: flex-start;
+                }
+                textarea {
+                    height: 220px;
+                }
+            }
+            #create_news_form__button {
+                float: right;
+                margin-top: 20px;
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+///____________///
+///____________///
+///____________///
+/////////////////////////////////////////////////////////////////
 /// СТРАНИЦА 403 И СТРАНИЦА 404
 /////////////////////////////////////////////////////////////////
 .error_page {
@@ -2289,6 +2333,31 @@ footer {
         height: 100%;
         border-radius: 0px;
     }
+
+    #create_news_page {
+        main {
+            width: 100%;
+        }
+        .window_form_in_page {
+            width: 100%;
+            .create_news {
+                div {
+                    label {
+                        font-size: 13px;
+                    }
+                }
+                .register_form__field_wrapper {
+                    flex-direction: column;
+                    label {
+                        align-self: self-start;
+                    }
+                    input {
+                        max-width: 100%;
+                    }
+                }
+            }
+        }
+    }
 }
 ///---------------------------------------------------
 ///---------------------------------------------------
@@ -2847,6 +2916,15 @@ footer {
             }
         }
     }
+    #create_news_page {
+        .window_form_in_page {
+            .create_news {
+                h1 {
+                    font-size: 19px;
+                }
+            }
+        }
+    }
     #payment-approval_page,
     #payment-approval-list_page,
     #payment-paid-list_page,
@@ -3189,6 +3267,13 @@ footer {
             }
         }
     }
+
+    #create_news_page {
+        main {
+            padding: 80px 20px 30px 20px;
+        }
+    }
+
     ///@MEDIA:310 - СТРАНИЦА АВТОРИЗАЦИИ
     #login_page {
         .window_form_in_page {
