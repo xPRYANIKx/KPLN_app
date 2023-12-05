@@ -412,6 +412,9 @@ header {
             margin: 4px 20px 0px 0px;
             font-size: 15px;
             color: #ffffff;
+            &__name {
+                font-weight: 900;
+            }
         }
         a {
             color: #ebc592;
@@ -697,7 +700,54 @@ footer {
         }
     }
 }
+///____________///
+///____________///
+///____________///
+/////////////////////////////////////////////////////////////////
+/// СТРАНИЦА ПОЛЬЗОВАТЕЛЯ
+/////////////////////////////////////////////////////////////////
+#profile_page {
+    .profile_form {
+        position: absolute;
+        top: 70px;
+        left: 20px;
+        padding: 10px 15px 5px 13px;
+        border-radius: 8px;
+        background-color: #fde756;
+        font-size: 13px;
+        p {
+            span {
+                font-weight: bold;
+            }
+        }
+    }
 
+    .window_form_in_page {
+        width: 420px;
+        h1 {
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            font-size: 25px;
+        }
+        .flex_form__string {
+            margin: 0px 10px 10px 0px;
+            label {
+                font-size: 13.5px;
+            }
+            input {
+                max-width: 200px;
+            }
+            .bi {
+                margin-left: -25px;
+            }
+        }
+        #create_news_form__button {
+            max-width: 100%;
+            margin-top: 10px;
+            font-size: 15px;
+        }
+    }
+}
 ///____________///
 ///____________///
 ///____________///
@@ -2686,6 +2736,26 @@ footer {
             }
         }
     }
+    ///@MEDIA:470 - СТРАНИЦА ПОЛЬЗОВАТЕЛЯ
+    #profile_page {
+        main {
+            padding: 80px 15px 30px 15px;
+            .window_form_in_page {
+                width: 100%;
+                #profile_form {
+                    .flex_form__string {
+                        flex-direction: column;
+                        label {
+                            align-self: flex-start;
+                        }
+                        input {
+                            max-width: 105%;
+                        }
+                    }
+                }
+            }
+        }
+    }
     ///@MEDIA:470 - СТРАНИЦА РЕГИСТРАЦИИ ПОЛЬЗОВАТЕЛЕЙ
     #register_page {
         .window_form_in_page {
@@ -3287,6 +3357,19 @@ footer {
             }
         }
     }
+    ///@MEDIA:310 - СТРАНИЦА ПОЛЬЗОВАТЕЛЯ
+    #profile_page {
+        main {
+            .window_form_in_page {
+                .flex_form {
+                    h1 {
+                        font-size: 21px;
+                    }
+                }
+            }
+        }
+    }
+
     ///@MEDIA:310 - СТРАНИЦА РЕГИСТРАЦИИ ПОЛЬЗОВАТЕЛЕЙ
     #register_page {
         .window_form_in_page {

@@ -531,6 +531,19 @@ dialog {
   width: 25px;
 }
 
+#release::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+  background-color: #d7d7d7;
+}
+
+#release::-webkit-scrollbar-track {
+  background-color: #d7d7d7;
+}
+
+#release::-webkit-scrollbar-thumb {
+  background-color: rgb(56, 56, 56);
+}
 
 header {
   z-index: 10;
@@ -563,6 +576,9 @@ header .header__content #header__auth__label {
   margin: 4px 20px 0px 0px;
   font-size: 15px;
   color: #ffffff;
+}
+header .header__content #header__auth__label__name {
+  font-weight: 900;
 }
 header .header__content a {
   color: #ebc592;
@@ -797,6 +813,44 @@ footer .footer_company__copyright {
   margin-top: 20px;
   padding: 8px 15px;
   font-size: 14px;
+}
+
+#profile_page .profile_form {
+  position: absolute;
+  top: 70px;
+  left: 20px;
+  padding: 10px 15px 5px 13px;
+  border-radius: 8px;
+  background-color: #fde756;
+  font-size: 13px;
+}
+#profile_page .profile_form p span {
+  font-weight: bold;
+}
+#profile_page .window_form_in_page {
+  width: 420px;
+}
+#profile_page .window_form_in_page h1 {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  font-size: 25px;
+}
+#profile_page .window_form_in_page .flex_form__string {
+  margin: 0px 10px 10px 0px;
+}
+#profile_page .window_form_in_page .flex_form__string label {
+  font-size: 13.5px;
+}
+#profile_page .window_form_in_page .flex_form__string input {
+  max-width: 200px;
+}
+#profile_page .window_form_in_page .flex_form__string .bi {
+  margin-left: -25px;
+}
+#profile_page .window_form_in_page #create_news_form__button {
+  max-width: 100%;
+  margin-top: 10px;
+  font-size: 15px;
 }
 
 .error_page #logInfo {
@@ -3100,6 +3154,21 @@ footer .footer_company__copyright {
     transform: scale(0.8);
     margin-bottom: -5px;
   }
+  #profile_page main {
+    padding: 80px 15px 30px 15px;
+  }
+  #profile_page main .window_form_in_page {
+    width: 100%;
+  }
+  #profile_page main .window_form_in_page #profile_form .flex_form__string {
+    flex-direction: column;
+  }
+  #profile_page main .window_form_in_page #profile_form .flex_form__string label {
+    align-self: flex-start;
+  }
+  #profile_page main .window_form_in_page #profile_form .flex_form__string input {
+    max-width: 105%;
+  }
   #register_page .window_form_in_page {
     width: 310px;
   }
@@ -3603,6 +3672,9 @@ footer .footer_company__copyright {
   #login_page .window_form_in_page #auth_form h1 img {
     width: 25px;
   }
+  #profile_page main .window_form_in_page .flex_form h1 {
+    font-size: 21px;
+  }
   #register_page .window_form_in_page {
     width: 250px;
   }
@@ -3763,37 +3835,3 @@ footer .footer_company__copyright {
     zoom: 1.5;
   }
 }/*# sourceMappingURL=style.css.map */
-
-
-/* For Firefox */
-/* Track */
-* {
-  scrollbar-color: #888 #f1f1f1;
-}
-
-/* Handle */
-* {
-  scrollbar-width: thin;
-}
-
-/* width */
-::-webkit-scrollbar {
-  height: 6px;
-  width: 6px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}

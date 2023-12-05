@@ -10,30 +10,33 @@
 
 <body id="profile_page"></body>
 
-<h1>Профиль пользователя</h1>
-<p>ФИО: {{ user.last_name }} {{ user.first_name }}{% if user.surname %} {{ user.surname }}{% endif %}</p>
-<p>id: {{ user.user_id }}</p>
+<div class="profile_form">
+    <p><span>ФИО: </span>{{ user.last_name }} {{ user.first_name }}{% if user.surname %} {{ user.surname }}{% endif %}</p>
+    <p><span>id: </span>{{ user.user_id }}</p>
+</div>
 
 <div class="window_form_in_page">
 
     <form class="flex_form" id="profile_form" action="" method="post" class="form-contact">
-        <h1><img src="static/img/h1/personaldata.png">Данные пользователя</h1>
-        <p>
+        <h1><img src="static/img/h1/personaldata.png">Смена пароля</h1>
+        <div class="flex_form__string">
             <label for="new_password">Новый пароль:</label>
-            <input type="password" name="new_password" id="new_password" required onchange="checkPasswordCompliant()">
-            <i class="bi bi-eye-slash" id="toggleNewPassword" style="margin-left: -25px"></i>
-        </p>
+            <div>
+                <input type="password" name="new_password" id="new_password" required onchange="checkPasswordCompliant()">
+                <i class="bi bi-eye-slash" id="toggleNewPassword"></i>
+            </div>
+        </div>
 
-        <p>
+        <div class="flex_form__string">
             <label for="confirm_password">Подтвердить пароль:</label>
-            <input type="password" name="confirm_password" id="confirm_password" required onchange="checkPasswordCompliant()">
-            <i class="bi bi-eye-slash" id="toggleConfPassword" style="margin-left: -25px"></i>
-        </p>
-            <br>
+            <div>
+                <input type="password" name="confirm_password" id="confirm_password" required onchange="checkPasswordCompliant()">
+                <i class="bi bi-eye-slash" id="toggleConfPassword"></i>
+            </div>
+        </div>
         <input type="button" id="create_news_form__button" class="input__button" onclick="this.parentNode.submit();" value="Изменить пароль">
 
     </form>
 </div>
 </body>
 {% endblock %}
-
