@@ -128,44 +128,7 @@ function paymentApprovalRecalcCards(rowId) {
         document.getElementById('card_selected_for_approval_value').innerHTML = s_f_a_p;
         document.getElementById('card_available_money_value').innerHTML = a_m_v;
 
-
-
-
-
-        if (page_url === 'payment-approval') {
-            var total_select = document.getElementsByClassName("totalSelectRows__value")[0].innerText;
-
-            var total_amount = document.getElementsByClassName("totalSumRemain__value")[0].innerText;
-            total_amount ? total_amount = parseFloat(total_amount.replaceAll(' ', '').replaceAll(' ', '').replace('₽', '').replace(",", ".")).toFixed(2) * 1.00 : total_amount = 0;
-
-            if (paymentSelectedRows && statusId !== 'Аннулирован') {
-                total_select ++;
-                total_amount += approvalSum;
-            }
-            else if (!paymentSelectedRows && statusId !== 'Аннулирован') {
-                total_select --;
-                total_amount -= approvalSum;
-            }
-
-            document.getElementsByClassName("totalSelectRows__value")[0].innerText = total_select;
-            document.getElementsByClassName("totalSumRemain__value")[0].innerText = total_amount.toLocaleString() + ' ₽';
-
-            if (total_select && document.getElementById("totalSelectInfo").style.display) {
-                document.getElementById("totalSelectInfo").style.display = 'flex';
-            }
-            else {
-                document.getElementById("totalSelectInfo").style.display = 'none';
-            }
-            if (!total_select) {
-                if (!document.getElementById('submitButton').disabled) {
-                    document.getElementById('submitButton').disabled = true;
-                }
-            }
-            else {
-                document.getElementById('submitButton').disabled = false;
-            }
-        }
-        else {
+        if (page_url !== 'payment-approval') {
             var selectCnt = document.getElementById('submitButton').dataset.selectcnt;
             paymentSelectedRows? selectCnt++:selectCnt--;
             document.getElementById('submitButton').dataset.selectcnt = selectCnt;
@@ -177,8 +140,6 @@ function paymentApprovalRecalcCards(rowId) {
             else {
                 document.getElementById('submitButton').disabled = false;
             }
-
-
         }
     }
 }

@@ -448,9 +448,109 @@ def create_news():
                     return redirect(url_for('.create_news'))
 
     except Exception as e:
-        flash(message=['Ошибка', f'register: {e}'], category='error')
+        flash(message=['Ошибка', f'create_news: {e}'], category='error')
         return render_template('page_error.html')
 
+
+@login_bp.route("/create_survey", methods=["GET", "POST"])
+@login_required
+def create_survey():
+    try:
+        if current_user.get_role() != 1:
+            return abort(403)
+        else:
+            global hlink_menu, hlink_profile
+
+            hlink_menu, hlink_profile = func_hlink_profile()
+
+            if request.method == 'GET':
+                try:
+                    not_save_val = session['n_s_v_create_survey'] if session.get(
+                        'n_s_v_create_survey') else {}
+
+                    conn, cursor = conn_cursor_init_dict()
+
+                    # Список сотрудников
+                    cursor.execute(
+                        "SELECT last_name, first_name, surname FROM users WHERE is_fired = FALSE")
+                    employees = cursor.fetchall()
+
+                    conn_cursor_close(cursor, conn)
+
+                    return render_template("login-surveys.html", title="Создать новость",
+                                           not_save_val=not_save_val, menu=hlink_menu, menu_profile=hlink_profile,
+                                           employees=employees)
+                except Exception as e:
+                    flash(
+                        message=['Ошибка', f'create_survey GET: {e}'], category='error')
+                    return render_template('page_error.html')
+
+            if request.method == 'POST':
+                try:
+                    user_id = current_user.get_id()
+
+                    survey_answer = request.form
+
+                    # news_title = request.form.get('news_title')  # Заголовок
+                    # news_subtitle = request.form.get('news_subtitle')  # Подзаголовок
+                    # news_description = request.form.get('news_description')  # Описание новости
+                    # news_img_link = request.form.get('news_img_link')  # Ссылка на картинку
+                    # news_category = request.form.get('news_category')  # Категория новости
+                    # news_category = news_category.replace(' ', '_')
+
+                    if not survey_answer:
+                        flash(message=['Не заполнены обязательные поля',
+                                       f'Поля: {"news_title, " if not survey_answer else ""} '
+                                       f'{"news_category" if not survey_answer else ""}'], category='error')
+                        session['n_s_v_create_survey'] = {
+                            'survey_answer': survey_answer,
+
+                        }
+                        return redirect(url_for('.create_survey'))
+
+                    conn, cursor = conn_cursor_init_dict()
+
+                    # query = """
+                    #             INSERT INTO news_alerts (
+                    #                 owner_id,
+                    #                 news_title,
+                    #                 news_subtitle,
+                    #                 news_description,
+                    #                 news_img_link,
+                    #                 news_category
+                    #             )
+                    #             VALUES %s"""
+                    # value = [(user_id, news_title, news_subtitle,
+                    #           news_description, news_img_link, news_category)]
+                    # execute_values(cursor, query, value)
+
+                    conn.commit()
+
+                    conn_cursor_close(cursor, conn)
+
+                    flash(message=['Новость создана',
+                          f'{news_title}'], category='success')
+
+                    session.pop('n_s_v_create_survey', default=None)
+
+                    return redirect(url_for('.create_survey'))
+                except Exception as e:
+                    session['n_s_v_create_survey'] = {
+                        'news_title': news_title,
+                        'news_subtitle': news_subtitle,
+                        'news_description': news_description,
+                        'news_img_link': news_img_link,
+                        'news_category': news_category
+                    }
+                    flash(
+                        message=['Ошибка', f'create_survey POST: {e}'], category='error')
+                    current_app.logger.info(
+                        f"url {request.path[1:]}  -  id {user_id}  -  {e}")
+                    return redirect(url_for('.create_survey'))
+
+    except Exception as e:
+        flash(message=['Ошибка', f'create_survey: {e}'], category='error')
+        return render_template('page_error.html')
 
 def func_hlink_profile():
     # try:

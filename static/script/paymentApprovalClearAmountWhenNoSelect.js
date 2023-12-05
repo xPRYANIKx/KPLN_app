@@ -11,4 +11,7 @@ function paymentApprovalNoSelect(rowId) {
             document.getElementById('amount-' + rowId).value = '';
         }
     }
+    if (page_url === 'payment-approval') {
+        totalSelect()
+    }
 }
