@@ -2,7 +2,7 @@ import psycopg2
 import psycopg2.extras
 from psycopg2.extras import execute_values
 from pprint import pprint
-from flask import g, abort, request, render_template, redirect, flash, url_for
+from flask import g, abort, request, render_template, redirect, flash, url_for, jsonify
 from flask import get_flashed_messages, Blueprint, current_app, session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash
@@ -213,7 +213,24 @@ def login():
         # return f'login ❗❗❗ Ошибка \n---{e}'
 
 
-@login_bp.route('/logout')
+# @login_bp.route('/logout')
+# @login_required
+# def logout():
+#     try:
+#         global hlink_menu, hlink_profile
+#
+#         logout_user()
+#         hlink_menu, hlink_profile = func_hlink_profile()
+#         # flash(message=['Вы вышли из аккаунта', ''], category='success')
+#
+#         return redirect(request.args.get('next') or request.referrer)
+#     except Exception as e:
+#         flash(message=['Ошибка', f'logout: {e}'], category='error')
+#         return render_template('page_error.html')
+#         # return f'logout ❗❗❗ Ошибка \n---{e}'
+
+
+@login_bp.route('/logout', methods=["POST"])
 @login_required
 def logout():
     try:
@@ -221,13 +238,13 @@ def logout():
 
         logout_user()
         hlink_menu, hlink_profile = func_hlink_profile()
-        # flash(message=['Вы вышли из аккаунта', ''], category='success')
+        flash(message=['Вы вышли из аккаунта', ''], category='success')
 
-        return redirect(request.args.get('next') or request.referrer)
+        return jsonify({'status': 'success'})
     except Exception as e:
         flash(message=['Ошибка', f'logout: {e}'], category='error')
-        return render_template('page_error.html')
-        # return f'logout ❗❗❗ Ошибка \n---{e}'
+        current_app.logger.info(f"url {request.path[1:]}  -  id {current_user.get_id()}  -  {e}")
+        return jsonify({'status': 'error'})
 
 
 @login_bp.route('/profile', methods=["POST", "GET"])
@@ -253,37 +270,79 @@ def profile():
                 'user_id': user_id
             }
 
-            return render_template("login-profile.html", title="Профиль", menu=hlink_menu, menu_profile=hlink_profile,
-                                   user=user, name=name)
-
-        if request.method == 'POST':
-            try:
-                password = request.form.get('new_password')  # Заголовок
-                confirm_password = request.form.get('confirm_password')  # Заголовок
-                print(password)
-                print(confirm_password)
-
-                if password != confirm_password:
-                    flash(message=['Пароли не совпадают', ''], category='error')
-                    return redirect(url_for('.profile'))
-
-                conn, cursor = conn_cursor_init_dict()
-
-                query = """UPDATE users SET password = %s WHERE user_id = %s"""
-                value = [password, user_id]
-                cursor.execute(query, value)
-
-                conn.commit()
-
-                conn_cursor_close(cursor, conn)
-                flash(message=['Пароль изменен', ''], category='success')
-                return redirect(url_for('.index'))
-            except Exception as e:
-                flash(message=['Пароль не изменен', f'profile: {e}'], category='error')
-                return redirect(url_for('.profile'))
+            return render_template("login-profile.html", title="Профиль", menu=hlink_menu,
+                                   menu_profile=hlink_profile, user=user, name=name)
     except Exception as e:
         flash(message=['Ошибка', f'profile: {e}'], category='error')
-        return render_template('page_error.html')
+        current_app.logger.info(f"url {request.path[1:]}  -  id {current_user.get_id()}  -  {e}")
+        return jsonify({'status': 'error'})
+
+
+@login_bp.route('/changePas', methods=["POST"])
+@login_required
+def change_password():
+    try:
+        global hlink_menu, hlink_profile
+        name = current_user.get_name()
+
+        # Create profile name dict
+        hlink_menu, hlink_profile = func_hlink_profile()
+        user_id = current_user.get_id()
+
+        password = request.get_json()['new_password']  # Новый пароль
+        confirm_password = request.get_json()['confirm_password']  # Подтвердить пароль
+
+        if password != confirm_password:
+            flash(message=['Пароли не совпадают', ''], category='error')
+            return jsonify({'status': 'error'})
+
+        password_status = check_password(password)
+
+        if password_status == 1:
+            res = dbase.set_password(password, user_id)
+            if res:
+                flash(message=['Пароль обновлён', ''], category='success')
+                return jsonify({'status': 'success'})
+            else:
+                return jsonify({'status': 'error'})
+        else:
+            flash(message=['Пароль не изменен', password_status], category='error')
+            return jsonify({'status': 'error'})
+    except Exception as e:
+        flash(message=['Ошибка. Пароль не изменен', f'change_password: {e}'], category='error')
+        current_app.logger.info(f"url {request.path[1:]}  -  id {current_user.get_id()}  -  {e}")
+        return jsonify({'status': 'error'})
+
+
+def check_password(password):
+    digits = '1234567890'
+    upper_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    lower_letters = 'abcdefghijklmnopqrstuvwxyz'
+    symbols = '!@#$%^&*()-+'
+    acceptable = digits+upper_letters+lower_letters+symbols
+
+    passwd = set(password)
+    if any(char not in acceptable for char in passwd):
+        # flash(message=['Ошибка. Запрещенный спецсимвол', ''], category='error')
+        return 'Ошибка. Запрещенный спецсимвол'
+    else:
+        recommendations = []
+        if len(password) < 8:
+            recommendations.append(f'увеличить число символов на {8-len(password)}')
+        for what, message in ((digits,        'цифру'),
+                              (symbols,       'спецсимвол'),
+                              (upper_letters, 'заглавную букву'),
+                              (lower_letters, 'строчную букву')):
+            if all(char not in what for char in passwd):
+                recommendations.append(f'добавить 1 {message}')
+
+        if recommendations:
+            rec = "Слабый пароль. Рекомендации: " + ", ".join(recommendations)
+            # flash(message=['Пароль не изменен', rec], category='error')
+            return rec
+        else:
+            # flash(message=['Пароль изменен', ''], category='success')
+            return 1
 
 
 @login_bp.route("/register", methods=["POST", "GET"])

@@ -3,6 +3,9 @@ const paragraphQuestion = document.getElementById('paragraph_question');
 const cancelDialogBtn = document.getElementById('verification_dialog__cancel');
 const nextDialogBtn = document.getElementById('verification_dialog__next');
 
+const logOutBtn = document.getElementById('logOut');
+const changePasBtn = document.getElementById('change_password_form__button');
+
 const paymentForm = document.getElementById('paymentForm');
 const submit_button_in_form = document.getElementById('submitButton');
 
@@ -34,6 +37,20 @@ const showDialogSEB = () => {
     paragraphQuestion.id = 'pqSEB'
 };
 
+const showDialogLogOut = () => {
+    verificationDialog.showModal();
+    paragraphQuestion.id = 'logOut'
+};
+
+const showDialogChangePas = () => {
+    verificationDialog.showModal();
+    paragraphQuestion.id = 'changePas'
+};
+
+logOutBtn? logOutBtn.addEventListener('click', showDialogLogOut): 1;
+
+changePasBtn? changePasBtn.addEventListener('click', showDialogChangePas): 1;
+
 submit_button_in_form? submit_button_in_form.addEventListener('click', showDialogDSB): 1;
 
 cancelDialogBtn? cancelDialogBtn.addEventListener('click', hideDialog): 1;
@@ -55,5 +72,9 @@ nextDialogBtn? nextDialogBtn.addEventListener('click', function () {
         annulApproval();
     } else if (paragraphQuestion.id === 'pqSEB') {
         savePayment();
+    } else if (paragraphQuestion.id === 'logOut') {
+        logOut();
+    } else if (paragraphQuestion.id === 'changePas') {
+        changePas();
     }
 }): 1;

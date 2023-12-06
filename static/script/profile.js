@@ -25,18 +25,58 @@ $(document).ready(function () {
 });
 
 function checkPasswordCompliant() {
-
     const new_password = document.querySelector("#new_password").value;
     const confirm_password = document.querySelector("#confirm_password").value;
-    console.log(new_password)
-    console.log(confirm_password)
-//    String password = this;
-//    bool hasUppercase = password.contains(RegExp(r'[A-Z]'));
-//    bool hasLowercase = password.contains(RegExp(r'[a-z]'));
-//    bool hasDigits = password.contains(RegExp(r'[0-9]'));
-//    bool hasSpecialCharacters = password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-//    bool hasMinLength = password.length > 8;
-//
-//    return hasUppercase && hasLowercase && hasDigits && hasSpecialCharacters && hasMinLength;
 
+    var saveBtn = document.getElementById('change_password_form__button');
+
+    function checkWord(word) {
+        var hasMinLength = word.length > 8;
+
+        var hasUppercase = '[A-Z]';
+        var hasUppercase = word.match(hasUppercase);
+
+        var hasLowercase = '[a-z]';
+        var hasLowercase = word.match(hasLowercase);
+
+        var hasDigits = '[0-9]';
+        var hasDigits = word.match(hasDigits);
+
+        var hasSpecialCharacters = '[!@#$%^&*(),.?":{}|<>]';
+        var hasSpecialCharacters = word.match(hasSpecialCharacters);
+        return hasUppercase && hasLowercase && hasDigits && hasSpecialCharacters && hasMinLength
+    }
+
+    check_new_pas = checkWord(new_password);
+    check_conf_pas = checkWord(confirm_password);
+
+    if (new_password === confirm_password && check_new_pas && check_conf_pas) {
+        saveBtn.disabled = false;
+    }
+    else if ((new_password !== confirm_password || !check_new_pas || !check_conf_pas) && !saveBtn.disabled) {
+        saveBtn.disabled = true;
+    }
+}
+
+function changePas() {
+    const new_password = document.querySelector("#new_password").value;
+    const confirm_password = document.querySelector("#confirm_password").value;
+    fetch('/changePas', {
+        "headers": {
+            'Content-Type': 'application/json'
+        },
+        "method": "POST",
+        "body": JSON.stringify({
+            'new_password': new_password,
+            'confirm_password': confirm_password,
+        }),
+
+    })
+        .then(response => response.json())
+        .then(data => {
+            window.location.href = '/profile';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }

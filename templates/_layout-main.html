@@ -18,15 +18,17 @@
     <script src="static/script/todayYear.js" defer></script>
     <script src="static/script/headerMenu.js" defer></script>
 
+    <script src="static/script/verificationWindow.js" defer></script>
+    <script src="static/script/logOut.js"></script>
+
     <link rel="stylesheet" href="static/style/style.css">
     {% endblock %}
 </head>
 
-
-
-
 {% include "_flash.html" %}
 {% include "news-alerts.html" %}
+{% include "_verification_dialog.html" %}
+
 <div class="wrapper">
 
     <header>
@@ -37,9 +39,11 @@
                     <img src="static/img/interface/menu.png" alt="kpln_menu" id="image_menu">
                 </div>
             </div>
-            <div id="header__auth__label"><a id="header__auth__label__name" href="/profile">{{menu_profile[0].name[0]}}&nbsp;</a>
+            <div id="header__auth__label"><a id="header__auth__label__name" href="/profile" title="Профиль пользователя">{{menu_profile[0].name[0]}}</a>
+                <span>&nbsp;</span>
                 <span id="header__auth__role_id" hidden>{{menu_profile[0].role_id}}</span>
-                <a href="{{menu_profile[0].url}}">{{menu_profile[0].name[1]}}</a>
+<!--                <a id="logOut" href="{{menu_profile[0].url}}" title="Выйти из учётной записи">{{menu_profile[0].name[1]}}</a>-->
+                <span id="logOut" title="Выйти из учётной записи">{{menu_profile[0].name[1]}}</span>
             </div>
             <div id="menu">
                 <div id="menu__content">

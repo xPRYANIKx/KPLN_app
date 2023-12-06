@@ -85,6 +85,23 @@ class FDataBase:
     #
     #     return False
 
+    def set_password(self, password, user_id):
+        try:
+            password = generate_password_hash(password)
+
+            query = """UPDATE users SET password = %s WHERE user_id = %s"""
+
+            value = [password, user_id]
+
+            self.__cur.execute(query, value)
+            self.__db.commit()
+            self.__cur.close()
+        except Exception as e:
+            flash(message=['Ошибка обновления пароля в БД', str(e)], category='error')
+            return False
+
+        return True
+
     def get_user_by_email(self, email):
         try:
             self.__cur.execute(f"SELECT * FROM users WHERE email = '{email}' LIMIT 1")

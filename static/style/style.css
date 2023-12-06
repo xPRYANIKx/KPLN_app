@@ -444,7 +444,7 @@ dialog {
 #verification_dialog__cancel, #verification_dialog__next {
   padding: 5px 5px 5px 5px;
   font-size: 13px;
-  color: #333333;
+  color: white;
 }
 #verification_dialog__cancel {
   width: 110px;
