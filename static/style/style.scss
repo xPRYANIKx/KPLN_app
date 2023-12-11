@@ -2242,7 +2242,21 @@ footer {
         border-left: solid 4px #a5a5a5;
     }
     .paymentFormBtn {
-        justify-content: end;
+        #downloadButton {
+            display: flex;
+            align-items: center;
+            width: 160px;
+            background-color: #005906;
+            img {
+                height: 30px;
+                width: 30px;
+                padding: 2px;
+                margin: 0px 10px 0px 5px;
+            }
+        }
+        #downloadButton:hover {
+            background-color: #05620c;
+        }
     }
     #paymentForm {
         margin: 0px;
@@ -2404,6 +2418,19 @@ footer {
                     input {
                         max-width: 100%;
                     }
+                }
+            }
+        }
+    }
+
+    #payment-list_page {
+        .paymentFormBtn {
+            #downloadButton {
+                width: 140px;
+                img {
+                    height: 25px;
+                    width: 25px;
+                    margin: 0px 5px 0px 10px;
                 }
             }
         }

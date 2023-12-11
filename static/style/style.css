@@ -444,7 +444,7 @@ dialog {
 #verification_dialog__cancel, #verification_dialog__next {
   padding: 5px 5px 5px 5px;
   font-size: 13px;
-  color: white;
+  color: #333333;
 }
 #verification_dialog__cancel {
   width: 110px;
@@ -2578,8 +2578,20 @@ footer .footer_company__copyright {
 #payment-list_page .tpages_top_panel {
   border-left: solid 4px #a5a5a5;
 }
-#payment-list_page .paymentFormBtn {
-  justify-content: end;
+#payment-list_page .paymentFormBtn #downloadButton {
+  display: flex;
+  align-items: center;
+  width: 160px;
+  background-color: #005906;
+}
+#payment-list_page .paymentFormBtn #downloadButton img {
+  height: 30px;
+  width: 30px;
+  padding: 2px;
+  margin: 0px 10px 0px 5px;
+}
+#payment-list_page .paymentFormBtn #downloadButton:hover {
+  background-color: #05620c;
 }
 #payment-list_page #paymentForm {
   margin: 0px;
@@ -2805,6 +2817,14 @@ footer .footer_company__copyright {
   }
   #create_news_page .window_form_in_page .create_news .register_form__field_wrapper input {
     max-width: 100%;
+  }
+  #payment-list_page .paymentFormBtn #downloadButton {
+    width: 140px;
+  }
+  #payment-list_page .paymentFormBtn #downloadButton img {
+    height: 25px;
+    width: 25px;
+    margin: 0px 5px 0px 10px;
   }
 }
 @media (max-width: 720px) {
