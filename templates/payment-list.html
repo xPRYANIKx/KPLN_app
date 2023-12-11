@@ -5,7 +5,7 @@
 <script src="static/script/paymentPagination.js" defer></script>
 <script src="static/script/paymentApprovalSort.js"></script>
 <script src="static/script/paymentFilter.js"></script>
-<script src="static/script/exportToCSV.js"></script>
+<script src="static/script/exportToExcel.js"></script>
 
 {% endblock %}
 {% block content %}
@@ -28,6 +28,7 @@
 
 
     <div class="paymentFormBtn">
+        <button type="button" id="downloadButton" onclick="exportToExcel();" >Скачать Excel</button>
         <button type="button" id="visualTablePA" onclick="window['tableCustom'].showModal();"><img src="static/img/interface/setting.png"> Отображение
             таблицы</button>
     </div>

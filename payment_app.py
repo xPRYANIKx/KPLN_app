@@ -6,10 +6,13 @@ from psycopg2.extras import execute_values
 from pprint import pprint
 from flask import g, request, render_template, redirect, flash, url_for, session, abort, get_flashed_messages, \
     jsonify, Blueprint, current_app
-from datetime import date
+from datetime import date, datetime
 from flask_login import login_required
 import error_handlers
 import login_app
+import pandas as pd
+from openpyxl import Workbook
+import os
 
 from wtforms import Form, BooleanField, StringField, DecimalField, IntegerField, DateField, validators
 
@@ -3140,6 +3143,126 @@ def get_payment_list_pagination():
         })
 
 
+@payment_app_bp.route('/export_to_excel', methods=['POST'])
+@login_required
+def export_to_excel():
+    try:
+        user_id = login_app.current_user.get_id()
+
+        # Connect to the database
+        conn, cursor = login_app.conn_cursor_init_dict()
+
+        try:
+            # Get the path to the Downloads folder
+            downloads_folder = os.path.join(os.path.expanduser('~'), 'Downloads')
+
+            cursor.execute(
+                f"""SELECT 
+                        t1.payment_number,
+                        t4.cost_item_name, 
+                        SUBSTRING(t1.basis_of_payment, 1,70) AS basis_of_payment_short,
+                        CONCAT(
+                            t3.contractor_name, ': ', SUBSTRING(t1.payment_description, 1,70)
+                            ) AS payment_description_short,
+                        COALESCE(t6.object_name, '') AS object_name,
+                        CONCAT(t5.last_name, t5.first_name) AS responsible,
+                        t1.partner,
+                        t1.payment_sum,
+                        COALESCE(t7.paid_sum, 0) AS paid_sum,
+                        to_char(t1.payment_due_date, 'dd.mm.yyyy') AS payment_due_date,
+                        to_char(t1.payment_at::timestamp without time zone, 'dd.mm.yyyy HH24:MI:SS') AS payment_at
+                FROM payments_summary_tab AS t1
+                LEFT JOIN (
+                    SELECT contractor_id,
+                        contractor_name
+                    FROM our_companies            
+                ) AS t3 ON t1.our_companies_id = t3.contractor_id
+                LEFT JOIN (
+                    SELECT cost_item_id,
+                        cost_item_name
+                    FROM payment_cost_items            
+                ) AS t4 ON t1.cost_item_id = t4.cost_item_id
+                LEFT JOIN (
+                        SELECT user_id,
+                            first_name,
+                            last_name
+                        FROM users
+                ) AS t5 ON t1.responsible = t5.user_id
+                LEFT JOIN (
+                        SELECT object_id,
+                            object_name
+                        FROM objects
+                ) AS t6 ON t1.object_id = t6.object_id
+                LEFT JOIN (
+                            SELECT 
+                                DISTINCT payment_id,
+                                SUM(paid_sum) OVER (PARTITION BY payment_id) AS paid_sum
+                            FROM payments_paid_history
+                    ) AS t7 ON t1.payment_id = t7.payment_id
+                WHERE (t1.payment_owner = %s OR t1.responsible = %s);
+                """,
+                [user_id, user_id]
+            )
+            all_payments = cursor.fetchall()
+
+            login_app.conn_cursor_close(cursor, conn)
+
+            # Create a Pandas DataFrame from the query result
+            columns = [
+                '№ платежа',
+                'Статья затрат',
+                'Наименование платежа',
+                'Описание',
+                'Объект',
+                'Ответственный',
+                'Контрагент',
+                'Общая сумма',
+                'Оплаченная сумма',
+                'Срок оплаты',
+                'Дата создания',
+            ]
+            df = pd.DataFrame(all_payments, columns=columns)
+
+            # Create a new Excel workbook
+            wb = Workbook()
+            ws = wb.active
+
+            # Write the column headers to the Excel file
+            for col_num, value in enumerate(columns, 1):
+                ws.cell(row=1, column=col_num, value=value)
+
+            # Write the data to the Excel file
+            for row_num, row_data in enumerate(all_payments, 2):
+                for col_num, value in enumerate(row_data, 1):
+                    ws.cell(row=row_num, column=col_num, value=value)
+
+            # Cave file in "Downloads" folder
+            input_datetime = datetime.strptime(str(datetime.now()), "%Y-%m-%d %H:%M:%S.%f")
+            cur_date = input_datetime.strftime("%Y-%m-%d %H-%M-%S")
+
+            file_path = os.path.join(downloads_folder, f'Список_платежей - {cur_date}.xlsx')
+            wb.save(file_path)
+
+            return jsonify({
+                'status': 'success',
+                'path': file_path,
+                'file': f'Список_платежей - {cur_date}.xlsx',
+            })
+        except Exception as e:
+            current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
+            return jsonify({
+                'status': 'error',
+                'description': str(e),
+            })
+
+    except Exception as e:
+        current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
+        return jsonify({
+            'status': 'error',
+            'description': str(e),
+        })
+
+
 @payment_app_bp.route('/get_card_payment/<page_url>/<int:payment_id>', methods=['GET'])
 @login_required
 def get_card_payment(page_url, payment_id):
@@ -4086,7 +4209,7 @@ def get_payment_my_charts():
                     ) 
                 SELECT 
                     date_trunc('second', create_at::timestamp without time zone)::text AS create_at,
-                    COALESCE(all_sum - SUM(balance_sum) OVER(ORDER BY create_at DESC) + balance_sum, all_sum)::text AS cur_bal,
+                    COALESCE(all_sum - SUM(balance_sum) OVER (ORDER BY create_at DESC) + balance_sum, all_sum)::text AS cur_bal,
                     status
                 FROM {query_tab}
                 ORDER BY create_at;
@@ -4364,18 +4487,19 @@ def get_news_alert():
 
         })
 
-# @payment_app_bp.route('/_test')
-# @login_required
-# def tst_pa11yment():
-#     """Страница создания новой заявки на оплату"""
-#     # try:
-#     global hlink_menu, hlink_profile
-#
-#     hlink_menu, hlink_profile = login_app.func_hlink_profile()
-#
-#     return render_template('_test.html', menu=hlink_menu, menu_profile=hlink_profile,
-#
-#                            title='tst')
-#     # except Exception as e:
-#     #     current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
-#     #     return f'payment ❗❗❗ Ошибка \n---{e}'
+
+@payment_app_bp.route('/_test')
+@login_required
+def tst_pa11yment():
+    """Страница создания новой заявки на оплату"""
+    # try:
+    global hlink_menu, hlink_profile
+
+    hlink_menu, hlink_profile = login_app.func_hlink_profile()
+
+    return render_template('_test.html', menu=hlink_menu, menu_profile=hlink_profile,
+
+                           title='tst')
+    # except Exception as e:
+    #     current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
+    #     return f'payment ❗❗❗ Ошибка \n---{e}'
