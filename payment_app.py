@@ -112,9 +112,12 @@ def get_new_payment():
             if new_values:
                 cost_items[k] = new_values
 
+        user_name = f'{login_app.current_user.get_last_name()} {login_app.current_user.get_name()}'
+
         return render_template('payment-new.html', responsible=responsible, cost_items=cost_items,
                                objects_name=objects_name, partners=partners, c_i_full_lst=c_i_full_lst,
                                our_companies=our_companies, menu=hlink_menu, menu_profile=hlink_profile,
+                               user_id=user_id, user_name=user_name,
                                not_save_val=not_save_val, setting_users=setting_users, title='Новая заявка на оплату')
     except Exception as e:
         current_app.logger.info(f"url {request.path[1:]}  -  id {login_app.current_user.get_id()}  -  {e}")
@@ -134,7 +137,7 @@ def set_new_payment():
 
             # Get the form data from the request
             basis_of_payment = request.form.get('basis_of_payment')  # Наименование платежа
-            responsible = request.form.get('responsible___').split('-@@@-')[0]  # Ответственный
+            responsible = request.form.get('responsible').split('-@@@-')[0]  # Ответственный
             cost_items = request.form.get('cost_items').split('-@@@-')[1]  # Тип заявки
             try:
                 object_id = request.form.get('objects_name').split('-@@@-')[0]  # id объекта

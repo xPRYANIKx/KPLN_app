@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 app.config['SESSION_PERMANENT'] = True
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=5)  # hours
-
+app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['SECRET_KEY'] = 'kLzQ%5vYkv*2rh)P_?Npvv2AZT@TkbPp=i?]#=cR]R)>YXL1Wpz?PvFNZf9A'
 
 app.logger.setLevel(logging.INFO)  # Set the log level to INFO
