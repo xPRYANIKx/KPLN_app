@@ -444,7 +444,7 @@ dialog {
 #verification_dialog__cancel, #verification_dialog__next {
   padding: 5px 5px 5px 5px;
   font-size: 13px;
-  color: #333333;
+  color: white;
 }
 #verification_dialog__cancel {
   width: 110px;
@@ -585,6 +585,17 @@ header .header__content a {
 }
 header .header__content a:hover {
   color: #5ab1ce;
+}
+header .header__content #logOut {
+
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  color: #ebc592;
+}
+header .header__content #logOut:hover {
+  color: #5ab1ce;
+  cursor: pointer;
 }
 header .progress-bar {
   width: 100%;
