@@ -35,6 +35,11 @@ def before_request():
     login_app.before_request()
 
 
+@payment_app_bp.route('/po_payment_control')
+def po_payment_control():
+    return render_template('__po_payment_control.html')
+
+
 @payment_app_bp.route('/new-payment')
 @login_required
 def get_new_payment():
